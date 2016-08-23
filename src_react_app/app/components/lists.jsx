@@ -1,6 +1,6 @@
 import React from 'react';
 import {get} from '../utils/ajax';
-import '../main.scss';
+/*import '../main.scss';*/
 import {
 	Media
 } from 'react-bootstrap';
