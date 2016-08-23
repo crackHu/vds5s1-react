@@ -1,16 +1,16 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const HtmlwebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var env = process.env.NODE_ENV;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const env = process.env.NODE_ENV;
+const ROOT_PATH = path.resolve(__dirname);
+const APP_PATH = path.resolve(ROOT_PATH, 'app');
+const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
 
-var config = {
+const config = {
 	entry: {
-		pc: path.resolve(APP_PATH, 'index.jsx')
+		vds5: path.resolve(APP_PATH, 'index.jsx')
 	},
 	output: {
 		path: BUILD_PATH,
