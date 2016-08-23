@@ -1,3 +1,4 @@
 src_react_app/node_modules/*
 
 src_react_app/build
+*.rar
