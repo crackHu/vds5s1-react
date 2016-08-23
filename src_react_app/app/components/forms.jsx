@@ -15,25 +15,24 @@ export default class FormCustom extends React.Component {
 
 	constructor(props) {
 		super(props);
-		
 	}
 
 	render() {
 		return(
 			<div className="container" >
 				<br/>
-				<h3>水平表单</h3>
+				<h3>水平表单 ID：{this.props.peopleId}</h3>
 				<Form inline>
 					<FormGroup controlId="formInlineName">
 					  <ControlLabel>Name</ControlLabel>
 					  {' '}
-					  <FormControl type="text" placeholder="Jane Doe" />
+					  <FormControl type="text" placeholder="Jane Doe" value={this.props.peopleLogin}/>
 					</FormGroup>
 					{' '}
 					<FormGroup controlId="formInlineEmail">
 					  <ControlLabel>Email</ControlLabel>
 					  {' '}
-					  <FormControl type="email" placeholder="jane.doe@example.com" />
+					  <FormControl type="email" placeholder="jane.doe@example.com" value={this.props.peopleUrl}/>
 					</FormGroup>
 					{' '}
 					<Button type="submit">

@@ -1,27 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory } from 'react-router';
-import Buttons from './components/buttons';
-import Inputs from './components/inputs';
-import Lists from './components/lists';
-import Forms from './components/forms';
-import Tables from './components/tables';
+import {
+	Router,
+	Route,
+	hashHistory
+} from 'react-router';
 import {
 	ButtonToolbar,
 	Button,
 	Panel
 } from 'react-bootstrap';
+
+import Buttons from './components/buttons';
+import Inputs from './components/inputs';
+import Lists from './components/lists';
+import Forms from './components/forms';
+import Tables from './components/tables';
+
+import Demo from './containers/demo';
+
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-class App extends React.Component{
-	
+class App extends React.Component {
+
 	render() {
 		const title = (
-		  <h1>react-bootstrap demo</h1>
+			<h1>react-bootstrap demo</h1>
 		);
-		
+
 		return (
-		
+
 			<div className="container">
 				<div style={{height : "2em"}}/>
 					<Panel header={title}>
@@ -30,6 +38,7 @@ class App extends React.Component{
 						<Button href="#lists" bsSize="large" block>List Demo</Button>
 						<Button href="#forms" bsSize="large" block>Form Demo</Button>
 						<Button href="#tables" bsSize="large" block>Table Demo</Button>
+						<Button href="#demo" bsSize="large" block>Demo</Button>
 					</Panel>
 			</div>
 		);
@@ -39,12 +48,13 @@ class App extends React.Component{
 const app = document.createElement('div');
 document.body.appendChild(app);
 ReactDOM.render((
-  <Router history={hashHistory}>
+	<Router history={hashHistory}>
 	  <Route path="/" component={App}/>
 	  <Route path="/buttons" component={Buttons}/>
 	  <Route path="/inputs" component={Inputs}/>
 	  <Route path="/lists" component={Lists}/>
 	  <Route path="/forms" component={Forms}/>
 	  <Route path="/tables" component={Tables}/>
+	  <Route path="/demo" component={Demo}/>
   </Router>
 ), app);

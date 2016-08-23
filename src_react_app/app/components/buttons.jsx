@@ -9,23 +9,23 @@ import {
 export default class ButtonCustom extends React.Component {
 
 	constructor(props) {
-		super(props);
-		this.state = {
-			isLoading: false
-		};
-		this.clickMethod = this.clickMethod.bind(this);
-		this.handleClick = this.handleClick.bind(this);
-	}
-	/* 点击事件 */
+			super(props);
+			this.state = {
+				isLoading: false
+			};
+			this.clickMethod = this.clickMethod.bind(this);
+			this.handleClick = this.handleClick.bind(this);
+		}
+		/* 点击事件 */
 	clickMethod(e) {
 		let html = ReactDOM.findDOMNode(this.refs.testRef).innerHTML;
 		let name = this.props.testAttr;
 		alert(html + "," + name + "," + e.target.name);
-		
+
 	}
-	
+
 	handleClick() {
-		{/* this.setState需要在构造函数声明state及绑定this.handleClick = this.handleClick.bind(this);*/}
+		{ /* this.setState需要在构造函数声明state及绑定this.handleClick = this.handleClick.bind(this);*/ }
 		this.setState({
 			isLoading: true
 		});
@@ -38,17 +38,17 @@ export default class ButtonCustom extends React.Component {
 	}
 
 	render() {
-	
+
 		let isLoading = this.state.isLoading;
 		const wellStyles = {
 			maxWidth: 400,
 			margin: '0 auto 10px'
 		};
 		const anchorStyles = {
-		    'color': '#000',
+			'color': '#000',
 			'position': 'relative'
 		}
-		
+
 		return (
 			<div className="container">
 			<br/>
