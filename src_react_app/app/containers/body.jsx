@@ -10,6 +10,7 @@ import {
 import {
 	get
 } from '../utils/ajax';
+import '../main.css';
 
 export default class Body extends React.Component {
 	constructor(props) {
@@ -30,21 +31,24 @@ export default class Body extends React.Component {
 	}
 	componentWillReceiveProps(nextProps) {
 		let searchWord = nextProps.searchWord;
-		this.setState({
-			"loading": true,
-			"firstView": false,
-			"detail": false
-		});
-		let url = `https://api.github.com/search/users?q=${searchWord}`;
-		get(url).then((data) => {
+
+		if (searchWord != null && searchWord != '') {
 			this.setState({
-				"loading": false,
-				"list": data.items,
+				"loading": true,
+				"firstView": false,
 				"detail": false
 			});
-		}).catch((error) => {
-			console.error(error);
-		});
+			let url = `https://api.github.com/search/users?q=${searchWord}`;
+			get(url).then((data) => {
+				this.setState({
+					"loading": false,
+					"list": data.items,
+					"detail": false
+				});
+			}).catch((error) => {
+				console.error(error);
+			});
+		}
 	}
 
 	handleOperate(peopleId, peopleLogin, peopleUrl) {
@@ -57,11 +61,6 @@ export default class Body extends React.Component {
 	}
 
 	render() {
-		const operate = {
-			width:'100%',
- 			height:'100%',
-			'vertical-align':'middle'
-		}
 		if (this.state.detail) {
 			return <div><Forms 
 							peopleId={this.state.peopleId}
@@ -149,7 +148,7 @@ export default class Body extends React.Component {
 										<td>
 											<Button bsSize="large" bsStyle="link" block 
 													onClick={this.handleOperate.bind(this, people.id, people.login, people.url)}>
-												<Glyphicon style={operate} glyph="edit" />
+												<Glyphicon className="operate" glyph="edit" />
 											</Button>
 										</td>
 									  </tr>

@@ -16,10 +16,9 @@ import Inputs from './components/inputs';
 import Lists from './components/lists';
 import Forms from './components/forms';
 import Tables from './components/tables';
-
 import Demo from './containers/demo';
 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 class App extends React.Component {
 
@@ -45,8 +44,7 @@ class App extends React.Component {
 	}
 };
 
-const app = document.createElement('div');
-document.body.appendChild(app);
+const app = document.querySelector('.root');
 ReactDOM.render((
 	<Router history={hashHistory}>
 	  <Route path="/" component={App}/>

@@ -8,11 +8,11 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 const config = {
 	entry: {
-		app: path.resolve(APP_PATH, 'index.jsx')
+		vds5: path.resolve(APP_PATH, 'index.jsx')
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: 'bundle.js'
+		filename: '[name].bundle.js'
 	},
 	devtool: 'eval-source-map',
 	devServer: {
@@ -51,6 +51,7 @@ const config = {
 		}, ]
 	},
 	resolve: {
+		/*自动补全*/
 		extensions: ['', '.js', '.jsx']
 	},
 	plugins: [
@@ -58,7 +59,10 @@ const config = {
 			minimize: true
 		}),
 		new HtmlwebpackPlugin({
-			title: 'VDS Foundation Platform'
+			title: 'VDS Foundation Platform',
+			template: './app/templates/index.html',
+			filename: 'index.html',
+			inject: 'body'
 		})
 	]
 };

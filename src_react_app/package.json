@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress --profile --colors --hot",
-    "build": "set NODE_ENV=production&&webpack --config webpack.production.config.js --progress",
-    "clean": "rd/s/q build",
-    "test": "karma start"
+    "build": "set NODE_ENV=production&&webpack -p --process --colors --profile --config webpack.production.config.js"
   },
   "author": "B.D.",
   "license": "ISC",
