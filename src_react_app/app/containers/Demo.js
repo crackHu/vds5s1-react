@@ -2,22 +2,19 @@ import React from 'react';
 
 import Header from './header';
 import Body from './body';
-import {
-  Media
-} from 'react-bootstrap';
 
 export default class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "searchWord": ""
+      searchWord: '',
     };
     this.refreshKeyword = this.refreshKeyword.bind(this);
   }
 
   refreshKeyword(word) {
     this.setState({
-      "searchWord": word
+      searchWord: word,
     });
   }
 

@@ -11,7 +11,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.jsx'),
+		vds5: path.resolve(APP_PATH, 'index.js'),
 		//vendors: ['']
 	},
 	output: {
@@ -20,7 +20,7 @@ const config = {
 	},
 	module: {
 		loaders: [{
-			test: /\.jsx?$/,
+			test: /\.js?$/,
 			loader: 'babel',
 			include: APP_PATH
 		}, {

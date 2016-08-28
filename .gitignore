@@ -3,3 +3,4 @@ build
 WebRoot
 *.rar
 *.msi
+*.log

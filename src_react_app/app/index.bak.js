@@ -30,7 +30,7 @@ class App extends React.Component {
 		return (
 
 			<div className="container">
-				<div style={{height : "2em"}}/>
+				<div style={{height : "3em"}}/>
 					<Panel header={title}>
 						<Button href="#buttons" bsSize="large" block>Button Demo</Button>
 						<Button href="#inputs" bsSize="large" block>Input Demo</Button>

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
 	ButtonToolbar,
-	Button
+	Button,
 } from 'react-bootstrap';
 
 

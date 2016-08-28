@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-	Navbar,
+  Navbar,
   FormGroup,
   FormControl,
-  Button
+  Button,
 } from 'react-bootstrap';
 
 export default class Header extends React.Component {
@@ -14,7 +14,7 @@ export default class Header extends React.Component {
   }
 
   handleSearch() {
-    let searchWord = ReactDOM.findDOMNode(this.refs.searchWord).value;
+    const searchWord = ReactDOM.findDOMNode(this.refs.searchWord).value;
     if (searchWord === '') {
       return;
     }
@@ -22,8 +22,8 @@ export default class Header extends React.Component {
   }
 
   render() {
-  	return (
-  		<div>
+    return (
+      <div>
   			<Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -48,6 +48,6 @@ export default class Header extends React.Component {
           </Navbar.Collapse>
         </Navbar>
   		</div>
-  	)
+    )
   }
 }

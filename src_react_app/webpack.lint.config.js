@@ -25,7 +25,8 @@ const config = {
 	module: {
 		loaders: [{
 			test: /\.js?$/,
-			loader: 'babel',
+			/*添加校验规则*/
+			loader: 'babel!eslint',
 			include: APP_PATH
 		}, {
 			test: /\.css$/,
