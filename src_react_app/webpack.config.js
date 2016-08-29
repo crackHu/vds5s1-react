@@ -24,7 +24,7 @@ const config = {
 	},
 	module: {
 		loaders: [{
-			test: /\.js?$/,
+			test: /\.jsx?$/,
 			loader: 'babel',
 			include: APP_PATH
 		}, {

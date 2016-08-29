@@ -17,7 +17,7 @@ render(
 );
 
 if (module.hot) {
-  alert("bbbb")
+  alert("module.hot")
   module.hot.accept('./containers/Root', () => {
     const RootContainer = require('./containers/Root').default;
     render(
@@ -28,5 +28,5 @@ if (module.hot) {
     );
   });
 } else {
-  alert("aaaaa")
+  alert("！module.hot")
 }
