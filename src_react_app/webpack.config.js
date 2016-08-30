@@ -8,7 +8,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 const config = {
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.js')
+		vds5: path.resolve(APP_PATH, 'index.bak.js')
 	},
 	output: {
 		path: BUILD_PATH,

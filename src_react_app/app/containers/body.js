@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Forms from '../components/forms';
+import ArchivDetail from '../containers/ArchivDetail';
 import {
 	Table,
 	Button,
@@ -18,7 +18,7 @@ export default class Body extends React.Component {
 		this.state = {
 			"loading": false,
 			"list": [],
-			"operateId" : "",
+			"operateId": "",
 			"detail": false
 		};
 	}
@@ -52,21 +52,21 @@ export default class Body extends React.Component {
 	}
 
 	handleOperate(peopleId, peopleLogin, peopleUrl) {
-   		 this.setState({
-				"detail": true,
-				"peopleId": peopleId,
-				"peopleLogin": peopleLogin,
-				"peopleUrl": peopleUrl,
-			});
+		this.setState({
+			"detail": true,
+			"peopleId": peopleId,
+			"peopleLogin": peopleLogin,
+			"peopleUrl": peopleUrl,
+		});
 	}
 
 	render() {
 		if (this.state.detail) {
-			return <div><Forms 
+			return <ArchivDetail 
 							peopleId={this.state.peopleId}
 							peopleLogin={this.state.peopleLogin}
 							peopleUrl={this.state.peopleUrl}
-						/></div>
+						/>
 		}
 		if (this.state.firstView) {
 			return (

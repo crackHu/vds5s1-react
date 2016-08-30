@@ -23,31 +23,29 @@ export default class Header extends React.Component {
 
   render() {
     return (
-      <div>
-  			<Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#demo">VDS基础平台</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Navbar.Text pullRight>
-              柏道科技
-            </Navbar.Text>
-            <Navbar.Text>
-              <Navbar.Link href="#">组件DEMO</Navbar.Link>
-            </Navbar.Text>
-            <Navbar.Form pullRight>
-              <FormGroup>
-                <FormControl ref="searchWord" type="text" placeholder="Search" />
-              </FormGroup>
-              {' '}
-              <Button type="submit" onClick={this.handleSearch}>搜索</Button>
-            </Navbar.Form>
-          </Navbar.Collapse>
-        </Navbar>
-  		</div>
+      <Navbar>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="#demo">VDS基础平台</a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Navbar.Text pullRight>
+            柏道科技
+          </Navbar.Text>
+          <Navbar.Text>
+            <Navbar.Link href="#">组件DEMO</Navbar.Link>
+          </Navbar.Text>
+          <Navbar.Form pullRight>
+            <FormGroup>
+              <FormControl ref="searchWord" type="text" placeholder="Search" />
+            </FormGroup>
+            {' '}
+            <Button type="submit" onClick={this.handleSearch}>搜索</Button>
+          </Navbar.Form>
+        </Navbar.Collapse>
+      </Navbar>
     )
   }
 }
