@@ -11,20 +11,31 @@ import {
 	Form,
 	FormControl,
 	FormGroup,
-	ControlLabel
+	ControlLabel,
+	Checkbox,
+	Radio,
+	Table
 } from 'react-bootstrap';
-import {
+/*import {
 	DateField,
 	Calendar
 } from 'react-date-picker'
-import 'react-date-picker/index.css'
+import 'react-date-picker/index.css'*/
+import {
+	DatePicker
+} from 'antd'
 
 import FieldGroup from '../components/FieldGroup';
+import '../main.css';
 
 export default class ArchivDetail extends React.Component {
 
 	constructor(props) {
 		super(props);
+	}
+
+	addCaseItme() {
+		alert(this.state())
 	}
 
 	render() {
@@ -85,7 +96,7 @@ export default class ArchivDetail extends React.Component {
 					 <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
 					    <Tab eventKey={1} title="一般情况">
 					    	
-							<Form inline >
+							<Form inline action="#">
 								{/*性别******************/}
 								<br />
 								<FormGroup controlId="formControlsSelect" validationState="error">
@@ -101,7 +112,7 @@ export default class ArchivDetail extends React.Component {
 								<FormGroup controlId="formInlineEmail" validationState="error">
 									<label className="control-label">出生日期</label>
 									{' '}
-									<DateField dateFormat="YYYY-MM-DD" />
+									<DatePicker />
 								</FormGroup>
 								{' '}
 								<FormGroup controlId="formInlineEmail">
@@ -119,116 +130,326 @@ export default class ArchivDetail extends React.Component {
 								</FormGroup>
 								{/*现住址******************/}
 								<br /><br />
-								<FormGroup controlId="formControlsSelect" validationState="error">
-							      <ControlLabel>&nbsp;&nbsp;&nbsp;&nbsp;现住址</ControlLabel>
-							      {' '}
+							     <ControlLabel className="mandatory">&nbsp;&nbsp;&nbsp;现住址：</ControlLabel>
+								<FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							        <option value="other">东莞市</option>
 							      </FormControl>
+							     	<ControlLabel>&nbsp;市&nbsp;</ControlLabel>
 							    </FormGroup>
-							    {' 市 '}
+								<FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							        <option value="other">东莞市</option>
 							      </FormControl>
-							    {' 区（县） '}
+							     	<ControlLabel>&nbsp;区（县）&nbsp;</ControlLabel>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							   		&nbsp;
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							        <option value="other">东莞市</option>
 							      </FormControl>
-							    {' 街（镇） '}
+							     	<ControlLabel>&nbsp;街（镇）&nbsp;</ControlLabel>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							        <option value="other">东莞市</option>
 							      </FormControl>
-							    {' 居委（村） '}
+							     	<ControlLabel>&nbsp;居委（村）&nbsp;</ControlLabel>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							        <option value="other">东莞市</option>
 							      </FormControl>
-							    {' 路（街） '}
+							     	<ControlLabel>&nbsp;路（街）&nbsp;</ControlLabel>
 								  <FormControl type="text"/>
+							    </FormGroup>
 								{/*户籍地址******************/}
 								<br /><br />
-								<FormGroup controlId="formControlsSelect" validationState="error">
-							      <ControlLabel>户籍地址</ControlLabel>
-							      {' '}
+								<ControlLabel className="mandatory">户籍地址：</ControlLabel>
+								<FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广东省</option>
 							      </FormControl>
+							      <ControlLabel>&nbsp;省&nbsp;</ControlLabel>
 							    </FormGroup>
-							    {' 省 '}
+							    <FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							      </FormControl>
-							    {' 市 '}
+							      <ControlLabel>&nbsp;市&nbsp;</ControlLabel>
+							    </FormGroup>
+							    <FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">天河区</option>
 							      </FormControl>
-							    {' 区（县） '}
+							      <ControlLabel>&nbsp;区（县）&nbsp;</ControlLabel>
+							     </FormGroup>
+							    <FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">大东街</option>
 							      </FormControl>
-							    {' 街（镇） '}
+							      <ControlLabel>&nbsp;街（镇）&nbsp;</ControlLabel>
+							     </FormGroup>
+							     <FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">棠下</option>
 							      </FormControl>
-							    {' 居委（村） '}
+							      <ControlLabel>&nbsp;居委（村）&nbsp;</ControlLabel>
+							     </FormGroup>
+							     <FormGroup controlId="formControlsSelect">
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">胡岗新街</option>
 							      </FormControl>
-							    {' 路（街） '}
+							       <ControlLabel>&nbsp;路（街）&nbsp;</ControlLabel>
 								  <FormControl type="text"/>
+							    </FormGroup>
 								{/*本人电话******************/}
 								<br /><br />
-								<FormGroup controlId="formControlsSelect" validationState="error">
-							      <ControlLabel>本人电话</ControlLabel>
-							      {' '}
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>本人电话&nbsp;</ControlLabel>
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">18814141114</option>
 							      </FormControl>
 							    </FormGroup>
-							    {' 省 '}
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;联系人姓名&nbsp;</ControlLabel>
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
 									<option value="select">广州市</option>
 							      </FormControl>
-							    {' 市 '}
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;联系人电话&nbsp;</ControlLabel>
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
-									<option value="select">天河区</option>
+									<option value="select">广州市</option>
 							      </FormControl>
-							    {' 区（县） '}
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;常驻类型&nbsp;</ControlLabel>
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
-									<option value="select">大东街</option>
+									<option value="select">广州市</option>
 							      </FormControl>
-							    {' 街（镇） '}
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;民族&nbsp;</ControlLabel>
 							      <FormControl componentClass="select" placeholder="province">
 									<option value="select"></option>
-									<option value="select">棠下</option>
+									<option value="select">广州市</option>
 							      </FormControl>
-							    {' 居委（村） '}
-							      <FormControl componentClass="select" placeholder="province">
-									<option value="select"></option>
-									<option value="select">胡岗新街</option>
-							      </FormControl>
-							    {' 路（街） '}
 								  <FormControl type="text"/>
-
+							    </FormGroup>
+								{/*血型******************/}
+								<br /><br />
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>
+							      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							      	血型
+							      	&nbsp;
+							      </ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">A型</option>
+							      </FormControl>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;RH阴性&nbsp;</ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">是</option>
+							      </FormControl>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;文化程度&nbsp;</ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">广州市</option>
+							      </FormControl>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;职业&nbsp;</ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">商业服务人员</option>
+							      </FormControl>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;婚姻状况&nbsp;</ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">已婚</option>
+							      </FormControl>
+							    </FormGroup>
+								{/*医疗费用支付方式******************/}
+								<br /><br />
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>医疗费用支付方式&nbsp;&nbsp;</ControlLabel>
+									  <Checkbox inline>
+										城镇职工基本医疗保险
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline>
+										城镇居民基本医疗保险
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline>
+										新型农村合作医疗
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline>
+										新型农村合作医疗
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline>
+										新型农村合作医疗
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline>
+										其他
+									  </Checkbox>
+									  {' '}
+								  	  <FormControl type="text"/>
+							    </FormGroup>
+								{/*药物过敏史******************/}
+								<br /><br />
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>药物过敏史&nbsp;&nbsp;</ControlLabel>
+									  <Radio inline checked readOnly name="test">
+										无
+									  </Radio>
+									  {' '}
+									  <Radio inline name="test">
+										有
+									  </Radio>
+									  {' '}
+									  <Checkbox inline disabled>
+										肾上腺素
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline disabled>
+										肾上腺素
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline disabled>
+										肾上腺素
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline disabled>
+										其他
+									  </Checkbox>
+									  {' '}
+								  	  <FormControl type="text" disabled/>
+							    </FormGroup>
+							    <FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;&nbsp;&nbsp;&nbsp;暴露史&nbsp;&nbsp;</ControlLabel>
+									  <Radio inline name="test1">
+										无
+									  </Radio>
+									  {' '}
+									  <Radio inline name="test1">
+										有：化学品
+									  </Radio>
+									  {' '}
+									  <Checkbox inline >
+										毒物
+									  </Checkbox>
+									  {' '}
+									  <Checkbox inline disabled>
+										射线
+									  </Checkbox>
+							    </FormGroup>
+								{/*档案状态******************/}
+								<br /><br />
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>档案状态&nbsp;</ControlLabel>
+							      <FormControl componentClass="select" placeholder="province">
+									<option value="select"></option>
+									<option value="select">在册</option>
+							      </FormControl>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;建档人&nbsp;</ControlLabel>
+							      <FormControl type="text"/>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;建档日期&nbsp;</ControlLabel>
+							      <DatePicker />
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;录入人&nbsp;</ControlLabel>
+							      <FormControl type="text"/>
+							    </FormGroup>
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>&nbsp;录入日期&nbsp;</ControlLabel>
+							      <DatePicker />
+							    </FormGroup>
+								{/*既往史******************/}
+								<br /><br /><br />
+								<FormGroup controlId="formControlsSelect">
+							      <ControlLabel>既往史&nbsp;</ControlLabel>
+							    </FormGroup>
+								
+						        <div className="pull-right">
+								    <Button bsStyle="link" onClick={this.addCaseItme.bind()}>
+								    	<Glyphicon glyph="plus" /> 增加
+								    </Button>
+								    <Button bsStyle="link">
+								    	<Glyphicon glyph="chevron-up" /> 修改
+								    </Button>
+								    <Button bsStyle="link">
+								    	<Glyphicon glyph="ban-circle" /> 删除
+								    </Button>
+								    <Button bsStyle="link" disabled>
+								    	<Glyphicon glyph="save" /> 保存
+								    </Button>
+								    <Button bsStyle="link" disabled>
+								    	<Glyphicon glyph="remove" /> 取消
+								    </Button>
+							    </div>
+								<Table striped bordered condensed hover>
+								    <thead>
+								      <tr>
+								        <th>类别</th>
+								        <th>疾病名称</th>
+								        <th>确诊时间</th>
+								        <th>备注</th>
+								      </tr>
+								    </thead>
+								    <tbody>
+								      <tr>
+								        <td>
+									  	  <FormControl type="text"/>
+									  	</td>
+								        <td>
+									  	  <FormControl type="text"/>
+									  	</td>
+								        <td>
+									  	  <DatePicker />
+									  	</td>
+								        <td>
+									  	  <FormControl type="text"/>
+									  	</td>
+								      </tr>
+								    </tbody>
+								  </Table>
 
 							 </Form>
 					    </Tab>

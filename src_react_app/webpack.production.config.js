@@ -11,12 +11,12 @@ const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.js'),
-		//vendors: ['']
+		vds5: path.resolve(APP_PATH, 'index.bak.js'),
+		vendors: ['antd']
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: 'assets/[name].bundle.min.js'
+		filename: 'assets/[name].bundle_[hash].min.js'
 	},
 	module: {
 		loaders: [{
@@ -56,16 +56,16 @@ const config = {
 				warnings: false
 			}
 		}),
-		/*new webpack.optimize.CommonsChunkPlugin({
+		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendors',
 			chunks: ['vendors'],
-			filename: 'assets/vendors.js',
+			filename: 'assets/[name]_[hash].min.js',
 			minChunks: Infinity
-		}),*/
+		}),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(env)
 		}),
-		new ExtractTextPlugin("assets/[name]-style.min.css"),
+		new ExtractTextPlugin("assets/[name]-style_[hash].min.css"),
 		new HtmlwebpackPlugin({
 			title: 'VDS Foundation Platform',
 			template: './app/templates/index.html',

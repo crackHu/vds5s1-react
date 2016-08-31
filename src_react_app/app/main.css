@@ -1,3 +1,6 @@
 .operate {
-  vertical-align: middle;
+	vertical-align: middle;
+}
+.mandatory {
+	color: #a94442;
 }

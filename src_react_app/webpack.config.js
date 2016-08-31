@@ -12,7 +12,7 @@ const config = {
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: '[name].bundle.js'
+		filename: '[name].bundle_[hash].js'
 	},
 	devtool: 'eval-source-map',
 	devServer: {
