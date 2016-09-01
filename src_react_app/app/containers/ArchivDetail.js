@@ -39,24 +39,11 @@ export default class ArchivDetail extends React.Component {
 
 	componentWillMount() {}
 
-	componentDidMount() {
-		let caseTable = ReactDOM.findDOMNode(this.refs.caseTable);
-		var caseTableRowObj = caseTable.lastElementChild.firstChild;
-		this.setState({
-			"caseTableRowObj": caseTableRowObj
-		})
-	}
+	componentDidMount() {}
 
-	addCaseItmeFunc() {
-		let caseTable = ReactDOM.findDOMNode(this.refs.caseTable);
-		let a = ReactDOM.findDOMNode(this.refs.caseTable).lastElementChild.appendChild(this.state.caseTableRowObj);
-		//caseTable.appendChild(this.state.caseTableRowObj)
-		console.log(a)
-	}
+	addCaseItmeFunc() {}
 
-	editCaseItmeFunc() {
-		console.log(this.state.caseTableRowObj)
-	}
+	editCaseItmeFunc() {}
 
 	deleteCaseItmeFunc() {}
 

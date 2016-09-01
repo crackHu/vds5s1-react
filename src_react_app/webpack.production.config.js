@@ -50,6 +50,9 @@ const config = {
 		}, ]
 	},
 	resolve: {
+		alias: {
+			'react': path.join(__dirname, 'node_modules', 'react')
+		},
 		extensions: ['', '.js', '.jsx']
 	},
 	plugins: [
@@ -68,7 +71,7 @@ const config = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(env)
 		}),
-		new ExtractTextPlugin("assets/[name]-style_[hash].min.css"),
+		new ExtractTextPlugin("assets/[name].style_[hash].min.css"),
 		new HtmlwebpackPlugin({
 			title: 'VDS Foundation Platform',
 			template: './app/templates/index.html',

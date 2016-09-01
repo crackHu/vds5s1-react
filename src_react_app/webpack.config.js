@@ -54,6 +54,9 @@ const config = {
 		}, ]
 	},
 	resolve: {
+		alias: {
+			'react': path.join(__dirname, 'node_modules', 'react')
+		},
 		/*import自动补全*/
 		extensions: ['', '.js', '.jsx']
 	},
