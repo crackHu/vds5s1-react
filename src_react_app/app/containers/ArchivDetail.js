@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {
 	SplitButton,
 	MenuItem,
@@ -16,11 +17,6 @@ import {
 	Radio,
 	Table
 } from 'react-bootstrap';
-/*import {
-	DateField,
-	Calendar
-} from 'react-date-picker'
-import 'react-date-picker/index.css'*/
 import {
 	DatePicker
 } from 'antd'
@@ -32,11 +28,41 @@ export default class ArchivDetail extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			"caseTableRowObj": null
+		}
 	}
 
-	addCaseItme() {
-		alert(this.state())
+	componentWillReceiveProps() {
+		console.log("asdfd")
 	}
+
+	componentWillMount() {}
+
+	componentDidMount() {
+		let caseTable = ReactDOM.findDOMNode(this.refs.caseTable);
+		var caseTableRowObj = caseTable.lastElementChild.firstChild;
+		this.setState({
+			"caseTableRowObj": caseTableRowObj
+		})
+	}
+
+	addCaseItmeFunc() {
+		let caseTable = ReactDOM.findDOMNode(this.refs.caseTable);
+		let a = ReactDOM.findDOMNode(this.refs.caseTable).lastElementChild.appendChild(this.state.caseTableRowObj);
+		//caseTable.appendChild(this.state.caseTableRowObj)
+		console.log(a)
+	}
+
+	editCaseItmeFunc() {
+		console.log(this.state.caseTableRowObj)
+	}
+
+	deleteCaseItmeFunc() {}
+
+	saveCaseItmeFunc() {}
+
+	cancelCaseItmeFunc() {}
 
 	render() {
 		return (
@@ -112,7 +138,7 @@ export default class ArchivDetail extends React.Component {
 								<FormGroup controlId="formInlineEmail" validationState="error">
 									<label className="control-label">出生日期</label>
 									{' '}
-									<DatePicker />
+									<DatePicker style="has-error"/>
 								</FormGroup>
 								{' '}
 								<FormGroup controlId="formInlineEmail">
@@ -408,23 +434,23 @@ export default class ArchivDetail extends React.Component {
 							    </FormGroup>
 								
 						        <div className="pull-right">
-								    <Button bsStyle="link" onClick={this.addCaseItme.bind()}>
+								    <Button bsStyle="link" onClick={this.addCaseItmeFunc.bind(this)}>
 								    	<Glyphicon glyph="plus" /> 增加
 								    </Button>
-								    <Button bsStyle="link">
+								    <Button bsStyle="link" onClick={this.editCaseItmeFunc.bind(this)}>
 								    	<Glyphicon glyph="chevron-up" /> 修改
 								    </Button>
-								    <Button bsStyle="link">
+								    <Button bsStyle="link" onClick={this.deleteCaseItmeFunc.bind(this)}>
 								    	<Glyphicon glyph="ban-circle" /> 删除
 								    </Button>
-								    <Button bsStyle="link" disabled>
+								    <Button bsStyle="link" onClick={this.saveCaseItmeFunc.bind(this)} disabled>
 								    	<Glyphicon glyph="save" /> 保存
 								    </Button>
-								    <Button bsStyle="link" disabled>
+								    <Button bsStyle="link" onClick={this.cancelCaseItmeFunc.bind(this)} disabled>
 								    	<Glyphicon glyph="remove" /> 取消
 								    </Button>
 							    </div>
-								<Table striped bordered condensed hover>
+								<Table striped bordered condensed hover ref="caseTable">
 								    <thead>
 								      <tr>
 								        <th>类别</th>

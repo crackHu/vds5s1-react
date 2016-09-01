@@ -12,7 +12,7 @@ const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
 		vds5: path.resolve(APP_PATH, 'index.bak.js'),
-		vendors: ['antd']
+		//vendors: ['antd']
 	},
 	output: {
 		path: BUILD_PATH,
@@ -29,6 +29,9 @@ const config = {
 		}, {
 			test: /\.scss$/,
 			loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
+		}, {
+			test: /\.less$/,
+			loader: ExtractTextPlugin.extract('style-loader', 'css!less')
 		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
@@ -56,12 +59,12 @@ const config = {
 				warnings: false
 			}
 		}),
-		new webpack.optimize.CommonsChunkPlugin({
+		/*new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendors',
 			chunks: ['vendors'],
 			filename: 'assets/[name]_[hash].min.js',
 			minChunks: Infinity
-		}),
+		}),*/
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(env)
 		}),

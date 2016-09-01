@@ -1,7 +1,7 @@
 {
   "presets": ["es2015", "react", 'stage-0'],
   "plugins": [
-    ["antd", { "style": "css", "libraryName": "antd" }]
+    ["antd", [{ "libraryName": "antd", "style": true }]]
   ],
   //在开发的时候才启用HMR和Catch Error	
   "env": {

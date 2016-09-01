@@ -35,6 +35,9 @@ const config = {
 			test: /\.scss$/,
 			loaders: ['style', 'css', 'sass']
 		}, {
+			test: /\.less$/,
+			loaders: ['style', 'css', 'less']
+		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
 		}, {
