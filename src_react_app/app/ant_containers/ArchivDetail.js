@@ -20,9 +20,9 @@ import {
 import {
 	DatePicker
 } from 'antd'
-
 import FieldGroup from '../components/FieldGroup';
 import '../main.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class ArchivDetail extends React.Component {
 
@@ -34,7 +34,7 @@ export default class ArchivDetail extends React.Component {
 	}
 
 	componentWillReceiveProps() {
-		console.log("asdfd")
+		console.log("componentWillReceiveProps")
 	}
 
 	componentWillMount() {}
@@ -125,7 +125,7 @@ export default class ArchivDetail extends React.Component {
 								<FormGroup controlId="formInlineEmail" validationState="error">
 									<label className="control-label">出生日期</label>
 									{' '}
-									<DatePicker style="has-error"/>
+									<DatePicker />
 								</FormGroup>
 								{' '}
 								<FormGroup controlId="formInlineEmail">

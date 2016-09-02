@@ -1,6 +1,6 @@
 node_modules
 build
-WebRoot
+WebRoot*
 *.rar
 *.msi
 *.log

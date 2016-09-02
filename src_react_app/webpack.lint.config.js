@@ -58,7 +58,6 @@ const config = {
 		alias: {
 			'react': path.join(__dirname, 'node_modules', 'react')
 		},
-		/*import自动补全*/
 		extensions: ['', '.js', '.jsx']
 	},
 	plugins: [
@@ -66,7 +65,7 @@ const config = {
 			minimize: true
 		}),
 		new HtmlwebpackPlugin({
-			title: 'VDS Foundation Platform',
+			title: 'VDS5 Foundation Platform',
 			template: './app/templates/index.html',
 			filename: 'index.html',
 			inject: 'body'

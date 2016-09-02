@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ArchivDetail from '../containers/ArchivDetail';
 import {
 	Table,
 	Button,
@@ -62,11 +61,11 @@ export default class Body extends React.Component {
 
 	render() {
 		if (this.state.detail) {
-			return <ArchivDetail 
+			return <div><Forms 
 							peopleId={this.state.peopleId}
 							peopleLogin={this.state.peopleLogin}
 							peopleUrl={this.state.peopleUrl}
-						/>
+						/></div>
 		}
 		if (this.state.firstView) {
 			return (

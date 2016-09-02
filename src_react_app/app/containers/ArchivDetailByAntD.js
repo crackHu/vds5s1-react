@@ -33,7 +33,7 @@ export default class ArchivDetailByAntD extends React.Component {
 			        <div className="ant-layout-wrapper">
 			          <div className="ant-layout-logo">
 			          </div>
-			          <Menu theme="light" mode="horizontal"
+			          <Menu theme="dark" mode="horizontal"
 			            defaultSelectedKeys={['1']} style={{lineHeight: '64px'}}>
 			            <Menu.Item key="1">导航一</Menu.Item>
 			            <Menu.Item key="2">导航二</Menu.Item>

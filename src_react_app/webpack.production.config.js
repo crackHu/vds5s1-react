@@ -11,8 +11,8 @@ const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.bak.js'),
-		//vendors: ['antd']
+		vds5: path.resolve(APP_PATH, 'index.ant.js'),
+		//common: ['antd']
 	},
 	output: {
 		path: BUILD_PATH,
@@ -63,8 +63,8 @@ const config = {
 			}
 		}),
 		/*new webpack.optimize.CommonsChunkPlugin({
-			name: 'vendors',
-			chunks: ['vendors'],
+			name: 'common',
+			chunks: ['common'],
 			filename: 'assets/[name]_[hash].min.js',
 			minChunks: Infinity
 		}),*/
@@ -73,7 +73,7 @@ const config = {
 		}),
 		new ExtractTextPlugin("assets/[name].style_[hash].min.css"),
 		new HtmlwebpackPlugin({
-			title: 'VDS Foundation Platform',
+			title: 'VDS5 Foundation Platform',
 			template: './app/templates/index.html',
 			filename: 'index.html',
 			inject: 'body'
