@@ -470,7 +470,6 @@ export default class ArchivDetail extends React.Component {
 					    	Tab 2 content
 					    </Tab>
 					  </Tabs>
-
 				</div>
 			</div>
 		)

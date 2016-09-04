@@ -1,24 +1,95 @@
-import React from 'react'
+import React, {
+	PropTypes
+} from 'react'
 import {
 	Link,
 	hashHistory
 } from 'react-router'
 import {
+	connect
+} from 'react-redux';
+import {
 	Menu,
 	Icon,
 	Breadcrumb
 } from 'antd';
+import * as AppActions from '../actions/AppActions';
 
+const menuObjArr = [{
+	"path": "/AntContainer1",
+	"name": "测试1"
+}, {
+	"path": "/AntContainer2",
+	"name": "测试2"
+}, {
+	"path": "/ArchivDetail",
+	"name": "测试3"
+}]
 
-export default class App extends React.Component {
+class App extends React.Component {
 
-	constructor(props) {
-		super(props);
+	constructor() {
+		console.log("constructor")
+		super();
+		//菜单导航默认设置
+		this.state = {
+			"menuObjArr": menuObjArr,
+			"menuName": menuObjArr[0].name,
+			"menuPath": menuObjArr[0].path,
+			"menuIndex": "0",
+		}
 		this.handleClick = (e) => {
 			if (e.key) {
-				hashHistory.push(e.key)
+				console.log("handleClick")
+				let menuObj = this.state.menuObjArr[e.key];
+				hashHistory.push(menuObj.path);
+				this.setState({
+					"menuName": menuObj.name,
+					"menuPath": menuObj.path,
+					"menuIndex": e.key,
+				})
 			}
 		};
+	}
+
+	componentWillMount() {
+		console.log("componentWillMount")
+		this.historyRouteChange()
+			//console.log(this.props.getMenu())
+	}
+
+	componentDidMount() {
+		console.log("componentDidMount")
+
+	}
+	componentWillUpdate() {
+		console.log("componentWillUpdate")
+	}
+
+	componentDidUpdate() {
+		console.log("componentDidUpdate")
+	}
+
+	componentWillReceiveProps() {
+		console.log("componentWillReceiveProps")
+	}
+
+	componentWillUnmount() {
+		console.log("componentWillUnmount")
+	}
+
+	historyRouteChange = () => {
+		let historyPathname = this.props.location.pathname
+		if (historyPathname != '/') {
+			for (let index in menuObjArr) {
+				if (menuObjArr[index].path == historyPathname) {
+					this.setState({
+						"menuName": menuObjArr[index].name,
+						"menuIndex": index,
+					})
+				}
+			}
+		}
 	}
 
 	render() {
@@ -29,29 +100,30 @@ export default class App extends React.Component {
 		          <div className="ant-layout-logo">
 		          </div>
 		          <Menu theme="dark" mode="horizontal"
-		            defaultSelectedKeys={['AntContainer1']} onClick={this.handleClick} style={{lineHeight: '64px'}}>
-		            <Menu.Item key="AntContainer1">导航一</Menu.Item>
-		            <Menu.Item key="333">导航二</Menu.Item>
-		            <Menu.Item key="3">导航三</Menu.Item>
+		            defaultSelectedKeys={[this.state.menuIndex]} selectedKeys={[this.state.menuIndex]} onClick={this.handleClick} style={{lineHeight: '64px'}}>
+		           	{this.state.menuObjArr.map((menu, index) => {
+		           		return (
+		           			<Menu.Item key={index}>{menu.name}</Menu.Item>
+		           			)
+		           	})}
 		          </Menu>
 		        </div>
 		      </div>
 		      <div className="ant-layout-wrapper">
 		        <div className="ant-layout-breadcrumb">
 		          <Breadcrumb>
-		            <Breadcrumb.Item>首页</Breadcrumb.Item>
-		            <Breadcrumb.Item>应用列表</Breadcrumb.Item>
-		            <Breadcrumb.Item>某应用</Breadcrumb.Item>
+					<Breadcrumb.Item>首页</Breadcrumb.Item>
+		            <Breadcrumb.Item>{this.state.menuName}</Breadcrumb.Item>
 		          </Breadcrumb>
 		        </div>
 		        <div className="ant-layout-container">
 		          <div style={{ height: '100%' }}>
-		          	{children}
+		          	{this.props.children}
 		          </div>
 		        </div>
 		      </div>
 		      <div className="ant-layout-footer">
-		      	Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持
+		{ /*Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持*/ }
 		      </div>
 		    </div>
 		)
@@ -59,5 +131,15 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-	children: React.PropTypes.object.isRequired,
+	children: PropTypes.object.isRequired,
+	getMenu: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired
 }
+
+function mapStateToProps(state) {
+	return {
+		data: state
+	}
+}
+
+export default connect(mapStateToProps, AppActions)(App)
