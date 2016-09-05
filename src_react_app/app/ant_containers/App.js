@@ -11,8 +11,10 @@ import {
 import {
 	Menu,
 	Icon,
-	Breadcrumb
+	Breadcrumb,
+	message
 } from 'antd';
+import fetch from 'isomorphic-fetch'
 import * as AppActions from '../actions/AppActions';
 
 const menuObjArr = [{
@@ -61,6 +63,30 @@ class App extends React.Component {
 	componentDidMount() {
 		console.log("componentDidMount")
 
+		shortcut.add("ctrl+q", function() {
+			const hide = message.loading('正在保存中...', 110);
+
+			const url = "https://api.github.com/search/users?q=a"
+			const init = {
+				cache: 'no-cache'
+			}
+			fetch(url)
+				.then(response => response.json())
+				.then((data) => {
+					console.log(data.items)
+					hide()
+					message.success('保存成功')
+				})
+				.catch((e) => {
+					console.error("Oops, error", e)
+					hide()
+					message.warn('保存失败 ' + '[' + e + ']');
+				})
+		}, {
+			'type': 'keydown',
+			'propagate': true,
+			'target': document
+		});
 	}
 	componentWillUpdate() {
 		console.log("componentWillUpdate")
