@@ -28,6 +28,9 @@ export default class AntContainer1 extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			"data": [{}]
+		}
 
 		this.changeTab = (e) => {
 			console.log(e);
@@ -57,7 +60,14 @@ export default class AntContainer1 extends React.Component {
 					hide()
 					message.warn('保存失败 ' + '[' + e + ']');
 				})
+		}
 
+		this.addRow = (e) => {
+			let data = this.state.data
+			let temp = {}
+			this.setState({
+				"data": data.push(temp)
+			})
 		}
 
 	}
@@ -164,7 +174,7 @@ export default class AntContainer1 extends React.Component {
 			width: 200,
 			render: (text, record) => (
 				<span>
-				  <a href="#">增加</a>
+				  <a onClick={this.addRow}>增加</a>
 			      <span className="ant-divider"></span>
 			      <a href="#">删除</a>
 			      <span className="ant-divider"></span>
@@ -174,13 +184,7 @@ export default class AntContainer1 extends React.Component {
 			    </span>
 			),
 		}];
-		const data = [{
-			key: '1',
-			name: 'asdf',
-			age: 1,
-			address: 'asdf',
-			address1: 'sdf',
-		}];
+		const data = [{}];
 		const rowSelection = {
 			onChange(selectedRowKeys, selectedRows) {
 				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
