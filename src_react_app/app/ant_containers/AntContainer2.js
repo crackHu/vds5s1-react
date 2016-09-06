@@ -60,6 +60,7 @@ export default class AntContainer2 extends React.Component {
 		const data = [];
 		for (let i = 0; i < 46; i++) {
 			data.push({
+				id: i,
 				key: i,
 				name: `李大嘴${i}`,
 				age: 32,
