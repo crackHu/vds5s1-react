@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Table,
 	Icon,
+	Pagination
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 
@@ -20,7 +21,7 @@ export default class AntContainer2 extends React.Component {
 				this.setState({
 					loading: false
 				})
-			}, 4000)
+			}, 300)
 	}
 	render() {
 		const columns = [{
@@ -56,41 +57,30 @@ export default class AntContainer2 extends React.Component {
 			),
 		}];
 
-		let data = [{
-			id: 1,
-			key: '1',
-			name: '胡彦斌',
-			age: 32,
-			address: '西湖区湖底公园1号',
-		}, {
-			id: 2,
-			key: '2',
-			name: '胡彦祖',
-			age: 42,
-			address: '西湖区湖底公园1号',
-		}, {
-			id: 3,
-			key: '3',
-			name: '李大嘴',
-			age: 32,
-			address: '西湖区湖底公园1号',
-		}];
-		for (var i = 4; i < 21; i++) {
-			let obj = data[0]
+		const data = [];
+		for (let i = 0; i < 46; i++) {
 			data.push({
-				id: i,
-				key: i.toString(),
-				name: obj.name + i,
-				age: obj.age,
-				address: obj.address
-			})
+				key: i,
+				name: `李大嘴${i}`,
+				age: 32,
+				address: `西湖区湖底公园${i}号`,
+			});
 		}
+
+		const pagination = {
+			total: data.length,
+			showSizeChanger: true,
+			onShowSizeChange(current, pageSize) {
+				console.log('Current: ', current, '; PageSize: ', pageSize);
+			},
+			onChange(current) {
+				console.log('Current: ', current);
+			},
+		};
 
 		return (
 			<QueueAnim delay={10}>
-				<Table key="table" columns={columns} dataSource={data} loading={this.state.loading}>
-					{/*<Pagination onChange={onChange} total={50} />*/}
-				</Table>
+				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={this.state.loading}/>
 			</QueueAnim>
 		)
 	}
