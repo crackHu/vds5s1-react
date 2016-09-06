@@ -64,9 +64,9 @@ export default class AntContainer1 extends React.Component {
 
 		this.addRow = (e) => {
 			let data = this.state.data
-			let temp = {}
+			data.push({})
 			this.setState({
-				"data": data.push(temp)
+				"data": data
 			})
 		}
 
@@ -184,7 +184,7 @@ export default class AntContainer1 extends React.Component {
 			    </span>
 			),
 		}];
-		const data = [{}];
+		const data = [{}, {}];
 		const rowSelection = {
 			onChange(selectedRowKeys, selectedRows) {
 				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -198,175 +198,177 @@ export default class AntContainer1 extends React.Component {
 		};
 		return (
 			<Row>
-				<QueueAnim delay={50}>
-		<Tabs key="a" defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
-						  <TabPane tab="个人基本信息表" key="1">
-						  	<Form inline onSubmit={this.handleSubmit}>
-						        <FormItem label="姓名"  >
-						          <Input placeholder="请输入姓名" />
-						        </FormItem>
-						        <FormItem label="个人编号" >
-						          <Input placeholder="请输入个人编号" />
-						        </FormItem>
-						      </Form>
-						  </TabPane>
-						  <TabPane tab="健康体检表" key="2">健康体检表</TabPane>
-						</Tabs> <br />
-			<Tabs key="b" defaultActiveKey="1" onChange={this.changeTab}>
-						  <TabPane tab="一般情况" key="1">
-						  	<Form inline onSubmit={this.handleSubmit}>
-						        <FormItem label="性别" >
-						          <Select defaultValue="male" style={{ width: 80 }}>
-								      <Option value="male">男</Option>
-								      <Option value="female">女</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="出生日期" >
-						         <DatePicker />
-						        </FormItem>
-						        <FormItem label="身份证号" >
-					        		<Input />
-						        </FormItem>
-						        <FormItem label="工作单位" >
-						          <Select style={{ width: 320 }}>
-								      <Option value="company">北京市海淀区西北旺东路10号院百度科技园1号楼</Option>
-								    </Select>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;现住址" >
-						        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
-						        </FormItem>
-						        <FormItem>
-					        		<Input placeholder="门牌号"  style={{ width: 150 }}/>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="户籍地址" >
-						        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
-						        </FormItem>
-						        <FormItem>
-					        		<Input placeholder="门牌号"  style={{ width: 150 }}/>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="本人电话" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">18814141114</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="联系人姓名">
-						          <Select style={{ width: 150 }} >
-								      <Option value="default">胡永刚</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="联系人电话" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">18814141114</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="常住类型" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">户籍（辖区）</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="民族" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">汉族</Option>
-								    </Select>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="血型" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">O型</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="RH阴性" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">是</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="文化程度" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">本科</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="职业" >
-						          <Select style={{ width: 320 }}>
-								      <Option value="phone">商业服务人员</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="婚姻状况" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">已婚</Option>
-								    </Select>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="医疗费用支付方式" >
-						        	<CheckboxGroup options={payOptions} defaultValue={['Pear']} />
-						        </FormItem>
-						        <FormItem>
-					        		<Input placeholder="其他"  style={{ width: 150 }}/>
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="药物过敏" >
-						        	<RadioGroup>
-							        	<Radio key="a" value={1}>有</Radio>
-    									<Radio key="b" value={2}>无</Radio>
-						        	</RadioGroup>
-									</FormItem>
-						        <FormItem>
-						        	<CheckboxGroup options={medicineOptions} defaultValue={['Pear']} />
-						        </FormItem>
-						        <FormItem>
-					        		<Input placeholder="其他"  style={{ width: 150 }}/>
-					        	</FormItem>
-						        <FormItem label="暴露史" >
-						        	<RadioGroup>
-							        	<Radio key="a" value={1}>有</Radio>
-    									<Radio key="b" value={2}>无</Radio>
-						        	</RadioGroup>
-						        </FormItem>
-						        <FormItem>
-						        	<CheckboxGroup options={exposedOptions} defaultValue={['Pear']} />
-						        </FormItem>
-						        <br />
-						        <br />
-						        <FormItem label="档案状态" >
-						          <Select style={{ width: 150 }}>
-								      <Option value="phone">在册</Option>
-								    </Select>
-						        </FormItem>
-						        <FormItem label="建档人" >
-						          <Input />
-						        </FormItem>
-						        <FormItem label="建档日期" >
-						          <DatePicker />
-						        </FormItem>
-						        <FormItem label="录入人" >
-						          <Input />
-						        </FormItem>
-						        <FormItem label="录入日期" >
-						          <DatePicker />
-						        </FormItem>
-						        <br />
-						        <br />
-						        <Row>
-							        <Col xs={1} sm={1} md={1} lg={1}>
-							        	<FormItem label="既往史" />
-							        </Col>
-							        <Col xs={23} sm={20} md={18} lg={16}>
-							        	<Table rowSelection={rowSelection} columns={columns} dataSource={data} size="middle" bordered />
-							        </Col>
-							    </Row>
-						      </Form>
-						  </TabPane>
-						  <TabPane tab="家族史与生活情况" key="2">家族史与生活情况</TabPane>
+				<QueueAnim delay={10}>
+					<div key="tabs">
+						<Tabs defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
+							  <TabPane tab="个人基本信息表" key="1">
+							  	<Form inline onSubmit={this.handleSubmit}>
+							        <FormItem label="姓名"  >
+							          <Input placeholder="请输入姓名" />
+							        </FormItem>
+							        <FormItem label="个人编号" >
+							          <Input placeholder="请输入个人编号" />
+							        </FormItem>
+							      </Form>
+							  </TabPane>
+							  <TabPane tab="健康体检表" key="2">健康体检表</TabPane>
+							</Tabs> <br />
+						<Tabs defaultActiveKey="1" onChange={this.changeTab}>
+							  <TabPane tab="一般情况" key="1">
+							  	<Form inline onSubmit={this.handleSubmit}>
+							        <FormItem label="性别" >
+							          <Select defaultValue="male" style={{ width: 80 }}>
+									      <Option value="male">男</Option>
+									      <Option value="female">女</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="出生日期" >
+							         <DatePicker />
+							        </FormItem>
+							        <FormItem label="身份证号" >
+						        		<Input />
+							        </FormItem>
+							        <FormItem label="工作单位" >
+							          <Select style={{ width: 320 }}>
+									      <Option value="company">北京市海淀区西北旺东路10号院百度科技园1号楼</Option>
+									    </Select>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;现住址" >
+							        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
+							        </FormItem>
+							        <FormItem>
+						        		<Input placeholder="门牌号"  style={{ width: 150 }}/>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="户籍地址" >
+							        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
+							        </FormItem>
+							        <FormItem>
+						        		<Input placeholder="门牌号"  style={{ width: 150 }}/>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="本人电话" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">18814141114</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="联系人姓名">
+							          <Select style={{ width: 150 }} >
+									      <Option value="default">胡永刚</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="联系人电话" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">18814141114</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="常住类型" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">户籍（辖区）</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="民族" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">汉族</Option>
+									    </Select>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="血型" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">O型</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="RH阴性" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">是</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="文化程度" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">本科</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="职业" >
+							          <Select style={{ width: 320 }}>
+									      <Option value="phone">商业服务人员</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="婚姻状况" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">已婚</Option>
+									    </Select>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="医疗费用支付方式" >
+							        	<CheckboxGroup options={payOptions} defaultValue={['Pear']} />
+							        </FormItem>
+							        <FormItem>
+						        		<Input placeholder="其他"  style={{ width: 150 }}/>
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="药物过敏" >
+							        	<RadioGroup>
+								        	<Radio key="a" value={1}>有</Radio>
+	    									<Radio key="b" value={2}>无</Radio>
+							        	</RadioGroup>
+										</FormItem>
+							        <FormItem>
+							        	<CheckboxGroup options={medicineOptions} defaultValue={['Pear']} />
+							        </FormItem>
+							        <FormItem>
+						        		<Input placeholder="其他"  style={{ width: 150 }}/>
+						        	</FormItem>
+							        <FormItem label="暴露史" >
+							        	<RadioGroup>
+								        	<Radio key="a" value={1}>有</Radio>
+	    									<Radio key="b" value={2}>无</Radio>
+							        	</RadioGroup>
+							        </FormItem>
+							        <FormItem>
+							        	<CheckboxGroup options={exposedOptions} defaultValue={['Pear']} />
+							        </FormItem>
+							        <br />
+							        <br />
+							        <FormItem label="档案状态" >
+							          <Select style={{ width: 150 }}>
+									      <Option value="phone">在册</Option>
+									    </Select>
+							        </FormItem>
+							        <FormItem label="建档人" >
+							          <Input />
+							        </FormItem>
+							        <FormItem label="建档日期" >
+							          <DatePicker />
+							        </FormItem>
+							        <FormItem label="录入人" >
+							          <Input />
+							        </FormItem>
+							        <FormItem label="录入日期" >
+							          <DatePicker />
+							        </FormItem>
+							        <br />
+							        <br />
+							        <Row>
+								        <Col xs={1} sm={1} md={1} lg={1}>
+								        	<FormItem label="既往史" />
+								        </Col>
+								        <Col xs={23} sm={20} md={18} lg={16}>
+								        	<Table rowSelection={rowSelection} columns={columns} dataSource={this.state.data} size="middle" bordered />
+								        </Col>
+								    </Row>
+							      </Form>
+							  </TabPane>
+							  <TabPane tab="家族史与生活情况" key="2">家族史与生活情况</TabPane>
 						</Tabs>
-				  </QueueAnim>
+					</div>
+				</QueueAnim>
 			</Row>
 
 		)

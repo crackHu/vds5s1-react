@@ -5,25 +5,48 @@ import React, {
 
 export default class Counter extends Component {
 
+  componentWillMount() {
+    console.log("componentWillMount")
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount")
+  }
+  componentWillUpdate() {
+    console.log("componentWillUpdate")
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate")
+  }
+
+  componentWillReceiveProps() {
+    console.log("componentWillReceiveProps")
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount")
+  }
+
   render() {
-    const {
+    /*const {
       increment,
       incrementIfOdd,
       incrementAsync,
       decrement,
       counter
-    } = this.props;
+    } = this.props;*/
     return (
       <p>
-        Clicked: {counter} times
+        Clicked: {this.props.counter} times
         {' '}
-        <button onClick={increment}>+</button>
+        <button onClick={this.props.increment}>+</button>
         {' '}
-        <button onClick={decrement}>-</button>
+        <button onClick={this.props.decrement}>-</button>
         {' '}
-        <button onClick={incrementIfOdd}>Increment if odd</button>
+        <button onClick={this.props.incrementIfOdd}>Increment if odd</button>
         {' '}
-        <button onClick={incrementAsync}>Increment async</button>
+        <button onClick={this.props.incrementAsync}>Increment async</button>
       </p>
     );
   }

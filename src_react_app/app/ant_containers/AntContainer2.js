@@ -1,69 +1,97 @@
-import React from 'react'
+import React from 'react';
 import {
-	Button,
-	Radio,
-	Input,
-	Form,
-	Row,
-	Col
+	Table,
+	Icon,
 } from 'antd';
+import QueueAnim from 'rc-queue-anim';
 
-import QueueAnim from 'rc-queue-anim'
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+export default class AntContainer2 extends React.Component {
 
-const AntContainer2 = React.createClass({
-	getInitialState() {
-		return {
-			show: true,
-		};
-	},
-	onClick() {
-		this.setState({
-			show: !this.state.show,
-		});
-	},
+	constructor(props) {
+		super(props)
+		this.state = {
+			loading: true
+		}
+	}
+
+	componentDidMount() {
+		setTimeout(
+			() => {
+				this.setState({
+					loading: false
+				})
+			}, 4000)
+	}
 	render() {
-		const formItemLayout = {
-			labelCol: {
-				span: 6
-			},
-			wrapperCol: {
-				span: 14
-			},
-		};
-		return (
-			<div>
-        <p className="buttons">
-          <Button type="primary" onClick={this.onClick}>切换</Button>
-        </p>
-        <QueueAnim component={Form} className="ant-form ant-form-horizontal" type="bottom" leaveReverse>
-          {this.state.show ? [
-            <FormItem key="item1" {...formItemLayout} label="用户名：">
-              <p className="ant-form-text">大眼萌 minion</p>
-            </FormItem>,
-            <FormItem key="item2" {...formItemLayout} label="密码：">
-              <Input type="password" placeholder="请输入密码" />
-            </FormItem>,
-            <FormItem key="item3" {...formItemLayout} label="您的性别：">
-              <RadioGroup>
-                <Radio value="male">男的</Radio>
-                <Radio value="female">女的</Radio>
-              </RadioGroup>
-            </FormItem>,
-            <FormItem key="item4" {...formItemLayout} label="备注：">
-              <Input type="textarea" placeholder="随便写" />
-            </FormItem>,
-            <Row key="submit">
-              <Col span="16" offset="6">
-                <Button type="primary" htmlType="submit">确定</Button>
-              </Col>
-            </Row>,
-          ] : null}
-        </QueueAnim>
-      </div>
-		);
-	},
-});
+		const columns = [{
+			title: '#',
+			dataIndex: 'id',
+			key: 'id',
+		}, {
+			title: '姓名',
+			dataIndex: 'name',
+			key: 'name',
+			render: (text) => <a href="#">{text}</a>,
+		}, {
+			title: '年龄',
+			dataIndex: 'age',
+			key: 'age',
+		}, {
+			title: '住址',
+			dataIndex: 'address',
+			key: 'address',
+		}, {
+			title: '操作',
+			key: 'operation',
+			render: (text, record) => (
+				<span>
+			      <a href="#">操作一{record.name}</a>
+			      <span className="ant-divider"></span>
+			      <a href="#">操作二</a>
+			      <span className="ant-divider"></span>
+			      <a href="#" className="ant-dropdown-link">
+			        更多 <Icon type="down" />
+			      </a>
+			    </span>
+			),
+		}];
 
-export default AntContainer2;
+		let data = [{
+			id: 1,
+			key: '1',
+			name: '胡彦斌',
+			age: 32,
+			address: '西湖区湖底公园1号',
+		}, {
+			id: 2,
+			key: '2',
+			name: '胡彦祖',
+			age: 42,
+			address: '西湖区湖底公园1号',
+		}, {
+			id: 3,
+			key: '3',
+			name: '李大嘴',
+			age: 32,
+			address: '西湖区湖底公园1号',
+		}];
+		for (var i = 4; i < 21; i++) {
+			let obj = data[0]
+			data.push({
+				id: i,
+				key: i.toString(),
+				name: obj.name + i,
+				age: obj.age,
+				address: obj.address
+			})
+		}
+
+		return (
+			<QueueAnim delay={10}>
+				<Table key="table" columns={columns} dataSource={data} loading={this.state.loading}>
+					{/*<Pagination onChange={onChange} total={50} />*/}
+				</Table>
+			</QueueAnim>
+		)
+	}
+}

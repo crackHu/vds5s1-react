@@ -36,9 +36,9 @@ class App extends React.Component {
 		//菜单导航默认设置
 		this.state = {
 			"menuObjArr": menuObjArr,
-			"menuName": menuObjArr[0].name,
+			"menuName": "welcome",
 			"menuPath": menuObjArr[0].path,
-			"menuIndex": "0",
+			"menuIndex": "",
 		}
 		this.handleClick = (e) => {
 			if (e.key) {
@@ -52,12 +52,19 @@ class App extends React.Component {
 				})
 			}
 		};
+		this.enterKeyDown = (e) => {
+			e = e || event
+			console.log(e.keyCode + ":" + e.which)
+			if (e.keyCode == 13) {
+				console.log(e.keyCode)
+				e.keyCode = 9;
+			}
+		}
 	}
 
 	componentWillMount() {
 		console.log("componentWillMount")
 		this.historyRouteChange()
-			//console.log(this.props.getMenu())
 	}
 
 	componentDidMount() {
@@ -73,7 +80,6 @@ class App extends React.Component {
 			fetch(url)
 				.then(response => response.json())
 				.then((data) => {
-					console.log(data.items)
 					hide()
 					message.success('保存成功')
 				})
@@ -138,12 +144,12 @@ class App extends React.Component {
 		      <div className="ant-layout-wrapper">
 		        <div className="ant-layout-breadcrumb">
 		          <Breadcrumb>
-					<Breadcrumb.Item>首页</Breadcrumb.Item>
+					<Breadcrumb.Item href='/#'><Icon type="home" /></Breadcrumb.Item>
 		            <Breadcrumb.Item>{this.state.menuName}</Breadcrumb.Item>
 		          </Breadcrumb>
 		        </div>
 		        <div className="ant-layout-container">
-		          <div style={{ height: '100%' }}>
+		          <div style={{ height: '100%' }} onKeyDown={this.enterKeyDown}>
 		          	{this.props.children}
 		          </div>
 		        </div>

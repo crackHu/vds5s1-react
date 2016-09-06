@@ -6,7 +6,7 @@ import app from './app';
 
 const rootReducer = combineReducers({
 	/*counter,*/
-	app
+	test: app
 });
 
 export default rootReducer;

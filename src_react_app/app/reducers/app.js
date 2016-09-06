@@ -4,11 +4,10 @@ import {
 	DECREMENT_COUNTER
 } from '../constants/ActionTypes';
 
-export default function app(state = {}, action) {
-	//let pState = [...state]
+export default function app1(state = {}, action) {
+	let pState = [...state]
 	switch (action.type) {
 		case GET_APP_INDEX_MENU:
-			console.log(action.data)
 			return action.data.items
 		default:
 			return state

@@ -4,13 +4,11 @@ import {
 } from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch'
 
-export function getMenu() {
-	return
-	dispatch => {
+export function getMenu(test) {
+	return dispatch => {
 		fetch(`https://api.github.com/search/users?q=a`)
 			.then(response => response.json())
 			.then((data) => {
-				console.log(data.items)
 				dispatch({
 					type: GET_APP_INDEX_MENU,
 					data: data
