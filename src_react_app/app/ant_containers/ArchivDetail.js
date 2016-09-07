@@ -1,28 +1,28 @@
 import React from 'react';
 import {
-	Button
+  Button
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 
 export default class ArchivDetail extends React.Component {
 
-	constructor(props) {
-		super(props)
-		this.state = {
-			show: true
-		}
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: true
+    }
 
-		this.onClick = (e) => {
-			this.setState({
-				show: !this.state.show
-			});
-		}
+    this.onClick = (e) => {
+      this.setState({
+        show: !this.state.show
+      });
+    }
 
-	}
+  }
 
-	render() {
-		return (
-			<div>
+  render() {
+    return (
+      <div>
         <p className="buttons" style={{ marginBottom: 20 }}>
           <Button type="primary" onClick={this.onClick}>切换</Button>
         </p>
@@ -69,6 +69,6 @@ export default class ArchivDetail extends React.Component {
         ] : null}
         </QueueAnim>
       </div>
-		);
-	}
+    );
+  }
 };

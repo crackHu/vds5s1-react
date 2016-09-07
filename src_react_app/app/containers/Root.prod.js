@@ -4,18 +4,24 @@ import React, {
 import {
 	Provider
 } from 'react-redux';
-import CounterApp from './CounterApp';
-import App from '../ant_containers/App';
+import {
+	Router
+} from 'react-router';
+
+import routes from '../routes';
 
 export default class Root extends Component {
 	render() {
+
 		const {
-			store
+			store,
+			history
 		} = this.props;
+
 		return (
 			<Provider store={store}>
-        <CounterApp />
-      </Provider>
+	          <Router history={history} routes={routes()} />
+	        </Provider>
 		);
 	}
 }

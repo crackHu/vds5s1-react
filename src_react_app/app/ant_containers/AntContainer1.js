@@ -226,7 +226,7 @@ export default class AntContainer1 extends React.Component {
 							         <DatePicker />
 							        </FormItem>
 							        <FormItem label="身份证号" >
-						        		<Input />
+						        		<Input style={{ width: 254 }}/>
 							        </FormItem>
 							        <FormItem label="工作单位" >
 							          <Select style={{ width: 320 }}>
@@ -279,7 +279,7 @@ export default class AntContainer1 extends React.Component {
 							        <br />
 							        <br />
 							        <FormItem label="血型" >
-							          <Select style={{ width: 150 }}>
+							          <Select style={{ width: 174 }}>
 									      <Option value="phone">O型</Option>
 									    </Select>
 							        </FormItem>

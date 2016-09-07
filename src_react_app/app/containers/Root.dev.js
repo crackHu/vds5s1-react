@@ -4,18 +4,25 @@ import React, {
 import {
   Provider
 } from 'react-redux';
-import CounterApp from './CounterApp';
+import {
+  Router
+} from 'react-router';
+
+import routes from '../routes';
 import DevTools from './DevTools';
 
 export default class Root extends Component {
   render() {
+
     const {
-      store
+      store,
+      history
     } = this.props;
+
     return (
       <Provider store={store}>
         <div>
-          <CounterApp />
+          <Router history={history} routes={routes()} />
           <DevTools />
         </div>
       </Provider>

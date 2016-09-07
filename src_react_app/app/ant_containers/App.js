@@ -17,6 +17,10 @@ import {
 import fetch from 'isomorphic-fetch'
 import * as AppActions from '../actions/AppActions';
 
+import {
+	shortcut
+} from '../utils/shortcut'
+
 const menuObjArr = [{
 	"path": "/AntContainer1",
 	"name": "测试1"
@@ -52,14 +56,6 @@ class App extends React.Component {
 				})
 			}
 		};
-		this.enterKeyDown = (e) => {
-			e = e || event
-			console.log(e.keyCode + ":" + e.which)
-			if (e.keyCode == 13) {
-				console.log(e.keyCode)
-				e.keyCode = 9;
-			}
-		}
 	}
 
 	componentWillMount() {
@@ -70,7 +66,7 @@ class App extends React.Component {
 	componentDidMount() {
 		console.log("componentDidMount")
 
-		shortcut.add("ctrl+q", function() {
+		shortcut.add("ctrl+z", function() {
 			const hide = message.loading('正在保存中...', 110);
 
 			const url = "https://api.github.com/search/users?q=a"
@@ -130,6 +126,7 @@ class App extends React.Component {
 		      <div className="ant-layout-header">
 		        <div className="ant-layout-wrapper">
 		          <div className="ant-layout-logo">
+		          	<img width={120} height={32} src="https://t.alipayobjects.com/images/rmsweb/T1B9hfXcdvXXXXXXXX.svg" />
 		          </div>
 		          <Menu theme="dark" mode="horizontal"
 		            defaultSelectedKeys={[this.state.menuIndex]} selectedKeys={[this.state.menuIndex]} onClick={this.handleClick} style={{lineHeight: '64px'}}>
@@ -149,13 +146,13 @@ class App extends React.Component {
 		          </Breadcrumb>
 		        </div>
 		        <div className="ant-layout-container">
-		          <div style={{ height: '100%' }} onKeyDown={this.enterKeyDown}>
+		          <div style={{ height: '100%' }}>
 		          	{this.props.children}
 		          </div>
 		        </div>
 		      </div>
 		      <div className="ant-layout-footer">
-		{ /*Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持*/ }
+				Ant Design 版权所有 © 2016 由蚂蚁金服体验技术部支持
 		      </div>
 		    </div>
 		)

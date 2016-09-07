@@ -1,8 +1,16 @@
+/* custom */
 .operate {
 	vertical-align: middle;
 }
 .mandatory {
 	color: #a94442;
+}
+
+/* ant */
+$topMenuColor: #fff;
+
+.ant-menu {
+  /* background: $topMenuColor; */
 }
 
 .ant-layout-top {
@@ -14,14 +22,16 @@
 }
 
 .ant-layout-top .ant-layout-header {
-  background: #404040;
-  height: 64px;
+   background: #404040; 
+  /* background: $topMenuColor; */
+  height: 65px;
 }
 
 .ant-layout-top .ant-layout-logo {
   width: 120px;
   height: 32px;
-  background: #333;
+   background: #333; 
+  /*background: $topMenuColor;*/
   border-radius: 6px;
   margin: 16px 28px 16px 0;
   float: left;

@@ -17,7 +17,8 @@ const enhancer = compose(
     window.location.href.match(
       /[?&]debug_session=([^&#]+)\b/
     )
-  )
+  ),
+  /*window.devToolsExtension ? window.devToolsExtension() : f => f*/
 );
 
 export default function configureStore(initialState) {

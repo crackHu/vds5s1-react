@@ -12,7 +12,7 @@ const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
 		vds5: path.resolve(APP_PATH, 'index.ant.js'),
-		//common: ['antd']
+		/*common: ['antd']*/
 	},
 	output: {
 		path: BUILD_PATH,

@@ -1,50 +1,42 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {
-	Router,
-	useRouterHistory,
-	browserHistory
+	render
+} from 'react-dom';
+import {
+	useRouterHistory
 } from 'react-router';
 import {
-	createHashHistory,
-	createBrowserHistory,
-	useBasename,
-	createHistory
+	createHashHistory
 } from 'history';
-import {
-	Provider
-} from 'react-redux'
+
+
 import configureStore from './store/configureStore';
-import routes from './routes';
+import Root from './containers/Root';
 
-import './main.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import {
-	createStore,
-	applyMiddleware,
-	compose
-} from 'redux'
-import rootReducer from './reducers';
-import promise from 'redux-promise'
-import thunk from 'redux-thunk'
+import './main.scss';
 
 const store = configureStore();
-/*const middlewares = applyMiddleware(
-	thunk
-)
-const store = createStore(rootReducer, compose(
-	middlewares,
-	window.devToolsExtension ? window.devToolsExtension() : f => f
-));*/
+const app = document.querySelector('.root');
 
 const appHistory = useRouterHistory(createHashHistory)({
-		queryKey: false
-	})
-	//const history = createBrowserHistory();
+	queryKey: false
+})
 
-ReactDOM.render((
-	<Provider store={store} >
-		<Router history={appHistory} routes={routes()} />
-	</Provider>
-), document.querySelector('.root'));
+render(
+	<Root
+      store={ store } history={appHistory}
+    />,
+	app
+);
+
+if (module.hot) {
+	module.hot.accept('./containers/Root', () => {
+		const RootContainer = require('./containers/Root').default;
+		render(
+			<RootContainer
+          store={ store } history={appHistory}
+        />,
+			app
+		);
+	});
+}
