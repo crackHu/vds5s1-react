@@ -126,15 +126,15 @@ export default class AntContainer2 extends React.Component {
 				<div key="button">
 					<ButtonGroup style={{margin: "1em auto"}}>
 				      <Button type="ghost" icon="file-text" size="large">新建档案</Button>
-				      <Button type="ghost" icon="edit" size="large">修改档案</Button>
+				      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
 				      <Button type="ghost" icon="download" size="large">导入</Button>
 				      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
 
-				      <Modal title="档案查询" width={730} visible={this.state.modalVisible} maskClosable={false}
-					      onClick={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
+				      <Modal title="档案查询" width={720} visible={this.state.modalVisible} maskClosable={false}
+					      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
 					      footer={[
 				            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>关 闭</Button>,
-				            <Button key="submit" type="primary" size="large" icon="search" loading={this.state.modalLoading} onClick={this.handleOk}>
+				            <Button key="submit" type="primary" size="large" icon="search" onClick={this.handleOk} loading={this.state.modalLoading}>
 				              查 询
 				            </Button>,
 				          ]}>
