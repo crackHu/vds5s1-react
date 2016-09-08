@@ -16,9 +16,10 @@ export default class AdvancedSearch extends React.Component {
 		super(props);
 		this.state = {
 			born: {
-				startValue: "2011-09-13 16:14:33",
-				endValue: "2011-09-13 16:14:33",
+				startValue: null,
+				endValue: null,
 				endOpen: false,
+				test: null
 			},
 			build: {
 				startValue: null,
@@ -29,7 +30,8 @@ export default class AdvancedSearch extends React.Component {
 				startValue: null,
 				endValue: null,
 				endOpen: false,
-			}
+			},
+			test: "sadfffff"
 		}
 
 		/*出生时间选择事件*/
@@ -47,29 +49,18 @@ export default class AdvancedSearch extends React.Component {
 		}
 		this.onChange_born = (field, value) => {
 			console.log(field, 'change', value);
-			/*this.setState({
-				born: {
-					[field]: value,
-				}
-			});*/
-
-			console.log(this.state.born.endValue)
 			this.setState({
-				born: {
-					endOpen: true,
-					endValue: "asdfsd",
-					startValue: "2016-09-13 16:14:33"
-				},
-				/*born: Object.assign({}, this.state.born, {
-					startValue: "2016-09-13 16:14:33"
-				})*/
+				born: Object.assign({}, this.state.born, {
+					test: "asdfasdf",
+				}),
+				test: "111111111111111111111111",
 			}, () => {
-				console.log(this.state.born)
+				console.log("onChange_born:" + JSON.stringify(this.state.born))
+				console.log("onChange_born:" + JSON.stringify(this.state.test))
 			});
 		}
 		this.onStartChange_born = (value) => {
 			this.onChange_born('startValue', value);
-			console.log(this.state.born)
 		}
 		this.onEndChange_born = (value) => {
 			this.onChange_born('endValue', value);
@@ -79,9 +70,9 @@ export default class AdvancedSearch extends React.Component {
 		}) => {
 			if (!open) {
 				this.setState({
-					born: {
-						endOpen: true
-					}
+					born: Object.assign({}, this.state.born, {
+						endOpen: true,
+					})
 				});
 			}
 		}
@@ -89,9 +80,9 @@ export default class AdvancedSearch extends React.Component {
 			open
 		}) => {
 			this.setState({
-				born: {
+				born: Object.assign({}, this.state.born, {
 					endOpen: open
-				}
+				})
 			});
 		}
 
@@ -103,11 +94,12 @@ export default class AdvancedSearch extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.state.born)
+		console.log("componentDidMount:" + JSON.stringify(this.state.born))
 	}
 
 	componentDidUpdate = () => {
-		console.log(this.state.born)
+		console.log("componentDidUpdate:" + JSON.stringify(this.state.born))
+
 	}
 
 	render() {
