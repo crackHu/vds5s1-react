@@ -19,41 +19,20 @@ export default class AntContainer2 extends React.Component {
 		super(props)
 		this.state = {
 			loading: true,
-			modalLoading: false,
 			modalVisible: false
 		}
 
+		/*modal event*/
 		this.showModal = (e) => {
 			this.setState({
 				modalVisible: true,
 			});
 		}
 
-		this.handleOk = (e) => {
-			console.log('点了确认')
-			this.setState({
-				modalLoading: true,
-			});
-			setTimeout(() => {
-				this.setState({
-					modalLoading: false,
-					modalVisible: false,
-				});
-			}, 1500);
-		}
-
-		this.handleCancel = (e) => {
-			console.log('点了取消')
-			console.log(e)
-			this.setState({
-				modalVisible: false,
-			});
-		}
-
 		this.searchFilter = (e) => {
 			console.log("receive:" + e)
+			console.log('收到表单值：', this.props.form.getFieldsValue());
 		}
-
 	}
 
 	componentDidMount() {
@@ -129,17 +108,7 @@ export default class AntContainer2 extends React.Component {
 				      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
 				      <Button type="ghost" icon="download" size="large">导入</Button>
 				      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
-
-				      <Modal title="档案查询" width={720} visible={this.state.modalVisible} maskClosable={false}
-					      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
-					      footer={[
-				            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>关 闭</Button>,
-				            <Button key="submit" type="primary" size="large" icon="search" onClick={this.handleOk} loading={this.state.modalLoading}>
-				              查 询
-				            </Button>,
-				          ]}>
-			          			<AdvancedSearch searchCondition={this.searchFilter}/>
-				        </Modal>
+					  <AdvancedSearch modalVisible={this.state.modalVisible} searchCondition={this.searchFilter} />
 				    </ButtonGroup>
 			    </div>
 				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={this.state.loading} bordered/>

@@ -41,6 +41,38 @@ export default class AdvancedSearch extends React.Component {
 			startValue_entry: null,
 			endValue_entry: null,
 			endOpen_entry: false,
+
+			loading: true,
+			modalLoading: false,
+			modalVisible: false
+		}
+
+		/*modal event*/
+		this.showModal = (e) => {
+			this.setState({
+				modalVisible: true,
+			});
+		}
+
+		this.handleOk = (e) => {
+			console.log('点了确认')
+			this.setState({
+				modalLoading: true,
+			});
+			setTimeout(() => {
+				this.setState({
+					modalLoading: false,
+					modalVisible: false,
+				});
+			}, 1500);
+		}
+
+		this.handleCancel = (e) => {
+			console.log('点了取消')
+			console.log(e)
+			this.setState({
+				modalVisible: false,
+			});
 		}
 
 		/*出生时间 event*/
@@ -174,9 +206,7 @@ export default class AdvancedSearch extends React.Component {
 
 		console.log("send")
 		setTimeout(
-			() => {
-				this.props.searchCondition("message from son")
-			}, 2000)
+			() => {}, 2000)
 	}
 
 	componentDidMount() {}
@@ -203,173 +233,184 @@ export default class AdvancedSearch extends React.Component {
 		};
 
 		return (
-			<Form horizontal className="ant-advanced-search-form">
-				<Row>
-					<Col sm={16}>
-						<FormItem label="个人编号"
-				          labelCol={{ sm: 3 }}
-				          wrapperCol={{ sm: 20 }}
-				        >
-				          <Input/>
-				        </FormItem>
-			        </Col>
-			        <Col sm={8}>
-						<FormItem label="姓&nbsp;&nbsp;&nbsp;&nbsp;名"
-				          {...formItemLayout}
-				        >
-				          <Input />
-				        </FormItem>
-			        </Col>
-		        </Row>
-		        <Row>
-		        	<Col sm={16}>
-		        		<FormItem label="出生时间" 
-		        		  {...formDatePeriodLayout}
-				        >
-				          	<DatePicker
-					          disabledDate={this.disabledStartDate_born}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.startValue_born}
-					          placeholder="开始日期"
-					          onChange={this.onStartChange_born}
-					          toggleOpen={this.handleStartToggle_born}
-					        />
-					        {' '}至{' '}
-					        <DatePicker
-					          disabledDate={this.disabledEndDate_born}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.endValue_born}
-					          placeholder="结束日期"
-					          onChange={this.onEndChange_born}
-					          open={this.state.endOpen_born}
-					          toggleOpen={this.handleEndToggle_born}
-						    />
-				        </FormItem>
-		        	</Col>
-		        	<Col sm={8}>
-		        		<FormItem label="性&nbsp;&nbsp;&nbsp;&nbsp;别"
-				          {...formItemLayout}
-		        		>
-				          <Select defaultValue="male">
-						      <Option value="male">男</Option>
-						      <Option value="female">女</Option>
-						    </Select>
-				        </FormItem>
-		        	</Col>
-		        </Row>
-		        <Row>
-		        	<Col sm={8}>
-		        		<FormItem label="常住类型" 
-				          labelCol={{ sm: 6 }}
-				          wrapperCol={{ sm: 18 }}
-				        >
-				          <Select>
-						      <Option value="phone">户籍（辖区）</Option>
-						    </Select>
-				        </FormItem>
-		        	</Col>
-		        	<Col sm={16}>
-		        		<FormItem label="身份证号" 
-				          labelCol={{ sm: 6 }}
-				          wrapperCol={{ sm: 18 }}
-				         >
-			        		<Input />
-				        </FormItem>
-		        	</Col>
-		        </Row>
-		        <Row>
-		        	<Col sm={16}>
-		        		<FormItem label="建档日期"
-		        		  {...formDatePeriodLayout}
-		        		>
-				          	<DatePicker
-					          disabledDate={this.disabledStartDate_build}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.startValue_build}
-					          placeholder="开始日期"
-					          onChange={this.onStartChange_build}
-					          toggleOpen={this.handleStartToggle_build}
-					        />
-					        {' '}至{' '}
-					        <DatePicker
-					          disabledDate={this.disabledEndDate_build}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.endValue_build}
-					          placeholder="结束日期"
-					          onChange={this.onEndChange_build}
-					          open={this.state.endOpen_build}
-					          toggleOpen={this.handleEndToggle_build}
-						    />
-				        </FormItem>
-		        	</Col>
-		        	<Col sm={8}>
-						<FormItem label="建档人"
-		        		  {...formItemLayout}
-		        		>
-				          <Input />
-				        </FormItem>
-		        	</Col>
-		        </Row>
-		        <Row>
-		        	<Col sm={16}>
-		        		<FormItem label="录入日期"
-		        		  {...formDatePeriodLayout}
-		        		>
-				          	<DatePicker
-					          disabledDate={this.disabledStartDate_entry}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.startValue_entry}
-					          placeholder="开始日期"
-					          onChange={this.onStartChange_entry}
-					          toggleOpen={this.handleStartToggle_entry}
-					        />
-					        {' '}至{' '}
-					        <DatePicker
-					          disabledDate={this.disabledEndDate_entry}
-					          showTime
-					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.endValue_entry}
-					          placeholder="结束日期"
-					          onChange={this.onEndChange_entry}
-					          open={this.state.endOpen_entry}
-					          toggleOpen={this.handleEndToggle_entry}
-						    />
-				        </FormItem>
-		        	</Col>
-		        	<Col sm={8}>
-		        		<FormItem label="录入人"
-		        		  {...formItemLayout}
-		        		>
-				          <Input />
-				        </FormItem>
-		        	</Col>
-		        </Row>
-		        <Row>
-					<Col sm={8}>
-						<FormItem label="档案状态"
-				          labelCol={{ sm: 6 }}
-				          wrapperCol={{ sm: 18 }}
-				        >
-				          <Select >
-						      <Option value="phone">在册</Option>
-						    </Select>
-				        </FormItem>
-		        	</Col>
-		        	<Col sm={16}>
-				        <FormItem label="专&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;档" 
-				          labelCol={{ sm: 6 }}
-				          wrapperCol={{ sm: 18 }}
-				        >
-				          <Input />
-				        </FormItem>
-					</Col>
-		        </Row>
-			</Form>
+			<div>
+				<Modal title="档案查询" width={720} visible={this.state.modalVisible} maskClosable={false}
+			      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
+			      footer={[
+		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>关 闭</Button>,
+		            <Button key="submit" type="primary" size="large" icon="search" onClick={this.handleOk} loading={this.state.modalLoading}>
+		              查 询
+		            </Button>,
+		          ]}>
+          			<Form horizontal className="ant-advanced-search-form">
+						<Row>
+							<Col sm={16}>
+								<FormItem label="个人编号"
+						          labelCol={{ sm: 3 }}
+						          wrapperCol={{ sm: 20 }}
+						        >
+						          <Input/>
+						        </FormItem>
+					        </Col>
+					        <Col sm={8}>
+								<FormItem label="姓&nbsp;&nbsp;&nbsp;&nbsp;名"
+						          {...formItemLayout}
+						        >
+						          <Input />
+						        </FormItem>
+					        </Col>
+				        </Row>
+				        <Row>
+				        	<Col sm={16}>
+				        		<FormItem label="出生时间" 
+				        		  {...formDatePeriodLayout}
+						        >
+						          	<DatePicker
+							          disabledDate={this.disabledStartDate_born}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.startValue_born}
+							          placeholder="开始日期"
+							          onChange={this.onStartChange_born}
+							          toggleOpen={this.handleStartToggle_born}
+							        />
+							        {' '}至{' '}
+							        <DatePicker
+							          disabledDate={this.disabledEndDate_born}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.endValue_born}
+							          placeholder="结束日期"
+							          onChange={this.onEndChange_born}
+							          open={this.state.endOpen_born}
+							          toggleOpen={this.handleEndToggle_born}
+								    />
+						        </FormItem>
+				        	</Col>
+				        	<Col sm={8}>
+				        		<FormItem label="性&nbsp;&nbsp;&nbsp;&nbsp;别"
+						          {...formItemLayout}
+				        		>
+						          <Select defaultValue="male">
+								      <Option value="male">男</Option>
+								      <Option value="female">女</Option>
+								    </Select>
+						        </FormItem>
+				        	</Col>
+				        </Row>
+				        <Row>
+				        	<Col sm={8}>
+				        		<FormItem label="常住类型" 
+						          labelCol={{ sm: 6 }}
+						          wrapperCol={{ sm: 18 }}
+						        >
+						          <Select>
+								      <Option value="phone">户籍（辖区）</Option>
+								    </Select>
+						        </FormItem>
+				        	</Col>
+				        	<Col sm={16}>
+				        		<FormItem label="身份证号" 
+						          labelCol={{ sm: 6 }}
+						          wrapperCol={{ sm: 18 }}
+						         >
+					        		<Input />
+						        </FormItem>
+				        	</Col>
+				        </Row>
+				        <Row>
+				        	<Col sm={16}>
+				        		<FormItem label="建档日期"
+				        		  {...formDatePeriodLayout}
+				        		>
+						          	<DatePicker
+							          disabledDate={this.disabledStartDate_build}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.startValue_build}
+							          placeholder="开始日期"
+							          onChange={this.onStartChange_build}
+							          toggleOpen={this.handleStartToggle_build}
+							        />
+							        {' '}至{' '}
+							        <DatePicker
+							          disabledDate={this.disabledEndDate_build}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.endValue_build}
+							          placeholder="结束日期"
+							          onChange={this.onEndChange_build}
+							          open={this.state.endOpen_build}
+							          toggleOpen={this.handleEndToggle_build}
+								    />
+						        </FormItem>
+				        	</Col>
+				        	<Col sm={8}>
+								<FormItem label="建档人"
+				        		  {...formItemLayout}
+				        		>
+						          <Input />
+						        </FormItem>
+				        	</Col>
+				        </Row>
+				        <Row>
+				        	<Col sm={16}>
+				        		<FormItem label="录入日期"
+				        		  {...formDatePeriodLayout}
+				        		>
+						          	<DatePicker
+							          disabledDate={this.disabledStartDate_entry}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.startValue_entry}
+							          placeholder="开始日期"
+							          onChange={this.onStartChange_entry}
+							          toggleOpen={this.handleStartToggle_entry}
+							        />
+							        {' '}至{' '}
+							        <DatePicker
+							          disabledDate={this.disabledEndDate_entry}
+							          showTime
+							          format="yyyy-MM-dd HH:mm:ss"
+							          value={this.state.endValue_entry}
+							          placeholder="结束日期"
+							          onChange={this.onEndChange_entry}
+							          open={this.state.endOpen_entry}
+							          toggleOpen={this.handleEndToggle_entry}
+								    />
+						        </FormItem>
+				        	</Col>
+				        	<Col sm={8}>
+				        		<FormItem label="录入人"
+				        		  {...formItemLayout}
+				        		>
+						          <Input />
+						        </FormItem>
+				        	</Col>
+				        </Row>
+				        <Row>
+							<Col sm={8}>
+								<FormItem label="档案状态"
+						          labelCol={{ sm: 6 }}
+						          wrapperCol={{ sm: 18 }}
+						        >
+						          <Select >
+								      <Option value="phone">在册</Option>
+								    </Select>
+						        </FormItem>
+				        	</Col>
+				        	<Col sm={16}>
+						        <FormItem label="专&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;档" 
+						          labelCol={{ sm: 6 }}
+						          wrapperCol={{ sm: 18 }}
+						        >
+						          <Input />
+						        </FormItem>
+							</Col>
+				        </Row>
+					</Form>
+		        </Modal>
+			</div>
 		)
 	}
 }

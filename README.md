@@ -1,13 +1,49 @@
-二、一个标准组件的组织结构
+React 最佳实践——那些 React 没告诉你但很重要的事
 
-    1 class definition
-        1.1 constructor
-            1.1.1 event handlers
-        1.2 'component' lifecycle events
-        1.3 getters
-        1.4 render
-    2 defaultProps
-    3 proptypes
+前言：对很多 react 新手来说，网上能找到的资源大都是些简单的 tutorial ，它们能教会你如何使用 react ，但并不会告诉你怎么在实际项目中优雅的组织和编写 react 代码。用谷歌搜中文“ React 最佳实践”发现前两页几乎全都是同一篇国外文章的译文...所以我总结了下自己过去那个项目使用 React 踩过的一些坑，也整理了一些别人的观点，希望对部分 react 使用者有帮助。
+
+React 与 AJAX
+React只负责处理View这一层，它本身不涉及网络请求/AJAX，所以这里我们需求考虑两个问题：
+
+第一，用什么技术从服务端获取数据；
+第二，获取到的数据应该放在react组件的什么位置。
+React官方提供了一种解决方案：Load Initial Data via AJAX
+
+使用jQuery的Ajax方法，在一个组件的componentDidMount()中发ajax请求，拿到的数据存在组件自己的state中，并调用setState方法去更新UI。如果是异步获取数据，则在componentWillUnmount中取消发送请求。
+
+如果只是为了使用jQuery的Ajax方法就引入整个jQuery库，既是一种浪费又加大了整个应用的体积。那我们还有什么其他的选择吗？事实上是有很多的：fetch()、fetch polyfill、axios...其中最需要我们关注的是window.fetch(),它是一个简洁、标准化的javascript的Ajax API。在Chrome和Firefox中已经可以使用，如果需要兼容其他浏览器，可以使用fetch polyfill。
+
+React官方文档只告诉了我们在一个单一组件中如何通过ajax从服务器端获取数据，但并没有告诉我们在一个完整的实际项目中到底应该把数据存在哪些组件中，这部分如果缺乏规范的话，会导致整个项目变得混乱、难以维护。下面给出三种比较好的实践：
+
+1. 所有的数据请求和管理都存放在唯一的一个根组件
+
+让父组件/根组件集中发送所有的ajax请求，把从服务端获取的数据统一存放在这个组件的state中，再通过props把数据传给子组件。这种方法主要是针对组件树不是很复杂的小型应用。缺点就是当组件树的层级变多了以后，需要把数据一层一层地传给子组件，写起来麻烦，性能也不好。
+
+2. 设置多个容器组件专门处理数据请求和管理
+
+其实跟第一种方法类似，只不过设置多个容器组件来负责数据请求和状态管理。这里我们需要区分两种不同类型的组件，一种是展示性组件（presentational component），另一种是容器性组件（container component）。展示性组件本身不拥有任何状态，所有的数据都从容器组件中获得，在容器组件中发送ajax请求。两者更详细的描述，可以阅读下这篇文章：Presentational and Container Components
+
+一个具体的例子：
+
+假设我们需要展示用户的姓名和头像，首先创建一个展示性组件<UserProfile />,它接受两个Props：name和profileImage。这个组件内部没有任何关于Ajax的代码。
+
+然后创建一个容器组件<UserProfileContainer />，它接受一个userId的参数，发送Ajax请求从服务器获取数据存在state中，再通过props传给<UserProfile />组件。
+
+3. 使用Redux或Relay的情况
+
+Redux管理状态和数据，Ajax从服务器端获取数据，所以很显然当我们使用了Redux时，应该把所有的网络请求都交给redux来解决。具体来说，应该是放在Async Actions。如果用其他类Flux库的话，解决方式都差不多，都是在actions中发送网络请求。
+
+Relay是Facebook官方推出的一个库。如果用它的话，我们只需要通过GraphQL来声明组件需要的数据，Relay会自动地把下载数据并通过props往下传递。不过想要用Relay，你得先有一个GraphQL的服务器...
+
+一个标准组件的组织结构
+1 class definition
+    1.1 constructor
+        1.1.1 event handlers
+    1.2 'component' lifecycle events
+    1.3 getters
+    1.4 render
+2 defaultProps
+3 proptypes
 示例：
 
 class Person extends React.Component {
@@ -53,38 +89,229 @@ Person.defaultProps = {
 Person.propTypes = {
   name: React.PropTypes.string
 };
+以上示例代码的来源：https://github.com/planningcenter/react-patterns#component-organization
 
-*******************************************
+使用 PropTypes 和 getDefaultProps()
+一定要写PropTypes，切莫为了省事而不写
+如果一个Props不是requied，一定在getDefaultProps中设置它
+React.PropTypes主要用来验证组件接收到的props是否为正确的数据类型，如果不正确，console中就会出现对应的warning。出于性能方面的考虑，这个API只在开发环境下使用。
+基本使用方法：
 
-作者：Wang Namelos
-链接：http://www.zhihu.com/question/41312576/answer/90782136
-来源：知乎
-著作权归作者所有，转载请联系作者获得授权。
+propTypes: {
+    myArray: React.PropTypes.array,
+    myBool: React.PropTypes.bool,
+    myFunc: React.PropTypes.func,
+    myNumber: React.PropTypes.number,
+    myString: React.PropTypes.string，
+     
+     // You can chain any of the above with `isRequired` to make sure a warning
+    // is shown if the prop isn't provided.
+    requiredFunc: React.PropTypes.func.isRequired
+}
+假如我们props不是以上类型，而是拥有复杂结构的对象怎么办？比如下面这个：
 
-解答这个问题并不困难：唯一的要求是你熟悉React。
-不要光听别人描述名词，理解起来是很困难的。
-从需求出发，看看使用React需要什么：
-1. React有props和state: props意味着父级分发下来的属性，state意味着组件内部可以自行管理的状态，并且整个React没有数据向上回溯的能力，也就是说数据只能单向向下分发，或者自行内部消化。
-理解这个是理解React和Redux的前提。
-2. 一般构建的React组件内部可能是一个完整的应用，它自己工作良好，你可以通过属性作为API控制它。但是更多的时候发现React根本无法让两个组件互相交流，使用对方的数据。
-然后这时候不通过DOM沟通（也就是React体制内）解决的唯一办法就是提升state，将state放到共有的父组件中来管理，再作为props分发回子组件。
-3. 子组件改变父组件state的办法只能是通过onClick触发父组件声明好的回调，也就是父组件提前声明好函数或方法作为契约描述自己的state将如何变化，再将它同样作为属性交给子组件使用。
-这样就出现了一个模式：数据总是单向从顶层向下分发的，但是只有子组件回调在概念上可以回到state顶层影响数据。这样state一定程度上是响应式的。
-4. 为了面临所有可能的扩展问题，最容易想到的办法就是把所有state集中放到所有组件顶层，然后分发给所有组件。
-5. 为了有更好的state管理，就需要一个库来作为更专业的顶层state分发给所有React应用，这就是Redux。让我们回来看看重现上面结构的需求：
-a. 需要回调通知state (等同于回调参数) -> action
-b. 需要根据回调处理 (等同于父级方法) -> reducer
-c. 需要state (等同于总状态) -> store
-对Redux来说只有这三个要素：
-a. action是纯声明式的数据结构，只提供事件的所有要素，不提供逻辑。
-b. reducer是一个匹配函数，action的发送是全局的：所有的reducer都可以捕捉到并匹配与自己相关与否，相关就拿走action中的要素进行逻辑处理，修改store中的状态，不相关就不对state做处理原样返回。
-c. store负责存储状态并可以被react api回调，发布action.
-当然一般不会直接把两个库拿来用，还有一个binding叫react-redux, 提供一个Provider和connect。很多人其实看懂了redux卡在这里。
-a. Provider是一个普通组件，可以作为顶层app的分发点，它只需要store属性就可以了。它会将state分发给所有被connect的组件，不管它在哪里，被嵌套多少层。
-b. connect是真正的重点，它是一个科里化函数，意思是先接受两个参数（数据绑定mapStateToProps和事件绑定mapDispatchToProps），再接受一个参数（将要绑定的组件本身）：
-mapStateToProps：构建好Redux系统的时候，它会被自动初始化，但是你的React组件并不知道它的存在，因此你需要分拣出你需要的Redux状态，所以你需要绑定一个函数，它的参数是state，简单返回你关心的几个值。
-mapDispatchToProps：声明好的action作为回调，也可以被注入到组件里，就是通过这个函数，它的参数是dispatch，通过redux的辅助方法bindActionCreator绑定所有action以及参数的dispatch，就可以作为属性在组件里面作为函数简单使用了，不需要手动dispatch。这个mapDispatchToProps是可选的，如果不传这个参数redux会简单把dispatch作为属性注入给组件，可以手动当做store.dispatch使用。这也是为什么要科里化的原因。
+{
+  text: 'hello world',
+  numbers: [5, 2, 7, 9],
+}
+当然，我们可以直接用React.PropTypes.object,但是对象内部的数据我们却无法验证。
 
-做好以上流程Redux和React就可以工作了。简单地说就是：
-1.顶层分发状态，让React组件被动地渲染。
-2.监听事件，事件有权利回到所有状态顶层影响状态。
+propTypes: {
+  myObject: React.PropTypes.object,
+}
+进阶使用方法：shape() 和 arrayOf()
+
+propTypes: {
+  myObject: React.PropTypes.shape({
+    text: React.PropTypes.string,
+    numbers: React.PropTypes.arrayOf(React.PropTypes.number),
+  })
+}
+下面是一个更复杂的Props：
+
+[
+  {
+    name: 'Zachary He',
+    age: 13,
+    married: true,
+  },
+  {
+    name: 'Alice Yo',
+    name: 17,
+  },
+  {
+    name: 'Jonyu Me',
+    age: 20,
+    married: false,
+  }
+]
+综合上面，写起来应该就不难了：
+
+propTypes: {
+    myArray: React.PropTypes.arrayOf(
+        React.propTypes.shape({
+            name: React.propTypes.string.isRequired,
+            age: React.propTypes.number.isRequired,
+            married: React.propTypes.bool
+        })
+    )
+}
+把计算和条件判断都交给 render() 方法吧
+1. 组件的state中不能出现props
+
+ // BAD:
+  constructor (props) {
+    this.state = {
+      fullName: `${props.firstName} ${props.lastName}`
+    };
+  }
+
+  render () {
+    var fullName = this.state.fullName;
+    return (
+      <div>
+        <h2>{fullName}</h2>
+      </div>
+    );
+  }
+// GOOD: 
+render () {
+  var fullName = `${this.props.firstName} ${this.props.lastName}`;
+}
+当然，复杂的display logic也应该避免全堆放在render()中，因为那样可能导致整个render()方法变得臃肿，不优雅。我们可以把一些复杂的逻辑通过helper function移出去。
+
+// GOOD: helper function
+renderFullName () {
+  return `${this.props.firstName} ${this.props.lastName}`;
+}
+
+render () {
+  var fullName = this.renderFullName();
+}
+2. 保持state的简洁，不要出现计算得来的state
+
+// WRONG:
+  constructor (props) {
+    this.state = {
+      listItems: [1, 2, 3, 4, 5, 6],
+      itemsNum: this.state.listItems.length
+    };
+  }
+  render() {
+      return (
+          <div>
+              <span>{this.state.itemsNum}</span>
+          </div>
+      )
+  }
+// Right:
+render () {
+  var itemsNum = this.state.listItems.length;
+}
+3. 能用三元判断符，就不用If，直接放在render()里
+
+// BAD: 
+renderSmilingStatement () {
+    if (this.state.isSmiling) {
+        return <span>is smiling</span>;
+    }else {
+        return '';
+    }
+},
+
+render () {
+  return <div>{this.props.name}{this.renderSmilingStatement()}</div>;
+}
+// GOOD: 
+render () {
+  return (
+    <div>
+      {this.props.name}
+      {(this.state.smiling)
+        ? <span>is smiling</span>
+        : null
+      }
+    </div>
+  );
+}
+4. 布尔值都不能搞定的，交给IIFE吧
+
+Immediately-invoked function expression
+
+return (
+  <section>
+    <h1>Color</h1>
+    <h3>Name</h3>
+    <p>{this.state.color || "white"}</p>
+    <h3>Hex</h3>
+    <p>
+      {(() => {
+        switch (this.state.color) {
+          case "red":   return "#FF0000";
+          case "green": return "#00FF00";
+          case "blue":  return "#0000FF";
+          default:      return "#FFFFFF";
+        }
+      })()}
+    </p>
+  </section>
+);
+5. 不要把display logic写在componentWillReceiveProps或componentWillMount中，把它们都移到render()中去。
+
+如何动态处理 classNames
+1. 使用布尔值
+
+// BAD:
+constructor () {
+    this.state = {
+      classes: []
+    };
+  }
+
+  handleClick () {
+    var classes = this.state.classes;
+    var index = classes.indexOf('active');
+
+    if (index != -1) {
+      classes.splice(index, 1);
+    } else {
+      classes.push('active');
+    }
+
+    this.setState({ classes: classes });
+  }
+// GOOD:
+  constructor () {
+    this.state = {
+      isActive: false
+    };
+  }
+
+  handleClick () {
+    this.setState({ isActive: !this.state.isActive });
+  }
+2. 使用classnames这个小工具来拼接classNames：
+
+// BEFORE:
+var Button = React.createClass({
+  render () {
+    var btnClass = 'btn';
+    if (this.state.isPressed) btnClass += ' btn-pressed';
+    else if (this.state.isHovered) btnClass += ' btn-over';
+    return <button className={btnClass}>{this.props.label}</button>;
+  }
+});
+// AFTER：
+var classNames = require('classnames');
+
+var Button = React.createClass({
+  render () {
+    var btnClass = classNames({
+      'btn': true,
+      'btn-pressed': this.state.isPressed,
+      'btn-over': !this.state.isPressed && this.state.isHovered
+    });
+    return <button className={btnClass}>{this.props.label}</button>;
+  }
+});
+未完待续...
