@@ -29,9 +29,15 @@ export default class AntContainer2 extends React.Component {
 			});
 		}
 
-		this.searchFilter = (e) => {
-			console.log("receive:" + e)
-			console.log('收到表单值：', this.props.form.getFieldsValue());
+		this.switchModalVisible = (param) => {
+			this.setState({
+				modalVisible: param,
+			});
+		}
+
+		this.sendSearchCondition = (param) => {
+			console.log("receive:" + param)
+				//console.log('收到表单值：', this.props.form.getFieldsValue());
 		}
 	}
 
@@ -100,6 +106,10 @@ export default class AntContainer2 extends React.Component {
 			},
 		};
 
+		const advancedSearch = this.state.modalVisible ? [
+			<AdvancedSearch key="advancedSearch" modalVisible={this.state.modalVisible} switchModalVisible={this.switchModalVisible} sendSearchCondition={this.sendSearchCondition} />
+		] : null;
+
 		return (
 			<QueueAnim delay={10}>
 				<div key="button">
@@ -108,7 +118,7 @@ export default class AntContainer2 extends React.Component {
 				      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
 				      <Button type="ghost" icon="download" size="large">导入</Button>
 				      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
-					  <AdvancedSearch modalVisible={this.state.modalVisible} searchCondition={this.searchFilter} />
+				      {advancedSearch}
 				    </ButtonGroup>
 			    </div>
 				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={this.state.loading} bordered/>

@@ -42,18 +42,10 @@ export default class AdvancedSearch extends React.Component {
 			endValue_entry: null,
 			endOpen_entry: false,
 
-			loading: true,
 			modalLoading: false,
-			modalVisible: false
 		}
 
 		/*modal event*/
-		this.showModal = (e) => {
-			this.setState({
-				modalVisible: true,
-			});
-		}
-
 		this.handleOk = (e) => {
 			console.log('点了确认')
 			this.setState({
@@ -62,17 +54,14 @@ export default class AdvancedSearch extends React.Component {
 			setTimeout(() => {
 				this.setState({
 					modalLoading: false,
-					modalVisible: false,
 				});
+				this.props.switchModalVisible(false)
 			}, 1500);
 		}
 
 		this.handleCancel = (e) => {
 			console.log('点了取消')
-			console.log(e)
-			this.setState({
-				modalVisible: false,
-			});
+			this.props.switchModalVisible(false)
 		}
 
 		/*出生时间 event*/
@@ -203,13 +192,15 @@ export default class AdvancedSearch extends React.Component {
 				endOpen_entry: open
 			});
 		}
-
-		console.log("send")
-		setTimeout(
-			() => {}, 2000)
 	}
 
-	componentDidMount() {}
+	componentDidMount = () => {
+		console.log("send")
+		setTimeout(
+			() => {
+				this.props.sendSearchCondition("asdfasd")
+			}, 2000)
+	}
 
 	componentDidUpdate = () => {}
 
@@ -234,7 +225,7 @@ export default class AdvancedSearch extends React.Component {
 
 		return (
 			<div>
-				<Modal title="档案查询" width={720} visible={this.state.modalVisible} maskClosable={false}
+				<Modal title="档案查询" width={720} visible={this.props.modalVisible} maskClosable={false}
 			      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
 			      footer={[
 		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>关 闭</Button>,

@@ -203,7 +203,7 @@ export default class AntContainer1 extends React.Component {
 						<Tabs defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
 							  <TabPane tab="个人基本信息表" key="1">
 							  	<Form inline onSubmit={this.handleSubmit}>
-							        <FormItem label="姓名"  >
+							        <FormItem label="姓名" required>
 							          <Input placeholder="请输入姓名" />
 							        </FormItem>
 							        <FormItem label="个人编号" >
@@ -216,13 +216,13 @@ export default class AntContainer1 extends React.Component {
 						<Tabs defaultActiveKey="1" onChange={this.changeTab}>
 							  <TabPane tab="一般情况" key="1">
 							  	<Form inline onSubmit={this.handleSubmit}>
-							        <FormItem label="性别" >
+							        <FormItem label="性别" required>
 							          <Select defaultValue="male" style={{ width: 80 }}>
 									      <Option value="male">男</Option>
 									      <Option value="female">女</Option>
 									    </Select>
 							        </FormItem>
-							        <FormItem label="出生日期" >
+							        <FormItem label="出生日期" required>
 							         <DatePicker />
 							        </FormItem>
 							        <FormItem label="身份证号" >
@@ -235,7 +235,7 @@ export default class AntContainer1 extends React.Component {
 							        </FormItem>
 							        <br />
 							        <br />
-							        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;现住址" >
+							        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;现住址" required>
 							        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
 							        </FormItem>
 							        <FormItem>
@@ -243,7 +243,7 @@ export default class AntContainer1 extends React.Component {
 							        </FormItem>
 							        <br />
 							        <br />
-							        <FormItem label="户籍地址" >
+							        <FormItem label="户籍地址" required>
 							        	<Cascader options={options} placeholder="请选择现住址" style={{ width: 320 }} />
 							        </FormItem>
 							        <FormItem>
@@ -266,7 +266,7 @@ export default class AntContainer1 extends React.Component {
 									      <Option value="phone">18814141114</Option>
 									    </Select>
 							        </FormItem>
-							        <FormItem label="常住类型" >
+							        <FormItem label="常住类型" required>
 							          <Select style={{ width: 150 }}>
 									      <Option value="phone">户籍（辖区）</Option>
 									    </Select>
