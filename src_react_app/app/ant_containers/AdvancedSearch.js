@@ -15,11 +15,10 @@ export default class AdvancedSearch extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			born: {
+			/*born: {
 				startValue: null,
 				endValue: null,
 				endOpen: false,
-				test: null
 			},
 			build: {
 				startValue: null,
@@ -30,49 +29,52 @@ export default class AdvancedSearch extends React.Component {
 				startValue: null,
 				endValue: null,
 				endOpen: false,
-			},
-			test: "sadfffff"
+			},*/
+			startValue_born: null,
+			endValue_born: null,
+			endOpen_born: false,
+
+			startValue_build: null,
+			endValue_build: null,
+			endOpen_build: false,
+
+			startValue_entry: null,
+			endValue_entry: null,
+			endOpen_entry: false,
 		}
 
-		/*出生时间选择事件*/
+		/*出生时间 event*/
 		this.disabledStartDate_born = (startValue) => {
-			if (!startValue || !this.state.born.endValue) {
+			if (!startValue || !this.state.endValue_born) {
 				return false;
 			}
-			return startValue.getTime() >= this.state.born.endValue.getTime();
+			return startValue.getTime() >= this.state.endValue_born.getTime();
 		}
 		this.disabledEndDate_born = (endValue) => {
-			if (!endValue || !this.state.born.startValue) {
+			if (!endValue || !this.state.startValue_born) {
 				return false;
 			}
-			return endValue.getTime() <= this.state.born.startValue.getTime();
+			return endValue.getTime() <= this.state.startValue_born.getTime();
 		}
-		this.onChange_born = (field, value) => {
+		this.onChange_born = (field, value, born) => {
 			console.log(field, 'change', value);
+			console.log("onChange_born:" + born)
 			this.setState({
-				born: Object.assign({}, this.state.born, {
-					test: "asdfasdf",
-				}),
-				test: "111111111111111111111111",
-			}, () => {
-				console.log("onChange_born:" + JSON.stringify(this.state.born))
-				console.log("onChange_born:" + JSON.stringify(this.state.test))
+				[field]: value
 			});
 		}
 		this.onStartChange_born = (value) => {
-			this.onChange_born('startValue', value);
+			this.onChange_born('startValue_born', value);
 		}
 		this.onEndChange_born = (value) => {
-			this.onChange_born('endValue', value);
+			this.onChange_born('endValue_born', value);
 		}
 		this.handleStartToggle_born = ({
 			open
 		}) => {
 			if (!open) {
 				this.setState({
-					born: Object.assign({}, this.state.born, {
-						endOpen: true,
-					})
+					endOpen_born: true,
 				});
 			}
 		}
@@ -80,9 +82,93 @@ export default class AdvancedSearch extends React.Component {
 			open
 		}) => {
 			this.setState({
-				born: Object.assign({}, this.state.born, {
-					endOpen: open
-				})
+				endOpen_born: open
+			});
+		}
+
+		/*建档日期 event*/
+		this.disabledStartDate_build = (startValue) => {
+			if (!startValue || !this.state.endValue_build) {
+				return false;
+			}
+			return startValue.getTime() >= this.state.endValue_build.getTime();
+		}
+		this.disabledEndDate_build = (endValue) => {
+			if (!endValue || !this.state.startValue_build) {
+				return false;
+			}
+			return endValue.getTime() <= this.state.startValue_build.getTime();
+		}
+		this.onChange_build = (field, value, build) => {
+			console.log(field, 'change', value);
+			console.log("onChange_build:" + build)
+			this.setState({
+				[field]: value
+			});
+		}
+		this.onStartChange_build = (value) => {
+			this.onChange_build('startValue_build', value);
+		}
+		this.onEndChange_build = (value) => {
+			this.onChange_build('endValue_build', value);
+		}
+		this.handleStartToggle_build = ({
+			open
+		}) => {
+			if (!open) {
+				this.setState({
+					endOpen_build: true,
+				});
+			}
+		}
+		this.handleEndToggle_build = ({
+			open
+		}) => {
+			this.setState({
+				endOpen_build: open
+			});
+		}
+
+		/*录入日期 event*/
+		this.disabledStartDate_entry = (startValue) => {
+			if (!startValue || !this.state.endValue_entry) {
+				return false;
+			}
+			return startValue.getTime() >= this.state.endValue_entry.getTime();
+		}
+		this.disabledEndDate_entry = (endValue) => {
+			if (!endValue || !this.state.startValue_entry) {
+				return false;
+			}
+			return endValue.getTime() <= this.state.startValue_entry.getTime();
+		}
+		this.onChange_entry = (field, value, entry) => {
+			console.log(field, 'change', value);
+			console.log("onChange_entry:" + entry)
+			this.setState({
+				[field]: value
+			});
+		}
+		this.onStartChange_entry = (value) => {
+			this.onChange_entry('startValue_entry', value);
+		}
+		this.onEndChange_entry = (value) => {
+			this.onChange_entry('endValue_entry', value);
+		}
+		this.handleStartToggle_entry = ({
+			open
+		}) => {
+			if (!open) {
+				this.setState({
+					endOpen_entry: true,
+				});
+			}
+		}
+		this.handleEndToggle_entry = ({
+			open
+		}) => {
+			this.setState({
+				endOpen_entry: open
 			});
 		}
 
@@ -93,14 +179,9 @@ export default class AdvancedSearch extends React.Component {
 			}, 2000)
 	}
 
-	componentDidMount() {
-		console.log("componentDidMount:" + JSON.stringify(this.state.born))
-	}
+	componentDidMount() {}
 
-	componentDidUpdate = () => {
-		console.log("componentDidUpdate:" + JSON.stringify(this.state.born))
-
-	}
+	componentDidUpdate = () => {}
 
 	render() {
 		const FormItem = Form.Item;
@@ -149,7 +230,7 @@ export default class AdvancedSearch extends React.Component {
 					          disabledDate={this.disabledStartDate_born}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.born.startValue}
+					          value={this.state.startValue_born}
 					          placeholder="开始日期"
 					          onChange={this.onStartChange_born}
 					          toggleOpen={this.handleStartToggle_born}
@@ -159,10 +240,10 @@ export default class AdvancedSearch extends React.Component {
 					          disabledDate={this.disabledEndDate_born}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.born.endValue}
+					          value={this.state.endValue_born}
 					          placeholder="结束日期"
 					          onChange={this.onEndChange_born}
-					          open={this.state.born.endOpen}
+					          open={this.state.endOpen_born}
 					          toggleOpen={this.handleEndToggle_born}
 						    />
 				        </FormItem>
@@ -204,24 +285,24 @@ export default class AdvancedSearch extends React.Component {
 		        		  {...formDatePeriodLayout}
 		        		>
 				          	<DatePicker
-					          disabledDate={this.disabledStartDate}
+					          disabledDate={this.disabledStartDate_build}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.startValue}
+					          value={this.state.startValue_build}
 					          placeholder="开始日期"
-					          onChange={this.onStartChange}
-					          toggleOpen={this.handleStartToggle}
+					          onChange={this.onStartChange_build}
+					          toggleOpen={this.handleStartToggle_build}
 					        />
 					        {' '}至{' '}
 					        <DatePicker
-					          disabledDate={this.disabledEndDate}
+					          disabledDate={this.disabledEndDate_build}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.endValue}
+					          value={this.state.endValue_build}
 					          placeholder="结束日期"
-					          onChange={this.onEndChange}
-					          open={this.state.endOpen}
-					          toggleOpen={this.handleEndToggle}
+					          onChange={this.onEndChange_build}
+					          open={this.state.endOpen_build}
+					          toggleOpen={this.handleEndToggle_build}
 						    />
 				        </FormItem>
 		        	</Col>
@@ -239,24 +320,24 @@ export default class AdvancedSearch extends React.Component {
 		        		  {...formDatePeriodLayout}
 		        		>
 				          	<DatePicker
-					          disabledDate={this.disabledStartDate}
+					          disabledDate={this.disabledStartDate_entry}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.startValue}
+					          value={this.state.startValue_entry}
 					          placeholder="开始日期"
-					          onChange={this.onStartChange}
-					          toggleOpen={this.handleStartToggle}
+					          onChange={this.onStartChange_entry}
+					          toggleOpen={this.handleStartToggle_entry}
 					        />
 					        {' '}至{' '}
 					        <DatePicker
-					          disabledDate={this.disabledEndDate}
+					          disabledDate={this.disabledEndDate_entry}
 					          showTime
 					          format="yyyy-MM-dd HH:mm:ss"
-					          value={this.state.endValue}
+					          value={this.state.endValue_entry}
 					          placeholder="结束日期"
-					          onChange={this.onEndChange}
-					          open={this.state.endOpen}
-					          toggleOpen={this.handleEndToggle}
+					          onChange={this.onEndChange_entry}
+					          open={this.state.endOpen_entry}
+					          toggleOpen={this.handleEndToggle_entry}
 						    />
 				        </FormItem>
 		        	</Col>

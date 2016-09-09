@@ -126,7 +126,7 @@ class App extends React.Component {
 		      <div className="ant-layout-header">
 		        <div className="ant-layout-wrapper">
 		          <div className="ant-layout-logo">
-		          	<img width={120} height={32} src="https://t.alipayobjects.com/images/rmsweb/T1B9hfXcdvXXXXXXXX.svg" />
+					<img width={120} height={32} src="https://t.alipayobjects.com/images/rmsweb/T1B9hfXcdvXXXXXXXX.svg" />
 		          </div>
 		          <Menu theme="dark" mode="horizontal"
 		            defaultSelectedKeys={[this.state.menuIndex]} selectedKeys={[this.state.menuIndex]} onClick={this.handleClick} style={{lineHeight: '64px'}}>
