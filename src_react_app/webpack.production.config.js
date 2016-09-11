@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -7,11 +8,12 @@ const env = process.env.NODE_ENV;
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
 const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
+const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.ant.js'),
+		vds5: path.resolve(APP_PATH, 'index.js'),
 		/*common: ['antd']*/
 	},
 	output: {
@@ -25,13 +27,13 @@ const config = {
 			include: APP_PATH
 		}, {
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-		}, {
-			test: /\.scss$/,
-			loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
+			loader: ExtractTextPlugin.extract("style-loader", "css!postcss")
 		}, {
 			test: /\.less$/,
 			loader: ExtractTextPlugin.extract('style-loader', 'css!less')
+		}, {
+			test: /\.scss$/,
+			loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
 		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
@@ -49,9 +51,14 @@ const config = {
 			loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=assets/fonts/[name].[ext]'
 		}, ]
 	},
+	postcss: [
+		autoprefixer({
+			browsers: ['last 3 versions', '> 1%']
+		})
+	],
 	resolve: {
 		alias: {
-			'react': path.join(__dirname, 'node_modules', 'react')
+			'react': path.resolve(NODE_MODULES, 'react'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

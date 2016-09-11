@@ -36,8 +36,12 @@ export default class AntContainer2 extends React.Component {
 		}
 
 		this.sendSearchCondition = (param) => {
-			console.log("receive:" + param)
-				//console.log('收到表单值：', this.props.form.getFieldsValue());
+			console.log("收到表单值：" + JSON.stringify(param))
+		}
+
+		this.test = (obj) => {
+			console.log("test:")
+			console.log(obj)
 		}
 	}
 
@@ -107,7 +111,8 @@ export default class AntContainer2 extends React.Component {
 		};
 
 		const advancedSearch = this.state.modalVisible ? [
-			<AdvancedSearch key="advancedSearch" modalVisible={this.state.modalVisible} switchModalVisible={this.switchModalVisible} sendSearchCondition={this.sendSearchCondition} />
+			<AdvancedSearch key="advancedSearch" modalVisible={this.state.modalVisible} switchModalVisible={this.switchModalVisible} sendSearchCondition={this.sendSearchCondition}
+			  fields={this.test} onFieldsChange={this.test}/>
 		] : null;
 
 		return (

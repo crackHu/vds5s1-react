@@ -5,6 +5,7 @@ const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
 const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 const config = {
 	entry: {
@@ -32,11 +33,11 @@ const config = {
 			test: /\.css$/,
 			loaders: ['style', 'css']
 		}, {
-			test: /\.scss$/,
-			loaders: ['style', 'css', 'sass']
-		}, {
 			test: /\.less$/,
 			loaders: ['style', 'css', 'less']
+		}, {
+			test: /\.scss$/,
+			loaders: ['style', 'css', 'sass']
 		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
@@ -56,7 +57,7 @@ const config = {
 	},
 	resolve: {
 		alias: {
-			'react': path.join(__dirname, 'node_modules', 'react')
+			'react': path.resolve(NODE_MODULES, 'react'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

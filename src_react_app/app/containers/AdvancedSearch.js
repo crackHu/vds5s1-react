@@ -1,4 +1,7 @@
-import React from 'react'
+import React, {
+	Component,
+	PropTypes
+} from 'react'
 import {
 	Form,
 	Input,
@@ -9,8 +12,9 @@ import {
 	Modal,
 	Button
 } from 'antd'
+import PersonalDetailForm from '../components/PersonalDetailForm'
 
-export default class AdvancedSearch extends React.Component {
+class AdvancedSearch extends Component {
 
 	constructor(props) {
 		super(props);
@@ -47,7 +51,10 @@ export default class AdvancedSearch extends React.Component {
 
 		/*modal event*/
 		this.handleOk = (e) => {
+			e.preventDefault();
 			console.log('点了确认')
+			console.log(this.props.form.getFieldsValue())
+			this.props.sendSearchCondition(this.props.form.getFieldsValue());
 			this.setState({
 				modalLoading: true,
 			});
@@ -77,9 +84,8 @@ export default class AdvancedSearch extends React.Component {
 			}
 			return endValue.getTime() <= this.state.startValue_born.getTime();
 		}
-		this.onChange_born = (field, value, born) => {
+		this.onChange_born = (field, value) => {
 			console.log(field, 'change', value);
-			console.log("onChange_born:" + born)
 			this.setState({
 				[field]: value
 			});
@@ -194,13 +200,9 @@ export default class AdvancedSearch extends React.Component {
 		}
 	}
 
-	componentDidMount = () => {
-		console.log("send")
-		setTimeout(
-			() => {
-				this.props.sendSearchCondition("asdfasd")
-			}, 2000)
-	}
+	componentWillMount = () => {}
+
+	componentDidMount = () => {}
 
 	componentDidUpdate = () => {}
 
@@ -222,15 +224,28 @@ export default class AdvancedSearch extends React.Component {
 				sm: 21
 			},
 		};
+		const {
+			getFieldProps
+		} = this.props.form
+		const username = getFieldProps('username');
+		const password = getFieldProps('password');
+		/*const password = getFieldProps('password', {
+			rules: [{
+				required: true,
+				message: '请输入密码'
+			}, ],
+		});*/
 
 		return (
 			<div>
 				<Modal title="档案查询" width={720} visible={this.props.modalVisible} maskClosable={false}
 			      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
 			      footer={[
-		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>关 闭</Button>,
+		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>
+		            	关 闭
+		            </Button>,
 		            <Button key="submit" type="primary" size="large" icon="search" onClick={this.handleOk} loading={this.state.modalLoading}>
-		              查 询
+		             	查 询
 		            </Button>,
 		          ]}>
           			<Form horizontal className="ant-advanced-search-form">
@@ -240,14 +255,14 @@ export default class AdvancedSearch extends React.Component {
 						          labelCol={{ sm: 3 }}
 						          wrapperCol={{ sm: 20 }}
 						        >
-						          <Input/>
+						          <Input {...password}/>
 						        </FormItem>
 					        </Col>
 					        <Col sm={8}>
 								<FormItem label="姓&nbsp;&nbsp;&nbsp;&nbsp;名"
 						          {...formItemLayout}
 						        >
-						          <Input />
+						          <Input {...username}/>
 						        </FormItem>
 					        </Col>
 				        </Row>
@@ -405,3 +420,22 @@ export default class AdvancedSearch extends React.Component {
 		)
 	}
 }
+
+function onFieldsChange(props, fields) {
+	console.log("onFieldsChange")
+	console.log('change', fields);
+	props.onFieldsChange({
+		fields
+	});
+}
+
+function mapPropsToFields(props) {
+	console.log("mapPropsToFields")
+	console.log(props)
+	return props.fields;
+}
+
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(AdvancedSearch)

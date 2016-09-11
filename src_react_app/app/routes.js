@@ -4,11 +4,11 @@ import {
 	IndexRoute
 } from 'react-router';
 
-import App from './ant_containers/App';
-import Home from './ant_containers/Home';
-import AntContainer1 from './ant_containers/AntContainer1';
-import AntContainer2 from './ant_containers/AntContainer2';
-import ArchivDetail from './ant_containers/ArchivDetail';
+import App from './containers/App';
+import Home from './containers/Home';
+import AntContainer1 from './containers/AntContainer1';
+import AntContainer2 from './containers/AntContainer2';
+import ArchivDetail from './containers/ArchivDetail';
 
 const routes = () => {
 	return (

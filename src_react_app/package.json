@@ -8,9 +8,14 @@
     "lint": "webpack-dev-server --progress --profile --colors --hot --config webpack.lint.config.js",
     "build": "set NODE_ENV=production&&webpack -p --process --colors --profile --display-modules --config webpack.production.config.js"
   },
-  "author": "B.D.",
+  "author": "D.D.",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crackHu/vds5s1-react.git"
+  },
   "devDependencies": {
+    "autoprefixer": "^6.4.1",
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-antd": "^0.5.1",
@@ -20,7 +25,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.3.13",
     "classnames": "^2.2.5",
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.25.0",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-loader": "^1.5.0",
@@ -35,6 +40,7 @@
     "less-loader": "^2.2.3",
     "moment": "^2.14.1",
     "node-sass": "^3.8.0",
+    "postcss-loader": "^0.13.0",
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
     "redbox-react": "^1.3.0",
