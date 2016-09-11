@@ -24,8 +24,8 @@ const config = {
 		inline: true,
 		progress: true,
 		proxy: {
-			'/api/*': {
-				target: 'http://localhost:8080/vds5s1',
+			'/vds5s1/*': {
+				target: 'http://localhost:8080/',
 				//host: 'example.com'
 			}
 		}

@@ -315,3 +315,5 @@ var Button = React.createClass({
   }
 });
 未完待续...
+
+正则表达式 http://gold.xitu.io/entry/571807a88ac247005f117209/promote?utm_source=baidu&utm_medium=keyword&utm_content=regexp&utm_campaign=q3_search
