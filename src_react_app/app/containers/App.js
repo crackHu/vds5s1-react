@@ -146,7 +146,7 @@ class App extends React.Component {
 		          </Breadcrumb>
 		        </div>
 		        <div className="ant-layout-container">
-		          <div style={{ height: '100%' }}>
+		          <div style={{ height: '100%', margin: 'auto 10em' }}>
 		          	{this.props.children}
 		          </div>
 		        </div>

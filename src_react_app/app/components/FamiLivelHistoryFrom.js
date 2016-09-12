@@ -38,7 +38,4 @@ function mapPropsToFields(props) {
 	console.log("FamiLivelHistoryFrom mapPropsToFields")
 }
 
-export default Form.create({
-	onFieldsChange,
-	mapPropsToFields
-})(FamiLivelHistoryFrom)
+export default Form.create()(FamiLivelHistoryFrom)

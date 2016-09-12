@@ -5,6 +5,8 @@ import React, {
 import {
 	Form,
 	Input,
+	Row,
+	Col
 } from 'antd'
 
 class PersonalDetailForm extends React.Component {
@@ -27,6 +29,7 @@ class PersonalDetailForm extends React.Component {
 			rules: [{
 				required: true,
 				message: '请输入姓名',
+				pattern: /^[\u4e00-\u9fa5]{0,}$/
 			}, ],
 		})
 		const personalno = getFieldProps('personalno', {
@@ -38,12 +41,18 @@ class PersonalDetailForm extends React.Component {
 
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
-		        <FormItem label="姓名" required>
-		          <Input {...username} placeholder="请输入姓名"/>
-		        </FormItem>
-		        <FormItem label="个人编号" >
-		          <Input {...personalno} placeholder="请输入个人编号"/>
-		        </FormItem>
+				<Row>
+					<Col sm={5}>
+				        <FormItem label="姓名" required>
+				          <Input {...username} placeholder="请输入姓名"/>
+				        </FormItem>
+				    </Col>
+					<Col sm={5}>
+				        <FormItem label="个人编号" >
+				          <Input {...personalno} placeholder="请输入个人编号"/>
+				        </FormItem>
+			        </Col>
+		        </Row>
 	        </Form>
 		)
 	}
@@ -57,7 +66,4 @@ function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields")
 }
 
-export default Form.create({
-	onFieldsChange,
-	mapPropsToFields
-})(PersonalDetailForm)
+export default Form.create()(PersonalDetailForm)

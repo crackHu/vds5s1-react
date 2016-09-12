@@ -38,7 +38,4 @@ function mapPropsToFields(props) {
 	console.log("HealthMedicalForm mapPropsToFields")
 }
 
-export default Form.create({
-	onFieldsChange,
-	mapPropsToFields
-})(HealthMedicalForm)
+export default Form.create()(HealthMedicalForm)

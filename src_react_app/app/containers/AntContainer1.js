@@ -1,7 +1,8 @@
 import React from 'react';
 import {
 	Tabs,
-	Button
+	Button,
+	message
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import fetch from 'isomorphic-fetch'
@@ -11,8 +12,6 @@ import HealthMedicalForm from '../components/HealthMedicalForm'
 
 import GeneralSituationForm from '../components/GeneralSituationForm'
 import FamiLivelHistoryFrom from '../components/FamiLivelHistoryFrom'
-
-import MedicalRecordsForm from '../components/MedicalRecordsForm'
 
 export default class AntContainer1 extends React.Component {
 
