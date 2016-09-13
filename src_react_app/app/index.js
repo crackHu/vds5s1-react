@@ -1,14 +1,16 @@
-import React from 'react';
-import {
-	render
-} from 'react-dom';
+require('es5-shim');
+require('es5-shim/es5-sham');
+require('console-polyfill');
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+
 import {
 	useRouterHistory
 } from 'react-router';
 import {
 	createHashHistory
 } from 'history';
-
 
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
@@ -22,7 +24,7 @@ const appHistory = useRouterHistory(createHashHistory)({
 	queryKey: false
 })
 
-render(
+ReactDOM.render(
 	<Root
       store={ store } history={appHistory}
     />,
@@ -32,7 +34,7 @@ render(
 if (module.hot) {
 	module.hot.accept('./containers/Root', () => {
 		const RootContainer = require('./containers/Root').default;
-		render(
+		ReactDOM.render(
 			<RootContainer
           store={ store } history={appHistory}
         />,

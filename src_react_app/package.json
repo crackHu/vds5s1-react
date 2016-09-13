@@ -57,14 +57,15 @@
   "dependencies": {
     "antd": "^1.10.0",
     "bootstrap": "^3.3.5",
+    "console-polyfill": "^0.2.2",
+    "es5-shim": "^4.5.9",
     "history": "^2.1.2",
     "isomorphic-fetch": "^2.2.1",
     "rc-queue-anim": "^0.12.4",
     "react": "^15.3.0",
-    "react-bootstrap": "^0.30.2",
     "react-dom": "^15.3.0",
-    "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
+    "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0"
   }

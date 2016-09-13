@@ -55,6 +55,17 @@ class MedicalRecordsTable extends React.Component {
 				console.log(selected, selectedRows, changeRows);
 			},
 		};
+
+		const renderContent = function(value, row, index) {
+			const obj = {
+				children: value,
+				props: {},
+			};
+			if (index === 4) {
+				obj.props.colSpan = 0;
+			}
+			return obj;
+		};
 		const columns = [{
 			title: '#',
 			dataIndex: '#',
