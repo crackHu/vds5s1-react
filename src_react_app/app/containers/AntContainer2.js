@@ -52,26 +52,55 @@ export default class AntContainer2 extends React.Component {
 					loading: false
 				})
 			}, 300)
+
 	}
 	render() {
 		const ButtonGroup = Button.Group;
 		const columns = [{
-			title: '#',
-			dataIndex: 'id',
-			key: 'id',
+			title: '个人编号',
+			dataIndex: 'grbh',
+			key: 'grbh',
 		}, {
 			title: '姓名',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'grda_xm',
+			key: 'grda_xm',
 			render: (text) => <a href="#">{text}</a>,
 		}, {
-			title: '年龄',
-			dataIndex: 'age',
-			key: 'age',
+			title: '性别',
+			dataIndex: 'grda_xb',
+			key: 'grda_xb',
 		}, {
-			title: '住址',
-			dataIndex: 'address',
-			key: 'address',
+			title: '出生日期',
+			dataIndex: 'grda_csrq',
+			key: 'grda_csrq',
+		}, {
+			title: '身份证号码',
+			dataIndex: 'grda_sfzhm',
+			key: 'grda_sfzhm',
+		}, {
+			title: '户口地址_街道(镇)名称',
+			dataIndex: 'grda_hkdz_jdzmc',
+			key: 'grda_hkdz_jdzmc',
+		}, {
+			title: '户口地址_居委(村)名称',
+			dataIndex: 'grda_hkdz_jwcmc',
+			key: 'grda_hkdz_jwcmc',
+		}, {
+			title: '户口地址_路_街_名称',
+			dataIndex: 'grda_hkdz_ljmc',
+			key: 'grda_hkdz_ljmc',
+		}, {
+			title: '户口类型',
+			dataIndex: 'grda_hklx',
+			key: 'grda_hklx',
+		}, {
+			title: '本人电话',
+			dataIndex: 'grda_brdh',
+			key: 'grda_brdh',
+		}, {
+			title: '家庭电话',
+			dataIndex: 'grda_jtdh',
+			key: 'grda_jtdh',
 		}, {
 			title: '操作',
 			key: 'operation',
@@ -91,11 +120,23 @@ export default class AntContainer2 extends React.Component {
 		const data = [];
 		for (let i = 0; i < 46; i++) {
 			data.push({
-				id: i,
+				/*id: i,
 				key: i,
 				name: `李大嘴${i}`,
 				age: 32,
-				address: `西湖区湖底公园${i}号`,
+				address: `西湖区湖底公园${i}号`,*/
+
+				grbh: i,
+				grda_xm: i,
+				grda_xb: i,
+				grda_csrq: i,
+				grda_sfzhm: i,
+				grda_hkdz_jdzmc: i,
+				grda_hkdz_jwcmc: i,
+				grda_hkdz_ljmc: i,
+				grda_hklx: i,
+				grda_brdh: i,
+				grda_jtdh: i,
 			});
 		}
 

@@ -20,12 +20,17 @@ export default class Root extends Component {
     } = this.props;
 
     return (
-      <div>
-          <Router history={history} routes={routes()} />
-        </div>
+      <Provider store={store}>
+          <div>
+            <Router history={history} routes={routes()} />
+            <DevTools />
+          </div>
+        </Provider>
     );
   }
-} {
+}
+
+{
   /*<Provider store={store}>
           <div>
             <Router history={history} routes={routes()} />

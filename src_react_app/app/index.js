@@ -17,25 +17,25 @@ import Root from './containers/Root';
 
 import './main.scss';
 
-//const store = configureStore();
+const store = configureStore();
 const app = document.querySelector('.root');
 
 const appHistory = useRouterHistory(createHashHistory)({
 	queryKey: false
 })
 
-ReactDOM.render(
+/*ReactDOM.render(
 	<Root history={appHistory}
     />,
 	app
-);
+);*/
 
-/*ReactDOM.render(
+ReactDOM.render(
 	<Root
       store={ store } history={appHistory}
     />,
 	app
-);*/
+);
 
 if (module.hot) {
 	module.hot.accept('./containers/Root', () => {

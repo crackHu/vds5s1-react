@@ -1,6 +1,7 @@
 import {
 	combineReducers
 } from 'redux';
+import 'babel-polyfill'
 import counter from './counter';
 import app from './app';
 

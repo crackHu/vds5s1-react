@@ -146,7 +146,7 @@ class App extends React.Component {
 		          </Breadcrumb>
 		        </div>
 		        <div className="ant-layout-container">
-		          <div style={{ height: '100%', margin: 'auto 10em' }}>
+		          <div style={{ height: '100%'}}>
 		          	{this.props.children}
 		          </div>
 		        </div>
@@ -171,5 +171,5 @@ function mapStateToProps(state) {
 	}
 }
 
-//export default connect(mapStateToProps, AppActions)(App)
-export default App
+export default connect(mapStateToProps, AppActions)(App)
+	//export default App
