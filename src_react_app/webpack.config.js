@@ -14,7 +14,8 @@ const config = {
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: '[name].bundle_[hash].js'
+		filename: '[name].bundle_[hash].js',
+		publicPath: '/'
 	},
 	devtool: 'cheap-module-eval-source-map',
 	devServer: {
@@ -26,7 +27,7 @@ const config = {
 		proxy: {
 			'/vds5s1/*': {
 				target: 'http://localhost:8080/',
-				//host: 'example.com'
+				host: 'example.com',
 			}
 		}
 	},

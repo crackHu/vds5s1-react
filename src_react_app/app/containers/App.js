@@ -172,4 +172,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, AppActions)(App)
-	//export default App

@@ -24,12 +24,6 @@ const appHistory = useRouterHistory(createHashHistory)({
 	queryKey: false
 })
 
-/*ReactDOM.render(
-	<Root history={appHistory}
-    />,
-	app
-);*/
-
 ReactDOM.render(
 	<Root
       store={ store } history={appHistory}

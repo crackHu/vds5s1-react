@@ -4,3 +4,4 @@ WebRoot*
 *.rar
 *.msi
 *.log
+npm-debug.log*

@@ -20,6 +20,12 @@ const config = {
 		path: BUILD_PATH,
 		filename: 'assets/[name].bundle_[hash].min.js'
 	},
+	proxy: {
+		'/vds5s1/*': {
+			target: 'http://localhost:8080/',
+			host: 'example.com'
+		}
+	},
 	module: {
 		loaders: [{
 			test: /\.jsx?$/,

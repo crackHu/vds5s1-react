@@ -1,4 +1,9 @@
-import React from 'react';
+import React, {
+	PropTypes,
+} from 'react';
+import {
+	connect
+} from 'react-redux';
 import {
 	Table,
 	Icon,
@@ -11,15 +16,16 @@ import {
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 
+import * as ArchiveActions from '../actions/ArchiveActions';
 import AdvancedSearch from './AdvancedSearch'
 
-export default class AntContainer2 extends React.Component {
+class AntContainer2 extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			loading: true,
-			modalVisible: false
+			modalVisible: false,
+			archive: {}
 		}
 
 		/*modal event*/
@@ -45,15 +51,22 @@ export default class AntContainer2 extends React.Component {
 		}
 	}
 
+	componentWillMount = () => {}
+
 	componentDidMount() {
-		setTimeout(
+		/*setTimeout(
 			() => {
 				this.setState({
 					loading: false
 				})
-			}, 300)
-
+			}, 300)*/
+		this.props.getArchiveList();
 	}
+
+	componentDidUpdate = () => {
+		console.log("componentDidupdate")
+	}
+
 	render() {
 		const ButtonGroup = Button.Group;
 		const columns = [{
@@ -117,31 +130,12 @@ export default class AntContainer2 extends React.Component {
 			),
 		}];
 
-		const data = [];
-		for (let i = 0; i < 46; i++) {
-			data.push({
-				/*id: i,
-				key: i,
-				name: `李大嘴${i}`,
-				age: 32,
-				address: `西湖区湖底公园${i}号`,*/
+		const archiveProps = this.props.data.archive
+		const data = archiveProps.data ? archiveProps.data.data : null;
+		const loading = archiveProps.archiveListloading
 
-				grbh: i,
-				grda_xm: i,
-				grda_xb: i,
-				grda_csrq: i,
-				grda_sfzhm: i,
-				grda_hkdz_jdzmc: i,
-				grda_hkdz_jwcmc: i,
-				grda_hkdz_ljmc: i,
-				grda_hklx: i,
-				grda_brdh: i,
-				grda_jtdh: i,
-			});
-		}
-
-		const pagination = {
-			total: data.length,
+		const pagination = data ? {
+			total: this.props.data.archive.total,
 			showSizeChanger: true,
 			onShowSizeChange(current, pageSize) {
 				console.log('Current: ', current, '; PageSize: ', pageSize);
@@ -149,7 +143,7 @@ export default class AntContainer2 extends React.Component {
 			onChange(current) {
 				console.log('Current: ', current);
 			},
-		};
+		} : null;
 
 		const advancedSearch = this.state.modalVisible ? [
 			<AdvancedSearch key="advancedSearch" modalVisible={this.state.modalVisible} switchModalVisible={this.switchModalVisible} sendSearchCondition={this.sendSearchCondition}
@@ -167,8 +161,21 @@ export default class AntContainer2 extends React.Component {
 				      {advancedSearch}
 				    </ButtonGroup>
 			    </div>
-				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={this.state.loading} bordered/>
+				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} bordered/>
 			</QueueAnim>
 		)
 	}
 }
+
+AntContainer2.propTypes = {
+	getArchiveList: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	return {
+		data: state
+	}
+}
+
+export default connect(mapStateToProps, ArchiveActions)(AntContainer2)

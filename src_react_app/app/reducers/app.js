@@ -1,7 +1,8 @@
 import {
 	GET_APP_INDEX_MENU,
 	INCREMENT_COUNTER,
-	DECREMENT_COUNTER
+	DECREMENT_COUNTER,
+	GET_ARCHIVES
 } from '../constants/ActionTypes';
 
 export default function app1(state = {}, action) {
