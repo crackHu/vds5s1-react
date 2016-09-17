@@ -14,11 +14,21 @@ const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
 		vds5: path.resolve(APP_PATH, 'index.js'),
-		/*common: ['antd']*/
+		common: [
+			'react',
+			'react-dom',
+			'react-redux',
+			'react-router',
+			'redux',
+			'redux-thunk',
+			'babel-polyfill',
+			'isomorphic-fetch',
+		]
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: 'assets/[name].bundle_[hash].min.js'
+		filename: 'assets/[name].bundle_[hash].min.js',
+		publicPath: '/vds5s1/vdsapp/'
 	},
 	proxy: {
 		'/vds5s1/*': {
@@ -40,6 +50,9 @@ const config = {
 		}, {
 			test: /\.scss$/,
 			loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
+		}, {
+			test: /\.(png|jpg|jpeg|gif)$/,
+			loader: 'url?limit=8192&name=assets/img/[name].[ext]'
 		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
@@ -72,15 +85,17 @@ const config = {
 		new webpack.optimize.UglifyJsPlugin({
 			minimize: true,
 			compress: {
-				warnings: false
+				warnings: false,
+				drop_debugger: true,
+				drop_console: true
 			}
 		}),
-		/*new webpack.optimize.CommonsChunkPlugin({
+		new webpack.optimize.CommonsChunkPlugin({
 			name: 'common',
-			chunks: ['common'],
+			chunks: ['vds5'],
 			filename: 'assets/[name]_[hash].min.js',
 			minChunks: Infinity
-		}),*/
+		}),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(env)
 		}),

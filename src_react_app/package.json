@@ -58,7 +58,6 @@
     },
     "dependencies": {
         "antd": "^1.10.0",
-        "bootstrap": "^3.3.5",
         "console-polyfill": "^0.2.2",
         "es5-shim": "^4.5.9",
         "history": "^2.1.2",

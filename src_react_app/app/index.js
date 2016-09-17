@@ -15,7 +15,7 @@ import {
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
 
-import './main.scss';
+import './assets/scss/style.scss';
 
 const store = configureStore();
 const app = document.querySelector('.root');

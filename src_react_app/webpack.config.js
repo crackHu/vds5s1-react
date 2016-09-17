@@ -46,6 +46,9 @@ const config = {
 			test: /\.scss$/,
 			loader: 'style!css!sass'
 		}, {
+			test: /\.(png|jpg|jpeg|gif)$/,
+			loader: 'url?limit=8192&name=assets/img/[name].[ext]'
+		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
 		}, {
