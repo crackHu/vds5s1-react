@@ -1,6 +1,6 @@
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://localhost:8080'
+  baseUrl = ''
 } else {
   baseUrl = ''
 }

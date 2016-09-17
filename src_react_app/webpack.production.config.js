@@ -27,14 +27,8 @@ const config = {
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: 'assets/[name].bundle_[hash].min.js',
+		filename: 'assets/[name].bundle.js',
 		publicPath: '/vds5s1/vdsapp/'
-	},
-	proxy: {
-		'/vds5s1/*': {
-			target: 'http://localhost:8080/',
-			host: 'example.com'
-		}
 	},
 	module: {
 		loaders: [{
@@ -52,7 +46,7 @@ const config = {
 			loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
 		}, {
 			test: /\.(png|jpg|jpeg|gif)$/,
-			loader: 'url?limit=8192&name=assets/img/[name].[ext]'
+			loader: 'url?limit=10000&name=assets/img/[name].[ext]'
 		}, {
 			test: /\.svg$/,
 			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
@@ -93,16 +87,18 @@ const config = {
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'common',
 			chunks: ['vds5'],
-			filename: 'assets/[name]_[hash].min.js',
+			filename: 'assets/[name].js',
 			minChunks: Infinity
 		}),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(env)
 		}),
-		new ExtractTextPlugin("assets/[name].style_[hash].min.css"),
+		new ExtractTextPlugin("assets/[name].style.css"),
 		new HtmlwebpackPlugin({
-			title: 'VDS5 Foundation Platform',
+			favicon: './app/assets/img/favicon.ico',
+			title: '健康档案系统',
 			template: './app/templates/index.html',
+			hash: 'true',
 			filename: 'index.html',
 			inject: 'body'
 		})

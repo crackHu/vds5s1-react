@@ -184,7 +184,7 @@ class App extends React.Component {
 			        		</SubMenu>
 			      		</Menu>
 		            </aside>
-		            {/*content*/}
+		            {/*main*/}
             		<div className="main">
 		          		{this.props.children}
 			        </div>

@@ -11,8 +11,8 @@ import {
 	Button,
 	Row,
 	Col,
-	Modal
-
+	Modal,
+	Card
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 
@@ -152,16 +152,18 @@ class AntContainer2 extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
-				<div key="button">
-					<ButtonGroup style={{margin: "1em auto"}}>
-				      <Button type="ghost" icon="file-text" size="large">新建档案</Button>
-				      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
-				      <Button type="ghost" icon="download" size="large">导入</Button>
-				      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
-				      {advancedSearch}
-				    </ButtonGroup>
-			    </div>
-				<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} bordered/>
+				<div className='module' key="buttonGroup">
+					<Card>
+						<ButtonGroup style={{marginBottom: "1em"}}>
+					      <Button type="ghost" icon="file-text" size="large">新建档案</Button>
+					      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
+					      <Button type="ghost" icon="download" size="large">导入</Button>
+					      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
+					      {advancedSearch}
+					    </ButtonGroup>
+						<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} bordered/>
+				    </Card>
+				</div>
 			</QueueAnim>
 		)
 	}

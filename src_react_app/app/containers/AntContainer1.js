@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	Tabs,
 	Button,
-	message
+	message,
+	Card
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import fetch from 'isomorphic-fetch'
@@ -51,23 +52,27 @@ export default class AntContainer1 extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
-				<div key="tabs">
-					<Tabs defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
-						  <TabPane tab="个人基本信息表" key="1">
-						  	<PersonalDetailForm />
-						  </TabPane>
-						  <TabPane tab="健康体检表" key="2">
-						  	<HealthMedicalForm/>
-						  </TabPane>
-						</Tabs> <br />
-					<Tabs defaultActiveKey="1" onChange={this.changeTab}>
-						  <TabPane tab="一般情况" key="1">
-						  	<GeneralSituationForm/>
-						  </TabPane>
-						  <TabPane tab="家族史与生活情况" key="2">
-						  	<FamiLivelHistoryFrom/>
-						  </TabPane>
-					</Tabs>
+				<div className='module' key="tabs">
+					<Card>
+						<Tabs defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
+							<TabPane tab="个人基本信息表" key="1">
+							  	<PersonalDetailForm />
+							</TabPane>
+							<TabPane tab="健康体检表" key="2">
+							  	<HealthMedicalForm/>
+							</TabPane>
+						</Tabs>
+					</Card>
+					<Card>
+						<Tabs defaultActiveKey="1" onChange={this.changeTab}>
+							<TabPane tab="一般情况" key="1">
+							  	<GeneralSituationForm/>
+							</TabPane>
+							<TabPane tab="家族史与生活情况" key="2">
+							  	<FamiLivelHistoryFrom/>
+							</TabPane>
+						</Tabs>
+					</Card>
 				</div>
 			</QueueAnim>
 		)
