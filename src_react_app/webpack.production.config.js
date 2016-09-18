@@ -23,6 +23,7 @@ const config = {
 			'redux-thunk',
 			'babel-polyfill',
 			'isomorphic-fetch',
+			'react-d3-components'
 		]
 	},
 	output: {

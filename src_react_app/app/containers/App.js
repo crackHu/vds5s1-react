@@ -152,35 +152,21 @@ class App extends React.Component {
 			        <aside className="left">
 		            	<Menu theme="blue-dark" defaultOpenKeys={['sub1']} style={{ width: 240}} selectedKeys={[this.props.route.menuKey]} mode="inline">
 			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>首页</span></span>}>
-			        			<Menu.Item key="account"><Link to='/account'>账号管理</Link></Menu.Item>
-			        			<Menu.Item key="survey"><Link to='/survey'>应用概况</Link></Menu.Item>
-			        			<Menu.Item key="message">消息通知</Menu.Item>
+			        			<Menu.Item key="survey"><Link to='/#'>应用概况</Link></Menu.Item>
 			        		</SubMenu>
 			      		</Menu>
 			      		<Menu theme="blue-dark" defaultOpenKeys={['sub1','sub2']} style={{ width: 240}} selectedKeys={[this.props.route.menuKey]} mode="inline">
-			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>内容维护</span></span>}>
-			        			<Menu.Item key="topic"><Link to='/topic'>xx管理</Link></Menu.Item>
-			        			<Menu.Item key="xx1">xxxx管理</Menu.Item>
-			        			<Menu.Item key="xx2">xx管理</Menu.Item>
-			        			<Menu.Item key="xx3">xx监控</Menu.Item>
-			        			<Menu.Item key="xx4">xx模板</Menu.Item>
-			        		</SubMenu>
-			        		<SubMenu key="sub2" title={<span><Icon type="user" /><span>用户管理</span></span>}>
-			        			<Menu.Item key="user">用户管理</Menu.Item>
+			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>档案管理</span></span>}>
+			        			<Menu.Item key="create"><Link to='/AntContainer1'>新建档案</Link></Menu.Item>
+			        			<Menu.Item key="list"><Link to='/AntContainer2'>档案列表</Link></Menu.Item>
 			        		</SubMenu>
 			      		</Menu>
 			      		<Menu theme="blue-dark" defaultOpenKeys={['sub1']} style={{ width: 240}} selectedKeys={[this.props.route.menuKey]} mode="inline">
-			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>交易中心</span></span>}>
-			        			<Menu.Item key="xx5">交易明细</Menu.Item>
+			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>数据统计</span></span>}>
+			        			<Menu.Item key="xx5"><Link to='/ArchivDetail'>建档明细</Link></Menu.Item>
 			        			<Menu.Item key="xx6">提现审核</Menu.Item>
 			        			<Menu.Item key="xx7">交易数据分析</Menu.Item>
 			        			<Menu.Item key="xx8">内容监控</Menu.Item>
-			        		</SubMenu>
-			      		</Menu>
-			      		<Menu theme="blue-dark" defaultOpenKeys={['sub1']} style={{ width: 240}} openKeys={['sub1']} onOpen={this.onToggle} onClose={this.onToggle} selectedKeys={[this.props.route.menuKey]} mode="inline">
-			        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>xxxxx</span></span>}>
-			        			<Menu.Item key="xx9">xxxxxx</Menu.Item>
-			        			<Menu.Item key="xx10">xxxxxx</Menu.Item>
 			        		</SubMenu>
 			      		</Menu>
 		            </aside>

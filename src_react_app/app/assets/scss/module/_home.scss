@@ -33,3 +33,12 @@
     margin: 10px 30px 0 30px;
 }
 
+.brush .extent {
+  stroke: #000;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+ 
+.brush .background {
+  fill: #ddd;
+}
