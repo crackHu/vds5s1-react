@@ -1,6 +1,6 @@
 import {
 	config
-} from './utils'
+} from './utils/utils'
 
 export const reqUrl = `${config.baseUrl}/vds5s1/ba/boCallMethodPC.jsp?data=`
 

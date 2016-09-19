@@ -2,14 +2,14 @@ import {
 	GET_ARCHIVES
 } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
-import * as apis from '../utils/apis'
+import * as api from '../api'
 
 export function getArchiveList() {
 	return dispatch => {
 		const init = {
 			cache: 'no-cache'
 		}
-		fetch(apis.getArchiveList(), init)
+		fetch(api.getArchiveList(), init)
 			.then(response => response.json())
 			.then((data) => {
 				let resCode = data._c

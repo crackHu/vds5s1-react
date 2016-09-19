@@ -73,6 +73,7 @@ const config = {
 	resolve: {
 		alias: {
 			'react': path.resolve(NODE_MODULES, 'react'),
+			'utils': path.resolve(ROOT_PATH, 'app', 'utils/utils'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

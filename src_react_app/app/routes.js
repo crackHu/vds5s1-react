@@ -14,9 +14,9 @@ const routes = () => {
 	return (
 		<Route path="/" component={App}>
 	      <IndexRoute component={Home} />
-	      <Route path="AntContainer1" component={AntContainer1} />
-	      <Route path="AntContainer2" component={AntContainer2} />
-	      <Route path="ArchivDetail" component={ArchivDetail} />
+	      <Route path="AntContainer1" component={AntContainer1} sidebarKey="survey" headerNavKey="AntContainer1" status='0'/>
+	      <Route path="AntContainer2" component={AntContainer2} sidebarKey="create" headerNavKey="AntContainer2" status='0'/>
+		  <Route path="ArchivDetail" component={ArchivDetail} sidebarKey="list" headerNavKey="ArchivDetail" status='0'/>
 	    </Route>
 	);
 }

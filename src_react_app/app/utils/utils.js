@@ -10,6 +10,30 @@ export const config = {
   host: 'http://www.basoft.cn/'
 }
 
+export const menu_config = {
+  headerNav: [{
+    key: "home",
+    path: "/",
+    name: "首页",
+    iconType: "home"
+  }, {
+    key: "AntContainer1",
+    path: "/AntContainer1",
+    name: "档案管理",
+    iconType: "credit-card"
+  }, {
+    key: "AntContainer2",
+    path: "/AntContainer2",
+    name: "测试2",
+    iconType: "code"
+  }, {
+    key: "ArchivDetail",
+    path: "/ArchivDetail",
+    name: "数据统计",
+    iconType: "line-chart"
+  }]
+}
+
 // 对URL地址进行拆分，返回其中附带的值
 // a返回对象,b值得字符串集合,c子值（即类似于"XX=XX"）
 // 当没有附带值是返回false
