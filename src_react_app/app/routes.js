@@ -1,7 +1,8 @@
 import React from 'react';
 import {
 	Route,
-	IndexRoute
+	IndexRoute,
+	IndexRedirect
 } from 'react-router';
 
 import App from './containers/App';
@@ -13,10 +14,12 @@ import ArchivDetail from './containers/ArchivDetail';
 const routes = () => {
 	return (
 		<Route path="/" component={App}>
-	      <IndexRoute component={Home} />
-	      <Route path="AntContainer1" component={AntContainer1} sidebarKey="survey" headerNavKey="AntContainer1" status='0'/>
-	      <Route path="AntContainer2" component={AntContainer2} sidebarKey="create" headerNavKey="AntContainer2" status='0'/>
-		  <Route path="ArchivDetail" component={ArchivDetail} sidebarKey="list" headerNavKey="ArchivDetail" status='0'/>
+	      <IndexRoute component={Home} sidebarKey="survey" headerNavKey="home" status='0'/>
+		  {/*<IndexRedirect to="/home" />*/}
+	      {/*<Route path="home" component={Home} sidebarKey="survey" headerNavKey="home" status='0'/>*/}
+	      <Route path="AntContainer1" component={AntContainer1} sidebarKey="create" headerNavKey="AntContainer1" status='1'/>
+	      <Route path="AntContainer2" component={AntContainer2} sidebarKey="list" headerNavKey="AntContainer2" status='1'/>
+		  <Route path="ArchivDetail" component={ArchivDetail} sidebarKey="test" headerNavKey="ArchivDetail" status='2'/>
 	    </Route>
 	);
 }

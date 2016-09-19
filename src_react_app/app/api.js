@@ -1,8 +1,8 @@
 import {
 	config
-} from './utils/utils'
+} from 'config'
 
-export const reqUrl = `${config.baseUrl}/vds5s1/ba/boCallMethodPC.jsp?data=`
+export const reqUrl = `${config.baseUrl}/${config.projectName}/ba/boCallMethodPC.jsp?data=`
 
 export const getArchiveList = () => {
 	const query = {

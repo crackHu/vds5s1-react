@@ -44,7 +44,7 @@ const config = {
 			loader: 'style!css!less'
 		}, {
 			test: /\.scss$/,
-			loader: 'style!css!sass'
+			loader: 'style!css!postcss!sass'
 		}, {
 			test: /\.(png|jpg|jpeg|gif)$/,
 			loader: 'url?limit=10000&name=assets/img/[name].[ext]'
@@ -73,7 +73,7 @@ const config = {
 	resolve: {
 		alias: {
 			'react': path.resolve(NODE_MODULES, 'react'),
-			'utils': path.resolve(ROOT_PATH, 'app', 'utils/utils'),
+			'config': path.resolve(APP_PATH, 'config'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

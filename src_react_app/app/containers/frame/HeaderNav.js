@@ -9,11 +9,12 @@ import {
 
 import {
 	menu_config
-} from 'utils'
+} from 'config'
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
+/*顶部导航*/
 export default class HeaderNav extends React.Component {
 
 	constructor() {
