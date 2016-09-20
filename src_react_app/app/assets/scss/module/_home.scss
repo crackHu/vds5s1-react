@@ -1,5 +1,5 @@
 .container{
-    min-width: 900px;
+    min-width: $min-width-container;
     min-height: 100vh;
     background-color: $color-background;
     position: relative;
@@ -17,6 +17,7 @@
 .content{
     @extend .flex;
     overflow: hidden;
+    /* IE 不兼容 */
     flex: 1;
 }
 

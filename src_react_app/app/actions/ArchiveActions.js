@@ -3,6 +3,10 @@ import {
 } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from '../api'
+import {
+	msg,
+	notify
+} from '../utils/utils'
 
 export function getArchiveList() {
 	return dispatch => {
@@ -15,6 +19,7 @@ export function getArchiveList() {
 				let resCode = data._c
 				let resMsg = data._m
 				if (resCode != 1) {
+					notify('warn', '警告', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				}
 				dispatch({
@@ -22,6 +27,9 @@ export function getArchiveList() {
 					data: data
 				})
 			})
-			.catch(e => console.error("Oops, error", e))
+			.catch(e => {
+				notify('error', '错误', '获取档案列表失败');
+				console.error("Oops, error", e)
+			})
 	}
 }

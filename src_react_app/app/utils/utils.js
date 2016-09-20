@@ -79,3 +79,37 @@ export function randomUUID() {
 
   return s.join('');
 }
+
+// ------ custom private ------ //
+import {
+  message,
+  notification
+} from 'antd'
+
+//http://ant.design/components/message/
+export const notify = (type, msg, desc) => {
+  notification[type]({
+    message: msg,
+    description: desc,
+  });
+}
+
+//http://ant.design/components/notification/
+export const msg = (type, content, duration) => {
+  switch (type) {
+    case 'success':
+      return message.success(content, duration)
+    case 'error':
+      return message.error(content, duration)
+    case 'info':
+      return message.info(content, duration)
+    case 'warning':
+      return message.warning(content, duration)
+    case 'warn':
+      return message.warn(content, duration)
+    case 'loading':
+      return message.loading(content, duration)
+    default:
+      return message.info(content, duration)
+  }
+}

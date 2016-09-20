@@ -10,8 +10,12 @@ import {
 
 import routes from '../routes';
 import DevTools from './DevTools';
+import {
+  config
+} from 'config'
 
 export default class Root extends Component {
+
   render() {
 
     const {
@@ -19,11 +23,13 @@ export default class Root extends Component {
       history
     } = this.props;
 
+    const devTools = config.needDevTool ? <DevTools /> : null
+
     return (
       <Provider store={store}>
           <div>
             <Router history={history} routes={routes()} />
-            <DevTools />
+            {devTools}
           </div>
         </Provider>
     );

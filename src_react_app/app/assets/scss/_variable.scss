@@ -6,13 +6,15 @@ $color-blue:#009cfa;
 
 /* custom */
 $color-ant-tabs:#ffffff;
+$min-width-body:1000px;
+$min-width-container:900px;
+$color-siber-sub:#2a3344;
 
-$img-logo:"../img/logo.png";
-
+$img-logo:"../img/logo2.png";
 
 // ------ Ant Base & Require ------
 $primary-color          : #2db7f5;
-$dark-primary-color     : #202633;
+$dark-primary-color     : #2db7f5;//#202633
 $info-color             : #2db7f5;
 $success-color          : #87d068;
 $error-color            : #f50;

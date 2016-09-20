@@ -12,12 +12,23 @@ import {
 	Row,
 	Col,
 	Modal,
-	Card
+	Card,
+	Popconfirm,
 } from 'antd';
+import {
+	Link
+} from 'react-router';
+
 import QueueAnim from 'rc-queue-anim';
 
-import * as ArchiveActions from '../actions/ArchiveActions';
+import {
+	msg,
+	notify
+} from '../utils/utils'
+
+import * as ArchiveActions from '../actions/ArchiveActions'
 import AdvancedSearch from './AdvancedSearch'
+import SearchInput from '../components/SearchInput'
 
 class AntContainer2 extends React.Component {
 
@@ -49,17 +60,15 @@ class AntContainer2 extends React.Component {
 			console.log("test:")
 			console.log(obj)
 		}
+
+		this.deleteConfirm = () => {
+			msg("success", "删除成功", 1)
+		}
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount() {
-		/*setTimeout(
-			() => {
-				this.setState({
-					loading: false
-				})
-			}, 300)*/
 		this.props.getArchiveList();
 	}
 
@@ -73,10 +82,14 @@ class AntContainer2 extends React.Component {
 			title: '个人编号',
 			dataIndex: 'grbh',
 			key: 'grbh',
+			fixed: 'left',
+			width: 130
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
 			key: 'grda_xm',
+			fixed: 'left',
+			width: 70,
 			render: (text) => <a href="#">{text}</a>,
 		}, {
 			title: '性别',
@@ -91,15 +104,15 @@ class AntContainer2 extends React.Component {
 			dataIndex: 'grda_sfzhm',
 			key: 'grda_sfzhm',
 		}, {
-			title: '户口地址_街道(镇)名称',
+			title: '街道(镇)名称',
 			dataIndex: 'grda_hkdz_jdzmc',
 			key: 'grda_hkdz_jdzmc',
 		}, {
-			title: '户口地址_居委(村)名称',
+			title: '居委(村)名称',
 			dataIndex: 'grda_hkdz_jwcmc',
 			key: 'grda_hkdz_jwcmc',
 		}, {
-			title: '户口地址_路_街_名称',
+			title: '路_街_名称',
 			dataIndex: 'grda_hkdz_ljmc',
 			key: 'grda_hkdz_ljmc',
 		}, {
@@ -117,15 +130,15 @@ class AntContainer2 extends React.Component {
 		}, {
 			title: '操作',
 			key: 'operation',
+			fixed: 'right',
+			width: 100,
 			render: (text, record) => (
 				<span>
-			      <a href="#">操作一{record.name}</a>
+			      <Link to='/AntContainer1'>修改</Link>
 			      <span className="ant-divider"></span>
-			      <a href="#">操作二</a>
-			      <span className="ant-divider"></span>
-			      <a href="#" className="ant-dropdown-link">
-			        更多 <Icon type="down" />
-			      </a>
+			      <Popconfirm title="确定要删除这个档案吗？" onConfirm={this.deleteConfirm}>
+				    <a href="#">删除</a>
+				  </Popconfirm>
 			    </span>
 			),
 		}];
@@ -154,14 +167,19 @@ class AntContainer2 extends React.Component {
 			<QueueAnim delay={10}>
 				<div className='module' key="buttonGroup">
 					<Card>
-						<ButtonGroup style={{marginBottom: "1em"}}>
-					      <Button type="ghost" icon="file-text" size="large">新建档案</Button>
-					      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>
+						<ButtonGroup style={{margin: "1em auto"}}>
+					      {/*<Button type="ghost" icon="file-text" size="large">新建档案</Button>
+					      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>*/}
 					      <Button type="ghost" icon="download" size="large">导入</Button>
 					      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
 					      {advancedSearch}
 					    </ButtonGroup>
-						<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} bordered/>
+					    <div style={{float: 'right', margin: "1em"}}>
+						    <SearchInput placeholder="input search text"
+							    onSearch={value => console.log(value)} style={{ width: 200 }}
+							  />
+						</div>
+						<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} scroll={{x:1100}} bordered/>
 				    </Card>
 				</div>
 			</QueueAnim>

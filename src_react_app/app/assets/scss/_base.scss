@@ -1,6 +1,6 @@
 body,html{
     height: auto;
-    min-width: 1000px;
+    min-width: $min-width-body;
     font-size: 14px
 }
 .clear-table{
@@ -118,20 +118,20 @@ form .ant-search-input .ant-search-btn{
 
 /* scroll bar */
 ::-webkit-scrollbar {
- width: 6px;
+ width: 8px;
 }
 ::-webkit-scrollbar-track {
  background-color:#fff;
- -webkit-border-radius: 2em;
- -moz-border-radius: 2em;
- border-radius:2em;
+ -webkit-border-radius: .2em;
+ -moz-border-radius: .2em;
+ border-radius:.2em;
  border:1px solid #ccc;
 }
 ::-webkit-scrollbar-thumb {
  /* background-color: #81d4fa; */
  background-color: grey;
  background-image: -webkit-linear-gradient(45deg,  rgba(255, 255, 255, .4) 25%,  transparent 25%,  transparent 50%,  rgba(255, 255, 255, .4) 50%,  rgba(255, 255, 255, .4) 75%,  transparent 75%,  transparent);
- -webkit-border-radius: 2em;
- -moz-border-radius: 2em;
- border-radius:2em;
+ -webkit-border-radius: .2em;
+ -moz-border-radius: .2em;
+ border-radius:.2em;
 }

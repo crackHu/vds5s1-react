@@ -8,7 +8,8 @@ if (process.env.NODE_ENV === 'production') {
 export const config = {
   baseUrl: baseUrl,
   projectName: "vds5s1",
-  host: 'http://www.basoft.cn/'
+  host: 'http://www.basoft.cn/',
+  needDevTool: false
 }
 
 //菜单配置
