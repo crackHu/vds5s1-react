@@ -11,6 +11,7 @@ export const config = {
   host: 'http://www.basoft.cn/'
 }
 
+//菜单配置
 export const menu_config = {
   headerNav: [{
     key: "home",
