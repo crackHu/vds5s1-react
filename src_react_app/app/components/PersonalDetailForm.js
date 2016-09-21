@@ -41,18 +41,12 @@ class PersonalDetailForm extends React.Component {
 
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
-				<Row>
-					<Col sm={5}>
-				        <FormItem label="姓名" required>
-				          <Input {...username} placeholder="请输入姓名"/>
-				        </FormItem>
-				    </Col>
-					<Col sm={5}>
-				        <FormItem label="个人编号" >
-				          <Input {...personalno} placeholder="请输入个人编号"/>
-				        </FormItem>
-			        </Col>
-		        </Row>
+		        <FormItem label="姓名" required>
+		          <Input {...username} placeholder="请输入姓名"/>
+		        </FormItem>
+		        <FormItem label="个人编号" >
+		          <Input {...personalno} placeholder="请输入个人编号"/>
+		        </FormItem>
 	        </Form>
 		)
 	}

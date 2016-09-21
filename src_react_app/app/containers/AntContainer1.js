@@ -53,23 +53,21 @@ export default class AntContainer1 extends React.Component {
 		return (
 			<QueueAnim delay={10}>
 				<div className='module' key="tabs">
-					<Card>
+					<Card title="新增档案">
 						<Tabs defaultActiveKey="1" onChange={this.changeTab} tabBarExtraContent={operations}>
 							<TabPane tab="个人基本信息表" key="1">
 							  	<PersonalDetailForm />
+								<Tabs defaultActiveKey="1" onChange={this.changeTab}>
+									<TabPane tab="一般情况" key="1">
+									  	<GeneralSituationForm/>
+									</TabPane>
+									<TabPane tab="家族史与生活情况" key="2">
+									  	<FamiLivelHistoryFrom/>
+									</TabPane>
+								</Tabs>
 							</TabPane>
 							<TabPane tab="健康体检表" key="2">
 							  	<HealthMedicalForm/>
-							</TabPane>
-						</Tabs>
-					</Card>
-					<Card>
-						<Tabs defaultActiveKey="1" onChange={this.changeTab}>
-							<TabPane tab="一般情况" key="1">
-							  	<GeneralSituationForm/>
-							</TabPane>
-							<TabPane tab="家族史与生活情况" key="2">
-							  	<FamiLivelHistoryFrom/>
 							</TabPane>
 						</Tabs>
 					</Card>

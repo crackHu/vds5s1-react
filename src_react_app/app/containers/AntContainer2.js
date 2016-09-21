@@ -83,7 +83,7 @@ class AntContainer2 extends React.Component {
 			dataIndex: 'grbh',
 			key: 'grbh',
 			fixed: 'left',
-			width: 130
+			width: 150
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
@@ -166,7 +166,7 @@ class AntContainer2 extends React.Component {
 		return (
 			<QueueAnim delay={10}>
 				<div className='module' key="buttonGroup">
-					<Card>
+					<Card title="档案列表">
 						<ButtonGroup style={{margin: "1em auto"}}>
 					      {/*<Button type="ghost" icon="file-text" size="large">新建档案</Button>
 					      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>*/}
