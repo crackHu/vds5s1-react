@@ -13,6 +13,19 @@ import {
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+const tabpane = (
+	<Tabs defaultActiveKey = {spec_arc_type_config.arcType[0].sub[0].key}>
+			    {
+			    	spec_arc_type_config.arcType[0].sub.map((arc, index) => {
+						return (
+						    <TabPane tab={arc.name} key={arc.key}>
+								{React.createElement(require(`./${arc.content}`).default, {})}
+							</TabPane>
+						)
+					})
+				}
+		  	</Tabs>
+);
 
 class PersonalDetailForm extends React.Component {
 
@@ -41,19 +54,6 @@ class PersonalDetailForm extends React.Component {
 				message: '请输入个人编号',
 			}, ],
 		});
-		const tabpane = (
-			<Tabs defaultActiveKey = {spec_arc_type_config.arcType[0].sub[0].key}>
-			    {
-			    	spec_arc_type_config.arcType[0].sub.map((arc, index) => {
-						return (
-						    <TabPane tab={arc.name} key={arc.key}>
-								{React.createElement(require(`./${arc.content}`).default, {})}
-							</TabPane>
-						)
-					})
-				}
-		  	</Tabs>
-		);
 
 		return (
 			<div>

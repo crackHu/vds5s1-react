@@ -40,7 +40,7 @@ export const menu_config = {
 /**************档案配置**************/
 export const spec_arc_type_config = {
   arcType: [{
-    name: "个人基本信息表11",
+    name: "个人基本信息表",
     content: 'PersonalDetailForm',
     key: "personalDetail",
     sub: [{
@@ -54,32 +54,40 @@ export const spec_arc_type_config = {
     }]
   }, {
     name: "健康体检表",
-    content: '<HealthMedicalForm />',
+    content: 'HealthMedicalForm',
     key: "healthMedical"
   }],
   specArcType: [{
     name: "高血压专档",
+    content: 'HealthMedicalForm',
     key: "hypertension"
   }, {
     name: "糖尿病专档",
+    content: 'HealthMedicalForm',
     key: "diabetes"
   }, {
     name: "老年人专档",
+    content: 'HealthMedicalForm',
     key: "aged"
   }, {
     name: "肿瘤病",
+    content: 'HealthMedicalForm',
     key: "oncosis"
   }, {
     name: "残疾人",
+    content: 'HealthMedicalForm',
     key: "handicapped"
   }, {
     name: "女性保健专档",
+    content: 'HealthMedicalForm',
     key: "femalecare"
   }, {
     name: "孕产妇专档",
+    content: 'HealthMedicalForm',
     key: "maternal"
   }, {
     name: "钉钉医疗档案",
+    content: 'HealthMedicalForm',
     key: "ddmedical"
   }]
 }

@@ -23,15 +23,7 @@ import {
 } from 'config'
 
 const TabPane = Tabs.TabPane;
-const panes = [{
-	title: '个人基本信息表',
-	content: <PersonalDetailForm />,
-	key: '1'
-}, {
-	title: '健康体检表',
-	content: <HealthMedicalForm />,
-	key: '2'
-}];
+const panes = spec_arc_type_config.arcType
 
 export default class AntContainer1 extends React.Component {
 
@@ -100,18 +92,26 @@ export default class AntContainer1 extends React.Component {
 
 	/*add special archiv tab*/
 	addSpecArcTab = (tabKey) => {
-		console.log(tabKey)
 		const panes = this.state.panes;
-		const activeKey = `newTab${this.newTabIndex++}`;
-		panes.push({
-			title: '新建页签',
-			content: '新页面',
-			key: activeKey
-		});
-		this.setState({
-			panes,
-			activeKey
-		});
+		let hasNotExist = true
+		this.state.panes.forEach((panes, index) => {
+			if (panes.key == tabKey) return hasNotExist = false
+		})
+		if (hasNotExist) {
+			spec_arc_type_config.specArcType.forEach((specArc, index) => {
+				if (specArc.key == tabKey) {
+					panes.push({
+						name: specArc.name,
+						content: specArc.content,
+						key: tabKey
+					});
+					this.setState({
+						activeKey: tabKey,
+						panes: panes
+					});
+				}
+			})
+		}
 	}
 
 	render() {
@@ -134,7 +134,7 @@ export default class AntContainer1 extends React.Component {
 							      添加专档 <Icon type="down" />
 							    </a>
 							  </Dropdown>
-		const tabpane = this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)
+		const tabpane = this.state.panes.map(pane => <TabPane tab={pane.name} key={pane.key}>{React.createElement(require(`../components/${pane.content}`).default, {})}</TabPane>)
 
 		return (
 			<QueueAnim delay={10}>

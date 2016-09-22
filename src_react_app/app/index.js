@@ -1,9 +1,5 @@
-require('es5-shim');
-require('es5-shim/es5-sham');
-require('console-polyfill');
-
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 import {
 	useRouterHistory,
@@ -19,9 +15,9 @@ import Root from './containers/Root';
 import './assets/scss/style.scss';
 
 const store = configureStore();
-const appHistory = useRouterHistory(createHashHistory)({
+const appHistory = process.env.NODE_ENV === 'production' ? useRouterHistory(createHashHistory)({
 	queryKey: false
-})
+}) : browserHistory
 const app = document.querySelector('.root');
 
 ReactDOM.render(
