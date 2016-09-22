@@ -87,6 +87,19 @@ body,html{
     margin-top: 10px;
 }
 
+.module .ant-card-head{
+    border-left: 2px solid $primary-color;
+}
+
+.module .ant-card-head-title{
+    font-size: 16px;
+}
+
+.module .ant-card-extra{
+    left: 100px;
+    top: 18px;
+}
+
 .module .field{
     height: 50px;
     @extend .flex;

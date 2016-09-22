@@ -5,9 +5,14 @@ import React, {
 import {
 	Form,
 	Input,
-	Row,
-	Col
+	Tabs
 } from 'antd'
+import {
+	spec_arc_type_config
+} from 'config'
+
+const FormItem = Form.Item;
+const TabPane = Tabs.TabPane;
 
 class PersonalDetailForm extends React.Component {
 
@@ -20,8 +25,6 @@ class PersonalDetailForm extends React.Component {
 	componentDidMount = () => {}
 
 	render() {
-
-		const FormItem = Form.Item;
 		const {
 			getFieldProps
 		} = this.props.form
@@ -38,16 +41,32 @@ class PersonalDetailForm extends React.Component {
 				message: '请输入个人编号',
 			}, ],
 		});
+		const tabpane = (
+			<Tabs defaultActiveKey = {spec_arc_type_config.arcType[0].sub[0].key}>
+			    {
+			    	spec_arc_type_config.arcType[0].sub.map((arc, index) => {
+						return (
+						    <TabPane tab={arc.name} key={arc.key}>
+								{React.createElement(require(`./${arc.content}`).default, {})}
+							</TabPane>
+						)
+					})
+				}
+		  	</Tabs>
+		);
 
 		return (
-			<Form inline onSubmit={this.handleSubmit}>
-		        <FormItem label="姓名" required>
-		          <Input {...username} placeholder="请输入姓名"/>
-		        </FormItem>
-		        <FormItem label="个人编号" >
-		          <Input {...personalno} placeholder="请输入个人编号"/>
-		        </FormItem>
-	        </Form>
+			<div>
+				<Form inline onSubmit={this.handleSubmit}>
+			        <FormItem label="姓名" required>
+			          <Input {...username} placeholder="请输入姓名"/>
+			        </FormItem>
+			        <FormItem label="个人编号" >
+			          <Input {...personalno} placeholder="请输入个人编号"/>
+			        </FormItem>
+		        </Form>
+		        {tabpane}
+			</div>
 		)
 	}
 }

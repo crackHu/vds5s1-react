@@ -6,7 +6,8 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 import {
-	useRouterHistory
+	useRouterHistory,
+	browserHistory
 } from 'react-router';
 import {
 	createHashHistory
@@ -18,11 +19,10 @@ import Root from './containers/Root';
 import './assets/scss/style.scss';
 
 const store = configureStore();
-const app = document.querySelector('.root');
-
 const appHistory = useRouterHistory(createHashHistory)({
 	queryKey: false
 })
+const app = document.querySelector('.root');
 
 ReactDOM.render(
 	<Root

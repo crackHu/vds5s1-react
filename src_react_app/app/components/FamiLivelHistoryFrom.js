@@ -25,7 +25,7 @@ class FamiLivelHistoryFrom extends React.Component {
 		} = this.props.form
 
 		return (
-			<p>FamiLivelHistoryFrom</p>
+			<p>FamiLivelHistoryFrom1</p>
 		)
 	}
 }
