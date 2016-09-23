@@ -1,5 +1,6 @@
 import {
-	GET_ARCHIVES
+	GET_ARCHIVES,
+	SUBMIT_ARCHIVES
 } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from '../api'
@@ -32,5 +33,14 @@ export function getArchiveList() {
 				notify('error', '错误', '获取档案列表失败');
 				console.error("Oops, error", e)
 			})
+	}
+}
+
+export function submitArchives() {
+	return dispatch => {
+		dispatch({
+			type: SUBMIT_ARCHIVES,
+			data: true
+		})
 	}
 }

@@ -38,7 +38,7 @@ export const menu_config = {
 }
 
 /**************档案配置**************/
-export const spec_arc_type_config = {
+export const arc_type_config = {
   arcType: [{
     name: "个人基本信息表",
     content: 'PersonalDetailForm',
@@ -90,4 +90,110 @@ export const spec_arc_type_config = {
     content: 'HealthMedicalForm',
     key: "ddmedical"
   }]
+}
+
+/**************表单控件配置**************/
+export const arc_form_widget_config = {
+  selectOption: {
+
+  },
+  /*现住址*/
+  cascadeOptions: {
+    curAddress: [{
+      value: 'guangzhou',
+      label: '广州市',
+      children: [{
+        value: 'yuexiu',
+        label: '越秀区',
+        children: [{
+          value: 'dadongjie',
+          label: '大东街',
+          children: [{
+            value: 'shuqian',
+            label: '署前',
+            children: [{
+              value: 'miaoqianxijie',
+              label: '庙前西街',
+            }],
+          }],
+        }, {
+          value: 'qiming',
+          label: '启明',
+          children: [{
+            value: 'yimalu',
+            label: '启明一马路'
+          }],
+        }],
+      }],
+    }],
+    /*户籍地址*/
+    censusRegister: [{
+      value: 'guangdongsheng',
+      label: '广东省',
+      children: [{
+        value: 'guangzhou',
+        label: '广州市',
+        children: [{
+          value: 'yuexiu',
+          label: '越秀',
+          children: [{
+            value: 'dadongjie',
+            label: '大东街',
+            children: [{
+              value: 'shuqian',
+              label: '署前',
+              children: [{
+                value: 'miaoqianxijie',
+                label: '庙前西街',
+              }],
+            }],
+          }],
+        }],
+      }]
+    }]
+  },
+  checkboxGroupOptions: {
+    /*医疗费用支付方式*/
+    medicalPayMethod: [{
+      label: '城镇职工基本医疗保险',
+      value: 'Apple'
+    }, {
+      label: '城镇居民基本医疗保险',
+      value: 'Pear'
+    }, {
+      label: '新型农村合作医疗',
+      value: 'Orange'
+    }, {
+      label: '新型农村合作医疗',
+      value: 'Orange2'
+    }, {
+      label: '新型农村合作医疗',
+      value: 'Orange3'
+    }, {
+      label: '其他',
+      value: 'Orange4'
+    }],
+    /*药物过敏*/
+    drugAllergy: [{
+      label: '肾上腺素',
+      value: 'Apple'
+    }, {
+      label: '肾上腺素',
+      value: 'Pear'
+    }, {
+      label: '肾上腺素',
+      value: 'Orange'
+    }, {
+      label: '其他',
+      value: 'Orange2'
+    }],
+    /*暴露史*/
+    exposureHistory: [{
+      label: '毒物',
+      value: 'Apple'
+    }, {
+      label: '射线',
+      value: 'Pear'
+    }]
+  }
 }

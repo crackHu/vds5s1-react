@@ -1,4 +1,9 @@
-import React from 'react';
+import React, {
+	PropTypes,
+} from 'react';
+import {
+	connect
+} from 'react-redux';
 import {
 	Tabs,
 	Button,
@@ -9,31 +14,39 @@ import {
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import fetch from 'isomorphic-fetch'
-/*个人基本信息表*/
-import PersonalDetailForm from '../components/PersonalDetailForm'
-/*健康体检表*/
-import HealthMedicalForm from '../components/HealthMedicalForm'
+import * as ArchiveActions from '../actions/ArchiveActions'
 
 import {
 	msg,
 	notify
 } from '../utils/utils'
 import {
-	spec_arc_type_config
+	arc_type_config
 } from 'config'
 
 const TabPane = Tabs.TabPane;
-const panes = spec_arc_type_config.arcType
 
-export default class AntContainer1 extends React.Component {
+class AntContainer1 extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.newTabIndex = 0;
+		this.arcType = arc_type_config.arcType
+		this.specArcType = arc_type_config.specArcType
 		this.state = {
-			activeKey: panes[0].key,
-			panes: panes
+			activeKey: this.arcType[0].key,
+			arcType: this.arcType,
+
+			username: undefined,
+			personalno: undefined,
 		}
+	}
+
+	componentDidMount = () => {}
+
+	componentWillUnmount = () => {}
+
+	componentDidUpdate() {
+		console.log("componentDidUpdate", this.state.username, this.state.personalno)
 	}
 
 	/*save archiv*/
@@ -58,6 +71,15 @@ export default class AntContainer1 extends React.Component {
 			})
 	}
 
+	onFieldsChange = ({
+		fields
+	}) => {
+		this.setState({
+			...fields,
+		});
+	};
+
+
 	/*Tab Edit event*/
 	onTabEdit = (targetKey, action) => {
 		console.log(targetKey, action)
@@ -66,21 +88,31 @@ export default class AntContainer1 extends React.Component {
 
 	/*Tab remove*/
 	remove = (targetKey) => {
-		let activeKey = this.state.activeKey;
-		let lastIndex;
-		this.state.panes.forEach((pane, i) => {
-			if (pane.key === targetKey) {
-				lastIndex = i - 1;
-			}
-		});
-		const panes = this.state.panes.filter(pane => pane.key !== targetKey);
-		if (lastIndex >= 0 && activeKey === targetKey) {
-			activeKey = panes[lastIndex].key;
+		let deleteAbled = true
+
+		/*this.arcType.forEach((pane, i) => {*/
+		if ('personalDetail' === targetKey || 'healthMedical' === targetKey) {
+			msg('warn', '不能删除档案基本信息表(个人基本信息表、健康体检表)', 3)
+			return deleteAbled = false
 		}
-		this.setState({
-			panes,
-			activeKey
-		});
+		/*})*/
+		if (deleteAbled) {
+			let activeKey = this.state.activeKey;
+			let lastIndex;
+			this.state.arcType.forEach((pane, i) => {
+				if (pane.key === targetKey) {
+					lastIndex = i - 1;
+				}
+			});
+			const arcType = this.state.arcType.filter(pane => pane.key !== targetKey);
+			if (lastIndex >= 0 && activeKey === targetKey) {
+				activeKey = arcType[lastIndex].key;
+			}
+			this.setState({
+				arcType,
+				activeKey
+			});
+		}
 	}
 
 	/*Tab switch*/
@@ -92,25 +124,27 @@ export default class AntContainer1 extends React.Component {
 
 	/*add special archiv tab*/
 	addSpecArcTab = (tabKey) => {
-		const panes = this.state.panes;
+		const arcType = this.state.arcType;
 		let hasNotExist = true
-		this.state.panes.forEach((panes, index) => {
-			if (panes.key == tabKey) return hasNotExist = false
+		this.state.arcType.forEach((arcType, index) => {
+			if (arcType.key == tabKey) return hasNotExist = false
 		})
 		if (hasNotExist) {
-			spec_arc_type_config.specArcType.forEach((specArc, index) => {
+			this.specArcType.forEach((specArc, index) => {
 				if (specArc.key == tabKey) {
-					panes.push({
+					arcType.push({
 						name: specArc.name,
 						content: specArc.content,
 						key: tabKey
 					});
 					this.setState({
 						activeKey: tabKey,
-						panes: panes
+						arcType: arcType
 					});
 				}
 			})
+		} else {
+			msg('warn', '专档已存在', 3)
 		}
 	}
 
@@ -119,7 +153,7 @@ export default class AntContainer1 extends React.Component {
 		const moreSpecArc = (
 			<Menu>
 			    {
-			    	spec_arc_type_config.specArcType.map((arc, index) => {
+			    	this.specArcType.map((arc, index) => {
 						return (
 						    <Menu.Item key={index}>
 						      <a onClick = {() =>this.addSpecArcTab(arc.key)} >{arc.name}</a>
@@ -134,7 +168,12 @@ export default class AntContainer1 extends React.Component {
 							      添加专档 <Icon type="down" />
 							    </a>
 							  </Dropdown>
-		const tabpane = this.state.panes.map(pane => <TabPane tab={pane.name} key={pane.key}>{React.createElement(require(`../components/${pane.content}`).default, {})}</TabPane>)
+		const tabpane = this.state.arcType.map(pane =>
+			<TabPane tab={pane.name} key={pane.key}>
+				{React.createElement(require(`../components/${pane.content}`).default,{
+					fields: this.state, onFieldsChange: this.onFieldsChange
+				})}
+			</TabPane>)
 
 		return (
 			<QueueAnim delay={10}>
@@ -157,3 +196,15 @@ export default class AntContainer1 extends React.Component {
 		)
 	}
 }
+
+AntContainer1.propTypes = {
+	data: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	return {
+		data: state
+	}
+}
+
+export default connect(mapStateToProps, ArchiveActions)(AntContainer1)

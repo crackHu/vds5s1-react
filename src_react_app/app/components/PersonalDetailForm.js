@@ -8,34 +8,26 @@ import {
 	Tabs
 } from 'antd'
 import {
-	spec_arc_type_config
+	arc_type_config
 } from 'config'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
-const tabpane = (
-	<Tabs defaultActiveKey = {spec_arc_type_config.arcType[0].sub[0].key}>
-			    {
-			    	spec_arc_type_config.arcType[0].sub.map((arc, index) => {
-						return (
-						    <TabPane tab={arc.name} key={arc.key}>
-								{React.createElement(require(`./${arc.content}`).default, {})}
-							</TabPane>
-						)
-					})
-				}
-		  	</Tabs>
-);
 
 class PersonalDetailForm extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {}
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
+
+	arcformData = (param) => {
+		console.log("收到表单值：", JSON.stringify(param))
+	}
 
 	render() {
 		const {
@@ -54,6 +46,21 @@ class PersonalDetailForm extends React.Component {
 				message: '请输入个人编号',
 			}, ],
 		});
+		const tabpane = (
+			<Tabs defaultActiveKey = {arc_type_config.arcType[0].sub[0].key}>
+			    {
+			    	arc_type_config.arcType[0].sub.map((arc, index) => {
+						return (
+						    <TabPane tab={arc.name} key={arc.key}>
+								{React.createElement(require(`./${arc.content}`).default, {
+									/*arcformData: this.arcformData, saveArcFormFlag: this.state.saveArcFormFlag*/
+								})}
+							</TabPane>
+						)
+					})
+				}
+		  	</Tabs>
+		);
 
 		return (
 			<div>
@@ -73,10 +80,19 @@ class PersonalDetailForm extends React.Component {
 
 function onFieldsChange(props, fields) {
 	console.log("PersonalDetailForm onFieldsChange")
+	console.log('change', fields);
+	props.onFieldsChange({
+		fields
+	});
 }
 
 function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields")
+	console.log(props)
+	return props.fields;
 }
 
-export default Form.create()(PersonalDetailForm)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(PersonalDetailForm)

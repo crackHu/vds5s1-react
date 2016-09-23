@@ -85,7 +85,7 @@ export function randomUUID() {
   return s.join('');
 }
 
-// ------ custom private ------ //
+// ------ custom private util ------ //
 import {
   message,
   notification

@@ -32,38 +32,11 @@ import SearchInput from '../components/SearchInput'
 
 class AntContainer2 extends React.Component {
 
-	constructor(props) {
-		super(props)
-		this.state = {
-			modalVisible: false,
-			archive: {}
-		}
+	state = {
+		modalVisible: false,
 
-		/*modal event*/
-		this.showModal = (e) => {
-			this.setState({
-				modalVisible: true,
-			});
-		}
-
-		this.switchModalVisible = (param) => {
-			this.setState({
-				modalVisible: param,
-			});
-		}
-
-		this.sendSearchCondition = (param) => {
-			console.log("收到表单值：" + JSON.stringify(param))
-		}
-
-		this.test = (obj) => {
-			console.log("test:")
-			console.log(obj)
-		}
-
-		this.deleteConfirm = () => {
-			msg("success", "删除成功", 1)
-		}
+		username: undefined,
+		password: undefined,
 	}
 
 	componentWillMount = () => {}
@@ -73,7 +46,36 @@ class AntContainer2 extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("componentDidupdate")
+		console.log("componentDidupdate", this.state.username, this.state.password)
+	}
+
+	/*modal event*/
+	showModal = (e) => {
+		this.setState({
+			modalVisible: true,
+		});
+	}
+
+	switchModalVisible = (param) => {
+		this.setState({
+			modalVisible: param,
+		});
+	}
+
+	sendSearchCondition = (param) => {
+		console.log("收到表单值：" + JSON.stringify(param))
+	}
+
+	onFieldsChange = ({
+		fields
+	}) => {
+		this.setState({
+			...fields,
+		});
+	};
+
+	deleteConfirm = () => {
+		msg("success", "删除成功", 1)
 	}
 
 	render() {
@@ -159,8 +161,13 @@ class AntContainer2 extends React.Component {
 		} : null;
 
 		const advancedSearch = this.state.modalVisible ? [
-			<AdvancedSearch key="advancedSearch" modalVisible={this.state.modalVisible} switchModalVisible={this.switchModalVisible} sendSearchCondition={this.sendSearchCondition}
-			  fields={this.test} onFieldsChange={this.test}/>
+			<AdvancedSearch key="advancedSearch"
+			 modalVisible={this.state.modalVisible}
+			 switchModalVisible={this.switchModalVisible}
+			 sendSearchCondition={this.sendSearchCondition}
+			 fields={this.state}
+			 onFieldsChange={this.onFieldsChange}
+			/>
 		] : null;
 
 		return (
