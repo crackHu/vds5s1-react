@@ -18,7 +18,7 @@ const store = configureStore();
 const appHistory = process.env.NODE_ENV === 'production' ? useRouterHistory(createHashHistory)({
 	queryKey: false
 }) : browserHistory
-const app = document.querySelector('.root');
+const app = document.querySelector('.app');
 
 ReactDOM.render(
 	<Root

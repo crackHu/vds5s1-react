@@ -9,6 +9,7 @@ import {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
+/*选择器Select 附带‘未提供’选项option组件*/
 export default class FormItemWithUnknown extends React.Component {
 
 	render() {

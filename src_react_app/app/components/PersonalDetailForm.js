@@ -5,7 +5,7 @@ import React, {
 import {
 	Form,
 	Input,
-	Tabs
+	Tabs,
 } from 'antd'
 import {
 	arc_type_config
@@ -33,14 +33,14 @@ class PersonalDetailForm extends React.Component {
 		const {
 			getFieldProps
 		} = this.props.form
-		const username = getFieldProps('username', {
+		const username = getFieldProps('grda_xm', {
 			rules: [{
 				required: true,
 				message: '请输入姓名',
 				pattern: /^[\u4e00-\u9fa5]{0,}$/
 			}, ],
 		})
-		const personalno = getFieldProps('personalno', {
+		const personalno = getFieldProps('grbh', {
 			rules: [{
 				required: true,
 				message: '请输入个人编号',
@@ -65,8 +65,14 @@ class PersonalDetailForm extends React.Component {
 		return (
 			<div>
 				<Form inline onSubmit={this.handleSubmit}>
-			        <FormItem label="姓名" required>
-			          <Input {...username} placeholder="请输入姓名"/>
+			        <FormItem
+			         label="姓名"
+			         required
+			        >
+			          <Input
+			           {...username}
+			           placeholder="请输入姓名"
+			          />
 			        </FormItem>
 			        <FormItem label="个人编号" >
 			          <Input {...personalno} placeholder="请输入个人编号"/>
@@ -88,7 +94,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields")
-	console.log(props)
+	console.log(props.fields)
 	return props.fields;
 }
 

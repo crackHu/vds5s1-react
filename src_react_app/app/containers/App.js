@@ -28,12 +28,20 @@ class App extends React.Component {
 
 	constructor() {
 		console.log("constructor")
-		super();
-
+		super()
+		this.state = {
+			/*small screen*/
+			switchSSMode: false
+		}
 	}
 
 	componentWillMount() {
 		console.log("componentWillMount")
+		if (screen.width <= 1200) {
+			this.setState({
+				switchSSMode: true
+			})
+		}
 	}
 
 	componentDidMount() {
@@ -81,7 +89,7 @@ class App extends React.Component {
 
 	render() {
 		const SubMenu = Menu.SubMenu;
-
+		const switchSSMode = this.state.switchSSMode
 		return (
 			<div className="container">
 			  	{/*top*/}
@@ -92,11 +100,11 @@ class App extends React.Component {
 		        {/*content*/}
 		        <div className="content">
 		        	{/*left*/}
-			        <div className="left">
+			        <div className={switchSSMode ? "left-fluid" : "left"}>
 			        	<Sidebar route={this.props.children.props.route}/>
 		            </div>
 		            {/*main*/}
-            		<div className="main">
+            		<div className={switchSSMode ? "main-fluid" : "main"}>
 		          		{this.props.children}
 			        </div>
 		        </div>

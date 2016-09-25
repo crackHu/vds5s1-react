@@ -16,7 +16,8 @@ import {
 	TimePicker,
 	Cascader,
 	Table,
-	Icon
+	Icon,
+	Card
 } from 'antd';
 import {
 	arc_form_widget_config
@@ -29,6 +30,7 @@ const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
+const InputGroup = Input.Group;
 
 class GeneralSituationForm extends React.Component {
 
@@ -39,15 +41,33 @@ class GeneralSituationForm extends React.Component {
 		}
 
 		/*现住址*/
-		this.curAddress = arc_form_widget_config.cascadeOptions.curAddress;
+		this.curAddressOptions = arc_form_widget_config.cascadeOptions.curAddress;
 		/*户籍地址*/
-		this.censusRegister = arc_form_widget_config.cascadeOptions.censusRegister;
+		this.censusRegisterOptions = arc_form_widget_config.cascadeOptions.censusRegister;
+
 		/*医疗费用支付方式*/
-		this.medicalPayMethod = arc_form_widget_config.checkboxGroupOptions.medicalPayMethod;
+		this.medicalPayMethodOptions = arc_form_widget_config.checkboxGroupOptions.medicalPayMethod;
 		/*药物过敏*/
-		this.drugAllergy = arc_form_widget_config.checkboxGroupOptions.drugAllergy;
+		this.drugAllergyOptions = arc_form_widget_config.checkboxGroupOptions.drugAllergy;
 		/*暴露史*/
-		this.exposureHistory = arc_form_widget_config.checkboxGroupOptions.exposureHistory;
+		this.exposureHistoryOptions = arc_form_widget_config.checkboxGroupOptions.exposureHistory;
+
+		/*性别*/
+		this.sexOptions = arc_form_widget_config.selectOption.sex;
+		/*居住类型*/
+		this.perTypeOptions = arc_form_widget_config.selectOption.permanentType;
+		/*民族*/
+		this.nationalityOptions = arc_form_widget_config.selectOption.nationality;
+		/*血型*/
+		this.bloodTypeOptions = arc_form_widget_config.selectOption.bloodType;
+		/*True or false*/
+		this.tofOptions = arc_form_widget_config.selectOption.tof;
+		/*文化程度*/
+		this.lvOfEduOptions = arc_form_widget_config.selectOption.lvOfEducation;
+		/*职业*/
+		this.professionOptions = arc_form_widget_config.selectOption.profession;
+		/*婚姻状况*/
+		this.maritalStatusOptions = arc_form_widget_config.selectOption.maritalStatus;
 	}
 
 	componentWillMount = () => {}
@@ -57,6 +77,12 @@ class GeneralSituationForm extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('收到表单值：', this.props.form.getFieldsValue());
+	}
+
+	getSelectOptions = (data) => {
+		return data.map((item, i) => {
+			return <Option key={i} value={item.key}>{item.value}</Option>
+		})
 	}
 
 	render() {
@@ -74,37 +100,40 @@ class GeneralSituationForm extends React.Component {
 						{/*性别*/}
 				        <FormItem label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别" required>
 				          <Select
-				           style={{ width: 100 }}
+				           style={{ width: 120 }}
 				           {...sex}
 				          >
-				          	  <Option value="unknown">未知的性别</Option>
-						      <Option value="male">男</Option>
-						      <Option value="female">女</Option>
-						    </Select>
+					       {this.getSelectOptions(this.sexOptions)}
+					      </Select>
 				        </FormItem>
 				        <FormItem label="出生日期" required>
 				         <DatePicker
 				          defaultValue="1950-1-1"
 				          format="yyyy-M-d"
 				          {...birthday}
-				          style={{ width: 140 }}
+				          style={{ width: 120 }}
 				          disabledDate={(current) => {return current && current.getTime() > Date.now()}}
 				         />
 				        </FormItem>
 				        <FormItem label="身份证号" >
 			        		<Input style={{ width: 160 }}/>
 				        </FormItem>
-				        <FormItemWithUnknown
-				        	label="工作单位"
-				         	style={{ width: 320 }}
-				        />
+				        <FormItem label="民族" >
+				          <Select
+				           showSearch
+				           optionFilterProp="children"
+						   notFoundContent="没有该民族"
+				           style={{ width: 111 }}
+				          >
+					       {this.getSelectOptions(this.nationalityOptions)}
+					      </Select>
+				        </FormItem>
 				        <br />
 				        <br />
-
 				    	{/*现住址*/}
 				        <FormItem label="现&nbsp;&nbsp;住&nbsp;&nbsp;址" required>
 				        	<Cascader
-				        	 options={this.curAddress}
+				        	 options={this.curAddressOptions}
 				        	 placeholder="请选择现住址"
 				        	 defaultValue={['guangzhou', 'yuexiu', 'dadongjie']}
 				        	 style={{ width: 320 }}
@@ -113,19 +142,31 @@ class GeneralSituationForm extends React.Component {
 				        <FormItem>
 			        		<Input placeholder="路（街）"  style={{ width: 150 }}/>
 				        </FormItem>
+				        <FormItem label="常住类型" required>
+				          <Select style={{ width: 150 }}>
+					       	{this.getSelectOptions(this.perTypeOptions)}
+					      </Select>
+				        </FormItem>
 				        <br />
 				        <br />
 
 				        {/*户籍地址*/}
 				        <FormItem label="户籍地址" required>
 				        	<Cascader
-				        	 options={this.censusRegister}
+				        	 options={this.censusRegisterOptions}
 				        	 placeholder="请选择现住址"
 				        	 defaultValue={['guangdongsheng', 'guangzhou', 'yuexiu', 'dadongjie']}
 				        	 style={{ width: 320 }} />
 				        </FormItem>
 				        <FormItem>
-			        		<Input placeholder="路（街）"  style={{ width: 150 }}/>
+			        		<Input placeholder="路（街）" style={{ width: 150 }}/>
+				        </FormItem>
+				        <FormItem
+				         label="&nbsp;&nbsp;&nbsp;婚姻状况"
+				        >
+				          <Select style={{ width: 150 }}>
+					       {this.getSelectOptions(this.maritalStatusOptions)}
+						  </Select>
 				        </FormItem>
 				        <br />
 				        <br />
@@ -133,110 +174,125 @@ class GeneralSituationForm extends React.Component {
 				        {/*本人电话*/}
 				        <FormItemWithUnknown
 				        	label="&nbsp;&nbsp;&nbsp;本人电话"
-				         	style={{ width: 150 }}
+				         	style={{ width: 120 }}
 				        />
 				        <FormItemWithUnknown
 				        	label="联系人姓名"
-				         	style={{ width: 150 }}
+				         	style={{ width: 120 }}
 				        />
 				        <FormItemWithUnknown
 				        	label="联系人电话"
-				         	style={{ width: 150 }}
+				         	style={{ width: 120 }}
 				        />
-				        <FormItem label="常住类型" required>
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">户籍（辖区）</Option>
-						    </Select>
-				        </FormItem>
-				        <FormItem label="民族" >
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">汉族</Option>
+				        <FormItem label="档案状态" >
+				          <Select style={{ width: 114 }}>
+						      <Option value="phone">在册</Option>
 						    </Select>
 				        </FormItem>
 				        <br />
 				        <br />
 
 				        {/*血型*/}
-				        <FormItem label="&nbsp;&nbsp;&nbsp;血&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型" >
-				          <Select style={{ width: 174 }}>
-						      <Option value="phone">O型</Option>
-						    </Select>
+				        <FormItem
+				         label="&nbsp;&nbsp;&nbsp;血&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型"
+				        >
+				          <Select style={{ width: 120 }}>
+					       {this.getSelectOptions(this.bloodTypeOptions)}
+						  </Select>
 				        </FormItem>
-				        <FormItem label="RH阴性" >
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">是</Option>
-						    </Select>
+				        <FormItem label="RH&nbsp;&nbsp;&nbsp;阴&nbsp;&nbsp;&nbsp;性" >
+				          <Select style={{ width: 120 }}>
+					       {this.getSelectOptions(this.tofOptions)}
+						  </Select>
 				        </FormItem>
-				        <FormItem label="文化程度" >
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">本科</Option>
-						    </Select>
+				        <FormItem
+				         label="职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位"
+				        >
+				          <Select style={{ width: 304 }}>
+					       {this.getSelectOptions(this.professionOptions)}
+						  </Select>
 				        </FormItem>
-				        <FormItem label="职业" >
-				          <Select style={{ width: 320 }}>
-						      <Option value="phone">商业服务人员</Option>
-						    </Select>
-				        </FormItem>
-				        <FormItem label="婚姻状况" >
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">已婚</Option>
-						    </Select>
+				        <br />
+				        <br />
+				        <FormItemWithUnknown
+				        	label="&nbsp;&nbsp;&nbsp;工作单位"
+				         	style={{ width: 323 }}
+				        />
+				        <FormItem label="文&nbsp;&nbsp;化&nbsp;程&nbsp;度" >
+				          <Select style={{ width: 304 }}>
+					       {this.getSelectOptions(this.lvOfEduOptions)}
+						  </Select>
 				        </FormItem>
 				        <br />
 				        <br />
 
 				        {/*医疗费用支付方式*/}
-				        <FormItem label="医疗费用支付方式" >
-				        	<CheckboxGroup options={this.medicalPayMethod} defaultValue={['Pear']} />
-				        </FormItem>
-				        <FormItem>
-			        		<Input placeholder="其他"  style={{ width: 150 }}/>
-				        </FormItem>
+				        <FormItem label="医疗费用支付方式" />
+				        <br />
+			        	<FormItem>
+			        		<CheckboxGroup
+			        		 options={this.medicalPayMethodOptions}
+			        		/>
+			        	</FormItem>
+			        	<FormItem>
+			        		<Input
+			        		 placeholder="其他支付方式"
+			        		 style={{ width: 100 }}
+			        		 disabled
+			        		/>
+			        	</FormItem>
 				        <br />
 				        <br />
 
 				        {/*药物过敏*/}
-				        <FormItem label="药物过敏" >
+				        <FormItem label="药物过敏">
 				        	<RadioGroup>
 					        	<Radio key="a" value={1}>有</Radio>
 								<Radio key="b" value={2}>无</Radio>
 				        	</RadioGroup>
-							</FormItem>
+						</FormItem>
 				        <FormItem>
-				        	<CheckboxGroup options={this.drugAllergy} defaultValue={['Pear']} />
+				        	<CheckboxGroup options={this.drugAllergyOptions} />
 				        </FormItem>
 				        <FormItem>
-			        		<Input placeholder="其他"  style={{ width: 150 }}/>
+			        		<Input
+			        		 placeholder="其他"
+			        		 style={{ width: 100 }}
+			        		 disabled
+			        		/>
 			        	</FormItem>
-				        <FormItem label="暴露史" >
+				        <FormItem label="暴露史">
 				        	<RadioGroup>
 					        	<Radio key="a" value={1}>有</Radio>
 								<Radio key="b" value={2}>无</Radio>
 				        	</RadioGroup>
 				        </FormItem>
 				        <FormItem>
-				        	<CheckboxGroup options={this.exposureHistory} defaultValue={['Pear']} />
+				        	<CheckboxGroup options={this.exposureHistoryOptions} />
 				        </FormItem>
 				        <br />
 				        <br />
 
-				        {/*档案状态*/}
-				        <FormItem label="档案状态" >
-				          <Select style={{ width: 150 }}>
-						      <Option value="phone">在册</Option>
-						    </Select>
-				        </FormItem>
+				        {/*建档人*/}
 				        <FormItem label="建档人" >
-				          <Input />
+				          <Input style={{ width: 141 }}/>
 				        </FormItem>
 				        <FormItem label="建档日期" >
-				          <DatePicker />
+				          <DatePicker
+				           defaultValue={new Date()}
+				           format="yyyy-M-d"
+				           style={{ width: 141 }}
+				          />
 				        </FormItem>
 				        <FormItem label="录入人" >
-				          <Input />
-				        </FormItem>
-				        <FormItem label="录入日期" >
-				          <DatePicker />
+				          <Input style={{ width: 141 }}/>
+				        </FormItem>				
+				        <FormItem label="42" >
+				          <DatePicker
+				           defaultValue={new Date()}
+				           format="yyyy-M-d"
+				           style={{ width: 141}}
+				          />
 				        </FormItem>
 				        <br />
 				        <br />
@@ -255,10 +311,13 @@ class GeneralSituationForm extends React.Component {
 
 function onFieldsChange(props, fields) {
 	console.log("GeneralSituationForm onFieldsChange")
+	console.log('change', fields);
+
 }
 
 function mapPropsToFields(props) {
 	console.log("GeneralSituationForm mapPropsToFields")
+	console.log(props.fields)
 }
 
 export default Form.create()(GeneralSituationForm)

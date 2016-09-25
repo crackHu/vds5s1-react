@@ -13,7 +13,7 @@ const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.js'),
+		vds5: path.resolve(APP_PATH, 'app.js'),
 		common: [
 			'react',
 			'react-dom',

@@ -35,9 +35,6 @@ class AntContainer1 extends React.Component {
 		this.state = {
 			activeKey: this.arcType[0].key,
 			arcType: this.arcType,
-
-			username: undefined,
-			personalno: undefined,
 		}
 	}
 
@@ -45,30 +42,39 @@ class AntContainer1 extends React.Component {
 
 	componentWillUnmount = () => {}
 
-	componentDidUpdate() {
-		console.log("componentDidUpdate", this.state.username, this.state.personalno)
+	componentWillUpdate = () => {
+		console.log('componentWillUpdate' + this.state)
+	}
+
+	componentDidUpdate = () => {
+		console.log("componentDidUpdate", this.state.grbh, this.state.grda_xm)
 	}
 
 	/*save archiv*/
 	saveForm = (e) => {
-		const hide = msg('loading', '正在保存中...', 110);
+		this.props.saveArchiveData({
+			'grbh': this.state.grbh.value,
+			'grda_xm': this.state.grda_xm.value
+		});
 
-		const url = "https://api.github.com/search/users?q=a"
-		const init = {
-			cache: 'no-cache'
-		}
-		fetch(url)
-			.then(response => response.json())
-			.then((data) => {
-				console.log(data)
-				hide()
-				msg('success', '保存成功')
-			})
-			.catch((e) => {
-				console.error("Oops, error", e)
-				hide()
-				msg('warn', '保存失败 ' + '[' + e + ']')
-			})
+		// const hide = msg('loading', '正在保存中...', 110);
+
+		// const url = "http://localhost:8080/vds5s1/ba/boCallMethodPC.jsp"
+		// const init = {
+		// 	cache: 'no-cache'
+		// }
+		// fetch(url)
+		// 	.then(response => response.json())
+		// 	.then((data) => {
+		// 		console.log(data)
+		// 		hide()
+		// 		msg('success', '保存成功')
+		// 	})
+		// 	.catch((e) => {
+		// 		console.error("Oops, error", e)
+		// 		hide()
+		// 		msg('warn', '保存失败 ' + '[' + e + ']')
+		// 	})
 	}
 
 	onFieldsChange = ({
@@ -198,6 +204,7 @@ class AntContainer1 extends React.Component {
 }
 
 AntContainer1.propTypes = {
+	saveArchiveData: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired
 }
 

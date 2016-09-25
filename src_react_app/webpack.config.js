@@ -10,7 +10,7 @@ const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 const config = {
 	entry: {
-		vds5: path.resolve(APP_PATH, 'index.js')
+		vds5: path.resolve(APP_PATH, 'app.js')
 	},
 	output: {
 		path: BUILD_PATH,
