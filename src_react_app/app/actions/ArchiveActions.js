@@ -31,7 +31,7 @@ export function getArchiveList() {
 				})
 			})
 			.catch(e => {
-				notify('error', '错误' + '[' + e + ']', '數據鏈接不上或其他錯誤');
+				notify('error', '错误', '网络错误');
 				console.error("Oops, error", e)
 			})
 	}
@@ -50,14 +50,14 @@ export function passArchivesFormData(formData) {
 export function saveArchiveData(data) {
 	return dispatch => {
 		const hide = msg('loading', '正在保存中...', 110);
-		fetch(api.saveArchiveData)
+		fetch(api.saveArchiveData(data))
 			.then(response => response.json())
 			.then((data) => {
 				let resCode = data.resultCode
 				let resMsg = data.resultMsg
 				hide()
 				if (resCode != 1) {
-					msg('warn', '保存失败 ' + '[' + resMsg + ']')
+					msg('warn', '保存失败')
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
 					msg('success', '保存成功')
@@ -69,7 +69,7 @@ export function saveArchiveData(data) {
 			})
 			.catch(e => {
 				hide()
-				notify('error', '错误' + '[' + e + ']', '數據鏈接不上或其他錯誤');
+				notify('error', '错误', '网络错误');
 				console.error("Oops, error", e)
 			})
 	}

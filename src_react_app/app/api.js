@@ -8,7 +8,7 @@ export const reqUrl = `${config.baseUrl}/${config.projectName}/ba/boCallMethodPC
 export const getArchiveList = () => {
 	const query = {
 		boName: "boVdsUnified",
-		funcName: "login",
+		funcName: "getArchiveList",
 
 		procedure: "procJBZLSelect",
 		pageNo: 1,

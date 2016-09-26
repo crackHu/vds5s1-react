@@ -20,6 +20,10 @@ import {
 	Card
 } from 'antd';
 import {
+	connect
+} from 'react-redux';
+import * as ArchiveActions from '../actions/ArchiveActions'
+import {
 	arc_form_widget_config
 } from 'config'
 
@@ -269,29 +273,35 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem>
 				        	<CheckboxGroup options={this.exposureHistoryOptions} />
-				        </FormItem>
+				        </FormItem> 	
 				        <br />
 				        <br />
 
 				        {/*建档人*/}
-				        <FormItem label="建档人" >
-				          <Input style={{ width: 141 }}/>
+				        <FormItem
+				         label="建&nbsp;&nbsp;档&nbsp;&nbsp;人" 
+				        >
+				          <Input style={{ width: 120 }}/>
 				        </FormItem>
 				        <FormItem label="建档日期" >
 				          <DatePicker
 				           defaultValue={new Date()}
 				           format="yyyy-M-d"
-				           style={{ width: 141 }}
+				           style={{ width: 132 }}
+				           disabledDate={(current) => {return current && current.getTime() > Date.now()}}
 				          />
 				        </FormItem>
-				        <FormItem label="录入人" >
-				          <Input style={{ width: 141 }}/>
+				        <FormItem
+				         label="录&nbsp;&nbsp;入&nbsp;&nbsp;人"
+				        >
+				          <Input style={{ width: 120 }}/>
 				        </FormItem>				
-				        <FormItem label="42" >
+				        <FormItem label="录入日期" >
 				          <DatePicker
 				           defaultValue={new Date()}
 				           format="yyyy-M-d"
-				           style={{ width: 141}}
+				           style={{ width: 132}}
+				           disabledDate={(current) => {return current && current.getTime() > Date.now()}}
 				          />
 				        </FormItem>
 				        <br />
@@ -312,7 +322,8 @@ class GeneralSituationForm extends React.Component {
 function onFieldsChange(props, fields) {
 	console.log("GeneralSituationForm onFieldsChange")
 	console.log('change', fields);
-
+	console.log('change', props);
+	console.log('change', props.fields);
 }
 
 function mapPropsToFields(props) {
@@ -320,4 +331,15 @@ function mapPropsToFields(props) {
 	console.log(props.fields)
 }
 
-export default Form.create()(GeneralSituationForm)
+function mapStateToProps(state) {
+	return {
+		data: state.app
+	}
+}
+
+const GeneralSituation = Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(GeneralSituationForm)
+
+export default connect(mapStateToProps, ArchiveActions)(GeneralSituation)

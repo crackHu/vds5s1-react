@@ -1,15 +1,15 @@
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = ''
+  baseUrl = 'http://localhost:8080'
 } else {
-  baseUrl = 'http:localhost:8080'
+  baseUrl = ''
 }
 
 export const config = {
   baseUrl: baseUrl,
   projectName: "vds5s1",
   host: 'http://www.basoft.cn/',
-  needDevTool: true
+  needDevTool: false
 }
 
 /**************菜单配置**************/

@@ -18,7 +18,8 @@ import * as ArchiveActions from '../actions/ArchiveActions'
 
 import {
 	msg,
-	notify
+	notify,
+	getDate
 } from '../utils/utils'
 import {
 	arc_type_config
@@ -54,27 +55,9 @@ class AntContainer1 extends React.Component {
 	saveForm = (e) => {
 		this.props.saveArchiveData({
 			'grbh': this.state.grbh.value,
-			'grda_xm': this.state.grda_xm.value
+			'grda_xm': this.state.grda_xm.value,
+			'grda_jdrq': getDate()
 		});
-
-		// const hide = msg('loading', '正在保存中...', 110);
-
-		// const url = "http://localhost:8080/vds5s1/ba/boCallMethodPC.jsp"
-		// const init = {
-		// 	cache: 'no-cache'
-		// }
-		// fetch(url)
-		// 	.then(response => response.json())
-		// 	.then((data) => {
-		// 		console.log(data)
-		// 		hide()
-		// 		msg('success', '保存成功')
-		// 	})
-		// 	.catch((e) => {
-		// 		console.error("Oops, error", e)
-		// 		hide()
-		// 		msg('warn', '保存失败 ' + '[' + e + ']')
-		// 	})
 	}
 
 	onFieldsChange = ({
