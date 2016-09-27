@@ -25,22 +25,28 @@ class PersonalDetailForm extends React.Component {
 
 	componentDidMount = () => {}
 
-	arcformData = (param) => {
-		console.log("收到表单值：", JSON.stringify(param))
-	}
+	componentDidUpdate = () => {}
+
+	onFieldsChange = ({
+		fields
+	}) => {
+		this.setState({
+			...fields,
+		});
+	};
 
 	render() {
 		const {
 			getFieldProps
 		} = this.props.form
-		const username = getFieldProps('grda_xm', {
+		const grda_xm = getFieldProps('grda_xm', {
 			rules: [{
 				required: true,
 				message: '请输入姓名',
 				pattern: /^[\u4e00-\u9fa5]{0,}$/
 			}, ],
 		})
-		const personalno = getFieldProps('grbh', {
+		const grbh = getFieldProps('grbh', {
 			rules: [{
 				required: true,
 				message: '请输入个人编号',
@@ -53,7 +59,7 @@ class PersonalDetailForm extends React.Component {
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								{React.createElement(require(`./${arc.content}`).default, {
-									/*arcformData: this.arcformData, saveArcFormFlag: this.state.saveArcFormFlag*/
+									fields: this.props.fields, onFieldsChange: this.props.onFieldsChange
 								})}
 							</TabPane>
 						)
@@ -70,12 +76,12 @@ class PersonalDetailForm extends React.Component {
 			         required
 			        >
 			          <Input
-			           {...username}
+			           {...grda_xm}
 			           placeholder="请输入姓名"
 			          />
 			        </FormItem>
 			        <FormItem label="个人编号" >
-			          <Input {...personalno} placeholder="请输入个人编号"/>
+			          <Input {...grbh} placeholder="请输入个人编号"/>
 			        </FormItem>
 		        </Form>
 		        {tabpane}

@@ -20,10 +20,6 @@ import {
 	Card
 } from 'antd';
 import {
-	connect
-} from 'react-redux';
-import * as ArchiveActions from '../actions/ArchiveActions'
-import {
 	arc_form_widget_config
 } from 'config'
 
@@ -322,24 +318,18 @@ class GeneralSituationForm extends React.Component {
 function onFieldsChange(props, fields) {
 	console.log("GeneralSituationForm onFieldsChange")
 	console.log('change', fields);
-	console.log('change', props);
-	console.log('change', props.fields);
+	props.onFieldsChange({
+		fields
+	});
 }
 
 function mapPropsToFields(props) {
 	console.log("GeneralSituationForm mapPropsToFields")
 	console.log(props.fields)
+	return props.fields;
 }
 
-function mapStateToProps(state) {
-	return {
-		data: state.app
-	}
-}
-
-const GeneralSituation = Form.create({
+export default Form.create({
 	onFieldsChange,
 	mapPropsToFields
 })(GeneralSituationForm)
-
-export default connect(mapStateToProps, ArchiveActions)(GeneralSituation)

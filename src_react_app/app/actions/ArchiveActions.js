@@ -19,10 +19,10 @@ export function getArchiveList() {
 		fetch(api.getArchiveList(), init)
 			.then(response => response.json())
 			.then((data) => {
-				let resCode = data._c
-				let resMsg = data._m
+				let resCode = data.status.resultCode
+				let resMsg = data.status.resultMsg
 				if (resCode != 1) {
-					notify('warn', '警告', resMsg);
+					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				}
 				dispatch({
@@ -31,19 +31,9 @@ export function getArchiveList() {
 				})
 			})
 			.catch(e => {
-				notify('error', '错误', '网络错误');
+				notify('error', '错误' + '(' + resCode + ')', '网络错误');
 				console.error("Oops, error", e)
 			})
-	}
-}
-
-export function passArchivesFormData(formData) {
-	return dispatch => {
-		console.log("passArchivesFormData receive ", formData);
-		dispatch({
-			type: SUBMIT_ARCHIVES,
-			data: true
-		})
 	}
 }
 
@@ -53,11 +43,11 @@ export function saveArchiveData(data) {
 		fetch(api.saveArchiveData(data))
 			.then(response => response.json())
 			.then((data) => {
-				let resCode = data.resultCode
-				let resMsg = data.resultMsg
+				let resCode = data.status.resultCode
+				let resMsg = data.status.resultMsg
 				hide()
 				if (resCode != 1) {
-					msg('warn', '保存失败')
+					msg('warn', '保存失败' + '(' + resCode + ')')
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
 					msg('success', '保存成功')
@@ -69,7 +59,7 @@ export function saveArchiveData(data) {
 			})
 			.catch(e => {
 				hide()
-				notify('error', '错误', '网络错误');
+				notify('error', '错误' + '(' + resCode + ')', '网络错误');
 				console.error("Oops, error", e)
 			})
 	}

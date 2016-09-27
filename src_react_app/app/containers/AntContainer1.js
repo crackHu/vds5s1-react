@@ -48,7 +48,7 @@ class AntContainer1 extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("componentDidUpdate", this.state.grbh, this.state.grda_xm)
+		console.log("componentDidUpdate", this.state.grbh, this.state.grda_xm, this.state.sex, this.state.birthday)
 	}
 
 	/*save archiv*/
@@ -56,7 +56,6 @@ class AntContainer1 extends React.Component {
 		this.props.saveArchiveData({
 			'grbh': this.state.grbh.value,
 			'grda_xm': this.state.grda_xm.value,
-			'grda_jdrq': getDate()
 		});
 	}
 
@@ -67,7 +66,6 @@ class AntContainer1 extends React.Component {
 			...fields,
 		});
 	};
-
 
 	/*Tab Edit event*/
 	onTabEdit = (targetKey, action) => {
