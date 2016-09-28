@@ -74,6 +74,12 @@ const config = {
 		alias: {
 			'react': path.resolve(NODE_MODULES, 'react'),
 			'config': path.resolve(APP_PATH, 'config'),
+
+			'hcen_conf': path.resolve(APP_PATH, 'modules/hcen/HCenConfig'),
+			'login_conf': path.resolve(APP_PATH, 'modules/login/PDConfig'),
+			'pd_conf': path.resolve(APP_PATH, 'modules/pd/PDConfig'),
+			'rg_conf': path.resolve(APP_PATH, 'modules/rg/RGConfig'),
+			'stat_conf': path.resolve(APP_PATH, 'modules/stat/STATConfig'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

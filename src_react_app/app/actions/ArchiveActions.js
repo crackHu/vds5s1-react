@@ -8,7 +8,8 @@ import * as api from '../api'
 import {
 	msg,
 	notify,
-	getDate
+	getDate,
+	getFieldsObj,
 } from '../utils/utils'
 
 export function getArchiveList() {
@@ -37,9 +38,10 @@ export function getArchiveList() {
 	}
 }
 
-export function saveArchiveData(data) {
+export function saveArchiveData(fields, fields_state) {
 	return dispatch => {
 		const hide = msg('loading', '正在保存中...', 110);
+		let data = getFieldsObj(fields, fields_state)
 		fetch(api.saveArchiveData(data))
 			.then(response => response.json())
 			.then((data) => {

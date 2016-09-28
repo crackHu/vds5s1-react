@@ -13,7 +13,7 @@ export default function ArchiveReducer(state = initialState, action) {
 		case GET_ARCHIVES:
 			return {
 				archiveListloading: false,
-				data: action
+				data: action.data
 			}
 		case SAVE_ARCHIVES:
 			return {

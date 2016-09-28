@@ -24,6 +24,9 @@ import {
 import {
 	arc_type_config
 } from 'config'
+import {
+	personalDetail_fields_config as pd_fields_conf
+} from 'pd_conf'
 
 const TabPane = Tabs.TabPane;
 
@@ -34,12 +37,16 @@ class AntContainer1 extends React.Component {
 		this.arcType = arc_type_config.arcType
 		this.specArcType = arc_type_config.specArcType
 		this.state = {
-			activeKey: this.arcType[0].key,
-			arcType: this.arcType,
-		}
+				activeKey: this.arcType[0].key,
+				arcType: this.arcType,
+				[`${pd_fields_conf.name}`]: {}
+			}
+			//this.state[pd_fields_conf.name] = {}
 	}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+		console.log('asdfasdfasd', this.state)
+	}
 
 	componentWillUnmount = () => {}
 
@@ -48,23 +55,22 @@ class AntContainer1 extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("componentDidUpdate", this.state.grbh, this.state.grda_xm, this.state.sex, this.state.birthday)
+		console.log("componentDidUpdate", this.state[pd_fields_conf.name])
 	}
 
 	/*save archiv*/
 	saveForm = (e) => {
-		this.props.saveArchiveData({
-			'grbh': this.state.grbh.value,
-			'grda_xm': this.state.grda_xm.value,
-		});
+		this.props.saveArchiveData(pd_fields_conf.fields, this.state[pd_fields_conf.name])
 	}
 
 	onFieldsChange = ({
 		fields
 	}) => {
-		this.setState({
-			...fields,
-		});
+		let state = {}
+		state[pd_fields_conf.name] = Object.assign(this.state[pd_fields_conf.name], {}, {
+			...fields
+		})
+		this.setState(state)
 	};
 
 	/*Tab Edit event*/
@@ -158,7 +164,8 @@ class AntContainer1 extends React.Component {
 		const tabpane = this.state.arcType.map(pane =>
 			<TabPane tab={pane.name} key={pane.key}>
 				{React.createElement(require(`../components/${pane.content}`).default,{
-					fields: this.state, onFieldsChange: this.onFieldsChange
+					fields: this.state[pd_fields_conf.name],
+					onFieldsChange: this.onFieldsChange
 				})}
 			</TabPane>)
 

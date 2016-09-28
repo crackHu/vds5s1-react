@@ -14,12 +14,19 @@ export default class FormItemWithUnknown extends React.Component {
 
 	render() {
 
+		const optionProps = this.props.option
+		const option = optionProps ? optionProps.map((item, i) => {
+			return (<Option key={i} value={item.key}>{item.value}</Option>)
+		}) : null
+		console.log('optionnnnnnnnnnnn', option)
+
 		return (
 			<FormItem label={this.props.label} >
 	          <Select
 	           combobox
 	           style={this.props.style}>
-			      <Option value="未提供">未提供</Option>
+	           	  {option}
+	           	  <Option value="未提供">未提供</Option>
 			    </Select>
 	        </FormItem>
 		)
@@ -29,4 +36,5 @@ export default class FormItemWithUnknown extends React.Component {
 FormItemWithUnknown.propTypes = {
 	label: PropTypes.string.isRequired,
 	style: PropTypes.object.isRequired,
+	option: PropTypes.array
 }

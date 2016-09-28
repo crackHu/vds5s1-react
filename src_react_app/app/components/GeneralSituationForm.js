@@ -19,6 +19,7 @@ import {
 	Icon,
 	Card
 } from 'antd';
+import moment from 'moment'
 import {
 	arc_form_widget_config
 } from 'config'
@@ -87,11 +88,20 @@ class GeneralSituationForm extends React.Component {
 
 	render() {
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
 
-		const sex = getFieldProps('sex');
-		const birthday = getFieldProps('birthday');
+		const sex = getFieldDecorator('grda_xb', {
+			rules: [{
+				required: true,
+			}]
+		})
+		const birthday = getFieldDecorator('grda_xb', {
+			rules: [{
+				required: true,
+			}]
+		})
+
 
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
@@ -108,11 +118,11 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem label="出生日期" required>
 				         <DatePicker
-				          defaultValue="1950-1-1"
-				          format="yyyy-M-d"
+				          defaultValue={moment('1950-1-1', 'YYYY/MM/DD')}
+				          format="YYYY-M-D"
 				          {...birthday}
 				          style={{ width: 120 }}
-				          disabledDate={(current) => {return current && current.getTime() > Date.now()}}
+				          disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 				         />
 				        </FormItem>
 				        <FormItem label="身份证号" >
@@ -161,13 +171,15 @@ class GeneralSituationForm extends React.Component {
 				        <FormItem>
 			        		<Input placeholder="路（街）" style={{ width: 150 }}/>
 				        </FormItem>
-				        <FormItem
-				         label="&nbsp;&nbsp;&nbsp;婚姻状况"
-				        >
-				          <Select style={{ width: 150 }}>
+
+				        <FormItemWithUnknown
+				        	label="&nbsp;&nbsp;&nbsp;婚姻状况"
+				         	style={{ width: 150 }}
+				         	option={this.maritalStatusOptions}
+				        />
+				         {/* <Select style={{ width: 150 }}>
 					       {this.getSelectOptions(this.maritalStatusOptions)}
-						  </Select>
-				        </FormItem>
+						  </Select>*/}
 				        <br />
 				        <br />
 
@@ -206,7 +218,7 @@ class GeneralSituationForm extends React.Component {
 						  </Select>
 				        </FormItem>
 				        <FormItem
-				         label="职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位"
+				         label="职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业"
 				        >
 				          <Select style={{ width: 304 }}>
 					       {this.getSelectOptions(this.professionOptions)}
@@ -281,10 +293,10 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem label="建档日期" >
 				          <DatePicker
-				           defaultValue={new Date()}
-				           format="yyyy-M-d"
+				           defaultValue={moment(new Date(), 'YYYY-M-D')}
+				           format="YYYY-M-D"
 				           style={{ width: 132 }}
-				           disabledDate={(current) => {return current && current.getTime() > Date.now()}}
+				           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 				          />
 				        </FormItem>
 				        <FormItem
@@ -294,10 +306,10 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>				
 				        <FormItem label="录入日期" >
 				          <DatePicker
-				           defaultValue={new Date()}
-				           format="yyyy-M-d"
+				           defaultValue={moment(new Date(), 'YYYY/MM/DD')}
+				           format="YYYY-M-D"
 				           style={{ width: 132}}
-				           disabledDate={(current) => {return current && current.getTime() > Date.now()}}
+				           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 				          />
 				        </FormItem>
 				        <br />

@@ -146,7 +146,7 @@ class AntContainer2 extends React.Component {
 		}];
 
 		const archiveProps = this.props.data.archive
-		const data = archiveProps.data ? archiveProps.data.data.dout : null;
+		const data = archiveProps.data ? archiveProps.data.dout : null;
 		const loading = archiveProps.archiveListloading
 
 		const pagination = data ? {

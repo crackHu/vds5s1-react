@@ -118,3 +118,15 @@ export const msg = (type, content, duration) => {
       return message.info(content, duration)
   }
 }
+
+// ------ 获取表单字段与值的封装对象 ------ //
+export const getFieldsObj = (fields, fields_state) => {
+  let obj = {}
+  fields.forEach((item, i) => {
+    let field = fields_state[item]
+    if (field) {
+      obj[item] = field.value
+    }
+  })
+  return obj
+}

@@ -27,26 +27,18 @@ class PersonalDetailForm extends React.Component {
 
 	componentDidUpdate = () => {}
 
-	onFieldsChange = ({
-		fields
-	}) => {
-		this.setState({
-			...fields,
-		});
-	};
-
 	render() {
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
-		const grda_xm = getFieldProps('grda_xm', {
+		const grda_xm = getFieldDecorator('grda_xm', {
 			rules: [{
 				required: true,
 				message: '请输入姓名',
-				pattern: /^[\u4e00-\u9fa5]{0,}$/
+				pattern: /^[\u4e00-\u9fa5]{0,}$/,
 			}, ],
 		})
-		const grbh = getFieldProps('grbh', {
+		const grbh = getFieldDecorator('grbh', {
 			rules: [{
 				required: true,
 				message: '请输入个人编号',
@@ -73,7 +65,6 @@ class PersonalDetailForm extends React.Component {
 				<Form inline onSubmit={this.handleSubmit}>
 			        <FormItem
 			         label="姓名"
-			         required
 			        >
 			          <Input
 			           {...grda_xm}
