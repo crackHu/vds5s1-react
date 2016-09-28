@@ -82,7 +82,8 @@ class GeneralSituationForm extends React.Component {
 
 	getSelectOptions = (data) => {
 		return data.map((item, i) => {
-			return <Option key={i} value={item.key}>{item.value}</Option>
+			console.log('key', item.key, 'value', item.value)
+			return <Option key={item.key} value={item.label}>{item.value}</Option>
 		})
 	}
 
@@ -113,7 +114,6 @@ class GeneralSituationForm extends React.Component {
 				           style={{ width: 120 }}
 				           {...sex}
 				          >
-					       {this.getSelectOptions(this.sexOptions)}
 					      </Select>
 				        </FormItem>
 				        <FormItem label="出生日期" required>
@@ -177,9 +177,6 @@ class GeneralSituationForm extends React.Component {
 				         	style={{ width: 150 }}
 				         	option={this.maritalStatusOptions}
 				        />
-				         {/* <Select style={{ width: 150 }}>
-					       {this.getSelectOptions(this.maritalStatusOptions)}
-						  </Select>*/}
 				        <br />
 				        <br />
 
@@ -259,8 +256,8 @@ class GeneralSituationForm extends React.Component {
 				        {/*药物过敏*/}
 				        <FormItem label="药物过敏">
 				        	<RadioGroup>
-					        	<Radio key="a" value={1}>有</Radio>
-								<Radio key="b" value={2}>无</Radio>
+					        	<Radio key="a11" value={1}>有</Radio>
+								<Radio key="b43211" value={2}>无</Radio>
 				        	</RadioGroup>
 						</FormItem>
 				        <FormItem>
@@ -273,15 +270,38 @@ class GeneralSituationForm extends React.Component {
 			        		 disabled
 			        		/>
 			        	</FormItem>
+
+			        	
 				        <FormItem label="暴露史">
 				        	<RadioGroup>
-					        	<Radio key="a" value={1}>有</Radio>
-								<Radio key="b" value={2}>无</Radio>
+					        	<Radio key="1234" value={1}>有</Radio>
+								<Radio key="1234123" value={2}>无</Radio>
 				        	</RadioGroup>
 				        </FormItem>
 				        <FormItem>
-				        	<CheckboxGroup options={this.exposureHistoryOptions} />
-				        </FormItem> 	
+				        	<CheckboxGroup options={this.drugAllergyOptions} />
+				        </FormItem>
+
+				        <br />
+				        <br />
+
+						<FormItem label="药物过敏">
+			        	 	<Select tags
+							    style={{ width: 100 }}
+							    searchPlaceholder="标签模式"
+							  >
+							  {this.getSelectOptions(this.drugAllergyOptions)}
+							</Select>
+			        	</FormItem>
+				        <FormItem label="暴露史">
+			        	 	<Select tags
+							    style={{ width: 100 }}
+							    searchPlaceholder="标签模式"
+							  >
+							  {this.getSelectOptions(this.exposureHistory)}
+							</Select>
+			        	</FormItem>
+				        
 				        <br />
 				        <br />
 

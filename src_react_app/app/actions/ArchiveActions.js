@@ -32,7 +32,7 @@ export function getArchiveList() {
 				})
 			})
 			.catch(e => {
-				notify('error', '错误' + '(' + resCode + ')', '网络错误');
+				notify('error', '错误', '网络错误');
 				console.error("Oops, error", e)
 			})
 	}
@@ -61,7 +61,7 @@ export function saveArchiveData(fields, fields_state) {
 			})
 			.catch(e => {
 				hide()
-				notify('error', '错误' + '(' + resCode + ')', '网络错误');
+				notify('error', '错误', '网络错误');
 				console.error("Oops, error", e)
 			})
 	}
