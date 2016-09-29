@@ -24,7 +24,10 @@ import QueueAnim from 'rc-queue-anim';
 import {
 	msg,
 	notify
-} from '../utils/utils'
+} from 'utils'
+import {
+	archiveListPageSize as pdListPageSize
+} from 'pd_conf'
 
 import * as ArchiveActions from '../actions/ArchiveActions'
 import AdvancedSearch from './AdvancedSearch'
@@ -42,7 +45,7 @@ class AntContainer2 extends React.Component {
 	componentWillMount = () => {}
 
 	componentDidMount() {
-		this.props.getArchiveList();
+		this.props.getArchiveList(1, 45);
 	}
 
 	componentDidUpdate = () => {
@@ -158,6 +161,9 @@ class AntContainer2 extends React.Component {
 			onChange(current) {
 				console.log('Current: ', current);
 			},
+			showQuickJumper: true,
+			pageSize: pdListPageSize,
+			showTotal: (total) => `共 ${total} 条`,
 		} : null;
 
 		const advancedSearch = this.state.modalVisible ? [
@@ -186,7 +192,15 @@ class AntContainer2 extends React.Component {
 							    onSearch={value => console.log(value)} style={{ width: 200 }}
 							  />
 						</div>
-						<Table key="table" columns={columns} dataSource={data} pagination={pagination} loading={loading} scroll={{x:1100}} bordered/>
+						<Table
+						 key="table"
+						 columns={columns}
+						 dataSource={data}
+						 pagination={pagination}
+						 loading={loading}
+						 scroll={{x:1100}}
+						 bordered
+						/>
 				    </Card>
 				</div>
 			</QueueAnim>

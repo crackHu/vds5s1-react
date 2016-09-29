@@ -1,3 +1,6 @@
+/**************个人档案列表每页条数配置**************/
+export const archiveListPageSize = 10
+
 /**************个人基本信息表字段配置**************/
 export const personalDetail_fields_config = {
 	name: 'personalDetail_fields',

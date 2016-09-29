@@ -43,6 +43,11 @@ export function getDate() {
   return d.yyyymmdd()
 }
 
+// ------ 获取当前时间戳 ------ //
+export function getDateTimestamp() {
+  return new Date().getTime()
+}
+
 export function getIndexOfObjWithKeyVal(array, key, value) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].hasOwnProperty(key) && array[i][key] === value) {

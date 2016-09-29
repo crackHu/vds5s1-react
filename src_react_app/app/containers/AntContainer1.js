@@ -20,7 +20,7 @@ import {
 	msg,
 	notify,
 	getDate
-} from '../utils/utils'
+} from 'utils'
 import {
 	arc_type_config
 } from 'config'
@@ -37,15 +37,14 @@ class AntContainer1 extends React.Component {
 		this.arcType = arc_type_config.arcType
 		this.specArcType = arc_type_config.specArcType
 		this.state = {
-				activeKey: this.arcType[0].key,
-				arcType: this.arcType,
-				[`${pd_fields_conf.name}`]: {}
-			}
-			//this.state[pd_fields_conf.name] = {}
+			activeKey: this.arcType[0].key,
+			arcType: this.arcType,
+			[`${pd_fields_conf.name}`]: {}
+		}
 	}
 
 	componentDidMount = () => {
-		console.log('asdfasdfasd', this.state)
+		console.log('AntContainer1.state', this.state)
 	}
 
 	componentWillUnmount = () => {}

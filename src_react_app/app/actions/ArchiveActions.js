@@ -10,19 +10,33 @@ import {
 	notify,
 	getDate,
 	getFieldsObj,
-} from '../utils/utils'
+	getDateTimestamp,
+} from 'utils'
 
-export function getArchiveList() {
+const fetchCatchMsg = '内部错误'
+const postReqUrl = api.postReqUrl
+const fetchInit = {
+	method: 'POST',
+	headers: {
+		'Accept': 'application/json, text/plain, */*',
+		'Content-Type': 'x-www-form-urlencoded',
+		'cache': "no-store"
+	},
+	body: undefined
+}
+
+export function getArchiveList(pageSize, pageNo) {
+
+	let query = api.getArchiveList(pageSize, pageNo)
+	fetchInit.body = encodeURI(query)
+
 	return dispatch => {
-		const init = {
-			cache: 'no-cache'
-		}
-		fetch(api.getArchiveList(), init)
+		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
-				if (resCode != 1) {
+				if (resCode < 0) {
 					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				}
@@ -32,23 +46,27 @@ export function getArchiveList() {
 				})
 			})
 			.catch(e => {
-				notify('error', '错误', '网络错误');
+				notify('error', '错误', fetchCatchMsg);
 				console.error("Oops, error", e)
 			})
 	}
 }
 
 export function saveArchiveData(fields, fields_state) {
+
+	let data = getFieldsObj(fields, fields_state)
+	let query = api.saveArchiveData(data)
+	fetchInit.body = encodeURI(query)
+
 	return dispatch => {
 		const hide = msg('loading', '正在保存中...', 110);
-		let data = getFieldsObj(fields, fields_state)
-		fetch(api.saveArchiveData(data))
+		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
 				hide()
-				if (resCode != 1) {
+				if (resCode < 0) {
 					msg('warn', '保存失败' + '(' + resCode + ')')
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
@@ -61,7 +79,7 @@ export function saveArchiveData(fields, fields_state) {
 			})
 			.catch(e => {
 				hide()
-				notify('error', '错误', '网络错误');
+				notify('error', '错误', fetchCatchMsg);
 				console.error("Oops, error", e)
 			})
 	}

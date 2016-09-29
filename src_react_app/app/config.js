@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export const config = {
   baseUrl: baseUrl,
-  projectName: "vds5s1",
+  projectName: "medicPHR",
   host: 'http://www.basoft.cn/',
   needDevTool: false
 }
@@ -28,7 +28,7 @@ export const menu_config = {
     key: "AntContainer2",
     path: "/AntContainer2",
     name: "测试2",
-    iconType: "code"
+    iconType: "code-o"
   }, {
     key: "ArchivDetail",
     path: "/ArchivDetail",
@@ -107,14 +107,14 @@ export const arc_form_widget_config = {
 
     /*性别*/
     sex: [{
-      key: 'unknown',
-      value: '未知的性别'
-    }, {
       key: 'male',
       value: '男'
     }, {
       key: 'female',
       value: '女'
+    }, {
+      key: 'unknown',
+      value: '未知的性别'
     }],
 
     /*居住类型*/
@@ -406,37 +406,33 @@ export const arc_form_widget_config = {
 
     /*医疗费用支付方式*/
     medicalPayMethod: [{
-      key: '城镇职工基本医疗保险',
+      key: 'a',
       label: '城镇职工基本医疗保险',
-      value: '1'
+      value: '城镇职工基本医疗保险'
     }, {
-      key: '城镇居民基本医疗保险',
+      key: 'b',
       label: '城镇居民基本医疗保险',
-      value: '2'
+      value: '城镇居民基本医疗保险'
     }, {
-      key: '新型农村合作医疗',
+      key: 'c',
       label: '新型农村合作医疗',
-      value: '3'
+      value: '新型农村合作医疗'
     }, {
-      key: '贫困救助',
+      key: 'd',
       label: '贫困救助',
-      value: '4'
+      value: '贫困救助'
     }, {
-      key: '商业医疗保险',
+      key: 'e',
       label: '商业医疗保险',
-      value: '5'
+      value: '商业医疗保险'
     }, {
-      key: '全公费',
+      key: 'f',
       label: '全公费',
-      value: '6'
+      value: '全公费'
     }, {
-      key: '全自费',
+      key: 'h',
       label: '全自费',
-      value: '7'
-    }, {
-      key: '其他',
-      label: '其他',
-      value: 'other'
+      value: '全自费'
     }],
 
     /*药物过敏*/
@@ -452,10 +448,6 @@ export const arc_form_widget_config = {
       key: 'b',
       label: '肾上腺素',
       value: '肾上腺素1'
-    }, {
-      key: 'c',
-      label: '其他',
-      value: '其他'
     }],
 
     /*暴露史*/

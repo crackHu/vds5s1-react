@@ -4,16 +4,15 @@ const autoprefixer = require('autoprefixer');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const env = process.env.NODE_ENV;
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
-const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/vdsapp');
+const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/app');
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		vds5: path.resolve(APP_PATH, 'app.js'),
+		medicPHR: path.resolve(APP_PATH, 'app.js'),
 		common: [
 			'react',
 			'react-dom',
@@ -29,7 +28,7 @@ const config = {
 	output: {
 		path: BUILD_PATH,
 		filename: 'assets/[name].bundle.js',
-		publicPath: '/vds5s1/vdsapp/'
+		publicPath: '/medicPHR/app/'
 	},
 	module: {
 		loaders: [{
@@ -88,12 +87,12 @@ const config = {
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'common',
-			chunks: ['vds5'],
+			chunks: ['medicPHR'],
 			filename: 'assets/[name].js',
 			minChunks: Infinity
 		}),
 		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify(env)
+			'process.env.NODE_ENV': JSON.stringify('production')
 		}),
 		new ExtractTextPlugin("assets/[name].style.css"),
 		new HtmlwebpackPlugin({

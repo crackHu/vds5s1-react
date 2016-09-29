@@ -5,6 +5,9 @@ import {
 	Form,
 	Select
 } from 'antd';
+import {
+	getDateTimestamp
+} from 'utils'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,10 +17,10 @@ export default class FormItemWithUnknown extends React.Component {
 
 	render() {
 
-		const unknownOption = <Option key="unknown" value="未提供">未提供</Option>
+		const unknownOption = <Option key={getDateTimestamp()} value="未提供">未提供</Option>
 		const optionProp = this.props.option
 		let option = optionProp ? optionProp.map((item, i) => {
-			return (<Option key={i} value={item.key}>{item.value}</Option>)
+			return (<Option key={i}>{item.value}</Option>)
 		}) : null
 		if (option) {
 			option.push(unknownOption)
