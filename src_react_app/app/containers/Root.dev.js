@@ -11,7 +11,7 @@ import {
 import routes from '../routes';
 import DevTools from './DevTools';
 import {
-  config
+  CONFIG
 } from 'config'
 
 export default class Root extends Component {
@@ -23,7 +23,7 @@ export default class Root extends Component {
       history
     } = this.props;
 
-    const devTools = config.needDevTool ? <DevTools /> : null
+    const devTools = CONFIG.needDevTool ? <DevTools /> : null
 
     return (
       <Provider store={store}>

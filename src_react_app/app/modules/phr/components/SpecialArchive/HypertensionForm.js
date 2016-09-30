@@ -7,7 +7,10 @@ import {
 	Input,
 } from 'antd'
 
-class FamiLivelHistoryFrom extends React.Component {
+const FormItem = Form.Item;
+
+/*高血压专档*/
+class HypertensionForm extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -18,10 +21,8 @@ class FamiLivelHistoryFrom extends React.Component {
 	componentDidMount = () => {}
 
 	render() {
-
-		const FormItem = Form.Item;
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
 
 		return (
@@ -31,11 +32,11 @@ class FamiLivelHistoryFrom extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("FamiLivelHistoryFrom onFieldsChange")
+	console.log("HypertensionForm onFieldsChange")
 }
 
 function mapPropsToFields(props) {
-	console.log("FamiLivelHistoryFrom mapPropsToFields")
+	console.log("HypertensionForm mapPropsToFields")
 }
 
-export default Form.create()(FamiLivelHistoryFrom)
+export default Form.create()(HypertensionForm)

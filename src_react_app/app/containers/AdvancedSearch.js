@@ -12,8 +12,8 @@ import {
 	Modal,
 	Button
 } from 'antd'
-import PersonalDetailForm from '../components/PersonalDetailForm'
 
+/*高级搜索*/
 class AdvancedSearch extends Component {
 
 	constructor(props) {
@@ -225,11 +225,11 @@ class AdvancedSearch extends Component {
 			},
 		};
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
-		const username = getFieldProps('username');
-		const password = getFieldProps('password');
-		/*const password = getFieldProps('password', {
+		const username = getFieldDecorator('username');
+		const password = getFieldDecorator('password');
+		/*const password = getFieldDecorator('password', {
 			rules: [{
 				required: true,
 				message: '请输入密码'

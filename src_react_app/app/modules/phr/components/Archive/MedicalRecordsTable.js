@@ -13,6 +13,7 @@ import {
 	Pagination
 } from 'antd'
 
+/*既往史*/
 class MedicalRecordsTable extends React.Component {
 
 	constructor(props) {
@@ -107,8 +108,9 @@ class MedicalRecordsTable extends React.Component {
 			width: 50,
 			render: () => (
 				<span>
-			      <a href="#">删除</a>
+			      <a href="#">编辑</a>
 			      {/*<span className="ant-divider"></span>*/}
+			      <a href="#">删除</a>
 			    </span>
 			),
 		}];

@@ -8,7 +8,7 @@ import {
 } from 'react-router';
 
 import {
-	menu_config
+	MENU_CONFIG
 } from 'config'
 
 const SubMenu = Menu.SubMenu;
@@ -25,7 +25,7 @@ export default class HeaderNav extends React.Component {
 	render() {
 
 		const selectedKeys = [this.props.route.headerNavKey];
-		const menuItems = menu_config.headerNav.map((menu, index) => {
+		const menuItems = MENU_CONFIG.headerNav.map((menu, index) => {
 			return (
 				<Menu.Item key={menu.key}>
 	           				<Link to={menu.path}>

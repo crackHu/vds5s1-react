@@ -21,14 +21,14 @@ import {
 } from 'antd';
 import moment from 'moment'
 import {
-	arc_form_widget_config
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
 } from 'config'
 import {
 	getDateTimestamp
 } from 'utils'
 
 import MedicalRecordsTable from './MedicalRecordsTable'
-import FormItemWithUnknown from './FormItemWithUnknown'
+import FormItemWithUnknown from '../../../../components/FormItemWithUnknown'
 
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
@@ -36,6 +36,7 @@ const RadioGroup = Radio.Group;
 const Option = Select.Option;
 const InputGroup = Input.Group;
 
+/*一般情况*/
 class GeneralSituationForm extends React.Component {
 
 	constructor(props) {
@@ -45,33 +46,33 @@ class GeneralSituationForm extends React.Component {
 		}
 
 		/*现住址*/
-		this.curAddressOptions = arc_form_widget_config.cascadeOptions.curAddress;
+		this.curAddressOptions = WIDGET_CONFIG.cascadeOptions.curAddress;
 		/*户籍地址*/
-		this.censusRegisterOptions = arc_form_widget_config.cascadeOptions.censusRegister;
+		this.censusRegisterOptions = WIDGET_CONFIG.cascadeOptions.censusRegister;
 
 		/*医疗费用支付方式*/
-		this.medicalPayMethodOptions = arc_form_widget_config.checkboxGroupOptions.medicalPayMethod;
+		this.medicalPayMethodOptions = WIDGET_CONFIG.checkboxGroupOptions.medicalPayMethod;
 		/*药物过敏*/
-		this.drugAllergyOptions = arc_form_widget_config.checkboxGroupOptions.drugAllergy;
+		this.drugAllergyOptions = WIDGET_CONFIG.checkboxGroupOptions.drugAllergy;
 		/*暴露史*/
-		this.exposureHistoryOptions = arc_form_widget_config.checkboxGroupOptions.exposureHistory;
+		this.exposureHistoryOptions = WIDGET_CONFIG.checkboxGroupOptions.exposureHistory;
 
 		/*性别*/
-		this.sexOptions = arc_form_widget_config.selectOption.sex;
+		this.sexOptions = WIDGET_CONFIG.selectOption.sex;
 		/*居住类型*/
-		this.perTypeOptions = arc_form_widget_config.selectOption.permanentType;
+		this.perTypeOptions = WIDGET_CONFIG.selectOption.permanentType;
 		/*民族*/
-		this.nationalityOptions = arc_form_widget_config.selectOption.nationality;
+		this.nationalityOptions = WIDGET_CONFIG.selectOption.nationality;
 		/*血型*/
-		this.bloodTypeOptions = arc_form_widget_config.selectOption.bloodType;
+		this.bloodTypeOptions = WIDGET_CONFIG.selectOption.bloodType;
 		/*True or false*/
-		this.tofOptions = arc_form_widget_config.selectOption.tof;
+		this.tofOptions = WIDGET_CONFIG.selectOption.tof;
 		/*文化程度*/
-		this.lvOfEduOptions = arc_form_widget_config.selectOption.lvOfEducation;
+		this.lvOfEduOptions = WIDGET_CONFIG.selectOption.lvOfEducation;
 		/*职业*/
-		this.professionOptions = arc_form_widget_config.selectOption.profession;
+		this.professionOptions = WIDGET_CONFIG.selectOption.profession;
 		/*婚姻状况*/
-		this.maritalStatusOptions = arc_form_widget_config.selectOption.maritalStatus;
+		this.maritalStatusOptions = WIDGET_CONFIG.selectOption.maritalStatus;
 	}
 
 	componentWillMount = () => {}
@@ -94,36 +95,29 @@ class GeneralSituationForm extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 
-		const sex = getFieldDecorator('grda_xb', {
-			rules: [{
-				required: true,
-			}]
-		})
-		const birthday = getFieldDecorator('grda_xb', {
-			rules: [{
-				required: true,
-			}]
-		})
-
-
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
 				<Row>
 					<Col>
 						{/*性别*/}
-				        <FormItem label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别" required>
-				          <Select
-				           style={{ width: 120 }}
-				           {...sex}
-				          >
-				           {this.getSelectOptions(this.sexOptions)}
-					      </Select>
+				        <FormItem
+				         label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别" required>
+				            {getFieldDecorator('grda_xb', {
+				            	rules: [{
+				            		required: true
+				            	}]
+				            })(
+					          <Select
+					           style={{ width: 120 }}
+					          >
+					           {this.getSelectOptions(this.sexOptions)}
+						      </Select>
+				            )}
 				        </FormItem>
 				        <FormItem label="出生日期" required>
 				         <DatePicker
 				          defaultValue={moment('1950-1-1', 'YYYY/MM/DD')}
 				          format="YYYY-M-D"
-				          {...birthday}
 				          style={{ width: 120 }}
 				          disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 				         />
@@ -282,12 +276,13 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem
 				         label="建&nbsp;档&nbsp;日&nbsp;期" >
-				          <DatePicker
-				           defaultValue={moment(new Date(), 'YYYY-M-D')}
-				           format="YYYY-M-D"
-				           style={{ width: 120 }}
-				           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-				          />
+				            {getFieldDecorator('grda_jdrq', {initialValue: moment(new Date(), 'YYYY-M-D')})(
+					          <DatePicker
+					           format="YYYY-M-D"
+					           style={{ width: 120 }}
+					           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
+					          />
+				            )}
 				        </FormItem>
 				        <FormItem
 				         label="录&nbsp;&nbsp;&nbsp;&nbsp;入&nbsp;&nbsp;&nbsp;&nbsp;人"

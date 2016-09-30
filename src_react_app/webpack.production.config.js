@@ -8,11 +8,12 @@ const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
 const BUILD_PATH = path.resolve(ROOT_PATH, '../WebRoot/app');
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
+const PROJECT_NAME = 'medicPHR'
 
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		medicPHR: path.resolve(APP_PATH, 'app.js'),
+		[`${PROJECT_NAME}`]: path.resolve(APP_PATH, 'app.js'),
 		common: [
 			'react',
 			'react-dom',
@@ -28,7 +29,7 @@ const config = {
 	output: {
 		path: BUILD_PATH,
 		filename: 'assets/[name].bundle.js',
-		publicPath: '/medicPHR/app/'
+		publicPath: `/${PROJECT_NAME}/app/`
 	},
 	module: {
 		loaders: [{
@@ -73,6 +74,18 @@ const config = {
 		alias: {
 			'react': path.resolve(NODE_MODULES, 'react'),
 			'config': path.resolve(APP_PATH, 'config'),
+			'utils': path.resolve(APP_PATH, 'utils/utils'),
+
+			/*钉钉医疗*/
+			'ddm_conf': path.resolve(APP_PATH, 'modules/ddm/DDMConfig'),
+			/*登陆*/
+			'login_conf': path.resolve(APP_PATH, 'modules/login/LoginConfig'),
+			/*健康档案*/
+			'phr_conf': path.resolve(APP_PATH, 'modules/phr/PHRConfig'),
+			/*权限*/
+			'rg_conf': path.resolve(APP_PATH, 'modules/rg/RGConfig'),
+			/*统计*/
+			'stat_conf': path.resolve(APP_PATH, 'modules/stat/STATConfig'),
 		},
 		extensions: ['', '.js', '.jsx']
 	},

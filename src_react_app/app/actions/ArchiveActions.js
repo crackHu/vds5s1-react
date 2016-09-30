@@ -54,8 +54,14 @@ export function getArchiveList(pageSize, pageNo) {
 
 export function saveArchiveData(fields, fields_state) {
 
+	/*fields_state_obj.forEach((obj, i) => {
+		console.log("obj||||||||||", obj)
+	})*/
+
 	let data = getFieldsObj(fields, fields_state)
+	console.log("fields_state||||||||||", data)
 	let query = api.saveArchiveData(data)
+	console.log("obj||||||||||", query)
 	fetchInit.body = encodeURI(query)
 
 	return dispatch => {
@@ -67,7 +73,7 @@ export function saveArchiveData(fields, fields_state) {
 				let resMsg = data.status.resultMsg
 				hide()
 				if (resCode < 0) {
-					msg('warn', '保存失败' + '(' + resCode + ')')
+					msg('warn', '警告' + '(' + resCode + ')')
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
 					msg('success', '保存成功')

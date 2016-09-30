@@ -1,11 +1,12 @@
+//*************全局配置*************//
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://localhost:8080'
+  baseUrl = 'http://169.254.16.253:8080'
 } else {
   baseUrl = ''
 }
 
-export const config = {
+export const CONFIG = {
   baseUrl: baseUrl,
   projectName: "medicPHR",
   host: 'http://www.basoft.cn/',
@@ -13,7 +14,7 @@ export const config = {
 }
 
 /**************菜单配置**************/
-export const menu_config = {
+export const MENU_CONFIG = {
   headerNav: [{
     key: "home",
     path: "/",
@@ -38,62 +39,62 @@ export const menu_config = {
 }
 
 /**************档案配置**************/
-export const arc_type_config = {
+export const ARC_TYPE_CONFIG = {
   arcType: [{
     name: "个人基本信息表",
-    content: 'PersonalDetailForm',
+    content: 'Archive/PersonalDetailForm',
     key: "personalDetail",
     sub: [{
       name: "一般情况",
-      content: 'GeneralSituationForm',
+      content: 'Archive/GeneralSituationForm',
       key: "generalSituation"
     }, {
       name: "家族史与生活情况",
-      content: 'FamiLivelHistoryFrom',
+      content: 'Archive/FamiLivelHistoryFrom',
       key: "famiLivelHistory"
     }]
   }, {
     name: "健康体检表",
-    content: 'HealthMedicalForm',
+    content: 'Archive/HealthMedicalForm',
     key: "healthMedical"
   }],
   specArcType: [{
     name: "高血压专档",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/HypertensionForm',
     key: "hypertension"
   }, {
     name: "糖尿病专档",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/DiabetesForm',
     key: "diabetes"
   }, {
     name: "老年人专档",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/AgedForm',
     key: "aged"
   }, {
     name: "肿瘤病",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/OncosisForm',
     key: "oncosis"
   }, {
     name: "残疾人",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/HandicappedForm',
     key: "handicapped"
   }, {
     name: "女性保健专档",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/FemalecareForm',
     key: "femalecare"
   }, {
     name: "孕产妇专档",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/MaternalForm',
     key: "maternal"
   }, {
     name: "钉钉医疗档案",
-    content: 'HealthMedicalForm',
+    content: 'SpecialArchive/DDMedicalForm',
     key: "ddmedical"
   }]
 }
 
 /**************表单控件配置**************/
-export const arc_form_widget_config = {
+export const ARC_FORM_WIDGET_CONFIG = {
   selectOption: {
 
     /*True or false*/

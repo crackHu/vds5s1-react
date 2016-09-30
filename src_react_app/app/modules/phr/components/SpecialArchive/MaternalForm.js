@@ -7,7 +7,10 @@ import {
 	Input,
 } from 'antd'
 
-class HealthMedicalForm extends React.Component {
+const FormItem = Form.Item;
+
+/*孕产妇专档*/
+class MaternalForm extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -18,24 +21,22 @@ class HealthMedicalForm extends React.Component {
 	componentDidMount = () => {}
 
 	render() {
-
-		const FormItem = Form.Item;
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
 
 		return (
-			<p>HealthMedicalForm</p>
+			<p>孕产妇专档</p>
 		)
 	}
 }
 
 function onFieldsChange(props, fields) {
-	console.log("HealthMedicalForm onFieldsChange")
+	console.log("MaternalForm onFieldsChange")
 }
 
 function mapPropsToFields(props) {
-	console.log("HealthMedicalForm mapPropsToFields")
+	console.log("MaternalForm mapPropsToFields")
 }
 
-export default Form.create()(HealthMedicalForm)
+export default Form.create()(MaternalForm)

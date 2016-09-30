@@ -26,8 +26,8 @@ import {
 	notify
 } from 'utils'
 import {
-	archiveListPageSize as pdListPageSize
-} from 'pd_conf'
+	ARCHIVE_LIST_PAGESIZE as PAGESIZE
+} from 'phr_conf'
 
 import * as ArchiveActions from '../actions/ArchiveActions'
 import AdvancedSearch from './AdvancedSearch'
@@ -162,7 +162,7 @@ class AntContainer2 extends React.Component {
 				console.log('Current: ', current);
 			},
 			showQuickJumper: true,
-			pageSize: pdListPageSize,
+			pageSize: PAGESIZE,
 			showTotal: (total) => `共 ${total} 条`,
 		} : null;
 

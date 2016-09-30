@@ -77,10 +77,15 @@ const config = {
 			'config': path.resolve(APP_PATH, 'config'),
 			'utils': path.resolve(APP_PATH, 'utils/utils'),
 
-			'hcen_conf': path.resolve(APP_PATH, 'modules/hcen/HCenConfig'),
-			'login_conf': path.resolve(APP_PATH, 'modules/login/PDConfig'),
-			'pd_conf': path.resolve(APP_PATH, 'modules/pd/PDConfig'),
+			/*钉钉医疗*/
+			'ddm_conf': path.resolve(APP_PATH, 'modules/ddm/DDMConfig'),
+			/*登陆*/
+			'login_conf': path.resolve(APP_PATH, 'modules/login/LoginConfig'),
+			/*健康档案*/
+			'phr_conf': path.resolve(APP_PATH, 'modules/phr/PHRConfig'),
+			/*权限*/
 			'rg_conf': path.resolve(APP_PATH, 'modules/rg/RGConfig'),
+			/*统计*/
 			'stat_conf': path.resolve(APP_PATH, 'modules/stat/STATConfig'),
 		},
 		extensions: ['', '.js', '.jsx']

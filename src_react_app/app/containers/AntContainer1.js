@@ -22,24 +22,34 @@ import {
 	getDate
 } from 'utils'
 import {
-	arc_type_config
+	ARC_TYPE_CONFIG
 } from 'config'
 import {
-	personalDetail_fields_config as pd_fields_conf
-} from 'pd_conf'
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+} from 'phr_conf'
 
 const TabPane = Tabs.TabPane;
+
+/*基本资料 字段*/
+const grdaJbzl = FIELDS.grdaJbzl
+
+/*既往史 字段*/
+const grdaJws = FIELDS.grdaJws
+
+/*家族史 字段*/
+const grdaJzs = FIELDS.grdaJzs
 
 class AntContainer1 extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.arcType = arc_type_config.arcType
-		this.specArcType = arc_type_config.specArcType
+
+		this.arcType = ARC_TYPE_CONFIG.arcType
+		this.specArcType = ARC_TYPE_CONFIG.specArcType
 		this.state = {
 			activeKey: this.arcType[0].key,
 			arcType: this.arcType,
-			[`${pd_fields_conf.name}`]: {}
+			[`${FIELDS.name}`]: {}
 		}
 	}
 
@@ -54,19 +64,19 @@ class AntContainer1 extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("componentDidUpdate", this.state[pd_fields_conf.name])
+		console.log("componentDidUpdate", this.state, this.state[FIELDS.name])
 	}
 
 	/*save archiv*/
 	saveForm = (e) => {
-		this.props.saveArchiveData(pd_fields_conf.fields, this.state[pd_fields_conf.name])
+		this.props.saveArchiveData(grdaJbzl.fields, this.state[FIELDS.name])
 	}
 
 	onFieldsChange = ({
 		fields
 	}) => {
 		let state = {}
-		state[pd_fields_conf.name] = Object.assign(this.state[pd_fields_conf.name], {}, {
+		state[grdaJbzl.name] = Object.assign(this.state[FIELDS.name], {}, {
 			...fields
 		})
 		this.setState(state)
@@ -88,6 +98,7 @@ class AntContainer1 extends React.Component {
 			return deleteAbled = false
 		}
 		/*})*/
+
 		if (deleteAbled) {
 			let activeKey = this.state.activeKey;
 			let lastIndex;
@@ -160,10 +171,12 @@ class AntContainer1 extends React.Component {
 							      添加专档 <Icon type="down" />
 							    </a>
 							  </Dropdown>
+
+		{ /*动态加载档案组件*/ }
 		const tabpane = this.state.arcType.map(pane =>
 			<TabPane tab={pane.name} key={pane.key}>
-				{React.createElement(require(`../components/${pane.content}`).default,{
-					fields: this.state[pd_fields_conf.name],
+				{React.createElement(require(`../modules/phr/components/${pane.content}`).default,{
+					fields: this.state[grdaJbzl.name],
 					onFieldsChange: this.onFieldsChange
 				})}
 			</TabPane>)

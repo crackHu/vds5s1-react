@@ -1,9 +1,9 @@
 import {
-	config
+	CONFIG
 } from 'config'
 
-export const getReqUrl = `${config.baseUrl}/${config.projectName}/ba/tmpl/boVdsRequest.jsp?data=`
-export const postReqUrl = `${config.baseUrl}/${config.projectName}/ba/tmpl/boCallMethod.jsp`
+export const getReqUrl = `${CONFIG.baseUrl}/${CONFIG.projectName}/ba/tmpl/boVdsRequest.jsp?data=`
+export const postReqUrl = `${CONFIG.baseUrl}/${CONFIG.projectName}/ba/tmpl/boCallMethod.jsp`
 let postQuery = {
 	din: {},
 	pid: undefined,
@@ -28,23 +28,14 @@ export const getArchiveList = (pageNo, pageSize) => {
 /*保存檔案*/
 export const saveArchiveData = (data) => {
 
-	const query = {
-		din: data,
-		pid: "boVdsUnified",
-		fid: "saveArchiveData"
-	}
-	const url = reqUrl + JSON.stringify(query);
-	console.debug("saveArchiveData:" + url);
-	return url;
-
-	postQuery.din = {
-		page: pageNo,
-		rows: pageSize
-	}
+	postQuery.din.grdaJbzl = data
+	postQuery.din.grdaJbzl.grda_lrrq = '2016-09-30'
+	postQuery.din.grdaJws = null
+	postQuery.din.grdaJzs = null
 	postQuery.pid = 'boPersonDoc'
 	postQuery.fid = 'savePdData'
 
 	let query = JSON.stringify(postQuery)
-	console.debug("getArchiveList:", "URL:", postReqUrl, "QUERY:", query);
+	console.debug("saveArchiveData:", "URL:", postReqUrl, "QUERY:", query);
 	return query;
 }
