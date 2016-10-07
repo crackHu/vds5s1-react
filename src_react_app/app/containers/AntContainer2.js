@@ -33,6 +33,8 @@ import * as ArchiveActions from '../actions/ArchiveActions'
 import AdvancedSearch from './AdvancedSearch'
 import SearchInput from '../components/SearchInput'
 
+const ButtonGroup = Button.Group;
+
 class AntContainer2 extends React.Component {
 
 	state = {
@@ -82,7 +84,6 @@ class AntContainer2 extends React.Component {
 	}
 
 	render() {
-		const ButtonGroup = Button.Group;
 		const columns = [{
 			title: '个人编号',
 			dataIndex: 'grbh',
@@ -139,7 +140,7 @@ class AntContainer2 extends React.Component {
 			width: 100,
 			render: (text, record) => (
 				<span>
-			      <Link to='/AntContainer1'>修改</Link>
+			      <Link to='/AntContainer1'>·查看/编辑</Link>
 			      <span className="ant-divider"></span>
 			      <Popconfirm title="确定要删除这个档案吗？" onConfirm={this.deleteConfirm}>
 				    <a href="#">删除</a>
@@ -181,10 +182,8 @@ class AntContainer2 extends React.Component {
 				<div className='module' key="buttonGroup">
 					<Card title="档案列表">
 						<ButtonGroup style={{margin: "1em auto"}}>
-					      {/*<Button type="ghost" icon="file-text" size="large">新建档案</Button>
-					      <Button type="ghost" icon="edit" size="large"	>修改档案</Button>*/}
-					      <Button type="ghost" icon="download" size="large">导入</Button>
-					      <Button type="ghost" icon="search" size="large" onClick={this.showModal}>档案查询</Button>
+					      <Button icon="download">导入</Button>
+					      <Button type="primary" icon="search" onClick={this.showModal}>档案查询</Button>
 					      {advancedSearch}
 					    </ButtonGroup>
 					    <div style={{float: 'right', margin: "1em"}}>

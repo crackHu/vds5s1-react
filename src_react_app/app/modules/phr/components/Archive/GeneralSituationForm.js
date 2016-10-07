@@ -17,15 +17,17 @@ import {
 	Cascader,
 	Table,
 	Icon,
-	Card
+	Card,
+	Tooltip
 } from 'antd';
 import moment from 'moment'
+
 import {
-	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+	DATE_FORMAT_STRING
 } from 'config'
 import {
-	getDateTimestamp
-} from 'utils'
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+} from 'phr_conf'
 
 import MedicalRecordsTable from './MedicalRecordsTable'
 import FormItemWithUnknown from '../../../../components/FormItemWithUnknown'
@@ -35,15 +37,14 @@ const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 const InputGroup = Input.Group;
+const ButtonGroup = Button.Group;
 
 /*一般情况*/
 class GeneralSituationForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			options: [],
-		}
+		this.state = {}
 
 		/*现住址*/
 		this.curAddressOptions = WIDGET_CONFIG.cascadeOptions.curAddress;
@@ -59,8 +60,10 @@ class GeneralSituationForm extends React.Component {
 
 		/*性别*/
 		this.sexOptions = WIDGET_CONFIG.selectOption.sex;
-		/*居住类型*/
+		/*常住类型 居住类型*/
 		this.perTypeOptions = WIDGET_CONFIG.selectOption.permanentType;
+		/*档案状态*/
+		this.arcStatusOptions = WIDGET_CONFIG.selectOption.archiveStatus;
 		/*民族*/
 		this.nationalityOptions = WIDGET_CONFIG.selectOption.nationality;
 		/*血型*/
@@ -116,8 +119,8 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem label="出生日期" required>
 				         <DatePicker
-				          defaultValue={moment('1950-1-1', 'YYYY/MM/DD')}
-				          format="YYYY-M-D"
+				          defaultValue={moment('1950-1-1', DATE_FORMAT_STRING)}
+				          format={DATE_FORMAT_STRING}
 				          style={{ width: 120 }}
 				          disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 				         />
@@ -192,8 +195,8 @@ class GeneralSituationForm extends React.Component {
 				        />
 				        <FormItem label="档案状态" >
 				          <Select style={{ width: 115 }}>
-						      <Option value="phone">在册</Option>
-						    </Select>
+					       {this.getSelectOptions(this.arcStatusOptions)}
+						  </Select>
 				        </FormItem>
 				        <br />
 				        <br />
@@ -276,9 +279,9 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>
 				        <FormItem
 				         label="建&nbsp;档&nbsp;日&nbsp;期" >
-				            {getFieldDecorator('grda_jdrq', {initialValue: moment(new Date(), 'YYYY-M-D')})(
+				            {getFieldDecorator('grda_jdrq', {initialValue: moment(new Date(), DATE_FORMAT_STRING)})(
 					          <DatePicker
-					           format="YYYY-M-D"
+					           format={DATE_FORMAT_STRING}
 					           style={{ width: 120 }}
 					           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 					          />
@@ -291,21 +294,24 @@ class GeneralSituationForm extends React.Component {
 				        </FormItem>				
 				        <FormItem label="录入日期" >
 				          <DatePicker
-				           defaultValue={moment(new Date(), 'YYYY/MM/DD')}
-				           format="YYYY-M-D"
+				           defaultValue={moment(new Date(), DATE_FORMAT_STRING)}
+				           format={DATE_FORMAT_STRING}
 				           style={{ width: 113}}
 				           disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-				          />
+				        />
 				        </FormItem>
 				        <br />
 				        <br />
 					</Col>
 				</Row>
 		        <Row>
-		        	<FormItem label="既往史" />
-		        	<div style={{width: 1156}}>
-			        	<MedicalRecordsTable />
-			        </div>
+		        	<div className="dashed_top" />
+		        	<FormItem
+		        	 label={<span>既往史 <Tooltip title={`选择一条多条记录进行编辑或删除操作`}><Icon type="question-circle-o" /></Tooltip></span>}
+		        	/>
+				</Row>
+		        <Row>
+		        	<MedicalRecordsTable />
 			    </Row>
 		    </Form>
 		)
@@ -313,16 +319,14 @@ class GeneralSituationForm extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("GeneralSituationForm onFieldsChange")
-	console.log('change', fields);
+	console.log("GeneralSituationForm onFieldsChange", fields)
 	props.onFieldsChange({
 		fields
 	});
 }
 
 function mapPropsToFields(props) {
-	console.log("GeneralSituationForm mapPropsToFields")
-	console.log(props.fields)
+	console.log("GeneralSituationForm mapPropsToFields", props.fields)
 	return props.fields;
 }
 

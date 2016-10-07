@@ -2,13 +2,17 @@ import {
 	CONFIG
 } from 'config'
 
-export const getReqUrl = `${CONFIG.baseUrl}/${CONFIG.projectName}/ba/tmpl/boVdsRequest.jsp?data=`
-export const postReqUrl = `${CONFIG.baseUrl}/${CONFIG.projectName}/ba/tmpl/boCallMethod.jsp`
+const BASE_URL = CONFIG.baseUrl
+const PROJECT_NAME = CONFIG.projectName
+
 let postQuery = {
 	din: {},
 	pid: undefined,
 	fid: undefined
 }
+
+export const getReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boVdsRequest.jsp?data=`
+export const postReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boCallMethod.jsp`
 
 /*檔案列表*/
 export const getArchiveList = (pageNo, pageSize) => {

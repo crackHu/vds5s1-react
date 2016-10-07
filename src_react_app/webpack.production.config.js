@@ -100,7 +100,7 @@ const config = {
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'common',
-			chunks: ['medicPHR'],
+			chunks: [`${PROJECT_NAME}`],
 			filename: 'assets/[name].js',
 			minChunks: Infinity
 		}),

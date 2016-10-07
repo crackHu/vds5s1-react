@@ -32,8 +32,8 @@ if (module.hot) {
 		const RootContainer = require('./containers/Root').default;
 		ReactDOM.render(
 			<RootContainer
-          store={ store } history={appHistory}
-        />,
+	          store={ store } history={appHistory}
+	        />,
 			app
 		);
 	});

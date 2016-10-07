@@ -3,6 +3,9 @@ import React, {
 	PropTypes
 } from 'react'
 import {
+	Link
+} from 'react-router';
+import {
 	Form,
 	Input,
 	Table,
@@ -10,8 +13,36 @@ import {
 	DatePicker,
 	TimePicker,
 	Icon,
-	Pagination
+	Pagination,
+	Popconfirm,
+	Button,
+	Switch
 } from 'antd'
+import QueueAnim from 'rc-queue-anim';
+import moment from 'moment'
+
+import {
+	msg,
+	notify
+} from 'utils'
+import {
+	DATE_FORMAT_STRING
+} from 'config'
+
+const FormItem = Form.Item;
+const Option = Select.Option;
+const ButtonGroup = Button.Group;
+
+const data = [];
+for (let i = 0; i < 3; i++) {
+	data.push({
+		key: i,
+		diseaseType: `良性${i}`,
+		diseaseName: `hiv${i}`,
+		confirmTime: '1950-1-1',
+		remark: `西湖区湖底公园${i}号`,
+	});
+}
 
 /*既往史*/
 class MedicalRecordsTable extends React.Component {
@@ -19,119 +50,202 @@ class MedicalRecordsTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"data": [{}],
-			pagination: {
-				pageSize: 5
-			}
-		}
-
-		this.addRow = (e) => {
-			let data = this.state.data
-			data.push({})
-			this.setState({
-				data: data
-			})
+			selectedRowKeys: [],
+			editSwitch: false,
+			data
 		}
 	}
-
 	componentWillMount = () => {}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+		const {
+			data,
+			editSwitch
+		} = this.state
+
+		setTimeout(() => {
+			data.splice(data.length - 1, 1)
+			this.setState({
+				data,
+			})
+		}, 3000)
+	}
+
+	/*既往史 选中项发生变化时的回调*/
+	onSelectChange = (selectedRowKeys, selectedRows) => {
+		console.log('selectedRowKeys changed: ', selectedRowKeys);
+		this.setState({
+			selectedRowKeys
+		});
+	}
+
+	/*既往史 编辑状态开关发生变化时的回调*/
+	jwsEditSwitch = (checked = false) => {
+		this.setState({
+			editSwitch: checked
+		})
+	}
+
+	/*span switch click*/
+	jwsEditSwitchSpanClick = () => {
+		this.setState({
+			editSwitch: !this.state.editSwitch
+		})
+	}
+
+	deleteConfirm = () => {
+		msg("success", "删除成功", 1)
+	}
+
+	addRow = (e) => {
+		const data = this.state.data
+		let d = Object.assign({}, data[data.length - 1])
+		d.key += 12
+		data.push(d)
+		this.setState({
+			data
+		})
+	}
 
 	render() {
 
-		const FormItem = Form.Item;
 		const {
-			getFieldProps
+			getFieldDecorator
 		} = this.props.form
+		const {
+			selectedRowKeys,
+			editSwitch
+		} = this.state
 
-		const rowSelection = {
-			onChange(selectedRowKeys, selectedRows) {
-				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+		const renderContent = {
+			diseaseType(value) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Select defaultValue={"test"}>
+							<Option value="phone">{value}</Option> 
+							<Option value="a">{new Date().getTime()}</Option> 
+						</Select>
+					)
+				}
 			},
-			onSelect(record, selected, selectedRows) {
-				console.log(record, selected, selectedRows);
+			diseaseName(value) {
+				return editSwitch == true ? <span>{value}</span> : <Input defaultValue={value}/>
 			},
-			onSelectAll(selected, selectedRows, changeRows) {
-				console.log(selected, selectedRows, changeRows);
+			confirmTime(value) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<DatePicker
+							defaultValue={moment(value, DATE_FORMAT_STRING)}
+							format={DATE_FORMAT_STRING}
+						/>
+					)
+				}
 			},
-		};
+			remark(value) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Input
+							type="textarea"
+							defaultValue={value}
+							autosize={{ minRows: 1, maxRows: 2 }}
+						/>
+					)
+				}
+			},
 
-		const renderContent = function(value, row, index) {
-			const obj = {
-				children: value,
-				props: {},
-			};
-			if (index === 4) {
-				obj.props.colSpan = 0;
-			}
-			return obj;
-		};
+		}
+		const diseaseName = (text) => (
+			editSwitch == true ? <span>{text}</span> : <Input defaultValue={text}/>
+		)
+
 		const columns = [{
-			title: '#',
-			dataIndex: '#',
-			width: 50,
-			render: (text, record, index) => <span>{index}</span>,
-		}, {
 			title: '类别',
-			dataIndex: 'age',
-			key: 'name',
-			width: 150,
-			render: (text) =>
-				<Select defaultValue={"test"}>
-					<Option value="phone">{text}</Option> 
-					<Option value="a">{new Date().getTime()}</Option> 
-				</Select>,
+			dataIndex: 'diseaseType',
+			key: 'diseaseType',
+			width: '20%',
+			render: (value) => renderContent.diseaseType(value),
 		}, {
 			title: '疾病名称',
-			dataIndex: 'name',
-			key: 'age',
-			width: 150,
-			render: (text) => <Input defaultValue={text}/>,
+			dataIndex: 'diseaseName',
+			key: 'diseaseName',
+			width: '20%',
+			render: (value) => renderContent.diseaseName(value),
 		}, {
 			title: '确诊时间',
-			dataIndex: 'address',
-			dataIndex: '1',
-			width: 200,
-			render: (text) => (
-				<DatePicker showTime defaultValue="2015-01-01"/>
-			),
+			dataIndex: 'confirmTime',
+			key: 'confirmTime',
+			width: '15%',
+			render: (value) => renderContent.confirmTime(value),
 		}, {
 			title: '备注',
-			dataIndex: 'address1',
-			dataIndex: '2',
-			width: 300,
-			render: (text, record) => <Input type="textarea" defaultValue={JSON.stringify(record)} autosize={{ minRows: 1, maxRows: 3 }} />,
-		}, {
-			title: '操作',
-			key: 'operation',
-			width: 50,
-			render: () => (
-				<span>
-			      <a href="#">编辑</a>
-			      {/*<span className="ant-divider"></span>*/}
-			      <a href="#">删除</a>
-			    </span>
-			),
+			dataIndex: 'remark',
+			key: 'remark',
+			width: '40%',
+			render: (value) => renderContent.remark(value),
 		}];
-		const data = [];
-		for (let i = 0; i < 0; i++) {
-			data.push({
-				key: i,
-				name: `李大嘴${i}`,
-				age: i,
-				address: `西湖区湖底公园${i}号`,
-				address1: `湖底公园${i}号`,
-			});
+
+		// rowSelection objects indicates the need for row selection
+		const rowSelection = {
+			selectedRowKeys,
+			onChange: this.onSelectChange,
+		};
+		const selectedLength = selectedRowKeys.length;
+		const hasSelected = selectedLength > 0;
+		const pagination = {
+			pageSize: 5
 		}
+		const title = () => (
+			<div>
+				<span className="wrapper_border" onClick={this.jwsEditSwitchSpanClick}>
+					编辑{' '}
+					<Switch
+					 checked={editSwitch}
+					 onChange={this.jwsEditSwitch}
+					 checkedChildren={'开'}
+					 unCheckedChildren={'关'}
+					/>
+				</span>
+				<Popconfirm title="确定要删除所选既往史吗？" onConfirm={this.deleteConfirm}>
+					<Button
+					 disabled={!hasSelected}
+					 size="large"
+					 type="ghost"
+					 icon="delete"
+					 style={{ marginLeft: 10 }}>删除</Button>
+			    </Popconfirm>
+				<Button
+				 size="large"
+				 type="primary"
+				 icon="plus"
+				 style={{ marginLeft: 10 }}
+				 onClick={this.addRow}>新增</Button>
+				<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
+		    </div>
+		)
+		const footer = () => '选择一条多条记录进行编辑或删除操作'
 
 		return (
-			<Table columns={columns} dataSource={data} 
-			 pagination={this.state.pagination} size="middle" bordered>
+			<Table
+				key="table"
+				columns={columns}
+				dataSource={this.state.data} 
+				rowSelection={rowSelection}
+				size="middle"
+   				title={title}
+    			footer={footer}
+			>
 			</Table>
 		)
 	}
 }
+
+MedicalRecordsTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("MedicalRecordsTable onFieldsChange")
