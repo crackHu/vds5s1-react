@@ -12,7 +12,8 @@ import DevTools from '../containers/DevTools';
 
 const enhancer = compose(
   applyMiddleware(thunk),
-  DevTools.instrument(),
+  /*DevTools.instrument(),*/
+  window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
   persistState(
     window.location.href.match(
       /[?&]debug_session=([^&#]+)\b/

@@ -12,7 +12,9 @@ import {
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
 
-import './assets/scss/style.scss';
+if (eval(localStorage.getItem('loggedIn'))) {
+	require('./assets/scss/style.scss');
+}
 
 const store = configureStore();
 const appHistory = process.env.NODE_ENV === 'production' ? useRouterHistory(createHashHistory)({

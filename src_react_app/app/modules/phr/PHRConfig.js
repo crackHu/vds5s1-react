@@ -446,10 +446,10 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			value: '露天粪坑'
 		}, {
 			value: '简易棚厕'
-		}]
+		}],
 
 		/*家族史 禽畜栏*/
-			livestock: [{
+		livestock: [{
 			value: '单设'
 		}, {
 			value: '室内'

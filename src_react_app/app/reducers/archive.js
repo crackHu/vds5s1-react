@@ -1,6 +1,7 @@
 import {
 	GET_ARCHIVES,
-	SAVE_ARCHIVES
+	SAVE_ARCHIVES,
+	LOGIN
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -16,6 +17,10 @@ export default function ArchiveReducer(state = initialState, action) {
 				data: action.data
 			}
 		case SAVE_ARCHIVES:
+			return {
+				data: action.data
+			}
+		case LOGIN:
 			return {
 				data: action.data
 			}

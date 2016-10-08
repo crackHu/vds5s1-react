@@ -10,7 +10,7 @@ export const CONFIG = {
   baseUrl: baseUrl,
   projectName: "medicPHR",
   host: 'http://www.basoft.cn/',
-  needDevTool: false
+  needDevTool: true
 }
 
 /**************时间格式配置**************/

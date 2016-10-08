@@ -1,7 +1,8 @@
 import {
 	GET_ARCHIVES,
 	SUBMIT_ARCHIVES,
-	SAVE_ARCHIVES
+	SAVE_ARCHIVES,
+	LOGIN
 } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from '../api'
@@ -88,5 +89,16 @@ export function saveArchiveData(fields, fields_state) {
 				notify('error', '错误', fetchCatchMsg);
 				console.error("Oops, error", e)
 			})
+	}
+}
+
+export function login(obj) {
+
+	console.log('login action...', JSON.stringify(obj))
+	return dispatch => {
+		dispatch({
+			type: LOGIN,
+			data: 1
+		})
 	}
 }

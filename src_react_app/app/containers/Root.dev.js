@@ -16,6 +16,22 @@ import {
 
 export default class Root extends Component {
 
+  state = {
+    loggedIn: true
+  }
+
+  componentDidUpdate = () => {
+    console.log('componentDidUpdate,,', this.state.loggedIn)
+  }
+
+  componentWillReceiveProps = () => {
+    console.log("componentWillReceiveProps Root,,,,,,,", this.props.data)
+  }
+
+  login = (obj) => {
+    console.log('login.......', obj)
+  }
+
   render() {
 
     const {
@@ -23,15 +39,17 @@ export default class Root extends Component {
       history
     } = this.props;
 
-    const devTools = CONFIG.needDevTool ? <DevTools /> : null
+    const devTools = CONFIG.needDevTool && !window.devToolsExtension ? <DevTools /> : null
+    const loggedIn = this.state.loggedIn
+    loggedIn ? localStorage.setItem('loggedIn', 1) : localStorage.setItem('loggedIn', 0)
 
     return (
       <Provider store={store}>
           <div>
-            <Router history={history} routes={routes()} />
-            {devTools}
+              <Router history={history} routes={routes(loggedIn)} />
+              {devTools}
           </div>
-        </Provider>
+      </Provider>
     );
   }
 }

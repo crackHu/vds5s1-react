@@ -13,7 +13,7 @@ import routes from '../routes';
 export default class Root extends Component {
 
 	state = {
-		logined: false
+		loggedIn: false
 	}
 
 	render() {
@@ -23,9 +23,12 @@ export default class Root extends Component {
 			history
 		} = this.props;
 
+		const loggedIn = this.state.loggedIn
+		loggedIn ? localStorage.setItem('loggedIn', 1) : localStorage.setItem('loggedIn', 0)
+
 		return (
 			<Provider store={store}>
-	          <Router history={history} routes={routes()} />
+	          	<Router history={history} routes={routes(loggedIn)} />
 	        </Provider>
 		);
 	}
