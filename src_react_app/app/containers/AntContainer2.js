@@ -140,7 +140,7 @@ class AntContainer2 extends React.Component {
 			width: 100,
 			render: (text, record) => (
 				<span>
-			      <Link to='/AntContainer1'>·查看/编辑</Link>
+			      <Link to='/AntContainer1'>编辑</Link>
 			      <span className="ant-divider"></span>
 			      <Popconfirm title="确定要删除这个档案吗？" onConfirm={this.deleteConfirm}>
 				    <a href="#">删除</a>

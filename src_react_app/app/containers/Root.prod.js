@@ -11,6 +11,11 @@ import {
 import routes from '../routes';
 
 export default class Root extends Component {
+
+	state = {
+		logined: false
+	}
+
 	render() {
 
 		const {

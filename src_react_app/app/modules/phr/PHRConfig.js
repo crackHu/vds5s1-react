@@ -315,6 +315,149 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: '未婚',
 			value: '未婚'
 		}],
+
+		/*既往史 类别*/
+		diseaseType: [{
+			value: '疾病'
+		}, {
+			value: '手术'
+		}, {
+			value: '外伤'
+		}, {
+			value: '输血'
+		}],
+
+		/*既往史 疾病名称*/
+		diseaseName: [{
+			value: '无'
+		}, {
+			value: '高血压'
+		}, {
+			value: '糖尿病'
+		}, {
+			value: '冠心病'
+		}, {
+			value: '慢性阻塞性肺疾病'
+		}, {
+			value: '恶性肿瘤'
+		}, {
+			value: '脑卒中'
+		}, {
+			value: '重性精神疾病'
+		}, {
+			value: '结核病'
+		}, {
+			value: '肝炎'
+		}, {
+			value: '其他法定传染病'
+		}, {
+			value: '职业病'
+		}, {
+			value: '其他'
+		}],
+
+		/*家庭史 成员类别*/
+		memberType: [{
+			value: '父亲'
+		}, {
+			value: '母亲'
+		}, {
+			value: '兄弟姐妹'
+		}, {
+			value: '子女'
+		}],
+
+		/*家庭史 疾病名称*/
+		sicknessName: [{
+			value: '无'
+		}, {
+			value: '高血压'
+		}, {
+			value: '糖尿病'
+		}, {
+			value: '冠心病'
+		}, {
+			value: '慢性阻塞性肺疾病'
+		}, {
+			value: '恶性肿瘤'
+		}, {
+			value: '脑卒中'
+		}, {
+			value: '重性精神疾病'
+		}, {
+			value: '结核病'
+		}, {
+			value: '肝炎'
+		}, {
+			value: '先天畸形'
+		}, {
+			value: '其他'
+		}],
+
+		/*家族史 厨房排风设施*/
+		ventilationFacilities: [{
+			value: '无'
+		}, {
+			value: '抽油烟'
+		}, {
+			value: '换气扇'
+		}, {
+			value: '烟囱'
+		}],
+
+		/*家族史 燃料类型*/
+		fuelType: [{
+			value: '液化气'
+		}, {
+			value: '煤'
+		}, {
+			value: '天然气'
+		}, {
+			value: '沼气'
+		}, {
+			value: '柴火'
+		}, {
+			value: '其他'
+		}],
+
+		/*家族史 饮水*/
+		drinking: [{
+			value: '自来水'
+		}, {
+			value: '经净化过滤的水'
+		}, {
+			value: '井水'
+		}, {
+			value: '河湖水'
+		}, {
+			value: '塘水'
+		}, {
+			value: '其他'
+		}],
+
+		/*家族史 厕所*/
+		toilet: [{
+			value: '卫生厕所'
+		}, {
+			value: '一格或二格粪池式'
+		}, {
+			value: '马桶'
+		}, {
+			value: '露天粪坑'
+		}, {
+			value: '简易棚厕'
+		}]
+
+		/*家族史 禽畜栏*/
+			livestock: [{
+			value: '单设'
+		}, {
+			value: '室内'
+		}, {
+			value: '室外'
+		}, {
+			value: '无'
+		}]
 	},
 
 	/*现住址*/
@@ -430,7 +573,39 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: 'radial',
 			label: 'bb',
 			value: '射线'
+		}],
+
+		/*家族史 残疾情况*/
+		disability: [{
+			key: 'no',
+			label: 'aa',
+			value: '无残疾'
+		}, {
+			key: 'eye',
+			label: 'bb',
+			value: '视力残疾'
+		}, {
+			key: 'ear',
+			label: 'cc',
+			value: '听力残疾'
+		}, {
+			key: 'language',
+			label: 'dd',
+			value: '言语残疾'
+		}, {
+			key: 'body',
+			label: 'ee',
+			value: '肢体残疾'
+		}, {
+			key: 'intelligence',
+			label: 'ff',
+			value: '智力残疾'
+		}, {
+			key: 'mind',
+			label: 'gg',
+			value: '精神残疾'
 		}]
+
 	}
 }
 

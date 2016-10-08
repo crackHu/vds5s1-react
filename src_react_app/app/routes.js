@@ -32,15 +32,15 @@ const dynamicRoute = MENU_CONFIG.menuItem.map((item, i) => {
 const routes = () => {
 	return (
 		<Route path="/" component={App}>
-		      <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
-		      {/*
-			      <Route path="/home" component={Home} sidebarKey="Home" headerNavKey="Home"/>
-			      <Route path="AntContainer1" component={AntContainer1} sidebarKey="AntContainer1" headerNavKey="AntContainer1"/>
-			      <Route path="AntContainer2" component={AntContainer2} sidebarKey="AntContainer2" headerNavKey="AntContainer2"/>
-				  <Route path="ArchivDetail" component={ArchivDetail} sidebarKey="ArchivDetail" headerNavKey="ArchivDetail"/>
-			  */}
-			  {dynamicRoute}
-		    </Route>
+		    <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
+		    {/*
+			    <Route path="/home" component={Home} sidebarKey="Home" headerNavKey="Home"/>
+			    <Route path="AntContainer1" component={AntContainer1} sidebarKey="AntContainer1" headerNavKey="AntContainer1"/>
+			    <Route path="AntContainer2" component={AntContainer2} sidebarKey="AntContainer2" headerNavKey="AntContainer2"/>
+				<Route path="ArchivDetail" component={ArchivDetail} sidebarKey="ArchivDetail" headerNavKey="ArchivDetail"/>
+			*/}
+			{dynamicRoute}
+	    </Route>
 	);
 }
 

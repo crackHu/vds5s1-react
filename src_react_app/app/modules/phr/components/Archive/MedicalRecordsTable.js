@@ -28,6 +28,9 @@ import {
 import {
 	DATE_FORMAT_STRING
 } from 'config'
+import {
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+} from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -37,11 +40,17 @@ const data = [];
 for (let i = 0; i < 3; i++) {
 	data.push({
 		key: i,
-		diseaseType: `良性${i}`,
-		diseaseName: `hiv${i}`,
+		diseaseType: '手术',
+		diseaseName: '慢性阻塞性肺疾病',
 		confirmTime: '1950-1-1',
 		remark: `西湖区湖底公园${i}号`,
 	});
+}
+
+const getSelectOptions = (data) => {
+	return data.map((item, i) => {
+		return <Option key={i}>{item.value}</Option>
+	})
 }
 
 /*既往史*/
@@ -54,28 +63,21 @@ class MedicalRecordsTable extends React.Component {
 			editSwitch: false,
 			data
 		}
+
+		/*既往史 类别*/
+		this.dtOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseType);
+		/*既往史 疾病名称*/
+		this.dnOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseName);
 	}
 	componentWillMount = () => {}
 
-	componentDidMount = () => {
-		const {
-			data,
-			editSwitch
-		} = this.state
-
-		setTimeout(() => {
-			data.splice(data.length - 1, 1)
-			this.setState({
-				data,
-			})
-		}, 3000)
-	}
+	componentDidMount = () => {}
 
 	/*既往史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys);
+		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
-			selectedRowKeys
+			selectedRowKeys,
 		});
 	}
 
@@ -94,17 +96,28 @@ class MedicalRecordsTable extends React.Component {
 	}
 
 	deleteConfirm = () => {
-		msg("success", "删除成功", 1)
+		const {
+			selectedRowKeys,
+			data
+		} = this.state
+		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
+		this.setState({
+			data: data_,
+			selectedRowKeys: []
+		}, () => msg("success", "已删除", 1))
 	}
+
+	deleteCancel = () => {}
 
 	addRow = (e) => {
 		const data = this.state.data
-		let d = Object.assign({}, data[data.length - 1])
-		d.key += 12
+		let d = {}
+		d.key = 11
 		data.push(d)
+		console.log('data:', data)
 		this.setState({
 			data
-		})
+		}, () => msg("success", "已添加", 1))
 	}
 
 	render() {
@@ -118,20 +131,27 @@ class MedicalRecordsTable extends React.Component {
 		} = this.state
 
 		const renderContent = {
-			diseaseType(value) {
+			diseaseType(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select defaultValue={"test"}>
-							<Option value="phone">{value}</Option> 
-							<Option value="a">{new Date().getTime()}</Option> 
+						<Select defaultValue={value}>
+							{option}
 						</Select>
 					)
 				}
 			},
-			diseaseName(value) {
-				return editSwitch == true ? <span>{value}</span> : <Input defaultValue={value}/>
+			diseaseName(value, option) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Select defaultValue={value}>
+							{option}
+						</Select>
+					)
+				}
 			},
 			confirmTime(value) {
 				if (editSwitch) {
@@ -169,13 +189,13 @@ class MedicalRecordsTable extends React.Component {
 			dataIndex: 'diseaseType',
 			key: 'diseaseType',
 			width: '20%',
-			render: (value) => renderContent.diseaseType(value),
+			render: (value) => renderContent.diseaseType(value, this.dtOptions),
 		}, {
 			title: '疾病名称',
 			dataIndex: 'diseaseName',
 			key: 'diseaseName',
 			width: '20%',
-			render: (value) => renderContent.diseaseName(value),
+			render: (value) => renderContent.diseaseName(value, this.dnOptions),
 		}, {
 			title: '确诊时间',
 			dataIndex: 'confirmTime',
@@ -211,7 +231,11 @@ class MedicalRecordsTable extends React.Component {
 					 unCheckedChildren={'关'}
 					/>
 				</span>
-				<Popconfirm title="确定要删除所选既往史吗？" onConfirm={this.deleteConfirm}>
+				<Popconfirm
+				 title="确定要删除所选既往史吗？"
+				 onConfirm={this.deleteConfirm}
+				 onCancel={this.deleteCancel}
+				>
 					<Button
 					 disabled={!hasSelected}
 					 size="large"
