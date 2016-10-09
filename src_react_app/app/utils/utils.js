@@ -40,7 +40,7 @@ export function getDate() {
     return hh + ':' + mm + ':' + ss
   }
   var d = new Date()
-  return d.yyyymmdd()
+  return d.yyyymmdd() + ' ' + d.hhmmss()
 }
 
 // ------ 获取当前时间戳 ------ //

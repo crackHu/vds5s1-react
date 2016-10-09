@@ -14,17 +14,19 @@ import {
   CONFIG
 } from 'config'
 import {
-  LS
+  CONFIG as LCONFIG
 } from 'login_conf'
 
-const USR = LS.USR
-const LOGGEDIN = LS.LOGGEDIN
+const USR = LCONFIG.LS.USR
+const LOGGEDIN = LCONFIG.LS.LOGGEDIN
 
 let loggedIn = localStorage.getItem(LOGGEDIN)
 if (loggedIn == null) {
-  loggedIn = 0
+  loggedIn = LCONFIG.LOGIN_ON
   localStorage.setItem(LOGGEDIN, loggedIn)
 }
+
+const devTools = CONFIG.needDevTool && !window.devToolsExtension ? <DevTools /> : null
 
 export default class Root extends Component {
 
@@ -40,8 +42,6 @@ export default class Root extends Component {
       store,
       history
     } = this.props;
-
-    const devTools = CONFIG.needDevTool && !window.devToolsExtension ? <DevTools /> : null
 
     return (
       <Provider store={store}>

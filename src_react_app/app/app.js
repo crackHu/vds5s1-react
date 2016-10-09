@@ -13,10 +13,11 @@ import configureStore from './store/configureStore';
 import Root from './containers/Root';
 
 import {
-	LS
+	CONFIG
 } from 'login_conf'
 
-if (eval(localStorage.getItem(LS.LOGGEDIN))) {
+const LOGGEDIN = CONFIG.LS.LOGGEDIN
+if (eval(localStorage.getItem(LOGGEDIN))) {
 	require('./assets/scss/style.scss');
 }
 

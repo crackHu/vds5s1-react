@@ -18,7 +18,7 @@ import {
 
 import * as LoginAction from '../LoginAction'
 import {
-	LS
+	CONFIG
 } from 'login_conf'
 import {
 	msg,
@@ -27,9 +27,9 @@ import {
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
-const USR = LS.USR
-const LOGGEDIN = LS.LOGGEDIN
 
+const USR = CONFIG.LS.USR
+const LOGGEDIN = CONFIG.LS.LOGGEDIN
 
 class Login extends React.Component {
 
@@ -63,7 +63,8 @@ class Login extends React.Component {
 		this.loading = false
 		console.log('componentDidUpdate prevProps prevState', prevProps, prevState)
 		const result = this.props.data.login.result
-		if (result != null && result.status.timestamp != this.timestamp) {
+		if (result != null && result.status != null && result.status.timestamp != this.timestamp) {
+
 			this.timestamp = result.status.timestamp
 			const status = result.status
 			const resultCode = status.resultCode

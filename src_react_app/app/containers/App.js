@@ -28,7 +28,7 @@ import Sidebar from './frame/Sidebar'
 import UserProfile from './UserProfile'
 
 import {
-	LS
+	CONFIG
 } from 'login_conf'
 import {
 	shortcut
@@ -37,8 +37,8 @@ import moment from 'moment-timezone/moment-timezone';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-const USR = LS.USR
-const LOGGEDIN = LS.LOGGEDIN
+const USR = CONFIG.LS.USR
+const LOGGEDIN = CONFIG.LS.LOGGEDIN
 
 class App extends React.Component {
 

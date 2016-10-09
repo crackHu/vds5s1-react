@@ -13,7 +13,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 /*选择器Select 附带‘未提供’选项option组件*/
-export default class FormItemWithUnknown extends React.Component {
+export default class SelectWithUnknown extends React.Component {
 
 	render() {
 
@@ -29,19 +29,14 @@ export default class FormItemWithUnknown extends React.Component {
 		}
 
 		return (
-			<FormItem label={this.props.label} >
-	          <Select
-	           combobox
-	           style={this.props.style}>
-	           	  {option}
-			    </Select>
-	        </FormItem>
+			<Select combobox style={this.props.style}>
+       	  		{option}
+		    </Select>
 		)
 	}
 }
 
-FormItemWithUnknown.propTypes = {
-	label: PropTypes.string.isRequired,
-	style: PropTypes.object.isRequired,
+SelectWithUnknown.propTypes = {
+	style: PropTypes.object,
 	option: PropTypes.array
 }

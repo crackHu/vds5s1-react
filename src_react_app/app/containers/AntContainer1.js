@@ -43,7 +43,8 @@ class AntContainer1 extends React.Component {
 	state = {
 		activeKey: this.arcType[0].key,
 		arcType: this.arcType,
-		[`${FIELDS.name}`]: {}
+		[`${FIELDS.name}`]: {},
+		submit: false
 	}
 
 	componentDidMount = () => {
@@ -62,6 +63,9 @@ class AntContainer1 extends React.Component {
 
 	/*save archiv*/
 	saveForm = (e) => {
+		this.setState({
+			submit: true
+		})
 		this.props.saveArchiveData(grdaJbzl.fields, this.state[FIELDS.name])
 	}
 
@@ -146,7 +150,7 @@ class AntContainer1 extends React.Component {
 	}
 
 	render() {
-		const operations = <Button type="primary" onClick={this.saveForm}>保存档案</Button>
+		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>保存档案</Button>
 		const moreSpecArc = (
 			<Menu>
 			    {
@@ -178,11 +182,11 @@ class AntContainer1 extends React.Component {
 			let Container = require(`../modules/phr/components/${pane.content}`).default
 			return (
 				<TabPane tab={pane.name} key={pane.key}>
-				<Container
-					fields={this.state[FIELDS.name]}
-					onFieldsChange={this.onFieldsChange}
-				/>
-			</TabPane>
+					<Container
+						fields={this.state[FIELDS.name]}
+						onFieldsChange={this.onFieldsChange}
+					/>
+				</TabPane>
 			)
 		})
 

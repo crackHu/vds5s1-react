@@ -37,6 +37,7 @@ export function getArchiveList(pageSize, pageNo) {
 			.then((data) => {
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
+
 				if (resCode < 0) {
 					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
@@ -73,6 +74,7 @@ export function saveArchiveData(fields, fields_state) {
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
 				hide()
+
 				if (resCode < 0) {
 					msg('warn', '警告' + '(' + resCode + ')')
 					console.warn("Oops, warn", resCode, resMsg)

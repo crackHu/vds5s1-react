@@ -30,11 +30,22 @@ const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 
+
+
 /*家族史与生活情况*/
 class FamiLivelHistoryFrom extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {}
+			/*厨房排风设施*/
+		this.vFacilityOptions = WIDGET_CONFIG.selectOption.ventilationFacilities;
+	}
+
+	getSelectOptions = (data) => {
+		return data.map((item, i) => {
+			return <Option key={i}>{item.value}</Option>
+		})
 	}
 
 	componentWillMount = () => {}
@@ -49,16 +60,12 @@ class FamiLivelHistoryFrom extends React.Component {
 		return (
 			<Form inline>
 				<FormItem
-		         label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别" required>
-		            {getFieldDecorator('grda_xb', {
-		            	rules: [{
-		            		required: true
-		            	}]
-		            })(
+		         label="厨房排风设施">
+		            {getFieldDecorator('grda_xb')(
 			          <Select
 			           style={{ width: 120 }}
 			          >
-			           {this.getSelectOptions(this.sexOptions)}
+			           {this.getSelectOptions(this.vFacilityOptions)}
 				      </Select>
 		            )}
 		        </FormItem>

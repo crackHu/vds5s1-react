@@ -30,6 +30,10 @@ class PersonalDetailForm extends React.Component {
 		console.log("PersonalDetailForm.componentDidUpdate", this.state)
 	}
 
+	handleSubmit = (e) => {
+		e.preventDefault();
+		console.log('收到表单值：', this.props.form.getFieldsValue());
+	}
 
 	render() {
 		const {
@@ -82,7 +86,7 @@ class PersonalDetailForm extends React.Component {
 
 		return (
 			<div>
-				<Form inline>
+				<Form inline onSubmit={this.handleSubmit}>
 			        <FormItem
 			         label="姓名"
 			        >
