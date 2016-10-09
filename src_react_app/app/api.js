@@ -43,3 +43,16 @@ export const saveArchiveData = (data) => {
 	console.debug("saveArchiveData:", "URL:", postReqUrl, "QUERY:", query);
 	return query;
 }
+
+/*登陆*/
+export const login = (data) => {
+
+	postQuery.din.loginName = data.usr
+	postQuery.din.loginPwd = data.pwd
+	postQuery.pid = 'boLogin'
+	postQuery.fid = 'proLogin'
+
+	let query = JSON.stringify(postQuery)
+	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
+	return query;
+}

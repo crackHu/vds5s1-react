@@ -14,12 +14,20 @@ import {
 	regards,
 	getDate
 } from 'utils'
+import {
+	LS
+} from 'login_conf'
 
-const username = localStorage.getItem('username') || '系统管理员'
+const username = localStorage.getItem(LS.USR) || '系统管理员'
 
 /*用户简介*/
 export default class UserProfile extends React.Component {
 
+	Logout = () => {
+		localStorage.removeItem('loggedIn')
+		localStorage.removeItem('usr')
+		location.href = '/'
+	}
 
 	render() {
 		const regard = `${regards()}`
@@ -34,7 +42,7 @@ export default class UserProfile extends React.Component {
 			    </Menu.Item>
 			    <Menu.Divider />
 			    <Menu.Item key="1">
-			    	<a style={{ textAlign: "center" }}>退出系统</a>
+			    	<a onClick={this.Logout} style={{ textAlign: "center" }}>退出系统</a>
 			    </Menu.Item>
 			</Menu>
 		);

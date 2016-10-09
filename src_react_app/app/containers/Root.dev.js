@@ -13,24 +13,26 @@ import DevTools from './DevTools';
 import {
   CONFIG
 } from 'config'
+import {
+  LS
+} from 'login_conf'
+
+const USR = LS.USR
+const LOGGEDIN = LS.LOGGEDIN
+
+let loggedIn = localStorage.getItem(LOGGEDIN)
+if (loggedIn == null) {
+  loggedIn = 0
+  localStorage.setItem(LOGGEDIN, loggedIn)
+}
 
 export default class Root extends Component {
 
-  state = {
-    loggedIn: true
-  }
+  state = {}
 
-  componentDidUpdate = () => {
-    console.log('componentDidUpdate,,', this.state.loggedIn)
-  }
+  componentDidUpdate = () => {}
 
-  componentWillReceiveProps = () => {
-    console.log("componentWillReceiveProps Root,,,,,,,", this.props.data)
-  }
-
-  login = (obj) => {
-    console.log('login.......', obj)
-  }
+  componentWillReceiveProps = () => {}
 
   render() {
 
@@ -40,8 +42,6 @@ export default class Root extends Component {
     } = this.props;
 
     const devTools = CONFIG.needDevTool && !window.devToolsExtension ? <DevTools /> : null
-    const loggedIn = this.state.loggedIn
-    loggedIn ? localStorage.setItem('loggedIn', 1) : localStorage.setItem('loggedIn', 0)
 
     return (
       <Provider store={store}>

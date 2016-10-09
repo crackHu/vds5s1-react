@@ -121,10 +121,11 @@ import {
 } from 'antd'
 
 //http://ant.design/components/message/
-export const notify = (type, msg, desc) => {
+export const notify = (type, msg, desc, duration) => {
   notification[type]({
     message: msg,
     description: desc,
+    duration: duration
   });
 }
 

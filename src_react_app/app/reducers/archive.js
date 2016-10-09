@@ -20,10 +20,6 @@ export default function ArchiveReducer(state = initialState, action) {
 			return {
 				data: action.data
 			}
-		case LOGIN:
-			return {
-				data: action.data
-			}
 		default:
 			return state
 	}

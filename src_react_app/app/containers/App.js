@@ -28,8 +28,17 @@ import Sidebar from './frame/Sidebar'
 import UserProfile from './UserProfile'
 
 import {
+	LS
+} from 'login_conf'
+import {
 	shortcut
 } from '../utils/shortcut'
+import moment from 'moment-timezone/moment-timezone';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
+const USR = LS.USR
+const LOGGEDIN = LS.LOGGEDIN
 
 class App extends React.Component {
 
@@ -77,6 +86,8 @@ class App extends React.Component {
 			'propagate': true,
 			'target': document
 		});
+
+		window.addEventListener('unload', this.handleUnload);
 	}
 
 	componentWillUpdate() {
@@ -93,6 +104,11 @@ class App extends React.Component {
 
 	componentWillUnmount() {
 		console.log("App.componentWillUnmount")
+	}
+
+	handleUnload = () => {
+		localStorage.removeItem(LOGGEDIN)
+		localStorage.removeItem(USR)
 	}
 
 	render() {

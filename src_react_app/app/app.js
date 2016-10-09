@@ -12,7 +12,11 @@ import {
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
 
-if (eval(localStorage.getItem('loggedIn'))) {
+import {
+	LS
+} from 'login_conf'
+
+if (eval(localStorage.getItem(LS.LOGGEDIN))) {
 	require('./assets/scss/style.scss');
 }
 

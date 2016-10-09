@@ -91,14 +91,3 @@ export function saveArchiveData(fields, fields_state) {
 			})
 	}
 }
-
-export function login(obj) {
-
-	console.log('login action...', JSON.stringify(obj))
-	return dispatch => {
-		dispatch({
-			type: LOGIN,
-			data: 1
-		})
-	}
-}

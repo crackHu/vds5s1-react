@@ -11,7 +11,7 @@ import {
 
 import App from './containers/App';
 import Home from './containers/Home';
-import Login from './containers/Login';
+import Login from './modules/login/containers/Login';
 /*
 import AntContainer1 from './containers/AntContainer1';
 import AntContainer2 from './containers/AntContainer2';
@@ -20,7 +20,7 @@ import ArchivDetail from './containers/ArchivDetail';
 
 const routes = (loggedIn) => {
 
-	if (loggedIn) {
+	if (eval(loggedIn)) {
 
 		const dynamicRoute = MENU_CONFIG.menuItem.map((item, i) => {
 
