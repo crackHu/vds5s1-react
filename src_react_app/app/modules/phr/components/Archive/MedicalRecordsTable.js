@@ -29,27 +29,28 @@ import {
 	DATE_FORMAT_STRING
 } from 'config'
 import {
-	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
 } from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
 
-const data = [];
-for (let i = 0; i < 3; i++) {
+/*const data = [];
+for (let i = 0; i < 1; i++) {
 	data.push({
 		key: i,
-		diseaseType: '手术',
-		diseaseName: '慢性阻塞性肺疾病',
-		confirmTime: '1950-1-1',
-		remark: `西湖区湖底公园${i}号`,
+		diseaseType: '',
+		diseaseName: '',
+		confirmTime: '',
+		remark: ``,
 	});
-}
+}*/
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
-		return <Option key={i}>{item.value}</Option>
+		return <Option key={item.value}>{item.value}</Option>
 	})
 }
 
@@ -61,7 +62,7 @@ class MedicalRecordsTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: false,
-			data
+			data: []
 		}
 
 		/*既往史 类别*/
@@ -110,11 +111,14 @@ class MedicalRecordsTable extends React.Component {
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-		const data = this.state.data
-		let d = {}
-		d.key = 11
-		data.push(d)
-		console.log('data:', data)
+
+		let ndata = {}
+		ndata.key = Date.now()
+
+		let data = []
+		data = Object.assign(data, this.state.data)
+		data.push(ndata)
+
 		this.setState({
 			data
 		}, () => msg("success", "已添加", 1))
@@ -136,7 +140,7 @@ class MedicalRecordsTable extends React.Component {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select defaultValue={value}>
+						<Select style={{width: '40vh'}}>
 							{option}
 						</Select>
 					)
@@ -147,7 +151,7 @@ class MedicalRecordsTable extends React.Component {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select defaultValue={value}>
+						<Select style={{width: '40vh'}}>
 							{option}
 						</Select>
 					)
@@ -159,8 +163,9 @@ class MedicalRecordsTable extends React.Component {
 				} else {
 					return (
 						<DatePicker
-							defaultValue={moment(value, DATE_FORMAT_STRING)}
+						 	style={{width: '30vh'}}
 							format={DATE_FORMAT_STRING}
+							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 						/>
 					)
 				}
@@ -171,8 +176,8 @@ class MedicalRecordsTable extends React.Component {
 				} else {
 					return (
 						<Input
+							style={{width: '70vh'}}
 							type="textarea"
-							defaultValue={value}
 							autosize={{ minRows: 1, maxRows: 2 }}
 						/>
 					)
@@ -189,25 +194,45 @@ class MedicalRecordsTable extends React.Component {
 			dataIndex: 'diseaseType',
 			key: 'diseaseType',
 			width: '20%',
-			render: (value) => renderContent.diseaseType(value, this.dtOptions),
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('lb_' + index)(
+						renderContent.diseaseType(value, this.dtOptions)
+					)}
+				</FormItem>,
 		}, {
 			title: '疾病名称',
 			dataIndex: 'diseaseName',
 			key: 'diseaseName',
 			width: '20%',
-			render: (value) => renderContent.diseaseName(value, this.dnOptions),
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.diseaseName(value, this.dnOptions)
+					)}
+				</FormItem>,
 		}, {
 			title: '确诊时间',
 			dataIndex: 'confirmTime',
 			key: 'confirmTime',
 			width: '15%',
-			render: (value) => renderContent.confirmTime(value),
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('qzne_' + index)(
+						renderContent.confirmTime(value)
+					)}
+				</FormItem>,
 		}, {
 			title: '备注',
 			dataIndex: 'remark',
 			key: 'remark',
 			width: '40%',
-			render: (value) => renderContent.remark(value),
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('bz_' + index)(
+						renderContent.remark(value)
+					)}
+				</FormItem>,
 		}];
 
 		// rowSelection objects indicates the need for row selection
@@ -272,11 +297,18 @@ class MedicalRecordsTable extends React.Component {
 MedicalRecordsTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalRecordsTable onFieldsChange")
+	console.log("MedicalRecordsTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields,
+	});
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalRecordsTable mapPropsToFields")
+	console.log("MedicalRecordsTable mapPropsToFields", props)
+	return props.fields;
 }
 
-export default Form.create()(MedicalRecordsTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(MedicalRecordsTable)

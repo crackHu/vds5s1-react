@@ -70,7 +70,7 @@ class Login extends React.Component {
 			const resultCode = status.resultCode
 			const resultMsg = status.resultMsg
 			console.log(JSON.stringify(status))
-			if (resultCode == 1) {
+			if (resultCode == 0) {
 				localStorage.setItem(LOGGEDIN, 1)
 				localStorage.setItem(USR, this.username)
 

@@ -54,14 +54,9 @@ export function getArchiveList(pageSize, pageNo) {
 	}
 }
 
-export function saveArchiveData(fields, fields_state) {
+export function saveArchiveData(data, fields_state) {
 
-	/*fields_state_obj.forEach((obj, i) => {
-		console.log("obj||||||||||", obj)
-	})*/
-
-	let data = getFieldsObj(fields, fields_state)
-	console.log("fields_state||||||||||", data)
+	console.log("saveArchiveData data", data)
 	let query = api.saveArchiveData(data)
 	console.log("obj||||||||||", query)
 	fetchInit.body = encodeURI(query)

@@ -40,7 +40,7 @@ class PersonalDetailForm extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 
-		const grda_xm_field = getFieldDecorator('grda_xm', {
+		const grda_xm = getFieldDecorator('grda_xm', {
 			rules: [{
 				required: true,
 				message: '请输入姓名',
@@ -50,7 +50,7 @@ class PersonalDetailForm extends React.Component {
 			<Input placeholder="请输入姓名" />
 		)
 
-		const grbh_field = getFieldDecorator('grbh', {
+		const grbh = getFieldDecorator('grbh', {
 			rules: [{
 				required: true,
 				message: '请输入个人编号',
@@ -86,14 +86,18 @@ class PersonalDetailForm extends React.Component {
 
 		return (
 			<div>
-				<Form inline onSubmit={this.handleSubmit}>
+				<Form
+				 inline
+				 onSubmit={this.handleSubmit}
+				 className="dashed_border form"
+				>
 			        <FormItem
 			         label="姓名"
 			        >
-			        	{grda_xm_field}
+			        	{grda_xm}
 			        </FormItem>
 			        <FormItem label="个人编号" >
-			        	{grbh_field}
+			        	{grbh}
 			        </FormItem>
 		        </Form>
 		        {tabpane}

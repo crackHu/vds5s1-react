@@ -677,6 +677,7 @@ export const ARCHIVE_LIST_PAGESIZE = 10
 export const PERSONALDETAIL_FIELDS_CONFIG = {
 	name: 'PD_FIELDS_DATA',
 	grdaJbzl: {
+		name: 'grdaJbzl',
 		fields: [
 			/*姓名*/
 			'grda_xm',
@@ -762,13 +763,24 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			/*录入人*/
 			'grda_lrr',
 			/*录入日期*/
-			'grda_lrr',
+			'grda_lrrq',
 		]
 	},
 	grdaJws: {
-		fields: []
+		name: 'grdaJws',
+		fields: [
+			/*类别*/
+			'lb',
+			/*疾病名称*/
+			'jbmc',
+			/*时间*/
+			'qzne',
+			/*备注*/
+			'jzyymc',
+		]
 	},
 	grdaJzs: {
+		name: 'grdaJzs',
 		fields: []
 	},
 }

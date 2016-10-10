@@ -38,7 +38,8 @@ class FamiLivelHistoryFrom extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {}
-			/*厨房排风设施*/
+
+		/*厨房排风设施*/
 		this.vFacilityOptions = WIDGET_CONFIG.selectOption.ventilationFacilities;
 	}
 

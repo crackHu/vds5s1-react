@@ -18,7 +18,9 @@ import * as ArchiveActions from '../actions/ArchiveActions'
 import {
 	msg,
 	notify,
-	getDate
+	getDate,
+	getFieldsObj,
+	getFieldsArr
 } from 'utils'
 import {
 	ARC_TYPE_CONFIG,
@@ -66,7 +68,17 @@ class AntContainer1 extends React.Component {
 		this.setState({
 			submit: true
 		})
-		this.props.saveArchiveData(grdaJbzl.fields, this.state[FIELDS.name])
+
+		let obj = getFieldsObj(grdaJbzl.fields, this.state[FIELDS.name])
+		console.log('getFieldsObj', obj)
+		let arr = getFieldsArr(grdaJws.fields, this.state[FIELDS.name])
+		console.log('getFieldsArr', arr)
+
+		this.props.saveArchiveData({
+			grdaJbzl: obj,
+			grdaJws: arr,
+			grdaJzs: []
+		})
 	}
 
 	onFieldsChange = ({
@@ -74,10 +86,12 @@ class AntContainer1 extends React.Component {
 	}) => {
 		console.log('onFieldsChange', fields)
 		let state = {}
-		state[grdaJbzl.name] = Object.assign(this.state[FIELDS.name], {}, {
+		state = Object.assign(this.state[FIELDS.name], {}, {
 			...fields
 		})
-		this.setState(state)
+		this.setState({
+			[`${FIELDS.name}`]: state,
+		})
 	};
 
 	/*Tab Edit event*/

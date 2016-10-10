@@ -32,10 +32,9 @@ export const getArchiveList = (pageNo, pageSize) => {
 /*保存檔案*/
 export const saveArchiveData = (data) => {
 
-	postQuery.din.grdaJbzl = data
+	postQuery.din = data
 	postQuery.din.grdaJbzl.grda_lrrq = '2016-09-30'
-	postQuery.din.grdaJws = null
-	postQuery.din.grdaJzs = null
+
 	postQuery.pid = 'boPersonDoc'
 	postQuery.fid = 'savePdData'
 

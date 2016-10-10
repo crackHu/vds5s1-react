@@ -160,3 +160,22 @@ export const getFieldsObj = (fields, fields_state) => {
   })
   return obj
 }
+
+// ------ 获取表单字段与值的封装数组 ------ //
+export const getFieldsArr = (fields, fields_state) => {
+  let arr = []
+  fields.forEach((item, i) => {
+    let obj = undefined
+    fields.forEach((name, j) => {
+      let field = fields_state[`${name}_${i}`]
+      if (field) {
+        obj = {}
+        obj[name] = field.value
+      }
+    })
+    if (obj) {
+      arr.push(obj)
+    }
+  })
+  return arr
+}

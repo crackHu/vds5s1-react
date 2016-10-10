@@ -1,7 +1,7 @@
 //*************全局配置*************//
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://172.16.1.213:8080/'
+  baseUrl = ''
 } else {
   baseUrl = ''
 }
