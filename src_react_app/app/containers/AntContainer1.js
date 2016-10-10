@@ -12,6 +12,7 @@ import {
 	Dropdown,
 	Icon
 } from 'antd';
+import moment from 'moment'
 import QueueAnim from 'rc-queue-anim';
 import * as ArchiveActions from '../actions/ArchiveActions'
 
@@ -23,9 +24,37 @@ import {
 	getFieldsArr
 } from 'utils'
 import {
+	DATE_FORMAT_STRING
+} from 'config'
+import {
 	ARC_TYPE_CONFIG,
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
 } from 'phr_conf'
+import {
+	CONFIG as LCONFIG
+} from 'login_conf'
+
+const USR = LCONFIG.LS.USR
+const DEFAULT_USR = LCONFIG.DEFAULT_USR
+const username = localStorage.getItem(USR) || DEFAULT_USR
+const DEFAULT_DATE = '1950-1-1'
+const DEFAULT_VALUE = {
+	grda_csrq: {
+		value: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
+	},
+	grda_jdys: {
+		value: username
+	},
+	grda_jdrq: {
+		value: moment(new Date(), DATE_FORMAT_STRING)
+	},
+	grda_lrr: {
+		value: username
+	},
+	grda_lrrq: {
+		value: moment(new Date(), DATE_FORMAT_STRING)
+	},
+}
 
 const TabPane = Tabs.TabPane;
 
@@ -45,7 +74,7 @@ class AntContainer1 extends React.Component {
 	state = {
 		activeKey: this.arcType[0].key,
 		arcType: this.arcType,
-		[`${FIELDS.name}`]: {},
+		[`${FIELDS.name}`]: DEFAULT_VALUE,
 		submit: false
 	}
 
@@ -69,11 +98,10 @@ class AntContainer1 extends React.Component {
 			submit: true
 		})
 
-		let obj = getFieldsObj(grdaJbzl.fields, this.state[FIELDS.name])
+		let obj = getFieldsObj(grdaJbzl.fields, this.state[FIELDS.name], DATE_FORMAT_STRING)
 		console.log('getFieldsObj', obj)
 		let arr = getFieldsArr(grdaJws.fields, this.state[FIELDS.name])
 		console.log('getFieldsArr', arr)
-
 		this.props.saveArchiveData({
 			grdaJbzl: obj,
 			grdaJws: arr,

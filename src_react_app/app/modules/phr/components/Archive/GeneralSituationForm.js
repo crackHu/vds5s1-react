@@ -223,7 +223,7 @@ class GeneralSituationForm extends React.Component {
 
 		/*档案状态*/
 		const grda_dazt =
-			getFieldDecorator('grda_lxrdh')(
+			getFieldDecorator('grda_dazt')(
 				<Select style={{ width: 115 }}>
 			       {this.getSelectOptions(this.arcStatusOptions)}
 			  	</Select>

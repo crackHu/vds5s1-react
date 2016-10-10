@@ -463,27 +463,27 @@ export const ARC_FORM_WIDGET_CONFIG = {
 	/*现住址*/
 	cascadeOptions: {
 		curAddress: [{
-			value: 'guangzhou',
+			value: '广州市',
 			label: '广州市',
 			children: [{
-				value: 'yuexiu',
+				value: '越秀区',
 				label: '越秀区',
 				children: [{
-					value: 'dadongjie',
+					value: '大东街',
 					label: '大东街',
 					children: [{
-						value: 'shuqian',
+						value: '署前',
 						label: '署前',
 						children: [{
-							value: 'miaoqianxijie',
+							value: '庙前西街',
 							label: '庙前西街',
 						}],
 					}],
 				}, {
-					value: 'qiming',
+					value: '启明',
 					label: '启明',
 					children: [{
-						value: 'yimalu',
+						value: '启明一马路',
 						label: '启明一马路'
 					}],
 				}],
@@ -492,22 +492,22 @@ export const ARC_FORM_WIDGET_CONFIG = {
 
 		/*户籍地址*/
 		censusRegister: [{
-			value: 'guangdongsheng',
+			value: '广东省',
 			label: '广东省',
 			children: [{
-				value: 'guangzhou',
+				value: '广州市',
 				label: '广州市',
 				children: [{
-					value: 'yuexiu',
+					value: '越秀',
 					label: '越秀',
 					children: [{
-						value: 'dadongjie',
+						value: '大东街',
 						label: '大东街',
 						children: [{
-							value: 'shuqian',
+							value: '署前',
 							label: '署前',
 							children: [{
-								value: 'miaoqianxijie',
+								value: '庙前西街',
 								label: '庙前西街',
 							}],
 						}],

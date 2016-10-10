@@ -37,7 +37,7 @@ export function login(data) {
 				data.status.timestamp = Date.now()
 
 				if (resCode < 0) {
-					notify('warn', '警告' + '(' + resCode + ')', resMsg);
+					notify('warn', '错误' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				}
 				dispatch({

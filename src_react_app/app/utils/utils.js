@@ -91,7 +91,7 @@ export function randomUUID() {
 }
 
 // ------ user regards ------ //
-export const regards = () => {
+export function regards() {
 
   const hour = new Date().getHours()
 
@@ -121,7 +121,7 @@ import {
 } from 'antd'
 
 //http://ant.design/components/message/
-export const notify = (type, msg, desc, duration) => {
+export function notify(type, msg, desc, duration) {
   notification[type]({
     message: msg,
     description: desc,
@@ -130,7 +130,7 @@ export const notify = (type, msg, desc, duration) => {
 }
 
 //http://ant.design/components/notification/
-export const msg = (type, content, duration) => {
+export function msg(type, content, duration) {
   switch (type) {
     case 'success':
       return message.success(content, duration)
@@ -149,33 +149,55 @@ export const msg = (type, content, duration) => {
   }
 }
 
-// ------ 获取表单字段与值的封装对象 ------ //
-export const getFieldsObj = (fields, fields_state) => {
+// ------ 获取表单字段与值的封装对象 ------ // 
+export function getFieldsObj(fields, fields_state, date_format) {
   let obj = {}
-  fields.forEach((item, i) => {
-    let field = fields_state[item]
-    if (field) {
-      obj[item] = field.value
+  fields.forEach((field, i) => {
+    let state = fields_state[field]
+    if (state) {
+      let value = state.value
+      if (isString(value)) {
+        obj[field] = value
+      } else if (isArray(value)) {
+        obj[field] = value.join(',')
+      } else if (typeof value == "object") {
+        obj[field] = value.format(date_format)
+      } else {
+        obj[field] = value
+      }
     }
   })
   return obj
 }
 
 // ------ 获取表单字段与值的封装数组 ------ //
-export const getFieldsArr = (fields, fields_state) => {
+export function getFieldsArr(fields, fields_state) {
+
   let arr = []
-  fields.forEach((item, i) => {
-    let obj = undefined
-    fields.forEach((name, j) => {
-      let field = fields_state[`${name}_${i}`]
-      if (field) {
-        obj = {}
-        obj[name] = field.value
+  for (let i in fields) {
+    let obj = {}
+    fields.forEach((field, j) => {
+
+      let state = fields_state[`${field}_${i}`]
+      if (state) {
+        obj[field] = state.value
       }
     })
-    if (obj) {
+    if (!emptyObject(obj)) {
       arr.push(obj)
     }
-  })
+  }
   return arr
+}
+
+function isObject(obj) {
+  return typeof obj == "object" && obj.constructor == Object
+}
+
+function isArray(arr) {
+  return typeof arr == "object" && arr.constructor == Array
+}
+
+function isString(str) {
+  return typeof str == "string" && str.constructor == String
 }

@@ -76,8 +76,6 @@ class Login extends React.Component {
 
 				//this.context.router.replace('/ant1');
 				location.reload()
-			} else {
-				notify('error', '错误', resultMsg, 2);
 			}
 		}
 	}
@@ -95,9 +93,6 @@ class Login extends React.Component {
 	}
 
 	render() {
-
-		const result = this.props.data.login.result
-		console.log(result)
 
 		const {
 			getFieldDecorator
