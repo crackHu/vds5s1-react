@@ -28,35 +28,39 @@ export const MENU_CONFIG = {
     iconType: "home",
     sub: [{
       key: "Home",
-      path: "/home",
+      path: "./containers/Home",
+      route: "/home",
       name: "应用概况",
       iconType: "book"
     }]
   }, {
-    key: "AntContainer1",
-    path: "/ant1",
+    key: "ArchiveCollection",
+    path: "/phr/create",
     name: "档案管理",
     iconType: "credit-card",
     sub: [{
-      key: "AntContainer1",
-      path: "/ant1",
-      route: "/ant1(/:grbh)",
-      name: "新建档案",
+      key: "ArchiveList",
+      path: "./modules/phr/containers/ArchiveList",
+      route: "/phr/list",
+      name: "个人档案列表",
       iconType: "book"
     }, {
-      key: "AntContainer2",
-      path: "/ant2",
-      name: "个人档案列表",
+      key: "ArchiveCollection",
+      path: "./modules/phr/containers/ArchiveCollection",
+      route: "/phr/:crud(/:grbh)",
+      routePath: "/phr/create",
+      name: "新建档案",
       iconType: "book"
     }, ]
   }, {
-    key: "ArchivDetail",
-    path: "/detail",
+    key: "Statistics",
+    path: "/stat",
     name: "数据统计",
     iconType: "line-chart",
     sub: [{
-      key: "ArchivDetail",
-      path: "/detail",
+      key: "Statistics",
+      path: "./modules/stat/containers/Statistics",
+      route: "/stat",
       name: "建档明细",
       iconType: "book"
     }]

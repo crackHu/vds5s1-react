@@ -8,7 +8,7 @@ import {
 } from 'react-d3-components';
 import QueueAnim from 'rc-queue-anim';
 
-export default class ArchivDetail extends React.Component {
+export default class Statistics extends React.Component {
 
   constructor(props) {
     super(props)

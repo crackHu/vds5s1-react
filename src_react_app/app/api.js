@@ -5,76 +5,65 @@ import {
 const BASE_URL = CONFIG.baseUrl
 const PROJECT_NAME = CONFIG.projectName
 
-let postQuery = {
-	din: {},
-	pid: undefined,
-	fid: undefined
-}
-
 export const getReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boVdsRequest.jsp?data=`
 export const postReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boCallMethod.jsp`
 
-/*檔案列表*/
-export const getArchiveList = (pageNo, pageSize) => {
+function PostQuery(din, fid, pid) {
+	this.din = din
+	this.fid = fid
+	this.pid = pid
+	PostQuery.prototype.serialize = function(methodName) {
+		let query = JSON.stringify(this)
+		console.debug(methodName, "=>", "URL:", postReqUrl, "QUERY:", query);
+		return query;
+	}
+}
 
-	postQuery.din = {
+/*檔案列表*/
+export function getArchiveList(pageNo, pageSize) {
+
+	let postQuery = new PostQuery({
 		page: pageNo,
 		rows: pageSize
-	}
-	postQuery.pid = 'boPersonDoc'
-	postQuery.fid = 'pdSaveData'
+	}, 'pdSaveData', 'boPersonDoc')
 
-	let query = JSON.stringify(postQuery)
-	console.debug("getArchiveList:", "URL:", postReqUrl, "QUERY:", query);
-	return query;
+	return postQuery.serialize('getArchiveList');
 }
 
 /*保存檔案*/
-export const saveArchiveData = (data) => {
+export function saveArchiveData(data) {
 
-	postQuery.din = data
-	postQuery.din.grdaJbzl.grda_lrrq = '2016-09-30'
-	postQuery.fid = 'savePdData'
-	postQuery.pid = 'boPersonDoc'
-
-	let query = JSON.stringify(postQuery)
-	console.debug("saveArchiveData:", "URL:", postReqUrl, "QUERY:", query);
-	return query;
+	let postQuery = new PostQuery(data, 'savePdData', 'boPersonDoc')
+	return postQuery.serialize('saveArchiveData');
 }
 
 /*登陆*/
-export const login = (data) => {
+export function login(data) {
 
-	postQuery.din.loginName = data.usr
-	postQuery.din.loginPwd = data.pwd
-	postQuery.fid = 'proLogin'
-	postQuery.pid = 'boLogin'
+	let postQuery = new PostQuery({
+		loginName: data.usr,
+		loginPwd: data.pwd
+	}, 'proLogin', 'boLogin')
 
-	let query = JSON.stringify(postQuery)
-	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
-	return query;
+	return postQuery.serialize('login');
 }
 
 /*查询个人详细档案资料*/
-export const queryPHR = (data) => {
+export function queryPHR(data) {
 
-	postQuery.din.grbh = data
-	postQuery.fid = 'getDataById'
-	postQuery.pid = 'boPersonDoc'
+	let postQuery = new PostQuery({
+		grbh: data
+	}, 'getDataById', 'boPersonDoc')
 
-	let query = JSON.stringify(postQuery)
-	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
-	return query;
+	return postQuery.serialize('queryPHR');
 }
 
 /*删除个人档案*/
-export const deletePHR = (data) => {
+export function deletePHR(data) {
 
-	postQuery.din.ids = data
-	postQuery.fid = 'deletePdData'
-	postQuery.pid = 'boPersonDoc'
+	let postQuery = new PostQuery({
+		ids: data
+	}, 'deletePdData', 'boPersonDoc')
 
-	let query = JSON.stringify(postQuery)
-	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
-	return query;
+	return postQuery.serialize('deletePHR');
 }

@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
 	counter,
 	app,
 	archive,
+
 	login,
 	phr
 });

@@ -27,7 +27,9 @@ export default class Sidebar extends React.Component {
 
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 				return (
-					<Menu.Item key={itemSub.key}><Link to={itemSub.path}>{itemSub.name}</Link></Menu.Item>
+					<Menu.Item key={itemSub.key}>
+						<Link to={itemSub.routePath ? itemSub.routePath : itemSub.route}>{itemSub.name}</Link>
+					</Menu.Item>
 				)
 			})
 			return (
@@ -62,13 +64,13 @@ export default class Sidebar extends React.Component {
 		      		</Menu>
 		      		<Menu theme="blue-dark" defaultOpenKeys={['sub1']} style={{ width: 224}} selectedKeys={[this.props.route.sidebarKey]} mode="inline">
 		        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>档案管理</span></span>}>
-		        			<Menu.Item key="create"><Link to='/AntContainer1'>新建档案</Link></Menu.Item>
-		        			<Menu.Item key="list"><Link to='/AntContainer2'>个人档案列表</Link></Menu.Item>
+		        			<Menu.Item key="create"><Link to='/ArchiveCollection'>新建档案</Link></Menu.Item>
+		        			<Menu.Item key="list"><Link to='/ArchiveList'>个人档案列表</Link></Menu.Item>
 		        		</SubMenu>
 		      		</Menu>
 		      		<Menu theme="blue-dark" defaultOpenKeys={['sub1']} style={{ width: 224}} selectedKeys={[this.props.route.sidebarKey]} mode="inline">
 		        		<SubMenu key="sub1" title={<span><Icon type="book" /><span>数据统计</span></span>}>
-		        			<Menu.Item key="test"><Link to='/ArchivDetail'>建档明细</Link></Menu.Item>
+		        			<Menu.Item key="test"><Link to='/Statistics'>建档明细</Link></Menu.Item>
 		        		</SubMenu>
 		      		</Menu>
 		      	*/}

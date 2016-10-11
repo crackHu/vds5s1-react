@@ -1,7 +1,7 @@
 {
-    "name": "vds5s1",
+    "name": "medicPHR",
     "version": "1.0.0",
-    "description": "VDS Foundation Platform",
+    "description": "medicPHR for web with react",
     "main": "index.js",
     "scripts": {
         "start": "node server.js",
@@ -58,6 +58,7 @@
     "dependencies": {
         "antd": "^2.0.1",
         "history": "^2.1.2",
+        "immutable": "^3.8.1",
         "isomorphic-fetch": "^2.2.1",
         "moment": "^2.15.1",
         "moment-timezone": "^0.5.6",

@@ -13,10 +13,11 @@ import App from './containers/App';
 import Home from './containers/Home';
 import Login from './modules/login/containers/Login';
 /*
-import AntContainer1 from './containers/AntContainer1';
-import AntContainer2 from './containers/AntContainer2';
-import ArchivDetail from './containers/ArchivDetail';
+import ArchiveCollection from './containers/ArchiveCollection';
+import ArchiveList from './containers/ArchiveList';
+import Statistics from './containers/Statistics';
 */
+import ArchiveCollection from './modules/phr/containers/ArchiveCollection';
 
 const routes = (loggedIn) => {
 
@@ -26,10 +27,10 @@ const routes = (loggedIn) => {
 
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 
-				let component = require(`./containers/${itemSub.key}`).default
+				let component = require(`${itemSub.path}`).default
 				return (
 					<Route
-						path={itemSub.route ? itemSub.route : itemSub.path}
+						path={itemSub.route}
 						component={component}
 						sidebarKey={itemSub.key}
 						headerNavKey={item.key}
@@ -45,9 +46,9 @@ const routes = (loggedIn) => {
 			    <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
 			    {/*
 				    <Route path="/home" component={Home} sidebarKey="Home" headerNavKey="Home"/>
-				    <Route path="AntContainer1" component={AntContainer1} sidebarKey="AntContainer1" headerNavKey="AntContainer1"/>
-				    <Route path="AntContainer2" component={AntContainer2} sidebarKey="AntContainer2" headerNavKey="AntContainer2"/>
-					<Route path="ArchivDetail" component={ArchivDetail} sidebarKey="ArchivDetail" headerNavKey="ArchivDetail"/>
+				    <Route path="ArchiveCollection" component={ArchiveCollection} sidebarKey="ArchiveCollection" headerNavKey="ArchiveCollection"/>
+				    <Route path="ArchiveList" component={ArchiveList} sidebarKey="ArchiveList" headerNavKey="ArchiveList"/>
+					<Route path="Statistics" component={Statistics} sidebarKey="Statistics" headerNavKey="Statistics"/>
 				*/}
 				{dynamicRoute}
 		    </Route>

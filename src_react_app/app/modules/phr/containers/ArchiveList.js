@@ -30,21 +30,17 @@ import {
 	ARCHIVE_LIST_PAGESIZE as PAGESIZE
 } from 'phr_conf'
 
-import * as ArchiveActions from '../actions/ArchiveActions'
-import * as PHRAction from '../modules/phr/PHRAction'
+import * as PHRAction from '../PHRAction'
 
-import AdvancedSearch from './AdvancedSearch'
-import SearchInput from '../components/SearchInput'
+import AdvancedSearch from '../components/AdvancedSearch'
+import SearchInput from '../../../components/SearchInput'
 
 const ButtonGroup = Button.Group;
 
-class AntContainer2 extends React.Component {
+class ArchiveList extends React.Component {
 
 	state = {
 		modalVisible: false,
-
-		username: undefined,
-		password: undefined,
 	}
 
 	componentWillMount = () => {}
@@ -53,9 +49,7 @@ class AntContainer2 extends React.Component {
 		this.props.getArchiveList(1, 45);
 	}
 
-	componentDidUpdate = () => {
-		console.log("componentDidupdate", this.state.username, this.state.password)
-	}
+	componentDidUpdate = () => {}
 
 	/*modal event*/
 	showModal = (e) => {
@@ -95,7 +89,7 @@ class AntContainer2 extends React.Component {
 			key: 'grbh',
 			fixed: 'left',
 			width: 150,
-			render: (text) => <Link to={`ant1/${text}`}>{text}</Link>,
+			render: (text) => <Link to={`/phr/detail/${text}`}>{text}</Link>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
@@ -155,7 +149,7 @@ class AntContainer2 extends React.Component {
 		const archiveProps = this.props.data.archive
 		const data = archiveProps.data ? archiveProps.data.dout : null;
 		const loading = archiveProps.archiveListloading
-
+		console.log('loading', loading)
 		const pagination = data ? {
 			total: this.props.data.archive.total,
 			showSizeChanger: true,
@@ -210,7 +204,7 @@ class AntContainer2 extends React.Component {
 	}
 }
 
-AntContainer2.propTypes = {
+ArchiveList.propTypes = {
 	getArchiveList: PropTypes.func.isRequired,
 	deletePHR: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired
@@ -222,7 +216,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, {
-	...ArchiveActions,
-	...PHRAction
-})(AntContainer2)
+export default connect(mapStateToProps, PHRAction)(ArchiveList)

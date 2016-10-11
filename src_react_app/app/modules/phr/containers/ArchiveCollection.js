@@ -14,8 +14,7 @@ import {
 } from 'antd';
 import moment from 'moment'
 import QueueAnim from 'rc-queue-anim';
-import * as ArchiveActions from '../actions/ArchiveActions'
-import * as PHRAction from '../modules/phr/PHRAction'
+import * as PHRAction from '../PHRAction'
 
 import {
 	msg,
@@ -69,7 +68,7 @@ const grdaJws = FIELDS.grdaJws
 /*家族史 字段*/
 const grdaJzs = FIELDS.grdaJzs
 
-class AntContainer1 extends React.Component {
+class ArchiveCollection extends React.Component {
 
 	arcType = ARC_TYPE_CONFIG.arcType
 	specArcType = ARC_TYPE_CONFIG.specArcType
@@ -82,28 +81,25 @@ class AntContainer1 extends React.Component {
 	}
 
 	componentWillMount = () => {
-		console.log('AntContainer1.componentWillMount')
+		console.log('ArchiveCollection.componentWillMount')
 		let grbh = this.props.params.grbh
 		if (grbh) {
 			this.props.queryPHR(grbh)
 		}
-		this.setState({
-			grbh
-		})
 	}
 
 	componentDidMount = () => {
-		console.log('AntContainer1.state', this.state)
+		console.log('ArchiveCollection.state', this.state)
 	}
 
 	componentWillUnmount = () => {}
 
 	componentWillUpdate = () => {
-		console.log('AntContainer1.componentWillUpdate')
+		console.log('ArchiveCollection.componentWillUpdate')
 	}
 
 	componentDidUpdate = () => {
-		console.log("AntContainer1.componentDidUpdate", this.state, this.props.data.phr)
+		console.log("ArchiveCollection.componentDidUpdate", this.state, this.props.data.phr)
 
 		/*if (!emptyObject(this.props.data.phr)) {
 			console.log('phr resp data:', this.props.data.phr)
@@ -231,6 +227,16 @@ class AntContainer1 extends React.Component {
 			operatText = '保存档案'
 		}
 
+		/*let grda
+		if (this.props.data.phr.result) {
+			grda = this.props.data.phr.result.dout.grdajbzl[0]
+		}
+		console.log('grda')
+		grda = {}
+		grda.grbh = {
+			value: "4401040191303011"
+		}*/
+
 		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>{operatText}</Button>
 		const moreSpecArc = (
 			<Menu>
@@ -260,11 +266,11 @@ class AntContainer1 extends React.Component {
 		})}*/
 		const tabpane = this.state.arcType.map(pane => {
 
-			let Container = require(`../modules/phr/components/${pane.content}`).default
+			let Container = require(`../components/${pane.content}`).default
 			return (
 				<TabPane tab={pane.name} key={pane.key}>
 					<Container
-						fields={this.state[FIELDS.name]}
+						fields={grda}
 						onFieldsChange={this.onFieldsChange}
 					/>
 				</TabPane>
@@ -294,7 +300,7 @@ class AntContainer1 extends React.Component {
 	}
 }
 
-AntContainer1.propTypes = {
+ArchiveCollection.propTypes = {
 	saveArchiveData: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired
@@ -306,7 +312,4 @@ function mapStateToProps(state, ownProps) {
 	}
 }
 
-export default connect(mapStateToProps, {
-	...ArchiveActions,
-	...PHRAction
-})(AntContainer1)
+export default connect(mapStateToProps, PHRAction)(ArchiveCollection)

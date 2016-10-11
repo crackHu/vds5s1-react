@@ -46,6 +46,9 @@ export function login(data) {
 				})
 			})
 			.catch(e => {
+				dispatch({
+					type: LOGIN,
+				})
 				notify('error', '错误', fetchCatchMsg);
 				console.error("Oops, error", e)
 			})

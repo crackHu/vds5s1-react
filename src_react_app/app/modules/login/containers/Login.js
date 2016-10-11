@@ -16,6 +16,7 @@ import {
 	Col
 } from 'antd';
 
+import Immutable from 'immutable';
 import * as LoginAction from '../LoginAction'
 import {
 	CONFIG
@@ -35,10 +36,10 @@ class Login extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			loading: false
 		}
-		this.loading = false
 		this.username = undefined
 		this.timestamp = Date.now()
 	}
@@ -59,22 +60,20 @@ class Login extends React.Component {
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
-
-		this.loading = false
 		console.log('componentDidUpdate prevProps prevState', prevProps, prevState)
-		const result = this.props.data.login.result
-		if (result != null && result.status != null && result.status.timestamp != this.timestamp) {
 
-			this.timestamp = result.status.timestamp
-			const status = result.status
+		const data = this.props.logged.get('data')
+		if (data != null && data.status != null && data.status.timestamp != this.timestamp) {
+
+			this.timestamp = data.status.timestamp
+			const status = data.status
 			const resultCode = status.resultCode
 			const resultMsg = status.resultMsg
 			console.log(JSON.stringify(status))
 			if (resultCode == 0) {
 				localStorage.setItem(LOGGEDIN, 1)
 				localStorage.setItem(USR, this.username)
-
-				//this.context.router.replace('/ant1');
+					//this.context.router.replace('/ant1');
 				location.reload()
 			}
 		}
@@ -85,7 +84,6 @@ class Login extends React.Component {
 		const fieldsValue = this.props.form.getFieldsValue()
 		this.username = fieldsValue.usr
 		console.log('Received values of form:', fieldsValue);
-		this.loading = true
 		this.setState({
 			loading: true
 		})
@@ -97,6 +95,7 @@ class Login extends React.Component {
 		const {
 			getFieldDecorator
 		} = this.props.form;
+
 		const formItemLayout = {
 			labelCol: {
 				xs: 10,
@@ -166,7 +165,7 @@ class Login extends React.Component {
 
 Login.PropTypes = {
 	login: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired,
+	logged: PropTypes.object.isRequired,
 }
 
 Login.contextTypes = {
@@ -174,8 +173,9 @@ Login.contextTypes = {
 }
 
 function mapStateToProps(state) {
+	console.log('Login.mapStateToProps:', state)
 	return {
-		data: state
+		logged: state.login
 	}
 }
 
