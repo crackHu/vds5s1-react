@@ -16,7 +16,7 @@ import {
 	Pagination,
 	Popconfirm,
 	Button,
-	Switch
+	Tooltip
 } from 'antd'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
@@ -54,8 +54,8 @@ const getSelectOptions = (data) => {
 	})
 }
 
-/*既往史*/
-class MedicalRecordsTable extends React.Component {
+/*家族史*/
+class FamiHistoryTable extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -65,35 +65,22 @@ class MedicalRecordsTable extends React.Component {
 			data: []
 		}
 
-		/*既往史 类别*/
-		this.dtOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseType);
-		/*既往史 疾病名称*/
-		this.dnOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseName);
+		/*成员类别*/
+		this.memberOptions = getSelectOptions(WIDGET_CONFIG.selectOption.memberType);
+		/*疾病名称*/
+		this.sickOptions = getSelectOptions(WIDGET_CONFIG.selectOption.sicknessName);
 	}
+
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
 
-	/*既往史 选中项发生变化时的回调*/
+	/*家族史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
 			selectedRowKeys,
 		});
-	}
-
-	/*既往史 编辑状态开关发生变化时的回调*/
-	jwsEditSwitch = (checked = false) => {
-		this.setState({
-			editSwitch: checked
-		})
-	}
-
-	/*span switch click*/
-	jwsEditSwitchSpanClick = () => {
-		this.setState({
-			editSwitch: !this.state.editSwitch
-		})
 	}
 
 	deleteConfirm = () => {
@@ -135,7 +122,7 @@ class MedicalRecordsTable extends React.Component {
 		} = this.state
 
 		const renderContent = {
-			diseaseType(value, option) {
+			memberType(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
@@ -146,7 +133,7 @@ class MedicalRecordsTable extends React.Component {
 					)
 				}
 			},
-			diseaseName(value, option) {
+			sicknessName(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
@@ -154,19 +141,6 @@ class MedicalRecordsTable extends React.Component {
 						<Select style={{width: '40vh'}}>
 							{option}
 						</Select>
-					)
-				}
-			},
-			confirmTime(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<DatePicker
-						 	style={{width: '30vh'}}
-							format={DATE_FORMAT_STRING}
-							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-						/>
 					)
 				}
 			},
@@ -187,43 +161,32 @@ class MedicalRecordsTable extends React.Component {
 		}
 
 		const columns = [{
-			title: '类别',
-			dataIndex: 'diseaseType',
-			key: 'diseaseType',
-			width: '20%',
+			title: '成员类别',
+			dataIndex: 'memberType',
+			key: 'memberType',
+			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('lb_' + index)(
-						renderContent.diseaseType(value, this.dtOptions)
+					{getFieldDecorator('cylb_' + index)(
+						renderContent.memberType(value, this.memberOptions)
 					)}
 				</FormItem>,
 		}, {
 			title: '疾病名称',
-			dataIndex: 'diseaseName',
-			key: 'diseaseName',
-			width: '20%',
-			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
-						renderContent.diseaseName(value, this.dnOptions)
-					)}
-				</FormItem>,
-		}, {
-			title: '确诊时间',
-			dataIndex: 'confirmTime',
-			key: 'confirmTime',
+			dataIndex: 'sicknessName',
+			key: 'sicknessName',
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('qzne_' + index)(
-						renderContent.confirmTime(value)
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.sicknessName(value, this.sickOptions)
 					)}
 				</FormItem>,
 		}, {
 			title: '备注',
 			dataIndex: 'remark',
 			key: 'remark',
-			width: '40%',
+			width: '60%',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('bz_' + index)(
@@ -244,19 +207,17 @@ class MedicalRecordsTable extends React.Component {
 		}
 		const title = () => (
 			<div>
-				<span className="wrapper_border" onClick={this.jwsEditSwitchSpanClick}>
-					编辑{' '}
-					<Switch
-					 checked={editSwitch}
-					 onChange={this.jwsEditSwitch}
-					 checkedChildren={'开'}
-					 unCheckedChildren={'关'}
-					/>
-				</span>
+				<FormItem
+	        	 label={<span>家族史
+	        	 	{' '}
+	        	 	<Tooltip title={`点击新增可以增加一条家族史数据`}>
+	        	 		<Icon type="question-circle-o" />
+	        	 	</Tooltip>
+	        	 </span>}
+	        	/>
+
 				<Popconfirm
-		title = {
-			`确定要删除所选${selectedLength}条既往史吗？`
-		}
+				 title={`确定要删除所选${selectedLength}条家族史吗？`}
 				 onConfirm={this.deleteConfirm}
 				 onCancel={this.deleteCancel}
 				>
@@ -276,7 +237,7 @@ class MedicalRecordsTable extends React.Component {
 				<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 		    </div>
 		)
-		const footer = () => '可以选择一条或多条记录进删除操作'
+		const footer = () => '选择一条多条记录进行编辑或删除操作'
 
 		return (
 			<Table
@@ -294,21 +255,21 @@ class MedicalRecordsTable extends React.Component {
 	}
 }
 
-MedicalRecordsTable.propTypes = {}
+FamiHistoryTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalRecordsTable onFieldsChange", props, fields)
+	console.log("FamiHistoryTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields,
 	});
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalRecordsTable mapPropsToFields", props)
+	console.log("FamiHistoryTable mapPropsToFields", props)
 	return props.fields;
 }
 
 export default Form.create({
 	onFieldsChange,
 	mapPropsToFields
-})(MedicalRecordsTable)
+})(FamiHistoryTable)

@@ -5,6 +5,9 @@
 .dashed_border.form{
 	padding-bottom: 15px
 }
+.dashed_border.form.inside{
+	margin-bottom: 15px
+}
 
 .wrapper_border{
 	border: 1px solid #d9d9d9;
@@ -12,4 +15,8 @@
     margin-left: -8px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.form_inline_spacing{
+	margin: 16px auto;
 }

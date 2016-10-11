@@ -201,7 +201,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_brdh =
 			getFieldDecorator('grda_brdh')(
 				<Select combobox style={{ width: 120 }}>
-	       	  		<Option key='1' value="未提供">未提供</Option>
+	       	  		<Option key='未提供'>未提供</Option>
 			    </Select>
 			)
 
@@ -209,7 +209,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_lxrxm =
 			getFieldDecorator('grda_lxrxm')(
 				<Select combobox style={{ width: 120 }}>
-	       	  		<Option key='1' value="未提供">未提供</Option>
+	       	  		<Option key='未提供'>未提供</Option>
 			    </Select>
 			)
 
@@ -217,7 +217,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_lxrdh =
 			getFieldDecorator('grda_lxrdh')(
 				<Select combobox style={{ width: 120 }}>
-	       	  		<Option key='1' value="未提供">未提供</Option>
+	       	  		<Option key='未提供'>未提供</Option>
 			    </Select>
 			)
 
@@ -257,7 +257,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_gzdw =
 			getFieldDecorator('grda_gzdw')(
 				<Select combobox style={{ width: 323 }}>
-	       	  		<Option key='1' value="未提供">未提供</Option>
+	       	  		<Option key='未提供'>未提供</Option>
 			    </Select>
 			)
 
@@ -475,7 +475,7 @@ class GeneralSituationForm extends React.Component {
 			
 	        	<div className="dashed_border" />
 	        	<FormItem
-	        	 label={<span>既往史 <Tooltip title={`选择一条多条记录进行编辑或删除操作`}><Icon type="question-circle-o" /></Tooltip></span>}
+	        	 label={<span>既往史 <Tooltip title={`点击新增可以增加一条既往史数据`}><Icon type="question-circle-o" /></Tooltip></span>}
 	        	/>
 	        	<MedicalRecordsTable
 	        	 fields={this.props.fields}
@@ -493,7 +493,7 @@ function onFieldsChange(props, fields) {
 	});
 }
 
-function mapPropsToFields(props, flag) {
+function mapPropsToFields(props) {
 	console.log("GeneralSituationForm mapPropsToFields", props.fields)
 	return props.fields;
 }

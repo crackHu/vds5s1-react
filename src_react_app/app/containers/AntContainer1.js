@@ -15,13 +15,15 @@ import {
 import moment from 'moment'
 import QueueAnim from 'rc-queue-anim';
 import * as ArchiveActions from '../actions/ArchiveActions'
+import * as PHRAction from '../modules/phr/PHRAction'
 
 import {
 	msg,
 	notify,
 	getDate,
 	getFieldsObj,
-	getFieldsArr
+	getFieldsArr,
+	emptyObject
 } from 'utils'
 import {
 	DATE_FORMAT_STRING
@@ -75,7 +77,19 @@ class AntContainer1 extends React.Component {
 		activeKey: this.arcType[0].key,
 		arcType: this.arcType,
 		[`${FIELDS.name}`]: DEFAULT_VALUE,
-		submit: false
+		submit: false,
+		grbh: null
+	}
+
+	componentWillMount = () => {
+		console.log('AntContainer1.componentWillMount')
+		let grbh = this.props.params.grbh
+		if (grbh) {
+			this.props.queryPHR(grbh)
+		}
+		this.setState({
+			grbh
+		})
 	}
 
 	componentDidMount = () => {
@@ -89,7 +103,18 @@ class AntContainer1 extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("AntContainer1.componentDidUpdate", this.state)
+		console.log("AntContainer1.componentDidUpdate", this.state, this.props.data.phr)
+
+		/*if (!emptyObject(this.props.data.phr)) {
+			console.log('phr resp data:', this.props.data.phr)
+			let result = this.props.data.phr.result
+			if (result && result.status && result.dout) {
+				let status = result.status
+				let	dout = result.dout
+				if (status.resultCode > 0) {
+				}
+			}
+		}*/
 	}
 
 	/*save archiv*/
@@ -192,7 +217,21 @@ class AntContainer1 extends React.Component {
 	}
 
 	render() {
-		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>保存档案</Button>
+
+		const {
+			grbh
+		} = this.state
+
+		let title, operatText
+		if (grbh) {
+			title = '编辑档案'
+			operatText = '更新档案'
+		} else {
+			title = '新建档案'
+			operatText = '保存档案'
+		}
+
+		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>{operatText}</Button>
 		const moreSpecArc = (
 			<Menu>
 			    {
@@ -236,7 +275,7 @@ class AntContainer1 extends React.Component {
 		return (
 			<QueueAnim delay={10}>
 				<div className='module' key="tabs">
-					<Card title="新建档案" extra={moreSpecArcDd}>
+					<Card title={title} extra={moreSpecArcDd}>
 						<Tabs
 							hideAdd
 							onChange={this.changeTab}
@@ -257,13 +296,17 @@ class AntContainer1 extends React.Component {
 
 AntContainer1.propTypes = {
 	saveArchiveData: PropTypes.func.isRequired,
+	queryPHR: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
 	return {
 		data: state
 	}
 }
 
-export default connect(mapStateToProps, ArchiveActions)(AntContainer1)
+export default connect(mapStateToProps, {
+	...ArchiveActions,
+	...PHRAction
+})(AntContainer1)

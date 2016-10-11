@@ -1,8 +1,8 @@
 import {
 	LOGIN
-} from '../../constants/ActionTypes'
+} from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
-import * as api from '../../api'
+import * as api from 'api'
 import {
 	msg,
 	notify,

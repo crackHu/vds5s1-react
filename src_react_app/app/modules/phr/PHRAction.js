@@ -1,8 +1,6 @@
 import {
-	GET_ARCHIVES,
-	SUBMIT_ARCHIVES,
-	SAVE_ARCHIVES,
-	LOGIN
+	QUERYPHR,
+	DELETEPHR
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -26,9 +24,10 @@ const fetchInit = {
 	body: undefined
 }
 
-export function getArchiveList(pageSize, pageNo) {
+/*查询个人详细档案资料*/
+export function queryPHR(data) {
 
-	let query = api.getArchiveList(pageSize, pageNo)
+	let query = api.queryPHR(data)
 	fetchInit.body = encodeURI(query)
 
 	return dispatch => {
@@ -43,7 +42,7 @@ export function getArchiveList(pageSize, pageNo) {
 					console.warn("Oops, warn", resCode, resMsg)
 				}
 				dispatch({
-					type: GET_ARCHIVES,
+					type: QUERYPHR,
 					data: data
 				})
 			})
@@ -54,35 +53,31 @@ export function getArchiveList(pageSize, pageNo) {
 	}
 }
 
-export function saveArchiveData(data, fields_state) {
+/*删除个人档案*/
+export function deletePHR(data) {
 
-	console.log("saveArchiveData data", data)
-	let query = api.saveArchiveData(data)
-	console.log("obj||||||||||", query)
+	let query = api.deletePHR(data)
 	fetchInit.body = encodeURI(query)
 
 	return dispatch => {
-		const hide = msg('loading', '正在保存中...', 110);
 		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
-				hide()
 
 				if (resCode < 0) {
-					msg('warn', '警告' + '(' + resCode + ')')
+					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
-					msg('success', '保存成功')
+					msg("success", resMsg, 1)
 				}
 				dispatch({
-					type: SAVE_ARCHIVES,
+					type: DELETEPHR,
 					data: data
 				})
 			})
 			.catch(e => {
-				hide()
 				notify('error', '错误', fetchCatchMsg);
 				console.error("Oops, error", e)
 			})

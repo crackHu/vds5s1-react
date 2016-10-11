@@ -1,6 +1,6 @@
 import {
 	LOGIN
-} from '../../constants/ActionTypes';
+} from 'ActionTypes';
 
 export default function LoginReducer(state = {}, action) {
 	switch (action.type) {

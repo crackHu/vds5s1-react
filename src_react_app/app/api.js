@@ -34,9 +34,8 @@ export const saveArchiveData = (data) => {
 
 	postQuery.din = data
 	postQuery.din.grdaJbzl.grda_lrrq = '2016-09-30'
-
-	postQuery.pid = 'boPersonDoc'
 	postQuery.fid = 'savePdData'
+	postQuery.pid = 'boPersonDoc'
 
 	let query = JSON.stringify(postQuery)
 	console.debug("saveArchiveData:", "URL:", postReqUrl, "QUERY:", query);
@@ -48,8 +47,32 @@ export const login = (data) => {
 
 	postQuery.din.loginName = data.usr
 	postQuery.din.loginPwd = data.pwd
-	postQuery.pid = 'boLogin'
 	postQuery.fid = 'proLogin'
+	postQuery.pid = 'boLogin'
+
+	let query = JSON.stringify(postQuery)
+	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
+	return query;
+}
+
+/*查询个人详细档案资料*/
+export const queryPHR = (data) => {
+
+	postQuery.din.grbh = data
+	postQuery.fid = 'getDataById'
+	postQuery.pid = 'boPersonDoc'
+
+	let query = JSON.stringify(postQuery)
+	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);
+	return query;
+}
+
+/*删除个人档案*/
+export const deletePHR = (data) => {
+
+	postQuery.din.ids = data
+	postQuery.fid = 'deletePdData'
+	postQuery.pid = 'boPersonDoc'
 
 	let query = JSON.stringify(postQuery)
 	console.debug("login:", "URL:", postReqUrl, "QUERY:", query);

@@ -29,7 +29,7 @@ const routes = (loggedIn) => {
 				let component = require(`./containers/${itemSub.key}`).default
 				return (
 					<Route
-						path={itemSub.path}
+						path={itemSub.route ? itemSub.route : itemSub.path}
 						component={component}
 						sidebarKey={itemSub.key}
 						headerNavKey={item.key}

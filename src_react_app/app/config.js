@@ -40,6 +40,7 @@ export const MENU_CONFIG = {
     sub: [{
       key: "AntContainer1",
       path: "/ant1",
+      route: "/ant1(/:grbh)",
       name: "新建档案",
       iconType: "book"
     }, {

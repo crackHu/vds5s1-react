@@ -14,6 +14,7 @@ import {
 	Modal,
 	Card,
 	Popconfirm,
+	Tooltip,
 } from 'antd';
 import {
 	Link
@@ -30,6 +31,8 @@ import {
 } from 'phr_conf'
 
 import * as ArchiveActions from '../actions/ArchiveActions'
+import * as PHRAction from '../modules/phr/PHRAction'
+
 import AdvancedSearch from './AdvancedSearch'
 import SearchInput from '../components/SearchInput'
 
@@ -79,24 +82,26 @@ class AntContainer2 extends React.Component {
 		});
 	};
 
-	deleteConfirm = () => {
-		msg("success", "删除成功", 1)
+	deleteConfirm = (record) => {
+		let ids = []
+		ids.push(record.id)
+		this.props.deletePHR(ids)
 	}
 
 	render() {
 		const columns = [{
-			title: '个人编号',
+			title: <span>个人编号 <Tooltip title={`点击个人编号查看/编辑档案`}><Icon type="question-circle-o" /></Tooltip></span>,
 			dataIndex: 'grbh',
 			key: 'grbh',
 			fixed: 'left',
-			width: 150
+			width: 150,
+			render: (text) => <Link to={`ant1/${text}`}>{text}</Link>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
 			key: 'grda_xm',
 			fixed: 'left',
 			width: 70,
-			render: (text) => <a href="#">{text}</a>,
 		}, {
 			title: '性别',
 			dataIndex: 'grda_xb',
@@ -140,9 +145,7 @@ class AntContainer2 extends React.Component {
 			width: 100,
 			render: (text, record) => (
 				<span>
-			      <Link to='/AntContainer1'>编辑</Link>
-			      <span className="ant-divider"></span>
-			      <Popconfirm title="确定要删除这个档案吗？" onConfirm={this.deleteConfirm}>
+			      <Popconfirm title="确定要删除这个档案吗？" onConfirm={() => this.deleteConfirm(record)}>
 				    <a href="#">删除</a>
 				  </Popconfirm>
 			    </span>
@@ -209,6 +212,7 @@ class AntContainer2 extends React.Component {
 
 AntContainer2.propTypes = {
 	getArchiveList: PropTypes.func.isRequired,
+	deletePHR: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired
 }
 
@@ -218,4 +222,7 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, ArchiveActions)(AntContainer2)
+export default connect(mapStateToProps, {
+	...ArchiveActions,
+	...PHRAction
+})(AntContainer2)

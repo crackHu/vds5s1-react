@@ -577,10 +577,6 @@ export const ARC_FORM_WIDGET_CONFIG = {
 
 		/*家族史 残疾情况*/
 		disability: [{
-			key: 'no',
-			label: 'aa',
-			value: '无残疾'
-		}, {
 			key: 'eye',
 			label: 'bb',
 			value: '视力残疾'
@@ -764,6 +760,25 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_lrr',
 			/*录入日期*/
 			'grda_lrrq',
+
+			/*家族史选项卡*/
+			/*残疾情况*/
+			'grda_cjqk',
+			/*遗传病史*/
+			'grda_ycbsjbmc',
+			/*残疾情况*/
+			'grda_cjqk',
+			/*厨房排风设施*/
+			'grda_cfpfss',
+			/*燃料类型*/
+			'grda_rllx',
+			/*饮水*/
+			'grda_ys',
+			/*厕所*/
+			'grda_cs',
+			/*禽畜栏*/
+			'grda_csl'
+
 		]
 	},
 	grdaJws: {
@@ -781,6 +796,13 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	},
 	grdaJzs: {
 		name: 'grdaJzs',
-		fields: []
+		fields: [
+			/*成员类别*/
+			'cylb',
+			/*疾病名称*/
+			'jbmc',
+			/*备注*/
+			'bz',
+		]
 	},
 }
