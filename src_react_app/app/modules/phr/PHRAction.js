@@ -4,7 +4,9 @@ import {
 	SAVE_ARCHIVES,
 	LOGIN,
 	QUERYPHR,
-	DELETEPHR
+	DELETEPHR,
+	FIELDSCHANGE,
+	SEARCHPHR
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -38,6 +40,7 @@ export function getArchiveList(pageSize, pageNo) {
 		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
+				console.debug('getArchiveList', "=>", "RES:", data);
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
 
@@ -69,6 +72,7 @@ export function saveArchiveData(data, fields_state) {
 		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
+				console.debug('saveArchiveData', "=>", "RESPONSE:", data);
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
 				hide()
@@ -102,17 +106,20 @@ export function queryPHR(data) {
 		fetch(postReqUrl, fetchInit)
 			.then(response => response.json())
 			.then((data) => {
+				console.debug('queryPHR', "=>", "RESPONSE:", data);
 				let resCode = data.status.resultCode
 				let resMsg = data.status.resultMsg
 
 				if (resCode < 0) {
 					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
+				} else {
+					dispatch({
+						type: QUERYPHR,
+						data: data
+					})
 				}
-				dispatch({
-					type: QUERYPHR,
-					data: data
-				})
+				console.log('queryPHR', data)
 			})
 			.catch(e => {
 				notify('error', '错误', fetchCatchMsg);
@@ -142,6 +149,49 @@ export function deletePHR(data) {
 				}
 				dispatch({
 					type: DELETEPHR,
+					data: data
+				})
+			})
+			.catch(e => {
+				notify('error', '错误', fetchCatchMsg);
+				console.error("Oops, error", e)
+			})
+	}
+}
+
+/*保存档案页面字段更改*/
+export function saveFieldsChange(fields) {
+	console.debug('saveFieldsChange', "=>", "DATA:", fields);
+	return dispatch => {
+		dispatch({
+			type: FIELDSCHANGE,
+			data: fields
+		})
+	}
+}
+
+/*搜索档案*/
+export function searchPHR(pageNo, pageSize, condition) {
+
+	let query = api.searchPHR(pageNo, pageSize, condition)
+	fetchInit.body = encodeURI(query)
+
+	return dispatch => {
+		fetch(postReqUrl, fetchInit)
+			.then(response => response.json())
+			.then((data) => {
+				console.debug('searchPHR', "=>", "RES:", data);
+				let resCode = data.status.resultCode
+				let resMsg = data.status.resultMsg
+
+				if (resCode < 0) {
+					notify('warn', '警告' + '(' + resCode + ')', resMsg);
+					console.warn("Oops, warn", resCode, resMsg)
+				} else {
+					msg("success", resMsg, 1)
+				}
+				dispatch({
+					type: SEARCHPHR,
 					data: data
 				})
 			})

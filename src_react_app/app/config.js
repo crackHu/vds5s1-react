@@ -35,21 +35,21 @@ export const MENU_CONFIG = {
     }]
   }, {
     key: "ArchiveCollection",
-    path: "/phr/create",
+    path: "/phr",
     name: "档案管理",
     iconType: "credit-card",
     sub: [{
-      key: "ArchiveList",
-      path: "./modules/phr/containers/ArchiveList",
-      route: "/phr/list",
-      name: "个人档案列表",
-      iconType: "book"
-    }, {
       key: "ArchiveCollection",
       path: "./modules/phr/containers/ArchiveCollection",
-      route: "/phr/:crud(/:grbh)",
-      routePath: "/phr/create",
+      route: "/phr(/:id)",
+      routePath: "/phr",
       name: "新建档案",
+      iconType: "book"
+    }, {
+      key: "ArchiveList",
+      path: "./modules/phr/containers/ArchiveList",
+      route: "/phrs",
+      name: "个人档案列表",
       iconType: "book"
     }, ]
   }, {

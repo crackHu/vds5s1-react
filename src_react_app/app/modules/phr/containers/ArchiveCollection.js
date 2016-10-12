@@ -77,14 +77,14 @@ class ArchiveCollection extends React.Component {
 		arcType: this.arcType,
 		[`${FIELDS.name}`]: DEFAULT_VALUE,
 		submit: false,
-		grbh: null
+		id: null
 	}
 
 	componentWillMount = () => {
-		console.log('ArchiveCollection.componentWillMount')
-		let grbh = this.props.params.grbh
-		if (grbh) {
-			this.props.queryPHR(grbh)
+		console.log('ArchiveCollection.componentWillMount', this.props.params.id)
+		let id = this.props.params.id
+		if (id) {
+			this.props.queryPHR(id)
 		}
 	}
 
@@ -99,7 +99,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-		console.log("ArchiveCollection.componentDidUpdate", this.state, this.props.data.phr)
+		console.log("ArchiveCollection.componentDidUpdate", this.state, this.props.phr)
 
 		/*if (!emptyObject(this.props.data.phr)) {
 			console.log('phr resp data:', this.props.data.phr)
@@ -134,13 +134,15 @@ class ArchiveCollection extends React.Component {
 		fields
 	}) => {
 		console.log('onFieldsChange', fields)
-		let state = {}
-		state = Object.assign(this.state[FIELDS.name], {}, {
-			...fields
-		})
-		this.setState({
-			[`${FIELDS.name}`]: state,
-		})
+			/*let state = {}
+			state = Object.assign(this.state[FIELDS.name], {}, {
+				...fields
+			})
+			this.setState({
+				[`${FIELDS.name}`]: state,
+			})*/
+
+		this.props.saveFieldsChange(fields)
 	};
 
 	/*Tab Edit event*/
@@ -214,28 +216,14 @@ class ArchiveCollection extends React.Component {
 
 	render() {
 
-		const {
-			grbh
-		} = this.state
-
 		let title, operatText
-		if (grbh) {
+		if (this.props.params.id) {
 			title = '编辑档案'
 			operatText = '更新档案'
 		} else {
 			title = '新建档案'
 			operatText = '保存档案'
 		}
-
-		/*let grda
-		if (this.props.data.phr.result) {
-			grda = this.props.data.phr.result.dout.grdajbzl[0]
-		}
-		console.log('grda')
-		grda = {}
-		grda.grbh = {
-			value: "4401040191303011"
-		}*/
 
 		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>{operatText}</Button>
 		const moreSpecArc = (
@@ -270,7 +258,7 @@ class ArchiveCollection extends React.Component {
 			return (
 				<TabPane tab={pane.name} key={pane.key}>
 					<Container
-						fields={grda}
+						fields={this.props.phr}
 						onFieldsChange={this.onFieldsChange}
 					/>
 				</TabPane>
@@ -302,13 +290,15 @@ class ArchiveCollection extends React.Component {
 
 ArchiveCollection.propTypes = {
 	saveArchiveData: PropTypes.func.isRequired,
+	saveFieldsChange: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired
+	phr: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+	console.log('mapStateToProps:', state)
 	return {
-		data: state
+		phr: state.phr
 	}
 }
 

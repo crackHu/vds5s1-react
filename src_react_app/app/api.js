@@ -52,7 +52,7 @@ export function login(data) {
 export function queryPHR(data) {
 
 	let postQuery = new PostQuery({
-		grbh: data
+		id: data
 	}, 'getDataById', 'boPersonDoc')
 
 	return postQuery.serialize('queryPHR');
@@ -66,4 +66,16 @@ export function deletePHR(data) {
 	}, 'deletePdData', 'boPersonDoc')
 
 	return postQuery.serialize('deletePHR');
+}
+
+/*搜索档案*/
+export function searchPHR(pageNo, pageSize, condition) {
+
+	let postQuery = new PostQuery({
+		page: pageNo,
+		rows: pageSize,
+		condition: condition
+	}, 'getPdList', 'boPersonDoc')
+
+	return postQuery.serialize('searchPHR');
 }

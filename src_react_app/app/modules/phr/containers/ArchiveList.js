@@ -82,6 +82,13 @@ class ArchiveList extends React.Component {
 		this.props.deletePHR(ids)
 	}
 
+	searchPHR = (keyword) => {
+		let page = 1
+		let rows = 10
+		let condition = `where grbh like '%${keyword}%' or grda_xm like '%${keyword}%' or grda_brdh like '%${keyword}%'`
+		this.props.searchPHR(page, rows, condition)
+	}
+
 	render() {
 		const columns = [{
 			title: <span>个人编号 <Tooltip title={`点击个人编号查看/编辑档案`}><Icon type="question-circle-o" /></Tooltip></span>,
@@ -89,7 +96,7 @@ class ArchiveList extends React.Component {
 			key: 'grbh',
 			fixed: 'left',
 			width: 150,
-			render: (text) => <Link to={`/phr/detail/${text}`}>{text}</Link>,
+			render: (text, recode) => <Link to={`/phr/${recode.id}`}>{text}</Link>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
@@ -146,12 +153,13 @@ class ArchiveList extends React.Component {
 			),
 		}];
 
-		const archiveProps = this.props.data.archive
+		const archiveProps = this.props.phr
 		const data = archiveProps.data ? archiveProps.data.dout : null;
+		console.log('datadatadatadfasdfasdf', archiveProps)
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {
-			total: this.props.data.archive.total,
+			total: this.props.phr.total,
 			showSizeChanger: true,
 			onShowSizeChange(current, pageSize) {
 				console.log('Current: ', current, '; PageSize: ', pageSize);
@@ -179,14 +187,14 @@ class ArchiveList extends React.Component {
 				<div className='module' key="buttonGroup">
 					<Card title="档案列表">
 						<ButtonGroup style={{margin: "1em auto"}}>
-					      <Button icon="download">导入</Button>
-					      <Button type="primary" icon="search" onClick={this.showModal}>档案查询</Button>
-					      {advancedSearch}
+					      	<Button icon="download">导入</Button>
+					      	<Button type="primary" icon="search" onClick={this.showModal}>档案查询</Button>
+					      	{advancedSearch}
 					    </ButtonGroup>
 					    <div style={{float: 'right', margin: "1em"}}>
-						    <SearchInput placeholder="input search text"
-							    onSearch={value => console.log(value)} style={{ width: 200 }}
-							  />
+						    <SearchInput placeholder="搜索：编号、姓名、本人电话"
+							    onSearch={this.searchPHR} style={{ width: 200 }}
+							/>
 						</div>
 						<Table
 						 key="table"
@@ -207,12 +215,13 @@ class ArchiveList extends React.Component {
 ArchiveList.propTypes = {
 	getArchiveList: PropTypes.func.isRequired,
 	deletePHR: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired
+	searchPHR: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return {
-		data: state
+		phr: state.phr
 	}
 }
 

@@ -23,8 +23,8 @@ import {
 
 import fetch from 'isomorphic-fetch'
 import * as AppActions from '../actions/AppActions';
-import HeaderNav from './frame/HeaderNav'
-import Sidebar from './frame/Sidebar'
+import HeaderNav from './layouts/HeaderNav'
+import Sidebar from './layouts/Sidebar'
 import UserProfile from './UserProfile'
 
 import {

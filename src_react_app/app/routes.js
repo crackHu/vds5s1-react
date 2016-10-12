@@ -13,11 +13,10 @@ import App from './containers/App';
 import Home from './containers/Home';
 import Login from './modules/login/containers/Login';
 /*
-import ArchiveCollection from './containers/ArchiveCollection';
-import ArchiveList from './containers/ArchiveList';
-import Statistics from './containers/Statistics';
-*/
 import ArchiveCollection from './modules/phr/containers/ArchiveCollection';
+import ArchiveList from './modules/phr/containers/ArchiveCollection';
+import Statistics from './modules/stat/containers/Statistics';
+*/
 
 const routes = (loggedIn) => {
 
@@ -27,7 +26,7 @@ const routes = (loggedIn) => {
 
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 
-				let component = require(`${itemSub.path}`).default
+				let component = require(itemSub.path).default
 				return (
 					<Route
 						path={itemSub.route}
@@ -41,7 +40,7 @@ const routes = (loggedIn) => {
 		})
 
 		return (
-			/*已登陆的路由组件*/
+			/*已登陆使用的路由组件*/
 			<Route path="/" component={App}>
 			    <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
 			    {/*
@@ -49,12 +48,13 @@ const routes = (loggedIn) => {
 				    <Route path="ArchiveCollection" component={ArchiveCollection} sidebarKey="ArchiveCollection" headerNavKey="ArchiveCollection"/>
 				    <Route path="ArchiveList" component={ArchiveList} sidebarKey="ArchiveList" headerNavKey="ArchiveList"/>
 					<Route path="Statistics" component={Statistics} sidebarKey="Statistics" headerNavKey="Statistics"/>
-				*/}
+					
+				*/} 
 				{dynamicRoute}
 		    </Route>
 		);
 	} else {
-		/*未登陆的路由组件*/
+		/*未登陆使用的路由组件*/
 		return (
 			<Route path="/" component={Login}/>
 		)
