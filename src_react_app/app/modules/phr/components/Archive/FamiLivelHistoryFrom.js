@@ -31,8 +31,6 @@ const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 
-
-
 /*家族史与生活情况*/
 class FamiLivelHistoryFrom extends React.Component {
 
@@ -150,7 +148,7 @@ class FamiLivelHistoryFrom extends React.Component {
 
 		        <div className="form_inline_spacing">
 					<FormItem
-	         		 label="&nbsp;&nbsp;&nbsp;遗传病史">
+		label = "&nbsp;&nbsp;&nbsp;遗传病史" >
 			           {grda_ycbsjbmc}
 			        </FormItem>
 					<FormItem

@@ -41,8 +41,7 @@ export const MENU_CONFIG = {
     sub: [{
       key: "ArchiveCollection",
       path: "./modules/phr/containers/ArchiveCollection",
-      route: "/phr(/:id)",
-      routePath: "/phr",
+      route: "/phr",
       name: "新建档案",
       iconType: "book"
     }, {
@@ -66,3 +65,11 @@ export const MENU_CONFIG = {
     }]
   }]
 }
+
+/**************独立路由配置**************/
+export const INDEPENDENCE_ROUTE_CONFIG = [{
+  path: "./modules/phr/containers/ArchiveCollection",
+  route: "/phr(/:id)",
+  sidebarKey: '',
+  headerNavKey: 'ArchiveCollection'
+}]

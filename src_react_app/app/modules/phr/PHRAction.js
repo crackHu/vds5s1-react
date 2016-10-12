@@ -3,10 +3,10 @@ import {
 	SUBMIT_ARCHIVES,
 	SAVE_ARCHIVES,
 	LOGIN,
-	QUERYPHR,
-	DELETEPHR,
-	FIELDSCHANGE,
-	SEARCHPHR
+	QUERY_PHR,
+	DELETE_PHR,
+	FIELDS_CHANGE,
+	SEARCH_PHR
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -115,7 +115,7 @@ export function queryPHR(data) {
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
 					dispatch({
-						type: QUERYPHR,
+						type: QUERY_PHR,
 						data: data
 					})
 				}
@@ -148,7 +148,7 @@ export function deletePHR(data) {
 					msg("success", resMsg, 1)
 				}
 				dispatch({
-					type: DELETEPHR,
+					type: DELETE_PHR,
 					data: data
 				})
 			})
@@ -164,7 +164,7 @@ export function saveFieldsChange(fields) {
 	console.debug('saveFieldsChange', "=>", "DATA:", fields);
 	return dispatch => {
 		dispatch({
-			type: FIELDSCHANGE,
+			type: FIELDS_CHANGE,
 			data: fields
 		})
 	}
@@ -191,7 +191,7 @@ export function searchPHR(pageNo, pageSize, condition) {
 					msg("success", resMsg, 1)
 				}
 				dispatch({
-					type: SEARCHPHR,
+					type: SEARCH_PHR,
 					data: data
 				})
 			})

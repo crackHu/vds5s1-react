@@ -6,7 +6,8 @@ import {
 } from 'react-router';
 
 import {
-	MENU_CONFIG
+	MENU_CONFIG,
+	INDEPENDENCE_ROUTE_CONFIG
 } from 'config'
 
 import App from './containers/App';
@@ -26,17 +27,29 @@ const routes = (loggedIn) => {
 
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 
-				let component = require(itemSub.path).default
+				let component = require(`${itemSub.path}.js`).default
 				return (
 					<Route
 						path={itemSub.route}
 						component={component}
-						sidebarKey={itemSub.key}
 						headerNavKey={item.key}
+						sidebarKey={itemSub.key}
 					/>
 				)
 			})
 			return itemSubs
+		})
+
+		const independenceRoute = INDEPENDENCE_ROUTE_CONFIG.map((item, i) => {
+			return (
+				<Route
+				 key={Date.now()}
+				 path={item.route}
+				 component={require(`${item.path}.js`).default}
+				 sidebarKey={item.sidebarKey}
+				 headerNavKey={item.headerNavKey}
+				/>
+			)
 		})
 
 		return (
@@ -51,6 +64,7 @@ const routes = (loggedIn) => {
 					
 				*/} 
 				{dynamicRoute}
+				{independenceRoute}
 		    </Route>
 		);
 	} else {

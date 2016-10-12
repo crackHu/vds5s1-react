@@ -16,7 +16,8 @@ import {
 	Pagination,
 	Popconfirm,
 	Button,
-	Switch
+	Switch,
+	Tooltip
 } from 'antd'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
@@ -244,7 +245,16 @@ class MedicalRecordsTable extends React.Component {
 		}
 		const title = () => (
 			<div>
-				<span className="wrapper_border" onClick={this.jwsEditSwitchSpanClick}>
+	        	<FormItem
+	        	 label={<span>既往史
+	        	 	{' '}
+	        	 	<Tooltip title={`点击新增可以增加一条家族史数据`}>
+	        	 		<Icon type="question-circle-o" />
+	        	 	</Tooltip>
+	        	 </span>}
+	        	/>
+
+				{/*<span className="wrapper_border" onClick={this.jwsEditSwitchSpanClick}>
 					编辑{' '}
 					<Switch
 					 checked={editSwitch}
@@ -252,11 +262,12 @@ class MedicalRecordsTable extends React.Component {
 					 checkedChildren={'开'}
 					 unCheckedChildren={'关'}
 					/>
-				</span>
+				</span>*/}
+
 				<Popconfirm
-		title = {
-			`确定要删除所选${selectedLength}条既往史吗？`
-		}
+					title = {
+						`确定要删除所选${selectedLength}条既往史吗？`
+					}
 				 onConfirm={this.deleteConfirm}
 				 onCancel={this.deleteCancel}
 				>
@@ -276,7 +287,7 @@ class MedicalRecordsTable extends React.Component {
 				<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 		    </div>
 		)
-		const footer = () => '可以选择一条或多条记录进删除操作'
+		const footer = () => '可以选择一条或多条记录进行删除操作'
 
 		return (
 			<Table

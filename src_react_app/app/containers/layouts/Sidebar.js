@@ -28,7 +28,7 @@ export default class Sidebar extends React.Component {
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 				return (
 					<Menu.Item key={itemSub.key}>
-						<Link to={itemSub.routePath ? itemSub.routePath : itemSub.route}>{itemSub.name}</Link>
+						<Link to={itemSub.route}>{itemSub.name}</Link>
 					</Menu.Item>
 				)
 			})

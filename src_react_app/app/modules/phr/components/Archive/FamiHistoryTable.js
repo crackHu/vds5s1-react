@@ -237,7 +237,7 @@ class FamiHistoryTable extends React.Component {
 				<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 		    </div>
 		)
-		const footer = () => '选择一条多条记录进行编辑或删除操作'
+		const footer = () => '可以选择一条或多条记录进行删除操作'
 
 		return (
 			<Table

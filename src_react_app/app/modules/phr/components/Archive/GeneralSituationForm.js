@@ -156,13 +156,14 @@ class GeneralSituationForm extends React.Component {
 		        	 options={this.curAddressOptions}
 		        	 placeholder="请选择现住址"
 		        	 style={{ width: 322 }}
+		        	 showSearch
 	        	/>
 			)
 
-		/*现住址 路(街)名称*/
-		const grda_xzz_ljmc =
-			getFieldDecorator('grda_xzz_ljmc')(
-				<Input placeholder="路（街）"  style={{ width: 150 }}/>
+		/*现住址 其它*/
+		const grda_xzz_qt =
+			getFieldDecorator('grda_xzz_qt')(
+				<Input placeholder="其它"  style={{ width: 150 }}/>
 			)
 
 		/*常住类型*/
@@ -178,15 +179,16 @@ class GeneralSituationForm extends React.Component {
 			getFieldDecorator('grda_hkdz')(
 				<Cascader
 		        	options={this.censusRegisterOptions}
-		        	placeholder="请选择现住址"
+		        	placeholder="请选择户籍地址"
 		        	style={{ width: 322 }} 
+		        	showSearch
 		       	/>
 			)
 
-		/*户口地址 路_街_名称*/
-		const grda_hkdz_ljmc =
-			getFieldDecorator('grda_hkdz_ljmc')(
-				<Input placeholder="路（街）" style={{ width: 150 }}/>
+		/*户口地址 其它*/
+		const grda_hkdz_qt =
+			getFieldDecorator('grda_hkdz_qt')(
+				<Input placeholder="其它" style={{ width: 150 }}/>
 			)
 
 		/*婚姻状况*/
@@ -368,7 +370,7 @@ class GeneralSituationForm extends React.Component {
 		        	{grda_xzz}
 		        </FormItem>
 		        <FormItem>
-	        		{grda_xzz_ljmc}
+	        		{grda_xzz_qt}
 		        </FormItem>
 		        <FormItem label="常住类型" required>
 		          	{grda_hklx}
@@ -381,7 +383,7 @@ class GeneralSituationForm extends React.Component {
 		        	{grda_hkdz}
 		        </FormItem>
 		        <FormItem>
-	        		{grda_hkdz_ljmc}
+	        		{grda_hkdz_qt}
 		        </FormItem>
 
 		        <FormItem label="&nbsp;&nbsp;&nbsp;婚姻状况" >
@@ -474,9 +476,6 @@ class GeneralSituationForm extends React.Component {
 		        <br />
 			
 	        	<div className="dashed_border" />
-	        	<FormItem
-	        	 label={<span>既往史 <Tooltip title={`点击新增可以增加一条既往史数据`}><Icon type="question-circle-o" /></Tooltip></span>}
-	        	/>
 	        	<MedicalRecordsTable
 	        	 fields={this.props.fields}
 				 onFieldsChange={this.props.onFieldsChange}
