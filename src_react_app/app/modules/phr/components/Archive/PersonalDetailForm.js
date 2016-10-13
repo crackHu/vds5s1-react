@@ -60,7 +60,7 @@ class PersonalDetailForm extends React.Component {
 				message: '请输入个人编号',
 			}],
 		})(
-			<Input placeholder="请输入个人编号" />
+			<Input placeholder="请输入个人编号" disabled />
 		)
 
 		{ /*动态加载个人基本信息表下包含组件*/ }
