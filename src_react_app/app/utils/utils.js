@@ -171,7 +171,7 @@ export function getFieldsObj(fields, fields_state, date_format) {
 }
 
 // ------ 获取表单字段与值的封装数组 ------ //
-export function getFieldsArr(fields, fields_state) {
+export function getFieldsArr(fields, fields_state, date_format) {
 
   let arr = []
   for (let i in fields) {
@@ -180,7 +180,12 @@ export function getFieldsArr(fields, fields_state) {
 
       let state = fields_state[`${field}_${i}`]
       if (state) {
-        obj[field] = state.value
+        let value = state.value
+        if (isString(value)) {
+          obj[field] = value
+        } else {
+          obj[field] = value.format(date_format)
+        }
       }
     })
     if (!emptyObject(obj)) {

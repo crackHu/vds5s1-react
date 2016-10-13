@@ -63,7 +63,7 @@ class MedicalRecordsTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: false,
-			data: []
+			data: [{}]
 		}
 
 		/*既往史 类别*/
@@ -71,6 +71,7 @@ class MedicalRecordsTable extends React.Component {
 		/*既往史 疾病名称*/
 		this.dnOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseName);
 	}
+
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
@@ -165,7 +166,6 @@ class MedicalRecordsTable extends React.Component {
 					return (
 						<DatePicker
 						 	style={{width: '30vh'}}
-							format={DATE_FORMAT_STRING}
 							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 						/>
 					)

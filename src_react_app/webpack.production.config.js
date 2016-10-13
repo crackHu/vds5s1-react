@@ -75,6 +75,8 @@ const config = {
 			'react': path.resolve(NODE_MODULES, 'react'),
 			'config': path.resolve(APP_PATH, 'config'),
 			'utils': path.resolve(APP_PATH, 'utils/utils'),
+			'api': path.resolve(APP_PATH, 'api'),
+			'ActionTypes': path.resolve(APP_PATH, 'constants/ActionTypes'),
 
 			/*钉钉医疗*/
 			'ddm_conf': path.resolve(APP_PATH, 'modules/ddm/DDMConfig'),

@@ -1,8 +1,11 @@
+const __DEBUG__ = !(process.env.NODE_ENV === 'production')
+const loginon = __DEBUG__ ? 1 : 0
+
 /**************登陆配置**************/
 export const CONFIG = {
 
 	/*登陆开关 1:系统不需要登陆 0:系统需要登陆*/
-	LOGIN_ON: 1,
+	LOGIN_ON: loginon,
 
 	/*默认用户名 系统不需要登陆使用*/
 	DEFAULT_USR: 'admin',

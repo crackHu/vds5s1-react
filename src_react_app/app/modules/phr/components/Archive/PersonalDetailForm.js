@@ -35,6 +35,10 @@ class PersonalDetailForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
+	getCurrentAddress = (addressArr, grda_xzz_qt) => {
+		this.props.getIndividualNumbe(addressArr, grda_xzz_qt)
+	}
+
 	render() {
 		const {
 			getFieldDecorator
@@ -60,7 +64,6 @@ class PersonalDetailForm extends React.Component {
 		)
 
 		{ /*动态加载个人基本信息表下包含组件*/ }
-
 		/*{React.createElement(require(`../${arc.content}`).default, {
 			fields: this.props.fields,
 			onFieldsChange: this.props.onFieldsChange
@@ -76,6 +79,7 @@ class PersonalDetailForm extends React.Component {
 								<Container
 									fields={this.props.fields}
 									onFieldsChange={this.props.onFieldsChange}
+									getCurrentAddress={this.getCurrentAddress}
 								/>
 							</TabPane>
 						)
@@ -116,6 +120,10 @@ function onFieldsChange(props, fields) {
 function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields", props)
 	return props.fields;
+}
+
+PersonalDetailForm.propTypes = {
+	getIndividualNumbe: PropTypes.func.isRequired,
 }
 
 export default Form.create({

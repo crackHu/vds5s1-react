@@ -119,21 +119,76 @@ class ArchiveCollection extends React.Component {
 			submit: true
 		})
 
-		let obj = getFieldsObj(grdaJbzl.fields, this.state[FIELDS.name], DATE_FORMAT_STRING)
+
+		let obj = getFieldsObj(grdaJbzl.fields, this.props.phr[`${FIELDS.name}`], DATE_FORMAT_STRING)
+
+		let grda_xzz1 = obj.grda_xzz
+		if (grda_xzz1) {
+			let grda_xzz = grda_xzz1.split(',')
+			let grda_xzz_smc = grda_xzz[0]
+			let grda_xzz_qxmc = grda_xzz[1]
+			let grda_xzz_jdzmc = grda_xzz[2]
+			let grda_xzz_jwcmc = grda_xzz[3]
+			let grda_xzz_ljmc = grda_xzz[4]
+			Object.assign(obj, {
+				grda_xzz_smc
+			}, {
+				grda_xzz_qxmc
+			}, {
+				grda_xzz_jdzmc
+			}, {
+				grda_xzz_jwcmc
+			}, {
+				grda_xzz_ljmc
+			})
+		}
+
+		let grda_hkdz1 = obj.grda_hkdz
+		if (grda_hkdz1) {
+			let grda_hkdz = grda_hkdz1.split(',')
+			let grda_hkdz_xfmc = grda_hkdz[0]
+			let grda_hkdz_smc = grda_hkdz[1]
+			let grda_hkdz_qxmc = grda_hkdz[2]
+			let grda_hkdz_jdzmc = grda_hkdz[3]
+			let grda_hkdz_jwcmc = grda_hkdz[4]
+			let grda_hkdz_ljmc = grda_hkdz[5]
+			Object.assign(obj, {
+				grda_hkdz_xfmc
+			}, {
+				grda_hkdz_smc
+			}, {
+				grda_hkdz_qxmc
+			}, {
+				grda_hkdz_jdzmc
+			}, {
+				grda_hkdz_jwcmc
+			}, {
+				grda_hkdz_ljmc
+			})
+		}
+
+		obj.grda_jdrq = obj.grda_lrrq = '2016-10-13'
+		obj.grda_jdrq = obj.grda_lrrq = '2016-10-13'
+		obj.grda_csrq = '1950-1-1'
+		delete obj.grda_hkdz
+		delete obj.grda_xzz
 		console.log('getFieldsObj', obj)
-		let arr = getFieldsArr(grdaJws.fields, this.state[FIELDS.name])
+		let arr = getFieldsArr(grdaJws.fields, this.props.phr[`${FIELDS.name}`], DATE_FORMAT_STRING)
 		console.log('getFieldsArr', arr)
 		this.props.saveArchiveData({
 			grdaJbzl: obj,
 			grdaJws: arr,
 			grdaJzs: []
 		})
+		this.setState({
+			submit: false
+		})
 	}
 
 	onFieldsChange = ({
 		fields
-	}) => {
-		console.log('onFieldsChange', fields)
+	}, flag) => {
+		console.log('onFieldsChange', fields, flag)
 			/*let state = {}
 			state = Object.assign(this.state[FIELDS.name], {}, {
 				...fields
@@ -144,6 +199,15 @@ class ArchiveCollection extends React.Component {
 
 		this.props.saveFieldsChange(fields)
 	};
+
+	getIndividualNumbe = (addressArr, grda_xzz_qt) => {
+
+		let grda_xzz = addressArr.slice(0)
+		grda_xzz.push(grda_xzz_qt)
+		let grda_xzz_fields = FIELDS.grdaJbzl.addressFields.grda_xzz.slice(0)
+		grda_xzz_fields.push('grda_xzz_qt')
+		this.props.getIndividualNumbe(grda_xzz, grda_xzz_fields)
+	}
 
 	/*Tab Edit event*/
 	onTabEdit = (targetKey, action) => {
@@ -247,7 +311,6 @@ class ArchiveCollection extends React.Component {
 							  </Dropdown>
 
 		{ /*动态加载档案组件*/ }
-
 		/*{React.createElement(require(`../modules/phr/components/${pane.content}`).default,{
 			fields: this.state[FIELDS.name],
 			onFieldsChange: this.onFieldsChange
@@ -258,8 +321,9 @@ class ArchiveCollection extends React.Component {
 			return (
 				<TabPane tab={pane.name} key={pane.key}>
 					<Container
-						fields={this.props.phr}
+						fields={this.props.phr[`${FIELDS.name}`]}
 						onFieldsChange={this.onFieldsChange}
+						getIndividualNumbe={this.getIndividualNumbe}
 					/>
 				</TabPane>
 			)
@@ -292,6 +356,7 @@ ArchiveCollection.propTypes = {
 	saveArchiveData: PropTypes.func.isRequired,
 	saveFieldsChange: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
+	getIndividualNumbe: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

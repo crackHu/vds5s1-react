@@ -671,7 +671,7 @@ export const ARCHIVE_LIST_PAGESIZE = 10
 
 /**************个人基本信息表字段配置**************/
 export const PERSONALDETAIL_FIELDS_CONFIG = {
-	name: 'PD_FIELDS_DATA',
+	name: 'PHR_FIELDS_DATA',
 	grdaJbzl: {
 		name: 'grdaJbzl',
 		dateFields: [
@@ -751,7 +751,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_hklx',
 
 			/*户口地址*/
-			'grda_hkdz_xfmc',
+			'grda_hkdz',
 
 			/*户口地址_省份名称*/
 			'grda_hkdz_xfmc',
@@ -833,6 +833,9 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	},
 	grdaJws: {
 		name: 'grdaJws',
+		dateFields: [
+			'qzne',
+		],
 		fields: [
 			/*类别*/
 			'lb',

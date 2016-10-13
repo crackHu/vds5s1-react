@@ -103,6 +103,29 @@ class GeneralSituationForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
+	/*现住址事件 用于获取个人编号*/
+	onXzzQtBlur = () => {
+		let fields = this.props.fields
+		if (!!fields) {
+			let grda_xzz = fields.grda_xzz
+			let grda_xzz_qt = fields.grda_xzz_qt
+			if (!!grda_xzz && !!grda_xzz_qt) {
+				this.props.getCurrentAddress(grda_xzz.value, grda_xzz_qt.value)
+			}
+		}
+	}
+
+	onXzzChange = () => {
+		let fields = this.props.fields
+		if (!!fields) {
+			let grda_xzz = fields.grda_xzz
+			let grda_xzz_qt = fields.grda_xzz_qt
+			if (!!grda_xzz && !!grda_xzz_qt) {
+				this.props.getCurrentAddress(grda_xzz.value, grda_xzz_qt.value)
+			}
+		}
+	}
+
 	render() {
 		const {
 			getFieldDecorator
@@ -156,6 +179,7 @@ class GeneralSituationForm extends React.Component {
 		        	 options={this.curAddressOptions}
 		        	 placeholder="请选择现住址"
 		        	 style={{ width: 322 }}
+		        	 onChange={this.onXzzChange}
 		        	 showSearch
 	        	/>
 			)
@@ -163,7 +187,11 @@ class GeneralSituationForm extends React.Component {
 		/*现住址 其它*/
 		const grda_xzz_qt =
 			getFieldDecorator('grda_xzz_qt')(
-				<Input placeholder="其它"  style={{ width: 150 }}/>
+				<Input
+				 placeholder="其它"
+				 style={{ width: 150 }}
+				 onBlur={this.onXzzQtBlur}
+				/>
 			)
 
 		/*常住类型*/
@@ -344,8 +372,6 @@ class GeneralSituationForm extends React.Component {
 	          	/>
 			)
 
-
-
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
 				
@@ -495,6 +521,10 @@ function onFieldsChange(props, fields) {
 function mapPropsToFields(props) {
 	console.log("GeneralSituationForm mapPropsToFields", props.fields)
 	return props.fields;
+}
+
+GeneralSituationForm.propTypes = {
+	getCurrentAddress: PropTypes.func.isRequired,
 }
 
 export default Form.create({

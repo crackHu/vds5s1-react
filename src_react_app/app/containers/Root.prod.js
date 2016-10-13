@@ -10,11 +10,20 @@ import {
 
 import routes from '../routes';
 
-export default class Root extends Component {
+import {
+	CONFIG as LCONFIG
+} from 'login_conf'
 
-	state = {
-		loggedIn: false
-	}
+const USR = LCONFIG.LS.USR
+const LOGGEDIN = LCONFIG.LS.LOGGEDIN
+
+let loggedIn = localStorage.getItem(LOGGEDIN)
+if (loggedIn == null) {
+	loggedIn = LCONFIG.LOGIN_ON
+	localStorage.setItem(LOGGEDIN, loggedIn)
+}
+
+export default class Root extends Component {
 
 	render() {
 
@@ -22,9 +31,6 @@ export default class Root extends Component {
 			store,
 			history
 		} = this.props;
-
-		const loggedIn = this.state.loggedIn
-		loggedIn ? localStorage.setItem('loggedIn', 1) : localStorage.setItem('loggedIn', 0)
 
 		return (
 			<Provider store={store}>

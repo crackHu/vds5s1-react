@@ -79,3 +79,11 @@ export function searchPHR(pageNo, pageSize, condition) {
 
 	return postQuery.serialize('searchPHR');
 }
+
+/*获取个人编号*/
+export function getIndividualNumbe(data) {
+
+	let postQuery = new PostQuery(data, 'getGrbh', 'boPersonDoc')
+
+	return postQuery.serialize('getIndividualNumbe');
+}

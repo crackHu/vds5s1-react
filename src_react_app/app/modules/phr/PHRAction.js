@@ -6,7 +6,8 @@ import {
 	QUERY_PHR,
 	DELETE_PHR,
 	FIELDS_CHANGE,
-	SEARCH_PHR
+	SEARCH_PHR,
+	INDIVIDUAL_NUMBER,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -78,7 +79,7 @@ export function saveArchiveData(data, fields_state) {
 				hide()
 
 				if (resCode < 0) {
-					msg('warn', '警告' + '(' + resCode + ')')
+					msg('warn', '警告' + '(' + resCode + ')', resMsg)
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
 					msg('success', '保存成功')
@@ -192,6 +193,48 @@ export function searchPHR(pageNo, pageSize, condition) {
 				}
 				dispatch({
 					type: SEARCH_PHR,
+					data: data
+				})
+			})
+			.catch(e => {
+				notify('error', '错误', fetchCatchMsg);
+				console.error("Oops, error", e)
+			})
+	}
+}
+
+/*获取个人编号*/
+export function getIndividualNumbe(grda_xzz, grda_xzz_fields) {
+
+	let obj = {}
+	if (grda_xzz.length == grda_xzz_fields.length) {
+		for (let index in grda_xzz_fields) {
+			let field = grda_xzz_fields[index]
+			obj[field] = grda_xzz[index]
+		}
+	} else {
+		notify('error', 'error matching in getIndividualNumbe', fetchCatchMsg);
+		throw Error('error matching in getIndividualNumbe')
+	}
+	let query = api.getIndividualNumbe(obj)
+	fetchInit.body = encodeURI(query)
+
+	return dispatch => {
+		fetch(postReqUrl, fetchInit)
+			.then(response => response.json())
+			.then((data) => {
+				console.debug('getIndividualNumbe', "=>", "RES:", data);
+				let resCode = data.status.resultCode
+				let resMsg = data.status.resultMsg
+
+				if (resCode < 0) {
+					notify('warn', '警告' + '(' + resCode + ')', resMsg);
+					console.warn("Oops, warn", resCode, resMsg)
+				} else {
+					msg("success", resMsg, 1)
+				}
+				dispatch({
+					type: INDIVIDUAL_NUMBER,
 					data: data
 				})
 			})
