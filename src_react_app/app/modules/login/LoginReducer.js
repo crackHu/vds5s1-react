@@ -2,16 +2,12 @@ import {
 	LOGIN
 } from 'ActionTypes';
 
-import {
-	Map
-} from 'immutable'
-
-const initialState = Map({})
-
-export default (state = initialState, action) => {
+export default function LoginReducer(state = {}, action) {
 	switch (action.type) {
 		case LOGIN:
-			return state.set('data', action.data)
+			return {
+				result: action.data
+			}
 		default:
 			return state
 	}

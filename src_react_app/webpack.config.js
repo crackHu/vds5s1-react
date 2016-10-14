@@ -77,6 +77,7 @@ const config = {
 			'config': path.resolve(APP_PATH, 'config'),
 			'utils': path.resolve(APP_PATH, 'utils/utils'),
 			'api': path.resolve(APP_PATH, 'api'),
+			'AppActions': path.resolve(APP_PATH, 'actions/AppActions'),
 			'ActionTypes': path.resolve(APP_PATH, 'constants/ActionTypes'),
 
 			/*钉钉医疗*/

@@ -7,13 +7,18 @@ export const CONFIG = {
 	/*登陆开关 1:系统不需要登陆 0:系统需要登陆*/
 	LOGIN_ON: loginon,
 
-	/*默认用户名 系统不需要登陆使用*/
-	DEFAULT_USR: 'admin',
+	/*默认用户配置*/
+	DEFAULT: {
+		USERNAME: 'admin',
+		ROLENAME: '开发测试',
+		DEPTNAME: '开发测试'
+	},
 
 	/*登陆信息标识保存Local Storage配置*/
 	LS: {
 		LOGGEDIN: 'TE9HR0VESU4=',
-		USR: 'VVNS'
+		USR: 'VVNS',
+		UID: 'dWlk'
 	},
 
 }

@@ -9,8 +9,9 @@ if (process.env.NODE_ENV === 'production') {
 export const CONFIG = {
   baseUrl: baseUrl,
   projectName: "medicPHR",
+  projectPath: "medicPHR/app/",
   host: 'http://www.basoft.cn/',
-  needDevTool: true
+  needDevTool: true,
 }
 
 /**************时间格式配置**************/
@@ -69,7 +70,7 @@ export const MENU_CONFIG = {
 /**************独立路由配置**************/
 export const INDEPENDENCE_ROUTE_CONFIG = [{
   path: "./modules/phr/containers/ArchiveCollection",
-  route: "/phr(/:id)",
+  route: "/phr/u/:id",
   sidebarKey: '',
   headerNavKey: 'ArchiveCollection'
 }]

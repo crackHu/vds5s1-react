@@ -14,13 +14,8 @@ import {
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
 } from 'phr_conf'
 import moment from 'moment'
-import {
-	Map
-} from 'immutable'
 
-let initialState = Map({})
-
-let initialState1 = {
+let initialState = {
 	archiveListloading: true,
 	data: null
 }
@@ -65,16 +60,19 @@ function getFieldsValueObj(dout, fields) {
 			}
 		}
 	}
-	Object.assign(obj, {
-		grda_xzz: {
-			value: xzz
+
+	let grda_xzz = {
+			grda_xzz: {
+				value: xzz
+			}
+		},
+		grda_hkdz = {
+			grda_hkdz: {
+				value: hkdz
+			}
 		}
-	})
-	Object.assign(obj, {
-		grda_hkdz: {
-			value: hkdz
-		}
-	})
+	Object.assign(obj, grda_xzz, grda_hkdz)
+
 	console.debug('getFieldsValueObj', obj)
 	return obj
 }
@@ -82,23 +80,31 @@ function getFieldsValueObj(dout, fields) {
 // ------ 获取表单字段与值的封装数组 拆箱 ------ //
 function getFieldsArrObj(doutArr, dateFields) {
 
-	let obj = {}
+	let fieldObjs = {}
+	let size = 0
 
 	doutArr.forEach((dout, i) => {
+
+		size += 1
 		for (let attr in dout) {
 
-			obj[`${attr}_${i}`] = {}
+			fieldObjs[`${attr}_${i}`] = {}
 			if (dateFields.indexOf(attr) > -1) {
-				obj[`${attr}_${i}`].value = moment(dout[attr], DATE_FORMAT_STRING)
+				if (dout[attr] != '') {
+					fieldObjs[`${attr}_${i}`].value = moment(dout[attr], DATE_FORMAT_STRING)
+				}
 			} else {
-				obj[`${attr}_${i}`].value = dout[attr]
+				fieldObjs[`${attr}_${i}`].value = dout[attr]
 			}
 		}
 	})
-	return obj
+	return {
+		...fieldObjs,
+		size
+	}
 }
 
-export default function PHRReducer(state = initialState1, action) {
+export default function PHRReducer(state = initialState, action) {
 	console.log('reducer state,', state)
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -107,16 +113,15 @@ export default function PHRReducer(state = initialState1, action) {
 				data: action.data,
 			}
 		case QUERY_PHR:
-			let grdaJbzl = action.data.dout.grdaJbzl
 			let grdaJbzlObj = getFieldsValueObj(action.data.dout.grdaJbzl, FIELDS)
 			let grdaJws = getFieldsArrObj(action.data.dout.grdaJws, FIELDS.grdaJws.dateFields)
 			let grdaJzs = getFieldsArrObj(action.data.dout.grdaJzs, FIELDS.grdaJws.dateFields)
-			console.debug('grdaJbzl:', grdaJbzl, 'grdaJws:', grdaJws, 'grdaJzs', grdaJzs)
-			Object.assign(grdaJbzlObj, grdaJws)
 			return {
-				[`${FIELDS.name}`]: grdaJbzlObj,
-				/*grdaJws: grdaJws,
-				grdaJzs: grdaJzs*/
+				[`${FIELDS.name}`]: {
+					grdaJbzlObj,
+					grdaJws,
+					grdaJzs
+				}
 			}
 		case DELETE_PHR:
 			return action.data

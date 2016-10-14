@@ -10,9 +10,7 @@ import login from '../modules/login/LoginReducer'
 import phr from '../modules/phr/PHRReducer'
 
 const rootReducer = combineReducers({
-	counter,
 	app,
-	archive,
 
 	login,
 	phr

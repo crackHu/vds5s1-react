@@ -672,6 +672,21 @@ export const ARCHIVE_LIST_PAGESIZE = 10
 /**************个人基本信息表字段配置**************/
 export const PERSONALDETAIL_FIELDS_CONFIG = {
 	name: 'PHR_FIELDS_DATA',
+	fieldsKey: {
+		grdaJbzl: 'grdaJbzl',
+		grdaJws: 'grdaJws',
+		grdaJzs: 'grdaJzs',
+		grdaJkzk: {
+			grdaFmyjzs: 'grdaFmyjzs',
+			grdaZyyyqk: 'grdaZyyyqk',
+			grdaZyzlqk: 'grdaZyzlqk',
+			grdaWtml: 'grdaWtml'
+		},
+		lnrSfb: 'lnrSfb',
+		gxyJxb: 'gxyJxb',
+		tnbSfjl: 'tnbSfjl'
+
+	}
 	grdaJbzl: {
 		name: 'grdaJbzl',
 		dateFields: [

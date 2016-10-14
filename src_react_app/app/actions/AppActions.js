@@ -1,19 +1,14 @@
 import {
-	GET_APP_INDEX_MENU,
-	INCREMENT_COUNTER,
+	FIELDS_CHANGE,
 } from '../constants/ActionTypes';
-import fetch from 'isomorphic-fetch'
 
-export function getMenu(test) {
+/*保存档案页面字段更改*/
+export function saveFieldsChange(fields) {
+	console.debug('saveFieldsChange', "=>", "DATA:", fields);
 	return dispatch => {
-		fetch(`https://api.github.com/search/users?q=a`)
-			.then(response => response.json())
-			.then((data) => {
-				dispatch({
-					type: GET_APP_INDEX_MENU,
-					data: data
-				})
-			})
-			.catch(e => console.error("Oops, error", e))
+		dispatch({
+			type: FIELDS_CHANGE,
+			data: fields
+		})
 	}
 }

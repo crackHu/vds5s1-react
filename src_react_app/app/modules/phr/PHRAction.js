@@ -160,17 +160,6 @@ export function deletePHR(data) {
 	}
 }
 
-/*保存档案页面字段更改*/
-export function saveFieldsChange(fields) {
-	console.debug('saveFieldsChange', "=>", "DATA:", fields);
-	return dispatch => {
-		dispatch({
-			type: FIELDS_CHANGE,
-			data: fields
-		})
-	}
-}
-
 /*搜索档案*/
 export function searchPHR(pageNo, pageSize, condition) {
 
@@ -231,7 +220,7 @@ export function getIndividualNumbe(grda_xzz, grda_xzz_fields) {
 					notify('warn', '警告' + '(' + resCode + ')', resMsg);
 					console.warn("Oops, warn", resCode, resMsg)
 				} else {
-					msg("success", resMsg, 1)
+					//msg("success", resMsg, 1)
 				}
 				dispatch({
 					type: INDIVIDUAL_NUMBER,

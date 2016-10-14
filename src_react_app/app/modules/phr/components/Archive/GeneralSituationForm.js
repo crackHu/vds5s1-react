@@ -44,9 +44,10 @@ const InputGroup = Input.Group;
 const ButtonGroup = Button.Group;
 
 const USR = LCONFIG.LS.USR
-const DEFAULT_USR = LCONFIG.DEFAULT_USR
-
-const username = localStorage.getItem(USR) || DEFAULT_USR
+const user = JSON.parse(localStorage.getItem(USR))
+const userName = user ? user.userName : DEFAULT_USERNAME
+const DEFAULT = LCONFIG.DEFAULT
+const DEFAULT_USERNAME = DEFAULT.USERNAME
 const DEFAULT_DATE = '1950-1-1'
 
 /*一般情况*/
@@ -144,7 +145,7 @@ class GeneralSituationForm extends React.Component {
 		/*出生日期*/
 		const grda_csrq =
 			getFieldDecorator('grda_csrq', {
-				initialValue: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
+				//initialValue: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
 			})(
 				<DatePicker required
 		          format={DATE_FORMAT_STRING}
@@ -335,7 +336,7 @@ class GeneralSituationForm extends React.Component {
 		/*建档人*/
 		const grda_jdys =
 			getFieldDecorator('grda_jdys', {
-				initialValue: username
+				initialValue: userName
 			})(
 				<Input style={{ width: 120 }}/>
 			)
@@ -355,7 +356,7 @@ class GeneralSituationForm extends React.Component {
 		/*录入人*/
 		const grda_lrr =
 			getFieldDecorator('grda_lrr', {
-				initialValue: username
+				initialValue: userName
 			})(
 				<Input style={{ width: 120 }}/>
 			)

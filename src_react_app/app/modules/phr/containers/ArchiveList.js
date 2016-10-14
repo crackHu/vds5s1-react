@@ -96,7 +96,7 @@ class ArchiveList extends React.Component {
 			key: 'grbh',
 			fixed: 'left',
 			width: 150,
-			render: (text, recode) => <Link to={`/phr/${recode.id}`}>{text}</Link>,
+			render: (text, recode) => <Link to={`/phr/u/${recode.id}`}>{text}</Link>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',

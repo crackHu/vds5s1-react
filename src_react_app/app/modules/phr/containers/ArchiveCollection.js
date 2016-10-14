@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import moment from 'moment'
 import QueueAnim from 'rc-queue-anim';
+import * as AppActions from 'AppActions'
 import * as PHRAction from '../PHRAction'
 
 import {
@@ -36,21 +37,24 @@ import {
 } from 'login_conf'
 
 const USR = LCONFIG.LS.USR
-const DEFAULT_USR = LCONFIG.DEFAULT_USR
-const username = localStorage.getItem(USR) || DEFAULT_USR
+const DEFAULT = LCONFIG.DEFAULT
+
+const user = JSON.parse(localStorage.getItem(USR))
+const DEFAULT_USERNAME = DEFAULT.USERNAME
+const userName = user ? user.userName : DEFAULT_USERNAME
 const DEFAULT_DATE = '1950-1-1'
 const DEFAULT_VALUE = {
 	grda_csrq: {
 		value: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
 	},
 	grda_jdys: {
-		value: username
+		value: userName
 	},
 	grda_jdrq: {
 		value: moment(new Date(), DATE_FORMAT_STRING)
 	},
 	grda_lrr: {
-		value: username
+		value: userName
 	},
 	grda_lrrq: {
 		value: moment(new Date(), DATE_FORMAT_STRING)
@@ -118,7 +122,6 @@ class ArchiveCollection extends React.Component {
 		this.setState({
 			submit: true
 		})
-
 
 		let obj = getFieldsObj(grdaJbzl.fields, this.props.phr[`${FIELDS.name}`], DATE_FORMAT_STRING)
 
@@ -361,10 +364,13 @@ ArchiveCollection.propTypes = {
 }
 
 function mapStateToProps(state) {
-	console.log('mapStateToProps:', state)
+	console.log('ArchiveCollection mapStateToProps:', state)
 	return {
 		phr: state.phr
 	}
 }
 
-export default connect(mapStateToProps, PHRAction)(ArchiveCollection)
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
+})(ArchiveCollection)

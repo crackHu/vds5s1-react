@@ -74,7 +74,10 @@ class MedicalRecordsTable extends React.Component {
 
 	componentWillMount = () => {}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+
+		console.log('MedicalRecordsTable', this.props)
+	}
 
 	/*既往史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {

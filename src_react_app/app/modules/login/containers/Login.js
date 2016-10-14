@@ -30,6 +30,7 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 const USR = CONFIG.LS.USR
+const UID = CONFIG.LS.UID
 const LOGGEDIN = CONFIG.LS.LOGGEDIN
 
 class Login extends React.Component {
@@ -62,19 +63,21 @@ class Login extends React.Component {
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log('componentDidUpdate prevProps prevState', prevProps, prevState)
 
-		const data = this.props.logged.get('data')
-		if (data != null && data.status != null && data.status.timestamp != this.timestamp) {
-
-			this.timestamp = data.status.timestamp
-			const status = data.status
-			const resultCode = status.resultCode
-			const resultMsg = status.resultMsg
-			console.log(JSON.stringify(status))
-			if (resultCode == 0) {
-				localStorage.setItem(LOGGEDIN, 1)
-				localStorage.setItem(USR, this.username)
-					//this.context.router.replace('/ant1');
-				location.reload()
+		const result = this.props.logged.result
+		if (result != null) {
+			const status = result.status
+			const dout = result.dout
+			if (status != null && status.timestamp != this.timestamp) {
+				this.timestamp = status.timestamp
+				const resultCode = status.resultCode
+				const resultMsg = status.resultMsg
+				if (resultCode == 0) {
+					localStorage.setItem(LOGGEDIN, 1)
+					localStorage.setItem(UID, dout.uid ? dout.uid : '')
+					delete dout.uid
+					localStorage.setItem(USR, JSON.stringify(dout))
+					location.reload()
+				}
 			}
 		}
 	}
@@ -166,10 +169,6 @@ class Login extends React.Component {
 Login.PropTypes = {
 	login: PropTypes.func.isRequired,
 	logged: PropTypes.object.isRequired,
-}
-
-Login.contextTypes = {
-	router: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

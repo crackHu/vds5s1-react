@@ -22,7 +22,6 @@ import {
 } from 'antd';
 
 import fetch from 'isomorphic-fetch'
-import * as AppActions from '../actions/AppActions';
 import HeaderNav from './layouts/HeaderNav'
 import Sidebar from './layouts/Sidebar'
 import UserProfile from './UserProfile'
@@ -38,9 +37,10 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 const USR = CONFIG.LS.USR
+const UID = CONFIG.LS.UID
 const LOGGEDIN = CONFIG.LS.LOGGEDIN
 
-class App extends React.Component {
+export default class App extends React.Component {
 
 	constructor() {
 		console.log("App.constructor")
@@ -109,6 +109,7 @@ class App extends React.Component {
 	handleUnload = () => {
 		localStorage.removeItem(LOGGEDIN)
 		localStorage.removeItem(USR)
+		localStorage.removeItem(UID)
 	}
 
 	render() {
@@ -158,14 +159,4 @@ class App extends React.Component {
 
 App.propTypes = {
 	children: PropTypes.object.isRequired,
-	getMenu: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired
 }
-
-function mapStateToProps(state) {
-	return {
-		data: state
-	}
-}
-
-export default connect(mapStateToProps, AppActions)(App)
