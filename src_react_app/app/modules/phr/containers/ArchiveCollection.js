@@ -87,7 +87,7 @@ class ArchiveCollection extends React.Component {
 	componentWillMount = () => {
 		console.log('ArchiveCollection.componentWillMount', this.props.params.id)
 		let id = this.props.params.id
-		if (id) {
+		if (!!id) {
 			this.props.queryPHR(id)
 		}
 	}
@@ -123,9 +123,9 @@ class ArchiveCollection extends React.Component {
 			submit: true
 		})
 
-		let obj = getFieldsObj(grdaJbzl.fields, this.props.phr[`${FIELDS.name}`], DATE_FORMAT_STRING)
+		let grdaJbzl = getFieldsObj(grdaJbzl.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
 
-		let grda_xzz1 = obj.grda_xzz
+		let grda_xzz1 = grdaJbzl.grda_xzz
 		if (grda_xzz1) {
 			let grda_xzz = grda_xzz1.split(',')
 			let grda_xzz_smc = grda_xzz[0]
@@ -133,7 +133,7 @@ class ArchiveCollection extends React.Component {
 			let grda_xzz_jdzmc = grda_xzz[2]
 			let grda_xzz_jwcmc = grda_xzz[3]
 			let grda_xzz_ljmc = grda_xzz[4]
-			Object.assign(obj, {
+			Object.assign(grdaJbzl, {
 				grda_xzz_smc
 			}, {
 				grda_xzz_qxmc
@@ -146,7 +146,7 @@ class ArchiveCollection extends React.Component {
 			})
 		}
 
-		let grda_hkdz1 = obj.grda_hkdz
+		let grda_hkdz1 = grdaJbzl.grda_hkdz
 		if (grda_hkdz1) {
 			let grda_hkdz = grda_hkdz1.split(',')
 			let grda_hkdz_xfmc = grda_hkdz[0]
@@ -155,7 +155,7 @@ class ArchiveCollection extends React.Component {
 			let grda_hkdz_jdzmc = grda_hkdz[3]
 			let grda_hkdz_jwcmc = grda_hkdz[4]
 			let grda_hkdz_ljmc = grda_hkdz[5]
-			Object.assign(obj, {
+			Object.assign(grdaJbzl, {
 				grda_hkdz_xfmc
 			}, {
 				grda_hkdz_smc
@@ -170,18 +170,18 @@ class ArchiveCollection extends React.Component {
 			})
 		}
 
-		obj.grda_jdrq = obj.grda_lrrq = '2016-10-13'
-		obj.grda_jdrq = obj.grda_lrrq = '2016-10-13'
-		obj.grda_csrq = '1950-1-1'
-		delete obj.grda_hkdz
-		delete obj.grda_xzz
-		console.log('getFieldsObj', obj)
-		let arr = getFieldsArr(grdaJws.fields, this.props.phr[`${FIELDS.name}`], DATE_FORMAT_STRING)
-		console.log('getFieldsArr', arr)
+		grdaJbzl.grda_jdrq = grdaJbzl.grda_lrrq = '2016-10-13'
+		grdaJbzl.grda_csrq = '1950-1-1'
+		delete grdaJbzl.grda_hkdz
+		delete grdaJbzl.grda_xzz
+		console.log('getFieldsObj', grdaJbzl)
+		let grdaJws = getFieldsArr(grdaJws.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
+		let grdaJzs = getFieldsArr(grdaJzs.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
+		console.log('getFieldsArr', grdaJws, grdaJzs)
 		this.props.saveArchiveData({
-			grdaJbzl: obj,
-			grdaJws: arr,
-			grdaJzs: []
+			grdaJbzl: grdaJbzl,
+			grdaJws: grdaJws,
+			grdaJzs: grdaJzs
 		})
 		this.setState({
 			submit: false
@@ -191,16 +191,17 @@ class ArchiveCollection extends React.Component {
 	onFieldsChange = ({
 		fields
 	}, flag) => {
-		console.log('onFieldsChange', fields, flag)
-			/*let state = {}
-			state = Object.assign(this.state[FIELDS.name], {}, {
-				...fields
-			})
-			this.setState({
-				[`${FIELDS.name}`]: state,
-			})*/
 
-		this.props.saveFieldsChange(fields)
+		console.log('onFieldsChange', fields, flag)
+
+		/*let state = {}
+		state = Object.assign(this.state[FIELDS.name], {}, {
+			...fields
+		})
+		this.setState({
+			[`${FIELDS.name}`]: state,
+		})*/
+		this.props.saveFieldsChange(fields, flag)
 	};
 
 	getIndividualNumbe = (addressArr, grda_xzz_qt) => {
@@ -314,17 +315,26 @@ class ArchiveCollection extends React.Component {
 							  </Dropdown>
 
 		{ /*动态加载档案组件*/ }
-		/*{React.createElement(require(`../modules/phr/components/${pane.content}`).default,{
+		/*{React.createElement(require(`../modules/phr/components/${arc.content}`).default,{
 			fields: this.state[FIELDS.name],
 			onFieldsChange: this.onFieldsChange
 		})}*/
-		const tabpane = this.state.arcType.map(pane => {
+		const tabpane = this.state.arcType.map(arc => {
 
-			let Container = require(`../components/${pane.content}`).default
+			let Container = require(`../components/${arc.content}`).default
+			let fields = this.props.phr[FIELDS.name]
+			let grdaJbzlFields, grdaJwsFields, grdaJzsFields = null
+			if (!!fields) {
+				grdaJbzlFields = fields['grdaJbzl']
+				grdaJwsFields = fields['grdaJws']
+				grdaJzsFields = fields['grdaJzs']
+			}
 			return (
-				<TabPane tab={pane.name} key={pane.key}>
+				<TabPane tab={arc.name} key={arc.key}>
 					<Container
-						fields={this.props.phr[`${FIELDS.name}`]}
+						fields={grdaJbzlFields}
+						grdaJwsFields={grdaJwsFields}
+						grdaJzsFields={grdaJzsFields}
 						onFieldsChange={this.onFieldsChange}
 						getIndividualNumbe={this.getIndividualNumbe}
 					/>

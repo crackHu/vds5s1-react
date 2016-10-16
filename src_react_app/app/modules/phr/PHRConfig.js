@@ -4,52 +4,64 @@ export const ARC_TYPE_CONFIG = {
 		name: "个人基本信息表",
 		content: 'Archive/PersonalDetailForm',
 		key: "personalDetail",
+		containKey: "grdaJbzl",
 		sub: [{
 			name: "一般情况",
 			content: 'Archive/GeneralSituationForm',
-			key: "generalSituation"
+			key: "generalSituation",
+			containKey: "grdaJws",
 		}, {
 			name: "家族史与生活情况",
 			content: 'Archive/FamiLivelHistoryFrom',
-			key: "famiLivelHistory"
+			key: "famiLivelHistory",
+			containKey: "grdaJzs",
 		}]
 	}, {
 		name: "健康体检表",
 		content: 'Archive/HealthMedicalForm',
-		key: "healthMedical"
+		key: "healthMedical",
+		containKey: "grdaJkzk",
 	}],
 	specArcType: [{
 		name: "高血压专档",
 		content: 'SpecialArchive/HypertensionForm',
-		key: "hypertension"
+		key: "hypertension",
+		containKey: 'gxyJxb',
 	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
-		key: "diabetes"
+		key: "diabetes",
+		containKey: 'tnbSfjl'
 	}, {
 		name: "老年人专档",
 		content: 'SpecialArchive/AgedForm',
-		key: "aged"
+		key: "aged",
+		containKey: 'lnrSfb',
 	}, {
 		name: "肿瘤病",
 		content: 'SpecialArchive/OncosisForm',
-		key: "oncosis"
+		key: "oncosis",
+		containKey: "oncosis"
 	}, {
 		name: "残疾人",
 		content: 'SpecialArchive/HandicappedForm',
-		key: "handicapped"
+		key: "handicapped",
+		containKey: "handicapped"
 	}, {
 		name: "女性保健专档",
 		content: 'SpecialArchive/FemalecareForm',
-		key: "femalecare"
+		key: "femalecare",
+		containKey: "femalecare"
 	}, {
 		name: "孕产妇专档",
 		content: 'SpecialArchive/MaternalForm',
-		key: "maternal"
+		key: "maternal",
+		containKey: "maternal",
 	}, {
 		name: "钉钉医疗档案",
 		content: 'SpecialArchive/DDMedicalForm',
-		key: "ddmedical"
+		key: "ddmedical",
+		containKey: "ddmedical"
 	}]
 }
 
@@ -685,8 +697,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 		lnrSfb: 'lnrSfb',
 		gxyJxb: 'gxyJxb',
 		tnbSfjl: 'tnbSfjl'
-
-	}
+	},
 	grdaJbzl: {
 		name: 'grdaJbzl',
 		dateFields: [

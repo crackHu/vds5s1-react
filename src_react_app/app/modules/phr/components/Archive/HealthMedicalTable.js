@@ -3,9 +3,6 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
-import {
 	Form,
 	Input,
 	Table,
@@ -16,37 +13,18 @@ import {
 	Pagination,
 	Popconfirm,
 	Button,
+	Switch,
 	Tooltip
 } from 'antd'
-import QueueAnim from 'rc-queue-anim';
-import moment from 'moment'
 
 import {
 	msg,
 	notify
 } from 'utils'
-import {
-	DATE_FORMAT_STRING
-} from 'config'
-import {
-	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
-} from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
-
-/*const data = [];
-for (let i = 0; i < 1; i++) {
-	data.push({
-		key: i,
-		diseaseType: '',
-		diseaseName: '',
-		confirmTime: '',
-		remark: ``,
-	});
-}*/
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -54,28 +32,21 @@ const getSelectOptions = (data) => {
 	})
 }
 
-/*家族史*/
-class FamiHistoryTable extends React.Component {
+/*健康体检表 表格*/
+class HealthMedicalTable extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: false,
-			data: [{}, {}, {}, {}]
+			data: new Array()
 		}
-
-		/*成员类别*/
-		this.memberOptions = getSelectOptions(WIDGET_CONFIG.selectOption.memberType);
-		/*疾病名称*/
-		this.sickOptions = getSelectOptions(WIDGET_CONFIG.selectOption.sicknessName);
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
 
-	/*家族史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
@@ -117,79 +88,65 @@ class FamiHistoryTable extends React.Component {
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			editSwitch
+			data
 		} = this.state
 
 		const renderContent = {
-			memberType(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Select style={{width: '40vh'}}>
-							{option}
-						</Select>
-					)
-				}
+			medicalDate(value, option) {
+				return (
+					<Select style={{width: '40vh'}}>
+						{option}
+					</Select>
+				)
 			},
-			sicknessName(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Select style={{width: '40vh'}}>
-							{option}
-						</Select>
-					)
-				}
+			medicalEvaluation(value, option) {
+				return (
+					<Select style={{width: '40vh'}}>
+						{option}
+					</Select>
+				)
 			},
-			remark(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input
-							style={{width: '70vh'}}
-							type="textarea"
-							autosize={{ minRows: 1, maxRows: 2 }}
-						/>
-					)
-				}
+			medicalGuide(value) {
+				return (
+					<DatePicker
+					 	style={{width: '40vh'}}
+						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
+					/>
+				)
 			},
-
 		}
 
 		const columns = [{
-			title: '成员类别',
-			dataIndex: 'memberType',
-			key: 'memberType',
-			width: '15%',
+			title: '体检日期',
+			dataIndex: 'medicalDate',
+			key: 'medicalDate',
+			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
-						renderContent.memberType(value, this.memberOptions)
+					{getFieldDecorator('lb_' + index)(
+						renderContent.medicalDate(value, this.dtOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '疾病名称',
-			dataIndex: 'sicknessName',
-			key: 'sicknessName',
-			width: '15%',
+			title: '健康评价',
+			dataIndex: 'medicalEvaluation',
+			key: 'medicalEvaluation',
+			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('jbmc_' + index)(
-						renderContent.sicknessName(value, this.sickOptions)
+						renderContent.medicalEvaluation(value, this.dnOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '备注',
-			dataIndex: 'remark',
-			key: 'remark',
-			width: '60%',
+			title: '健康指导',
+			dataIndex: 'medicalGuide',
+			key: 'medicalGuide',
+			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('bz_' + index)(
-						renderContent.remark(value)
+					{getFieldDecorator('qzne_' + index)(
+						renderContent.medicalGuide(value)
 					)}
 				</FormItem>,
 		}];
@@ -206,17 +163,19 @@ class FamiHistoryTable extends React.Component {
 		}
 		const title = () => (
 			<div>
-				<FormItem
-	        	 label={<span>家族史
+	        	{/*<FormItem
+	        	 label={<span>体检记录
 	        	 	{' '}
-	        	 	<Tooltip title={`点击新增可以增加一条家族史数据`}>
+	        	 	<Tooltip title={`点击新增可以增加一条体检记录`}>
 	        	 		<Icon type="question-circle-o" />
 	        	 	</Tooltip>
 	        	 </span>}
-	        	/>
+	        	/>*/}
 
 				<Popconfirm
-				 title={`确定要删除所选${selectedLength}条家族史吗？`}
+					title = {
+						`确定要删除所选${selectedLength}条体检记录吗？`
+					}
 				 onConfirm={this.deleteConfirm}
 				 onCancel={this.deleteCancel}
 				>
@@ -246,7 +205,6 @@ class FamiHistoryTable extends React.Component {
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
-    			footer={footer}
     			pagination={false}
 			>
 			</Table>
@@ -254,21 +212,12 @@ class FamiHistoryTable extends React.Component {
 	}
 }
 
-FamiHistoryTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
-	console.log("FamiHistoryTable onFieldsChange", props, fields)
-	props.onFieldsChange({
-		fields,
-	}, 'grdaJzs');
+	console.log("HealthMedicalTable onFieldsChange")
 }
 
 function mapPropsToFields(props) {
-	console.log("FamiHistoryTable mapPropsToFields", props)
-	return props.fields || {}
+	console.log("HealthMedicalTable mapPropsToFields")
 }
 
-export default Form.create({
-	onFieldsChange,
-	mapPropsToFields
-})(FamiHistoryTable)
+export default Form.create(onFieldsChange, mapPropsToFields)(HealthMedicalTable)

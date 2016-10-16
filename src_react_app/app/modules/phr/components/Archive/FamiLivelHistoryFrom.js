@@ -23,7 +23,8 @@ import {
 import FamiHistoryTable from './FamiHistoryTable'
 
 import {
-	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
 } from 'phr_conf'
 
 const FormItem = Form.Item;
@@ -55,7 +56,7 @@ class FamiLivelHistoryFrom extends React.Component {
 
 	getSelectOptions = (data) => {
 		return data.map((item, i) => {
-			return <Option key={i}>{item.value}</Option>
+			return <Option key={item.value}>{item.value}</Option>
 		})
 	}
 
@@ -135,20 +136,19 @@ class FamiLivelHistoryFrom extends React.Component {
 			  	</Select>
 			)
 
-
 		return (
 			<Form inline>
 				{/*家族史*/}
 				<div className="dashed_border form inside">
 					<FamiHistoryTable
-						fields={this.props.fields}
+						fields={this.props.grdaJzsFields}
 				 		onFieldsChange={this.props.onFieldsChange}
 					/>
 				</div>
 
 		        <div className="form_inline_spacing">
 					<FormItem
-		label = "&nbsp;&nbsp;&nbsp;遗传病史" >
+					 label = "&nbsp;&nbsp;&nbsp;遗传病史" >
 			           {grda_ycbsjbmc}
 			        </FormItem>
 					<FormItem
@@ -193,12 +193,12 @@ function onFieldsChange(props, fields) {
 	console.log("FamiLivelHistoryFrom onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields,
-	});
+	}, 'grdaJbzl');
 }
 
 function mapPropsToFields(props) {
 	console.log("FamiLivelHistoryFrom mapPropsToFields", props)
-	return props.fields;
+	return props.fields || {}
 }
 
 export default Form.create({

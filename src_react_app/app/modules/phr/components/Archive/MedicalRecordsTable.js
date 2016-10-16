@@ -19,8 +19,6 @@ import {
 	Switch,
 	Tooltip
 } from 'antd'
-import QueueAnim from 'rc-queue-anim';
-import moment from 'moment'
 
 import {
 	msg,
@@ -63,7 +61,7 @@ class MedicalRecordsTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: false,
-			data: [{}]
+			data: new Array()
 		}
 
 		/*既往史 类别*/
@@ -75,8 +73,30 @@ class MedicalRecordsTable extends React.Component {
 	componentWillMount = () => {}
 
 	componentDidMount = () => {
+		console.log('MedicalRecordsTable componentDidMount', this.props)
+	}
 
-		console.log('MedicalRecordsTable', this.props)
+	componentDidUpdate = () => {
+		console.log('MedicalRecordsTable componentDidUpdate', this.props)
+
+		const data = this.state.data
+		const fields = this.props.fields
+		const size = !!fields ? fields.size : 0
+		console.log('componentDidUpdate', data.length, size)
+		if (data.length != size) {
+			let dataArr = new Array()
+			for (let i = 0; i < size; i++) {
+				dataArr.push({})
+			}
+			this.setState({
+				data: dataArr
+			})
+		}
+	}
+
+	componentWillReceiveProps = () => {
+		console.log("MedicalRecordsTable componentWillReceiveProps")
+
 	}
 
 	/*既往史 选中项发生变化时的回调*/
@@ -120,8 +140,7 @@ class MedicalRecordsTable extends React.Component {
 		let ndata = {}
 		ndata.key = Date.now()
 
-		let data = []
-		data = Object.assign(data, this.state.data)
+		let data = Object.assign([], this.state.data)
 		data.push(ndata)
 
 		this.setState({
@@ -136,7 +155,8 @@ class MedicalRecordsTable extends React.Component {
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			editSwitch
+			editSwitch,
+			data
 		} = this.state
 
 		const renderContent = {
@@ -314,12 +334,12 @@ function onFieldsChange(props, fields) {
 	console.log("MedicalRecordsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields,
-	});
+	}, 'grdaJws');
 }
 
 function mapPropsToFields(props) {
 	console.log("MedicalRecordsTable mapPropsToFields", props)
-	return props.fields;
+	return props.fields || {}
 }
 
 export default Form.create({

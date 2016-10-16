@@ -1,3 +1,14 @@
+import moment from 'moment'
+import {
+  DATE_FORMAT_STRING
+} from 'config'
+import {
+  CONFIG
+} from 'login_conf'
+
+// ------ 识别 debug production 模式 ------ //
+const __DEBUG__ = !(process.env.NODE_ENV === 'production')
+
 // 对URL地址进行拆分，返回其中附带的值
 // a返回对象,b值得字符串集合,c子值（即类似于"XX=XX"）
 // 当没有附带值是返回false
@@ -149,7 +160,7 @@ export function msg(type, content, duration) {
   }
 }
 
-// ------ 获取表单字段与值的封装对象 ------ // 
+// ------ 获取表单字段与值的封装对象 装箱 ------ // 
 export function getFieldsObj(fields, fields_state, date_format) {
   let obj = {}
   fields.forEach((field, i) => {
@@ -170,7 +181,7 @@ export function getFieldsObj(fields, fields_state, date_format) {
   return obj
 }
 
-// ------ 获取表单字段与值的封装数组 ------ //
+// ------ 获取表单字段与值的封装数组 装箱 ------ //
 export function getFieldsArr(fields, fields_state, date_format) {
 
   let arr = []
@@ -195,6 +206,91 @@ export function getFieldsArr(fields, fields_state, date_format) {
   return arr
 }
 
+// ------ 获取表单字段与值对象的封装对象 拆箱 ------ //
+export function getFieldsValueObj(dout, fields) {
+
+  let obj = {}
+  let xzz = []
+  let hkdz = []
+  let multi = []
+
+  let dateFields = fields.grdaJbzl.dateFields
+  let casXZZFields = fields.grdaJbzl.addressFields.grda_xzz
+  let casHKDZFields = fields.grdaJbzl.addressFields.grda_hkdz
+  let multiFields = fields.grdaJbzl.multiFields
+
+  for (let field in dout) {
+    /*时间字段转换*/
+    if (dateFields.indexOf(field) > -1) {
+      obj[field] = {
+        value: moment(dout[field], DATE_FORMAT_STRING)
+      }
+    } else {
+      let xzzIndex = casXZZFields.indexOf(field)
+      if (xzzIndex > -1) {
+        xzz[xzzIndex] = dout[field]
+      }
+      let hkdzIndex = casHKDZFields.indexOf(field)
+      if (hkdzIndex > -1) {
+        hkdz[hkdzIndex] = dout[field]
+      }
+      /*多选字段转换*/
+      if (multiFields.indexOf(field) > -1) {
+        obj[field] = {
+          value: dout[field].split(',')
+        }
+      } else {
+        obj[field] = {
+          value: dout[field]
+        }
+      }
+    }
+  }
+
+  let grda_xzz = {
+      grda_xzz: {
+        value: xzz
+      }
+    },
+    grda_hkdz = {
+      grda_hkdz: {
+        value: hkdz
+      }
+    }
+  Object.assign(obj, grda_xzz, grda_hkdz)
+
+  console.debug('getFieldsValueObj', '=>', obj)
+  return obj
+}
+
+// ------ 获取表单字段与值的封装数组 拆箱 ------ //
+export function getFieldsValueArrObj(doutArr, dateFields) {
+
+  let fieldObjs = {}
+  let size = 0
+
+  doutArr.forEach((dout, i) => {
+
+    size += 1
+    for (let attr in dout) {
+
+      fieldObjs[`${attr}_${i}`] = {}
+      if (dateFields.indexOf(attr) > -1) {
+        if (dout[attr] != '') {
+          fieldObjs[`${attr}_${i}`].value = moment(dout[attr], DATE_FORMAT_STRING)
+        }
+      } else {
+        fieldObjs[`${attr}_${i}`].value = dout[attr]
+      }
+    }
+  })
+  console.debug('getFieldsValueArrObj', '=>', fieldObjs)
+  return {
+    ...fieldObjs,
+    size
+  }
+}
+
 function isObject(obj) {
   return typeof obj == "object" && obj.constructor == Object
 }
@@ -205,4 +301,27 @@ function isArray(arr) {
 
 function isString(str) {
   return typeof str == "string" && str.constructor == String
+}
+
+// ------ 获取 moment 对象 ------ //
+export function getMomentObj(date, dateFormat) {
+  return moment(date, dateFormat)
+}
+
+// ------ 获取登陆用户对象 ------ //
+export function getLoginUser() {
+
+  const USR = CONFIG.LS.USR
+  const UID = CONFIG.LS.UID
+  const LOGGEDIN = CONFIG.LS.LOGGEDIN
+  const user = JSON.parse(localStorage.getItem(USR))
+  if (!__DEBUG__ && (!eval(user) || !eval(UID) || !eval(LOGGEDIN) || LOGGEDIN == '0')) {
+    const msg = '登陆用户异常！'
+    notify('error', '内部错误', msg);
+    return;
+  }
+  return {
+    ...user,
+    UID
+  }
 }

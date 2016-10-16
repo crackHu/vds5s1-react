@@ -3,12 +3,15 @@ import {
 } from '../constants/ActionTypes';
 
 /*保存档案页面字段更改*/
-export function saveFieldsChange(fields) {
+export function saveFieldsChange(fields, flag) {
+
 	console.debug('saveFieldsChange', "=>", "DATA:", fields);
-	return dispatch => {
+	return (dispatch, getState) => {
+		console.log('saveFieldsChange', "=-=>", dispatch, getState)
 		dispatch({
 			type: FIELDS_CHANGE,
-			data: fields
+			data: fields,
+			flag
 		})
 	}
 }

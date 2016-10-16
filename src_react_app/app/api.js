@@ -49,20 +49,20 @@ export function login(data) {
 }
 
 /*查询个人详细档案资料*/
-export function queryPHR(data) {
+export function queryPHR(id) {
 
 	let postQuery = new PostQuery({
-		id: data
+		id
 	}, 'getDataById', 'boPersonDoc')
 
 	return postQuery.serialize('queryPHR');
 }
 
 /*删除个人档案*/
-export function deletePHR(data) {
+export function deletePHR(ids) {
 
 	let postQuery = new PostQuery({
-		ids: data
+		ids
 	}, 'deletePdData', 'boPersonDoc')
 
 	return postQuery.serialize('deletePHR');

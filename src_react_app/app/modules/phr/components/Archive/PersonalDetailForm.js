@@ -47,8 +47,8 @@ class PersonalDetailForm extends React.Component {
 		const grda_xm = getFieldDecorator('grda_xm', {
 			rules: [{
 				required: true,
-				message: '请输入姓名',
-				pattern: /^[\u4e00-\u9fa5]{0,}$/,
+				// message: '请输入姓名',
+				// pattern: /^[\u4e00-\u9fa5]{0,}$/,
 			}],
 		})(
 			<Input placeholder="请输入姓名" />
@@ -72,12 +72,15 @@ class PersonalDetailForm extends React.Component {
 			<Tabs defaultActiveKey = {ARC_TYPE_CONFIG.arcType[0].sub[0].key}>
 			    {
 			    	ARC_TYPE_CONFIG.arcType[0].sub.map((arc, index) => {
+
 			    		let Container = require(`../${arc.content}`).default
+
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
-								
 								<Container
 									fields={this.props.fields}
+									grdaJwsFields={this.props.grdaJwsFields}
+									grdaJzsFields={this.props.grdaJzsFields}
 									onFieldsChange={this.props.onFieldsChange}
 									getCurrentAddress={this.getCurrentAddress}
 								/>
@@ -114,12 +117,12 @@ function onFieldsChange(props, fields) {
 	console.log("PersonalDetailForm onFieldsChange", fields)
 	props.onFieldsChange({
 		fields
-	});
+	}, 'grdaJbzl');
 }
 
 function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields", props)
-	return props.fields;
+	return props.fields || {}
 }
 
 PersonalDetailForm.propTypes = {

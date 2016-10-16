@@ -504,7 +504,7 @@ class GeneralSituationForm extends React.Component {
 			
 	        	<div className="dashed_border" />
 	        	<MedicalRecordsTable
-	        	 fields={this.props.fields}
+	        	 fields={this.props.grdaJwsFields}
 				 onFieldsChange={this.props.onFieldsChange}
 				/>
 		    </Form>
@@ -516,12 +516,12 @@ function onFieldsChange(props, fields) {
 	console.log("GeneralSituationForm onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	});
+	}, 'grdaJbzl');
 }
 
 function mapPropsToFields(props) {
-	console.log("GeneralSituationForm mapPropsToFields", props.fields)
-	return props.fields;
+	console.log("GeneralSituationForm mapPropsToFields", props)
+	return props.fields || {}
 }
 
 GeneralSituationForm.propTypes = {
