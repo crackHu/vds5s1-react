@@ -123,7 +123,7 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('lb_' + index)(
+					{getFieldDecorator('grda_tjrq_' + index)(
 						renderContent.medicalDate(value, this.dtOptions)
 					)}
 				</FormItem>,
@@ -134,7 +134,7 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('grda_jkpj_' + index)(
 						renderContent.medicalEvaluation(value, this.dnOptions)
 					)}
 				</FormItem>,
@@ -145,7 +145,7 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('qzne_' + index)(
+					{getFieldDecorator('grda_jkzd_' + index)(
 						renderContent.medicalGuide(value)
 					)}
 				</FormItem>,

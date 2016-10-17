@@ -8,6 +8,9 @@ import {
 	Tabs,
 	DatePicker
 } from 'antd'
+import {
+	ARC_TYPE_CONFIG
+} from 'phr_conf'
 
 import HealthMedicalTable from './HealthMedicalTable'
 
@@ -19,6 +22,7 @@ class HealthMedicalForm extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.arcType = ARC_TYPE_CONFIG.arcType
 	}
 
 	componentWillMount = () => {}
@@ -31,13 +35,22 @@ class HealthMedicalForm extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 
-		const grda_xm = getFieldDecorator('grda_xm')(
-			<DatePicker 
-				disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-			/>
-		)
-		const grbh = getFieldDecorator('grbh')(
-			<Input />
+		const tabpane = (
+			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>
+			    {
+			    	this.arcType[1].sub.map((arc, index) => {
+			    		let Container = require(`../${arc.content}`).default
+						return (
+						    <TabPane tab={arc.name} key={arc.key}>
+								<Container
+									fields={this.props.fields}
+									onFieldsChange={this.props.onFieldsChange}
+								/>
+							</TabPane>
+						)
+					})
+				}
+		  	</Tabs>
 		)
 
 		return (
@@ -47,39 +60,7 @@ class HealthMedicalForm extends React.Component {
 					<HealthMedicalTable/>
 				</div>
 				<div>
-					<Tabs defaultActiveKey="1">
-					    <TabPane tab="体检表1" key="1">
-
-						    <Form
-							 inline
-							 onSubmit={this.handleSubmit}
-							 className="dashed_border form"
-							>
-						        <FormItem
-						         label="体检日期"
-						        >
-						        	{grda_xm}
-						        </FormItem>
-						        <FormItem label="责任医生" >
-						        	{grbh}
-						        </FormItem>
-					        </Form>
-
-					    </TabPane>
-					    <TabPane tab="体检表2" key="2">体检表2
-					    	<fieldset style={{width: '220px'}}>
-							<legend>健康信息</legend>
-							<form>
-							<label>身高：<input type="text"/></label>
-							<label>体重：<input type="text"/></label>
-							</form>
-							</fieldset>
-					    </TabPane>
-					    <TabPane tab="体检表3" key="3">体检表3</TabPane>
-					    <TabPane tab="体检表4" key="4">体检表4</TabPane>
-					    <TabPane tab="体检表5" key="5">体检表5</TabPane>
-					    <TabPane tab="体检表6" key="6">体检表6</TabPane>
-					</Tabs>
+					{tabpane}
 				</div>
 			</div>
 		)

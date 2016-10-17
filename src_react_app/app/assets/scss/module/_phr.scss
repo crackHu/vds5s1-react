@@ -1,15 +1,15 @@
-.dashed_border{
+.dashed_border {
 	border-radius: 0;
     border-bottom: 1px dashed #e9e9e9;
 }
-.dashed_border.form{
+.dashed_border.form {
 	padding-bottom: 15px
 }
-.dashed_border.form.inside{
+.dashed_border.form.inside {
 	margin-bottom: 15px
 }
 
-.wrapper_border{
+.wrapper_border {
 	border: 1px solid #d9d9d9;
     padding: 5px 6px 9px;
     margin-left: -8px;
@@ -17,6 +17,33 @@
     cursor: pointer;
 }
 
-.form_inline_spacing{
+.form_inline_spacing {
 	margin: 16px auto;
+}
+
+.item_inline_spacing {
+	margin: 5px auto;
+}
+
+fieldset {
+	width: 100%;
+	padding: 10px 10px 20px 10px;
+	margin: 10px 0px;
+	border: 1px dashed #e9e9e9;	
+}
+
+legend {
+	color: #666;
+	font-weight: 700;
+	border: 0px;
+	margin-bottom: 0px;
+}
+
+.disline {
+	display: inline-block;
+}
+
+.disline.middle {
+	display: inline-block;
+	vertical-align: middle;
 }

@@ -21,6 +21,37 @@ export const ARC_TYPE_CONFIG = {
 		content: 'Archive/HealthMedicalForm',
 		key: "healthMedical",
 		containKey: "grdaJkzk",
+		sub: [{
+			name: "体检表1",
+			content: 'Archive/MedicalTable/MedicalTable1',
+			key: "medicalTable1",
+			containKey: "grdaJws",
+		}, {
+			name: "体检表2",
+			content: 'Archive/MedicalTable/MedicalTable2',
+			key: "medicalTable2",
+			containKey: "grdaJws",
+		}, {
+			name: "体检表3",
+			content: 'Archive/MedicalTable/MedicalTable3',
+			key: "medicalTable3",
+			containKey: "grdaJws",
+		}, {
+			name: "体检表4",
+			content: 'Archive/MedicalTable/MedicalTable4',
+			key: "medicalTable4",
+			containKey: "grdaJws",
+		}, {
+			name: "体检表5",
+			content: 'Archive/MedicalTable/MedicalTable5',
+			key: "medicalTable5",
+			containKey: "grdaJws",
+		}, {
+			name: "体检表6",
+			content: 'Archive/MedicalTable/MedicalTable6',
+			key: "medicalTable6",
+			containKey: "grdaJws",
+		}, ]
 	}],
 	specArcType: [{
 		name: "高血压专档",
@@ -469,7 +500,114 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			value: '室外'
 		}, {
 			value: '无'
-		}]
+		}],
+
+		/*健康体检表 一般状况 健康状态自我评估*/
+		healthSelfAss: [{
+			value: '满意'
+		}, {
+			value: '基本满意'
+		}, {
+			value: '说不清楚'
+		}, {
+			value: '太不满意'
+		}, {
+			value: '不满意'
+		}],
+
+		/*健康体检表 一般状况 自理能力自我评估*/
+		abilitySelfAss: [{
+			value: '可自理(0~3分)'
+		}, {
+			value: '轻度依赖(4~8分)'
+		}, {
+			value: '中度依赖(9~18分)'
+		}, {
+			value: '不能自理(≥19分)'
+		}],
+
+		/*健康体检表 一般状况 认识能力*/
+		understandAbility: [{
+			value: '粗筛阴性'
+		}, {
+			value: '粗筛阳性'
+		}],
+
+		/*健康体检表 一般状况 情感状态*/
+		emotionalState: [{
+			value: '粗筛阴性'
+		}, {
+			value: '粗筛阳性'
+		}],
+
+		/*健康体检表 生活方式 锻炼频率*/
+		exerciseFrequency: [{
+			value: '每天'
+		}, {
+			value: '每周一次以上'
+		}, {
+			value: '偶尔'
+		}, {
+			value: '不锻炼'
+		}],
+
+		/*健康体检表 生活方式 饮食习惯*/
+		eatingHabits: [{
+			value: '荤素均衡'
+		}, {
+			value: '荤食为主'
+		}, {
+			value: '素食为主'
+		}, {
+			value: '嗜盐'
+		}, {
+			value: '嗜油'
+		}, {
+			value: '嗜糖'
+		}],
+
+		/*健康体检表 生活方式 吸烟状况*/
+		smokingStatus: [{
+			value: '从不吸烟'
+		}, {
+			value: '已戒烟'
+		}, {
+			value: '吸烟'
+		}, {
+			value: '被动吸烟'
+		}],
+
+		/*健康体检表 生活方式 饮酒频率*/
+		drinkingFrequency: [{
+			value: '从不'
+		}, {
+			value: '偶尔'
+		}, {
+			value: '经常'
+		}, {
+			value: '每天'
+		}],
+
+		/*健康体检表 生活方式 是否戒酒*/
+		isGiveUpDrinking: [{
+			value: '未戒酒'
+		}, {
+			value: '已戒酒'
+		}],
+
+		/*健康体检表 生活方式 一年内是否醉酒*/
+		isDrunk: [{
+			value: '是'
+		}, {
+			value: '否'
+		}],
+
+		/*健康体检表 生活方式 职业病危害因素接触史*/
+		hazardFactors: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
 	},
 
 	/*现住址*/
@@ -612,7 +750,145 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: 'mind',
 			label: 'gg',
 			value: '精神残疾'
-		}]
+		}],
+
+		/*健康体检表 症状*/
+		symptoms: [{
+			key: '无症状',
+			label: '无症状',
+			value: '无症状'
+		}, {
+			key: '头疼',
+			label: '头疼',
+			value: '头疼'
+		}, {
+			key: '头晕',
+			label: '头晕',
+			value: '头晕'
+		}, {
+			key: '心悸',
+			label: '心悸',
+			value: '心悸'
+		}, {
+			key: '胸闷',
+			label: '胸闷',
+			value: '胸闷'
+		}, {
+			key: '胸痛',
+			label: '胸痛',
+			value: '胸痛'
+		}, {
+			key: '慢性咳嗽',
+			label: '慢性咳嗽',
+			value: '慢性咳嗽'
+		}, {
+			key: '咳痰',
+			label: '咳痰',
+			value: '咳痰'
+		}, {
+			key: '呼吸困难',
+			label: '呼吸困难',
+			value: '呼吸困难'
+		}, {
+			key: '多饮',
+			label: '多饮',
+			value: '多饮'
+		}, {
+			key: '多尿',
+			label: '多尿',
+			value: '多尿'
+		}, {
+			key: '体重下降',
+			label: '体重下降',
+			value: '体重下降'
+		}, {
+			key: '乏力',
+			label: '乏力',
+			value: '乏力'
+		}, {
+			key: '关节肿痛',
+			label: '关节肿痛',
+			value: '关节肿痛'
+		}, {
+			key: '视力模糊',
+			label: '视力模糊',
+			value: '视力模糊'
+		}, {
+			key: '手脚麻木',
+			label: '手脚麻木',
+			value: '手脚麻木'
+		}, {
+			key: '尿急',
+			label: '尿急',
+			value: '尿急'
+		}, {
+			key: '尿痛',
+			label: '尿痛',
+			value: '尿痛'
+		}, {
+			key: '便秘',
+			label: '便秘',
+			value: '便秘'
+		}, {
+			key: '腹泻',
+			label: '腹泻',
+			value: '腹泻'
+		}, {
+			key: '恶心呕吐',
+			label: '恶心呕吐',
+			value: '恶心呕吐'
+		}, {
+			key: '眼花',
+			label: '眼花',
+			value: '眼花'
+		}, {
+			key: '耳鸣',
+			label: '耳鸣',
+			value: '耳鸣'
+		}, {
+			key: '乳房胀痛',
+			label: '乳房胀痛',
+			value: '乳房胀痛'
+		}, ],
+
+		/*健康体检表 生活方式 饮酒种类*/
+		drinkingKinds: [{
+			key: '白酒',
+			label: '白酒',
+			value: '白酒'
+		}, {
+			key: '啤酒',
+			label: '啤酒',
+			value: '啤酒'
+		}, {
+			key: '红酒',
+			label: '红酒',
+			value: '红酒'
+		}, {
+			key: '黄酒',
+			label: '黄酒',
+			value: '黄酒'
+		}],
+
+		/*健康体检表 生活方式 毒物种类*/
+		poisonKinds: [{
+			key: '粉尘',
+			label: '粉尘',
+			value: '粉尘'
+		}, {
+			key: '放射物质',
+			label: '放射物质',
+			value: '放射物质'
+		}, {
+			key: '物理因素',
+			label: '物理因素',
+			value: '物理因素'
+		}, {
+			key: '化学物质',
+			label: '化学物质',
+			value: '化学物质'
+		}],
+
 
 	}
 }

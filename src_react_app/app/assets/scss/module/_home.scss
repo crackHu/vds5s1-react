@@ -53,9 +53,9 @@
 .content{
     @extend .flex;
     overflow: hidden;
-    /* IE 不兼容 */
-    flex: 1;
-    /*@include flex-layout(1);*/
+    /* IE 不兼容
+    flex: 1; */
+    @extend .flex1;
 }
 
 .content .left{
