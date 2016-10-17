@@ -271,6 +271,7 @@ class MedicalTable1 extends React.Component {
 					<legend style={{width: '70px'}}>生活方式</legend>
 					<Row>
 				        <FormItem label="体育锻炼"/>
+
 				        <FormItem label="锻炼频率">
 							<Select
 							    style={{ width: 100 }}
@@ -280,7 +281,7 @@ class MedicalTable1 extends React.Component {
 							</Select>
 				        </FormItem>
 				        <FormItem label="每次锻炼时间">
-					    	<div className="disline">
+							<div className="disline">
 					        	<InputNumber style={{width: '29%'}}/>
 					    	</div>
 					    	{' '}
