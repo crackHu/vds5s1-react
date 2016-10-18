@@ -20,6 +20,8 @@ import {
 	Card,
 	Tooltip
 } from 'antd'
+import MainMedicationsTable from './MainMedicationsTable'
+import VaccinationHistoryTable from './VaccinationHistoryTable'
 
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
@@ -53,7 +55,16 @@ class MedicalTable5 extends React.Component {
 		} = this.props.form
 
 		return (
-			<div>MedicalTable5</div>
+			<div>
+				<fieldset>
+					<legend style={{width: '100px'}}>主要用药情况</legend>
+					<MainMedicationsTable />
+				</fieldset>
+				<fieldset>
+					<legend style={{width: '150px'}}>非免疫规划预防接种史</legend>
+					<VaccinationHistoryTable />
+				</fieldset>
+			</div>
 		)
 	}
 }

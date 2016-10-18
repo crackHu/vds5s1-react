@@ -1,16 +1,8 @@
 .flex {
-    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
-    display: flex; /* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
-    display: -moz-flex; /* Firefox 18+ */
     display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
     display: -moz-box; /* Firefox 17- */
+    display: -moz-flex; /* Firefox 18+ */
     display: -ms-flexbox; /* IE 10 */
+    display: flex; /* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
 }
-
-.flex1 {  
-    -webkit-flex: 1;        /* Chrome */  
-    -ms-flex: 1;            /* IE 10 */  
-    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
-    -webkit-box-flex: 1;    /* OLD - iOS 6-, Safari 3.1-6 */  
-    -moz-box-flex: 1;       /* OLD - Firefox 19- */  
-} 

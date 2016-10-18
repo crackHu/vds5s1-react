@@ -44,37 +44,40 @@ class MedicalTable1 extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
+		this.selectOption = WIDGET_CONFIG.selectOption
+
 		/*症状*/
-		this.symptomsOptions = WIDGET_CONFIG.checkboxGroupOptions.symptoms;
+		this.symptomsOptions = this.checkboxGroupOptions.symptoms;
 		/*饮酒种类*/
-		this.dKindsOptions = WIDGET_CONFIG.checkboxGroupOptions.drinkingKinds;
+		this.dKindsOptions = this.checkboxGroupOptions.drinkingKinds;
 		/*毒物种类*/
-		this.pKindsOptions = WIDGET_CONFIG.checkboxGroupOptions.poisonKinds;
+		this.pKindsOptions = this.checkboxGroupOptions.poisonKinds;
 
 		/*健康状态自我评估*/
-		this.hSelfAssOptions = WIDGET_CONFIG.selectOption.healthSelfAss;
+		this.hSelfAssOptions = this.selectOption.healthSelfAss;
 		/*自理能力自我评估*/
-		this.aSelfAssOptions = WIDGET_CONFIG.selectOption.abilitySelfAss;
+		this.aSelfAssOptions = this.selectOption.abilitySelfAss;
 		/*认识能力*/
-		this.unAbilityOptions = WIDGET_CONFIG.selectOption.understandAbility;
+		this.unAbilityOptions = this.selectOption.understandAbility;
 		/*情感状态*/
-		this.eStateOptions = WIDGET_CONFIG.selectOption.emotionalState;
+		this.eStateOptions = this.selectOption.emotionalState;
 		/*锻炼频率*/
-		this.eFreqOptions = WIDGET_CONFIG.selectOption.exerciseFrequency;
+		this.eFreqOptions = this.selectOption.exerciseFrequency;
 		/*饮食习惯*/
-		this.eHabitsOptions = WIDGET_CONFIG.selectOption.eatingHabits;
+		this.eHabitsOptions = this.selectOption.eatingHabits;
 		/*吸烟状况*/
-		this.sStateOptions = WIDGET_CONFIG.selectOption.smokingStatus;
+		this.sStateOptions = this.selectOption.smokingStatus;
 		/*饮酒频率*/
-		this.dFreqOptions = WIDGET_CONFIG.selectOption.drinkingFrequency;
+		this.dFreqOptions = this.selectOption.drinkingFrequency;
 		/*是否戒酒*/
-		this.gUpDrinkOptions = WIDGET_CONFIG.selectOption.isGiveUpDrinking;
+		this.gUpDrinkOptions = this.selectOption.isGiveUpDrinking;
 		/*吸烟状况*/
-		this.sStateOptions = WIDGET_CONFIG.selectOption.smokingStatus;
+		this.sStateOptions = this.selectOption.smokingStatus;
 		/*一年内是否醉酒*/
-		this.isDrunkOptions = WIDGET_CONFIG.selectOption.isDrunk;
+		this.isDrunkOptions = this.selectOption.isDrunk;
 		/*职业病危害因素接触史*/
-		this.hFactorsOptions = WIDGET_CONFIG.selectOption.hazardFactors;
+		this.hFactorsOptions = this.selectOption.hazardFactors;
 	}
 
 	componentWillMount = () => {}
@@ -121,7 +124,7 @@ class MedicalTable1 extends React.Component {
 			        <Row className="item_inline_spacing">
 				        <FormItem label="血压左侧">
 				        	<InputGroup size="large" className="disline">
-					    						<div className="disline" style={{width: '15%'}}>
+	    						<div className="disline" style={{width: '15%'}}>
 						        	<InputNumber />
 						      	</div>
 						      	{' / '}
@@ -269,7 +272,7 @@ class MedicalTable1 extends React.Component {
 				{/*生活方式*/}
 		    	<fieldset>
 					<legend style={{width: '70px'}}>生活方式</legend>
-					<Row>
+					<Row className="item_inline_spacing">
 				        <FormItem label="体育锻炼"/>
 
 				        <FormItem label="锻炼频率">
@@ -281,8 +284,8 @@ class MedicalTable1 extends React.Component {
 							</Select>
 				        </FormItem>
 				        <FormItem label="每次锻炼时间">
-							<div className="disline">
-					        	<InputNumber style={{width: '29%'}}/>
+							<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber/>
 					    	</div>
 					    	{' '}
 					    	<div className="disline middle" style={{width: '20%'}}>
@@ -290,7 +293,7 @@ class MedicalTable1 extends React.Component {
 					    	</div>
 				        </FormItem>
 				        <FormItem label="坚持锻炼时间">
-					    	<div className="disline" style={{width: '29%'}}>
+					    	<div className="disline" style={{width: '50%'}}>
 					        	<InputNumber />
 					    	</div>
 					    	{' '}
@@ -303,10 +306,166 @@ class MedicalTable1 extends React.Component {
 				        </FormItem>
 			        </Row>
 
-			        
+			        <Row className="item_inline_spacing">
+			        	<FormItem label="饮食习惯">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.eHabitsOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="吸烟情况 吸烟状况">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.sStateOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="日吸烟量 平均">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'支'}
+					    	</div>
+				        </FormItem>
+
+			        	<FormItem label="开始吸烟年龄">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'岁'}
+					    	</div>
+				        </FormItem>
+
+			        	<FormItem label="戒烟年龄">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'岁'}
+					    	</div>
+				        </FormItem>
+			        </Row>
+
+			        <Row className="item_inline_spacing">
+			        	<FormItem label="饮酒习惯 饮酒频率">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.dFreqOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="日饮酒量 平均">
+							<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'两'}
+					    	</div>
+				        </FormItem>
+
+			        	<FormItem label="是否戒酒">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.gUpDrinkOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="戒酒年龄">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'岁'}
+					    	</div>
+				        </FormItem>
+
+			        	<FormItem label="开始饮酒年龄">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'岁'}
+					    	</div>
+				        </FormItem>
+			        </Row>
+
+			        <Row className="item_inline_spacing">
+			        	<FormItem label="近一年内是否曾醉酒">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.isDrunkOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="饮酒种类">
+							<Select tags
+							    style={{ width: 300 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.dKindsOptions)}
+							</Select>
+				        </FormItem>
+			        </Row>
+
+			        <Row className="item_inline_spacing">
+			        	<FormItem label="职业病危害因素接触史">
+							<Select
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.hFactorsOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="工种">
+							<Input />
+				        </FormItem>
+
+			        	<FormItem label="从业时间">
+					    	<div className="disline" style={{width: '50%'}}>
+					        	<InputNumber />
+					    	</div>
+					    	{' '}
+					    	<div className="disline middle" style={{width: '20%'}}>
+					      		{'年'}
+					    	</div>
+				        </FormItem>
+			        </Row>
+
+			        <Row className="item_inline_spacing">
+			        	<FormItem label="毒物种类">
+							<Select tags
+							    style={{ width: 100 }}
+								placeholder="请选择"
+							  >	
+							  {getSelectOptions(this.pKindsOptions)}
+							</Select>
+				        </FormItem>
+
+			        	<FormItem label="防护措施">
+							<Input />
+				        </FormItem>
+			        </Row>
 				</fieldset>
-
-
 	        </Form>
 		)
 	}

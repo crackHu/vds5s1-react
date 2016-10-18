@@ -149,6 +149,9 @@ export default class App extends React.Component {
 		            {/*main*/}
             		<div className={mainClass}>
 		          		{this.props.children}
+		          		<div className="foot">
+		          			Copyright © 2016 DM. All Rights Reserved
+		          		</div>
 			        </div>
 		        </div>
 		        <BackTop />

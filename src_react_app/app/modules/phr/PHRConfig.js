@@ -608,6 +608,339 @@ export const ARC_FORM_WIDGET_CONFIG = {
 		}, {
 			value: '有'
 		}],
+
+		/*健康体检表 脏器功能 口唇*/
+		oral: [{
+			value: '红润'
+		}, {
+			value: '苍白'
+		}, {
+			value: '发绀'
+		}, {
+			value: '皲裂'
+		}, {
+			value: '疱疹'
+		}],
+
+		/*健康体检表 脏器功能 齿列*/
+		dentition: [{
+			value: '正常'
+		}, {
+			value: '缺齿'
+		}, {
+			value: '龋齿'
+		}, {
+			value: '义齿(假牙)'
+		}],
+
+		/*健康体检表 脏器功能 咽部*/
+		pharyngeal: [{
+			value: '无充血'
+		}, {
+			value: '充血'
+		}, {
+			value: '淋巴滤泡增生'
+		}],
+
+		/*健康体检表 脏器功能 听力*/
+		hearing: [{
+			value: '听见'
+		}, {
+			value: '听不清或无法听见'
+		}],
+
+		/*健康体检表 脏器功能 运动能力*/
+		sportsAbility: [{
+			value: '可顺利完成'
+		}, {
+			value: '无法独立完成其中任何一个动作'
+		}],
+
+		/*健康体检表 查体 眼底*/
+		fundus: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 查体 皮肤*/
+		skin: [{
+			value: '正常'
+		}, {
+			value: '潮红'
+		}, {
+			value: '苍白'
+		}, {
+			value: '发绀'
+		}, {
+			value: '黄染	'
+		}, {
+			value: '色素沉着'
+		}],
+
+		/*健康体检表 查体 巩膜*/
+		sclera: [{
+			value: '正常'
+		}, {
+			value: '黄染'
+		}, {
+			value: '充血'
+		}],
+
+		/*健康体检表 查体 淋巴结*/
+		lymph: [{
+			value: '未触及'
+		}, {
+			value: '锁骨上'
+		}, {
+			value: '腋窝'
+		}],
+
+		/*健康体检表 肺 桶状胸*/
+		barrelChest: [{
+			value: '是'
+		}, {
+			value: '否'
+		}],
+
+		/*健康体检表 肺 呼吸音*/
+		breathSounds: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 肺 罗音*/
+		rale: [{
+			value: '无'
+		}, {
+			value: '干罗音'
+		}, {
+			value: '湿罗音'
+		}],
+
+		/*健康体检表 心脏 心律*/
+		rhythm: [{
+			value: '齐'
+		}, {
+			value: '不齐'
+		}, {
+			value: '绝对不齐'
+		}],
+
+		/*健康体检表 心脏 杂音*/
+		noise: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 腹部 压痛*/
+		tenderness: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 腹部 包块*/
+		piece: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 腹部 肝大*/
+		hepatomegaly: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 腹部 脾大*/
+		splenomegaly: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 移动性浊音*/
+		dullness: [{
+			value: '无'
+		}, {
+			value: '有'
+		}],
+
+		/*健康体检表 下肢水肿*/
+		edema: [{
+			value: '无'
+		}, {
+			value: '单侧'
+		}, {
+			value: '双侧不对称'
+		}, {
+			value: '双侧对称'
+		}],
+
+		/*健康体检表 足背动脉搏动*/
+		pulse: [{
+			value: '未触及'
+		}, {
+			value: '触及双侧对称'
+		}, {
+			value: '触及左侧弱或消失'
+		}, {
+			value: '触及右侧弱或消失'
+		}],
+
+		/*健康体检表 肛门指诊*/
+		anusDre: [{
+			value: '未及异常'
+		}, {
+			value: '触痛'
+		}, {
+			value: '包块'
+		}, {
+			value: '前列腺异常'
+		}],
+
+		/*健康体检表 乳腺*/
+		gland: [{
+			value: '未及异常'
+		}, {
+			value: '乳房切除'
+		}, {
+			value: '异常泌乳'
+		}, {
+			value: '乳腺包块'
+		}],
+
+		/*健康体检表 妇科 外阴*/
+		vulva: [{
+			value: '未见异常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 妇科 阴道*/
+		vagina: [{
+			value: '未见异常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 妇科 宫颈*/
+		cervical: [{
+			value: '未见异常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 妇科 宫体*/
+		corpus: [{
+			value: '未见异常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 妇科 附件*/
+		attachment: [{
+			value: '未见异常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 辅助检查 空腹血糖*/
+		glucose: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 辅助检查 心电图*/
+		electrocardiogram: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 辅助检查 大便潜血*/
+		defecateBlood: [{
+			value: '阴性'
+		}, {
+			value: '阳性'
+		}],
+
+		/*健康体检表 辅助检查 乙型肝炎表面抗原*/
+		antigen: [{
+			value: '阴性'
+		}, {
+			value: '阳性'
+		}],
+
+		/*健康体检表 辅助检查 胸部x线片*/
+		xRay: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 辅助检查 b超*/
+		ultrasound: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 辅助检查 宫颈涂片*/
+		cervicalSmear: [{
+			value: '正常'
+		}, {
+			value: '异常'
+		}],
+
+		/*健康体检表 中医体质辨识 平和质*/
+		gentleTempe: [{
+			value: '是'
+		}, {
+			value: '基本是'
+		}],
+
+		/*健康体检表 中医体质辨识 非平和质 (...气虚质)*/
+		unGentleTempe: [{
+			value: '是'
+		}, {
+			value: '倾向是'
+		}],
+
+		/*健康体检表 主要用药情况 用药用量*/
+		dosage: [{
+			value: 'tid mg'
+		}, {
+			value: 'bid mg'
+		}, {
+			value: 'qd mg'
+		}],
+
+		/*健康体检表 主要用药情况 用药时间*/
+		usageDate: [{
+			value: '年'
+		}, {
+			value: '月'
+		}, {
+			value: '周'
+		}, {
+			value: '日'
+		}],
+
+		/*健康体检表 主要用药情况 服药依从性*/
+		adherence: [{
+			value: '规律'
+		}, {
+			value: '间断'
+		}, {
+			value: '不服药'
+		}],
+
 	},
 
 	/*现住址*/
@@ -888,6 +1221,180 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			label: '化学物质',
 			value: '化学物质'
 		}],
+
+		/*健康体检表 现存主要健康问题 脑血管疾病*/
+		cerebrovascularDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}, {
+			key: '缺血性卒中',
+			label: '缺血性卒中',
+			value: '缺血性卒中'
+		}, {
+			key: '脑出血',
+			label: '脑出血',
+			value: '脑出血'
+		}, {
+			key: '蛛网膜下腔出血',
+			label: '蛛网膜下腔出血',
+			value: '蛛网膜下腔出血'
+		}, {
+			key: '短暂性脑缺血发作',
+			label: '短暂性脑缺血发作',
+			value: '短暂性脑缺血发作'
+		}],
+
+		/*健康体检表 肾脏疾病*/
+		kidneyDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}, {
+			key: '糖尿病肾病',
+			label: '糖尿病肾病',
+			value: '糖尿病肾病'
+		}, {
+			key: '肾功能衰竭',
+			label: '肾功能衰竭',
+			value: '肾功能衰竭'
+		}, {
+			key: '急性肾炎',
+			label: '急性肾炎',
+			value: '急性肾炎'
+		}, {
+			key: '慢性肾炎衰竭',
+			label: '慢性肾炎衰竭',
+			value: '慢性肾炎衰竭'
+		}],
+
+		/*健康体检表 心脏疾病*/
+		heartDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}, {
+			key: '心肌梗死',
+			label: '心肌梗死',
+			value: '心肌梗死'
+		}, {
+			key: '心绞痛',
+			label: '心绞痛',
+			value: '心绞痛'
+		}, {
+			key: '冠状动脉血运重建',
+			label: '冠状动脉血运重建',
+			value: '冠状动脉血运重建'
+		}, {
+			key: '充血性心力',
+			label: '充血性心力',
+			value: '充血性心力'
+		}, {
+			key: '心前区疼痛',
+			label: '心前区疼痛',
+			value: '心前区疼痛'
+		}],
+
+		/*健康体检表 血管疾病*/
+		vascularDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}, {
+			key: '夹层动脉瘤',
+			label: '夹层动脉瘤',
+			value: '夹层动脉瘤'
+		}, {
+			key: '动脉闭塞性疾病',
+			label: '动脉闭塞性疾病',
+			value: '动脉闭塞性疾病'
+		}],
+
+		/*健康体检表 眼部疾病*/
+		eyeDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}, {
+			key: '视网膜出血或渗出',
+			label: '视网膜出血或渗出',
+			value: '视网膜出血或渗出'
+		}, {
+			key: '视乳头水肿',
+			label: '视乳头水肿',
+			value: '视乳头水肿'
+		}, {
+			key: '白内障',
+			label: '白内障',
+			value: '白内障'
+		}],
+
+		/*健康体检表 神经系统疾病*/
+		nervousDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}],
+
+		/*健康体检表 其他系统疾病*/
+		otherDis: [{
+			key: '未发现',
+			label: '未发现',
+			value: '未发现'
+		}],
+
+		/*健康体检表 健康评价 异常情况*/
+		abnormal: [{
+			key: '体检无异常',
+			label: '体检无异常',
+			value: '体检无异常'
+		}, {
+			key: '有异常',
+			label: '有异常',
+			value: '有异常'
+		}],
+
+		/*健康体检表 健康指导*/
+		healthGuide: [{
+			key: '纳入慢性病患者健康管理',
+			label: '纳入慢性病患者健康管理',
+			value: '纳入慢性病患者健康管理'
+		}, {
+			key: '建议复查',
+			label: '建议复查',
+			value: '建议复查'
+		}, {
+			key: '建议转诊',
+			label: '建议转诊',
+			value: '建议转诊'
+		}],
+
+		/*健康体检表 危险因素控制*/
+		riskFactorsCon: [{
+			key: '戒烟',
+			label: '戒烟',
+			value: '戒烟'
+		}, {
+			key: '健康饮酒',
+			label: '健康饮酒',
+			value: '健康饮酒'
+		}, {
+			key: '饮食',
+			label: '饮食',
+			value: '饮食'
+		}, {
+			key: '锻炼',
+			label: '锻炼',
+			value: '锻炼'
+		}, {
+			key: '减体重 目标(kg)：',
+			label: '减体重 目标(kg)：',
+			value: '减体重 目标(kg)：'
+		}, {
+			key: '建议接种疫苗',
+			label: '建议接种疫苗',
+			value: '建议接种疫苗'
+		}, ],
 
 
 	}
