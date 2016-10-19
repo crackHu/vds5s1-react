@@ -3,6 +3,9 @@ import React, {
 	PropTypes
 } from 'react'
 import {
+	Link
+} from 'react-router';
+import {
 	Form,
 	Input,
 	Table,
@@ -13,14 +16,21 @@ import {
 	Pagination,
 	Popconfirm,
 	Button,
-	Switch,
 	Tooltip
 } from 'antd'
+import QueueAnim from 'rc-queue-anim';
+import moment from 'moment'
 
 import {
 	msg,
 	notify
 } from 'utils'
+import {
+	DATE_FORMAT_STRING
+} from 'config'
+import {
+	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+} from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -32,15 +42,21 @@ const getSelectOptions = (data) => {
 	})
 }
 
-/*健康体检表 表格*/
-class HealthMedicalTable extends React.Component {
+/*糖尿病记录表 用药情况*/
+class DMedicationsTable extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			data: new Array()
+			editSwitch: false,
+			data: [{}]
 		}
+
+		/*每日次数*/
+		this.dailyNumOptions = getSelectOptions(WIDGET_CONFIG.selectOption.dailyNum);
+		/*每次数量*/
+		this.eTimeNumOptions = getSelectOptions(WIDGET_CONFIG.selectOption.eTimeNum);
 	}
 
 	componentWillMount = () => {}
@@ -88,65 +104,78 @@ class HealthMedicalTable extends React.Component {
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			data
+			editSwitch
 		} = this.state
 
 		const renderContent = {
-			medicalDate(value, option) {
-				return (
-					<Select style={{width: '40vh'}}>
-						{option}
-					</Select>
-				)
+			drugName(value, option) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Input style={{width: '20vw'}}/>
+					)
+				}
 			},
-			medicalEvaluation(value, option) {
-				return (
-					<Select style={{width: '40vh'}}>
-						{option}
-					</Select>
-				)
+			dailyNum(value, option) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Select
+						 tags
+						 style={{width: '20vw'}}>
+							{option}
+						</Select>
+					)
+				}
 			},
-			medicalGuide(value) {
-				return (
-					<DatePicker
-					 	style={{width: '40vh'}}
-						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-					/>
-				)
+			eTimeNum(value, option) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Select
+						 tags
+						 style={{width: '20vw'}}>
+							{option}
+						</Select>
+					)
+				}
 			},
 		}
 
 		const columns = [{
-			title: '体检日期',
-			dataIndex: 'medicalDate',
-			key: 'medicalDate',
+			title: '药物名称',
+			dataIndex: 'drugName',
+			key: 'drugName',
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_tjrq_' + index)(
-						renderContent.medicalDate(value, this.dtOptions)
+					{getFieldDecorator('cylb_' + index)(
+						renderContent.drugName(value, this.memberOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '健康评价',
-			dataIndex: 'medicalEvaluation',
-			key: 'medicalEvaluation',
+			title: '每日次数',
+			dataIndex: 'dailyNum',
+			key: 'dailyNum',
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkpj_' + index)(
-						renderContent.medicalEvaluation(value, this.dnOptions)
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.dailyNum(value, this.dailyNumOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '健康指导',
-			dataIndex: 'medicalGuide',
-			key: 'medicalGuide',
+			title: '每次数量',
+			dataIndex: 'eTimeNum',
+			key: 'eTimeNum',
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkzd_' + index)(
-						renderContent.medicalGuide(value)
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.eTimeNum(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
 		}];
@@ -164,19 +193,17 @@ class HealthMedicalTable extends React.Component {
 		const title = () => (
 			<div style={{display: 'flex', height: 32}}>
 	        	<FormItem
-	        	 label={<span>体检记录
+	        	 label={<span>用药情况
 	        	 	{' '}
-	        	 	<Tooltip title={`点击新增可以增加一条体检记录`}>
+	        	 	<Tooltip title={`点击新增可以增加一条用药情况`}>
 	        	 		<Icon type="question-circle-o" />
 	        	 	</Tooltip>
 	        	 </span>}
 	        	/>
-
+	        	
 	        	<div>
 					<Popconfirm
-						title = {
-							`确定要删除所选${selectedLength}条体检记录吗？`
-						}
+					 title={`确定要删除所选${selectedLength}条用药情况吗？`}
 					 onConfirm={this.deleteConfirm}
 					 onCancel={this.deleteCancel}
 					>
@@ -207,20 +234,22 @@ class HealthMedicalTable extends React.Component {
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
+    			footer={footer}
     			pagination={false}
-    			bordered
 			>
 			</Table>
 		)
 	}
 }
 
+DMedicationsTable.propTypes = {}
+
 function onFieldsChange(props, fields) {
-	console.log("HealthMedicalTable onFieldsChange")
+	console.log("DMedicationsTable onFieldsChange", props, fields)
 }
 
 function mapPropsToFields(props) {
-	console.log("HealthMedicalTable mapPropsToFields")
+	console.log("DMedicationsTable mapPropsToFields", props)
 }
 
-export default Form.create(onFieldsChange, mapPropsToFields)(HealthMedicalTable)
+export default Form.create()(DMedicationsTable)

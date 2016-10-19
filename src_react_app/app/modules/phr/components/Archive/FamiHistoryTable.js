@@ -209,7 +209,7 @@ class FamiHistoryTable extends React.Component {
 				<FormItem
 	        	 label={<span>家族史
 	        	 	{' '}
-	        	 	<Tooltip title={`点击新增可以增加一条家族史数据`}>
+	        	 	<Tooltip title={`点击新增可以增加一条家族史`}>
 	        	 		<Icon type="question-circle-o" />
 	        	 	</Tooltip>
 	        	 </span>}
@@ -248,6 +248,7 @@ class FamiHistoryTable extends React.Component {
    				title={title}
     			footer={footer}
     			pagination={false}
+    			bordered
 			>
 			</Table>
 		)

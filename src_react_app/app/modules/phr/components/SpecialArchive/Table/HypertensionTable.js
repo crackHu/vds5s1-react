@@ -16,9 +16,10 @@ import {
 	Pagination,
 	Popconfirm,
 	Button,
-	Switch,
 	Tooltip
 } from 'antd'
+import QueueAnim from 'rc-queue-anim';
+import moment from 'moment'
 
 import {
 	msg,
@@ -29,23 +30,11 @@ import {
 } from 'config'
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
 } from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
-
-/*const data = [];
-for (let i = 0; i < 1; i++) {
-	data.push({
-		key: i,
-		diseaseType: '',
-		diseaseName: '',
-		confirmTime: '',
-		remark: ``,
-	});
-}*/
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -53,72 +42,27 @@ const getSelectOptions = (data) => {
 	})
 }
 
-/*既往史*/
-class MedicalRecordsTable extends React.Component {
+/*高血压记录表*/
+class HypertensionTable extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: false,
-			data: new Array()
+			editSwitch: true,
+			data: [{}]
 		}
-
-		/*既往史 类别*/
-		this.dtOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseType);
-		/*既往史 疾病名称*/
-		this.dnOptions = getSelectOptions(WIDGET_CONFIG.selectOption.diseaseName);
 	}
 
 	componentWillMount = () => {}
 
-	componentDidMount = () => {
-		console.log('MedicalRecordsTable componentDidMount', this.props)
-	}
+	componentDidMount = () => {}
 
-	componentDidUpdate = () => {
-		console.log('MedicalRecordsTable componentDidUpdate', this.props)
-
-		const data = this.state.data
-		const fields = this.props.fields
-		const size = !!fields ? fields.size : 0
-		console.log('componentDidUpdate', data.length, size)
-		if (data.length != size) {
-			let dataArr = new Array()
-			for (let i = 0; i < size; i++) {
-				dataArr.push({})
-			}
-			this.setState({
-				data: dataArr
-			})
-		}
-	}
-
-	componentWillReceiveProps = () => {
-		console.log("MedicalRecordsTable componentWillReceiveProps")
-
-	}
-
-	/*既往史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
 			selectedRowKeys,
 		});
-	}
-
-	/*既往史 编辑状态开关发生变化时的回调*/
-	jwsEditSwitch = (checked = false) => {
-		this.setState({
-			editSwitch: checked
-		})
-	}
-
-	/*span switch click*/
-	jwsEditSwitchSpanClick = () => {
-		this.setState({
-			editSwitch: !this.state.editSwitch
-		})
 	}
 
 	deleteConfirm = () => {
@@ -155,42 +99,43 @@ class MedicalRecordsTable extends React.Component {
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			editSwitch,
-			data
+			editSwitch
 		} = this.state
 
 		const renderContent = {
-			diseaseType(value, option) {
+			inoutDate(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select style={{width: '40vh'}}>
-							{option}
-						</Select>
+						<Input />
 					)
 				}
 			},
-			diseaseName(value, option) {
+			reason(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select style={{width: '40vh'}}>
-							{option}
-						</Select>
+						<Input />
 					)
 				}
 			},
-			confirmTime(value) {
+			institutionName(value, option) {
 				if (editSwitch) {
 					return <span>{value}</span>
 				} else {
 					return (
-						<DatePicker
-						 	style={{width: '30vh'}}
-							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-						/>
+						<Input />
+					)
+				}
+			},
+			mRecordNo(value, option) {
+				if (editSwitch) {
+					return <span>{value}</span>
+				} else {
+					return (
+						<Input />
 					)
 				}
 			},
@@ -211,43 +156,131 @@ class MedicalRecordsTable extends React.Component {
 		}
 
 		const columns = [{
-			title: '类别',
-			dataIndex: 'diseaseType',
-			key: 'diseaseType',
-			width: '20%',
+			title: '随访日期',
+			dataIndex: 'followUpDate',
+			key: 'followUpDate',
+			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('lb_' + index)(
-						renderContent.diseaseType(value, this.dtOptions)
+					{getFieldDecorator('gxy_sfrq2_' + index)(
+						renderContent.inoutDate(value, this.memberOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '疾病名称',
-			dataIndex: 'diseaseName',
-			key: 'diseaseName',
-			width: '20%',
+			title: '随访方式',
+			dataIndex: 'followUpWay',
+			key: 'followUpWay',
+			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('jbmc_' + index)(
-						renderContent.diseaseName(value, this.dnOptions)
+						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '确诊时间',
-			dataIndex: 'confirmTime',
-			key: 'confirmTime',
-			width: '15%',
+			title: '症状',
+			dataIndex: 'symptoms',
+			key: 'symptoms',
+			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('qzne_' + index)(
-						renderContent.confirmTime(value)
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
 		}, {
-			title: '备注',
-			dataIndex: 'remark',
-			key: 'remark',
-			width: '40%',
+			title: '血压/',
+			dataIndex: 'bloodPress1',
+			key: 'reason',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '血压',
+			dataIndex: 'bloodPress2',
+			key: 'bloodPress1',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '身高',
+			dataIndex: 'height',
+			key: 'height',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '体重',
+			dataIndex: 'weight',
+			key: 'weight',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '体质指数',
+			dataIndex: 'bmi',
+			key: 'bmi',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '心率',
+			dataIndex: 'heartRate',
+			key: 'heartRate',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '其他',
+			dataIndex: 'other',
+			key: 'other',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.reason(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '此次随访分类',
+			dataIndex: 'followUpClass',
+			key: 'followUpClass',
+			width: '8%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('jbmc_' + index)(
+						renderContent.institutionName(value, this.sickOptions)
+					)}
+				</FormItem>,
+		}, {
+			title: '下次随访日期',
+			dataIndex: 'nextFUDate',
+			key: 'nextFUDate',
+			width: '6%',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('bz_' + index)(
@@ -264,33 +297,21 @@ class MedicalRecordsTable extends React.Component {
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
 		const pagination = {
-			pageSize: 5
+			pageSize: 8
 		}
 		const title = () => (
-			<div>
-	        	<FormItem
-	        	 label={<span>既往史
+			<div style={{display: 'flex', height: 32}}>
+				<FormItem
+	        	 label={<span>高血压记录
 	        	 	{' '}
-	        	 	<Tooltip title={`点击新增可以增加一条既往史`}>
+	        	 	<Tooltip title={`点击新增可以增加一条高血压记录`}>
 	        	 		<Icon type="question-circle-o" />
 	        	 	</Tooltip>
 	        	 </span>}
 	        	/>
-
-				{/*<span className="wrapper_border" onClick={this.jwsEditSwitchSpanClick}>
-					编辑{' '}
-					<Switch
-					 checked={editSwitch}
-					 onChange={this.jwsEditSwitch}
-					 checkedChildren={'开'}
-					 unCheckedChildren={'关'}
-					/>
-				</span>*/}
-
+	        	
 				<Popconfirm
-					title = {
-						`确定要删除所选${selectedLength}条既往史吗？`
-					}
+				 title={`确定要删除所选${selectedLength}条高血压记录吗？`}
 				 onConfirm={this.deleteConfirm}
 				 onCancel={this.deleteCancel}
 				>
@@ -320,29 +341,22 @@ class MedicalRecordsTable extends React.Component {
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
-    			footer={footer}
     			pagination={false}
+    			bordered
 			>
 			</Table>
 		)
 	}
 }
 
-MedicalRecordsTable.propTypes = {}
+HypertensionTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalRecordsTable onFieldsChange", props, fields)
-	props.onFieldsChange({
-		fields,
-	}, 'grdaJws');
+	console.log("HypertensionTable onFieldsChange", props, fields)
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalRecordsTable mapPropsToFields", props)
-	return props.fields || {}
+	console.log("HypertensionTable mapPropsToFields", props)
 }
 
-export default Form.create({
-	onFieldsChange,
-	mapPropsToFields
-})(MedicalRecordsTable)
+export default Form.create()(HypertensionTable)

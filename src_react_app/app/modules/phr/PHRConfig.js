@@ -1400,6 +1400,263 @@ export const ARC_FORM_WIDGET_CONFIG = {
 	}
 }
 
+//专档表单
+export const SPEC_ARC_FORM_WIDGET_CONFIG = {
+	selectOption: {
+
+		/*高血压记录表 糖尿病记录表 老年人评估表 随访方式*/
+		followUpWay: [{
+			value: '门诊'
+		}, {
+			value: '家庭'
+		}, {
+			value: '电话'
+		}],
+
+		/*高血压记录表 摄盐程度*/
+		intakeSalt: [{
+			value: '轻'
+		}, {
+			value: '中'
+		}, {
+			value: '重'
+		}],
+
+		/*高血压记录表 糖尿病记录表 心理调整*/
+		psyAdjustment: [{
+			value: '良好'
+		}, {
+			value: '一般'
+		}, {
+			value: '差'
+		}],
+
+		/*高血压记录表 糖尿病记录表 遵医行为*/
+		behaviorMed: [{
+			value: '良好'
+		}, {
+			value: '一般'
+		}, {
+			value: '差'
+		}],
+
+		/*高血压记录表 糖尿病记录表 药物依从性*/
+		adherenceMed: [{
+			value: '规律'
+		}, {
+			value: '间断'
+		}, {
+			value: '不服药'
+		}],
+
+		/*高血压记录表 糖尿病记录表 药物不良反应*/
+		drugReactions: [{
+			value: '无'
+		}],
+
+		/*高血压记录表 糖尿病记录表 此次随访分类*/
+		followUpClass: [{
+			value: '控制满意'
+		}, {
+			value: '控制不满意'
+		}, {
+			value: '不良反应'
+		}, {
+			value: '并发症'
+		}],
+
+		/*糖尿病记录表 足背动脉搏动*/
+		arteryPulse: [{
+			value: '未触及'
+		}, {
+			value: '触及'
+		}],
+
+		/*糖尿病记录表 主食*/
+		stapleFood: [{
+			value: '轻'
+		}, {
+			value: '中'
+		}, {
+			value: '重'
+		}],
+
+		/*高血压记录表 糖尿病记录表 用药情况 每日次数*/
+		dailyNum: [{
+			value: 'qd'
+		}, {
+			value: 'bid'
+		}, {
+			value: 'tid'
+		}],
+
+		/*高血压记录表 糖尿病记录表 用药情况 每次用量*/
+		eTimeNum: [{
+			value: 'mg'
+		}, {
+			value: '粒'
+		}],
+	},
+	checkboxGroupOptions: {
+
+		/*高血压记录表 症状*/
+		hSymptoms: [{
+			key: '无症状',
+			label: '无症状',
+			value: '无症状'
+		}, {
+			key: '头痛头晕',
+			label: '头痛头晕',
+			value: '头痛头晕'
+		}, {
+			key: '恶心呕吐',
+			label: '恶心呕吐',
+			value: '恶心呕吐'
+		}, {
+			key: '眼花耳鸣',
+			label: '眼花耳鸣',
+			value: '眼花耳鸣'
+		}, {
+			key: '呼吸困难',
+			label: '呼吸困难',
+			value: '呼吸困难'
+		}, {
+			key: '心悸胸闷',
+			label: '心悸胸闷',
+			value: '心悸胸闷'
+		}, {
+			key: '鼻衄出血不止',
+			label: '鼻衄出血不止',
+			value: '鼻衄出血不止'
+		}, {
+			key: '四肢发麻',
+			label: '四肢发麻',
+			value: '四肢发麻'
+		}, {
+			key: '下肢水肿',
+			label: '下肢水肿',
+			value: '下肢水肿'
+		}, ],
+
+		/*糖尿病记录表 症状*/
+		dSymptoms: [{
+			key: '无症状',
+			label: '无症状',
+			value: '无症状'
+		}, {
+			key: '多饮',
+			label: '多饮',
+			value: '多饮'
+		}, {
+			key: '多食',
+			label: '多食',
+			value: '多食'
+		}, {
+			key: '多尿',
+			label: '多尿',
+			value: '多尿'
+		}, {
+			key: '视力模糊',
+			label: '视力模糊',
+			value: '视力模糊'
+		}, {
+			key: '感染',
+			label: '感染',
+			value: '感染'
+		}, {
+			key: '手脚麻木',
+			label: '手脚麻木',
+			value: '手脚麻木'
+		}, {
+			key: '下肢浮肿',
+			label: '下肢浮肿',
+			value: '下肢浮肿'
+		}, {
+			key: '体重明显下降',
+			label: '体重明显下降',
+			value: '体重明显下降'
+		}, ],
+	},
+
+	cascadeOptions: {
+
+	},
+
+	rateOptions: {
+		/*老年人自评表*/
+		/*进餐*/
+		eating: [{
+			level: '可自理：独立完成',
+			score: '0分'
+		}, {
+			level: '轻度依赖',
+			score: '0分'
+		}, {
+			level: '中度依赖：需要协助，如切碎、搅拌食物等',
+			score: '3分'
+		}, {
+			level: '不能自理：完成需要帮助',
+			score: '5分'
+		}, ],
+		/*梳洗*/
+		wash: [{
+			level: '可自理：独立完成',
+			score: '0分'
+		}, {
+			level: '轻度依赖：能独立地洗头、梳头、刷牙、剃须等；洗澡需要协助',
+			score: '1分'
+		}, {
+			level: '中度依赖：下协助下和适当时间内，能完成部分熟悉活动',
+			score: '3分'
+		}, {
+			level: '不能自理：完成需要帮助',
+			score: '7分'
+		}, ],
+		/*穿衣*/
+		dress: [{
+			level: '可自理：独立完成',
+			score: '0分'
+		}, {
+			level: '轻度依赖',
+			score: '0分'
+		}, {
+			level: '中度依赖：需要协助，在适当的时间内完成部分穿衣',
+			score: '3分'
+		}, {
+			level: '不能自理：完成需要帮助',
+			score: '5分'
+		}, ],
+		/*如厕*/
+		toilet: [{
+			level: '可自理：不需协助，可自控',
+			score: '0分'
+		}, {
+			level: '轻度依赖：偶尔失禁，但基本上能如厕或使用便具',
+			score: '1分'
+		}, {
+			level: '中度依赖：经常失禁，在很多提示和协助下尚能如厕或使用便具',
+			score: '5分'
+		}, {
+			level: '不能自理：完全失禁，完全需要帮助',
+			score: '10分'
+		}, ],
+		/*活动*/
+		activity: [{
+			level: '可自理：独立完成所有活动',
+			score: '0分'
+		}, {
+			level: '轻度依赖：借助较小的外力或辅助装置嗯能够完成站立、行走、上下楼梯等',
+			score: '1分'
+		}, {
+			level: '中度依赖：借助较大的外力才能完成站立、行走，不能上下楼梯',
+			score: '5分'
+		}, {
+			level: '不能自理：卧床不起，活动完全需要帮助',
+			score: '10分'
+		}, ],
+	}
+}
+
 //高级搜索表单控件
 export const AS_FORM_WIDGET_CONFIG = {
 

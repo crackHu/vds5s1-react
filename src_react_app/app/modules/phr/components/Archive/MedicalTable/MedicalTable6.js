@@ -82,18 +82,24 @@ class MedicalTable6 extends React.Component {
 					<legend style={{width: '70px'}}>健康评价</legend>
 
 					<FormItem label="异常情况" >
-						<RadioGroup onChange={this.onAbnormalChange} defaultValue="体检无异常">
+						<RadioGroup
+						  style={{ marginLeft: '14px' }}
+						 onChange={this.onAbnormalChange}
+						 defaultValue="体检无异常">
 					      {getRadioOptions(this.abnormalOptions)}
 					    </RadioGroup>
 			        </FormItem>
 
 			        <Row className="item_inline_spacing">
 		       			<FormItem label="异常1" >
-				        	<Input style={{ width: '60%', marginRight: 8 }}/>
+				        	<Input style={{ width: '250px', margin: '0 8px 0 32px' }}/>
 				        	<Button onClick={() => this.onAbnormalRemove()}>移除</Button>
 				        </FormItem>
 				    </Row>
-				    <Button type="primary" onClick={this.onAbnormalAdd}>添加异常</Button>
+				    <Button
+				     type="primary"
+				     style={{ marginLeft: '75px' }}
+				     onClick={this.onAbnormalAdd}>添加异常</Button>
 
 			        {/*<Row className="item_inline_spacing">
 		       			<FormItem label="异常2" >
