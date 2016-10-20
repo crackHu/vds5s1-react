@@ -78,7 +78,7 @@ class PersonalDetailForm extends React.Component {
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
-									fields={this.props.fields}
+									grdaJbzlFields={this.props.grdaJbzlFields}
 									grdaJwsFields={this.props.grdaJwsFields}
 									grdaJzsFields={this.props.grdaJzsFields}
 									onFieldsChange={this.props.onFieldsChange}
@@ -122,7 +122,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("PersonalDetailForm mapPropsToFields", props)
-	return props.fields || {}
+	return props.grdaJbzlFields || {}
 }
 
 PersonalDetailForm.propTypes = {

@@ -299,8 +299,8 @@ class ArchiveCollection extends React.Component {
 			    {
 			    	this.specArcType.map((arc, index) => {
 						return (
-						    <Menu.Item key={index}>
-						      <a onClick = {() =>this.addSpecArcTab(arc.key)} >{arc.name}</a>
+						    <Menu.Item key={index} disabled={arc.disabled}>
+								<a onClick = {() =>this.addSpecArcTab(arc.key)} >{arc.name}</a>
 						    </Menu.Item>
 						)
 					})
@@ -323,18 +323,62 @@ class ArchiveCollection extends React.Component {
 
 			let Container = require(`../components/${arc.content}`).default
 			let fields = this.props.phr[FIELDS.name]
-			let grdaJbzlFields, grdaJwsFields, grdaJzsFields = null
+			let grdaJbzlFields, grdaJwsFields,
+				grdaJzsFields, grdaJkzkFields,
+				gxyJxbFields, tnbSfjlFields,
+				lnrSfbFields, grdaZyyyqkFields,
+				grdaFmyjzsFields, grdaZyzlqkFields,
+				gxyYyqkFields, tnbYyqkFields = null
 			if (!!fields) {
+				/*个人基本信息*/
 				grdaJbzlFields = fields['grdaJbzl']
+					//个人基本信息-既往史
 				grdaJwsFields = fields['grdaJws']
+					//个人基本信息-家族史*/
 				grdaJzsFields = fields['grdaJzs']
+
+				/*健康体检表*/
+				grdaJkzkFields = fields['grdaJkzk']
+					//健康体检表-主要用药情况
+				grdaZyyyqkFields = fields['grdaZyyyqk']
+					//健康体检表-非免疫规划预防接种史
+				grdaFmyjzsFields = fields['grdaFmyjzs']
+					//健康体检表-住院治疗情况
+				grdaZyzlqkFields = fields['grdaZyzlqk']
+
+				/*高血压*/
+				gxyJxbFields = fields['gxyJxb']
+					//高血压-用药情况
+				gxyYyqkFields = fields['gxyYyqk']
+
+				/*糖尿病*/
+				tnbSfjlFields = fields['tnbSfjl']
+					//糖尿病-用药情况
+				tnbYyqkFields = fields['tnbYyqk']
+
+				/*老年人*/
+				lnrSfbFields = fields['lnrSfb']
 			}
 			return (
 				<TabPane tab={arc.name} key={arc.key}>
 					<Container
-						fields={grdaJbzlFields}
+						grdaJbzlFields={grdaJbzlFields}
 						grdaJwsFields={grdaJwsFields}
 						grdaJzsFields={grdaJzsFields}
+
+						grdaJkzkFields={grdaJkzkFields}
+						grdaZyyyqkFields={grdaZyyyqkFields}
+						grdaFmyjzsFields={grdaFmyjzsFields}
+						grdaZyzlqkFields={grdaZyzlqkFields}
+
+						gxyJxbFields={gxyJxbFields}
+						gxyYyqkFields={gxyYyqkFields}
+
+						tnbSfjlFields={tnbSfjlFields}
+						tnbYyqkFields={tnbYyqkFields}
+
+						lnrSfbFields={lnrSfbFields}
+
 						onFieldsChange={this.onFieldsChange}
 						getIndividualNumbe={this.getIndividualNumbe}
 					/>

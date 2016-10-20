@@ -163,7 +163,7 @@ class HospitalizationTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
+					{getFieldDecorator('rcyrq_' + index)(
 						renderContent.inoutDate(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -174,7 +174,7 @@ class HospitalizationTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('yy_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -185,7 +185,7 @@ class HospitalizationTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('yljgmc_' + index)(
 						renderContent.institutionName(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -196,7 +196,7 @@ class HospitalizationTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('bah_' + index)(
 						renderContent.mRecordNo(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -268,10 +268,17 @@ HospitalizationTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("HospitalizationTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaZyyyqk');
 }
 
 function mapPropsToFields(props) {
 	console.log("HospitalizationTable mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create()(HospitalizationTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(HospitalizationTable)

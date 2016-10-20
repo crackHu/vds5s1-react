@@ -121,63 +121,81 @@ class MedicalTable2 extends React.Component {
 						<legend style={{width: '70px'}}>脏器功能</legend>
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="口腔 口唇">
-					        	<Select
-								    style={{ width: 100 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.oralOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_kq_kc')(
+						        	<Select
+									    style={{ width: 100 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.oralOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					        <FormItem label="齿列" >
-					        	<Select
-								    style={{ width: 100 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.dentitionOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_kq_cl')(
+						        	<Select
+									    style={{ width: 100 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.dentitionOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					        <FormItem label="咽部" >
-					        	<Select
-								    style={{ width: 100 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.pharyngealOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_kq_yb')(
+						        	<Select
+									    style={{ width: 100 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.pharyngealOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="视力 左眼">
-					        	<InputNumber />
+			        			{getFieldDecorator('grda_slzy')(
+					        		<InputNumber />
+			        			)}
 					        </FormItem>
 					        <FormItem label="右眼" >
-					        	<InputNumber />
+			        			{getFieldDecorator('grda_slyy')(
+					        		<InputNumber />
+			        			)}
 					        </FormItem>
 					        <FormItem label="矫正视力" />
 					        <FormItem label="左眼" >
-					        	<InputNumber />
+			        			{getFieldDecorator('grda_jzslzy')(
+					        		<InputNumber />
+			        			)}
 					        </FormItem>
 					        <FormItem label="右眼" >
-					        	<InputNumber />
+			        			{getFieldDecorator('grda_jzslyy')(
+					        		<InputNumber />
+			        			)}
 					        </FormItem>
 					    </Row>
 
 					    <Row className="item_inline_spacing">
 					        <FormItem label="听力">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.hearOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_tl')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.hearOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					        <FormItem label="运动能力" >
-					        	<Select
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.sAOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_ydgn')(
+						        	<Select
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.sAOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 					</fieldset>
@@ -187,69 +205,83 @@ class MedicalTable2 extends React.Component {
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="眼底" required>
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.fundusOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_yd')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.fundusOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="皮肤" >
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.skinOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_pf')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.skinOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="巩膜" >
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.scleraOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_gm')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.scleraOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="淋巴结" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.lymphOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_lbj')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.lymphOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="肺 桶状胸" >
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.bcOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_f_tzx')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.bcOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="呼吸音" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.bsOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_f_hxy')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.bsOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="罗音" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.raleOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_f_ly')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.raleOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
@@ -257,7 +289,9 @@ class MedicalTable2 extends React.Component {
 			       			<FormItem label="心脏" />
 							<FormItem label="心率" >
 						    	<div className="disline" style={{width: '44%'}}>
+			        			{getFieldDecorator('grda_xz_xl')(
 						        	<InputNumber />
+			        			)}
 						    	</div>
 						    	{' '}
 						    	<div className="disline middle" style={{width: '20%'}}>
@@ -265,165 +299,199 @@ class MedicalTable2 extends React.Component {
 						    	</div>
 					        </FormItem>
 							<FormItem label="心律" >
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.rhythmOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_xz_xinlv')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.rhythmOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="杂音" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.noiseOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_xz_zy')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.noiseOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 			       			<FormItem label="腹部" />
 							<FormItem label="压痛" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.tenderOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fb_yt')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.tenderOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="包块" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.pieceOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fb_bk')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.pieceOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="肝大" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.liverOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fb_gd')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.liverOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="脾大" >
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.spleenOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fb_pd')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.spleenOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="移动性浊音" >
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.dullOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fb_ydxzy')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.dullOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="下肢水肿" >
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.edemaOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_xzsz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.edemaOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="足背动脉搏动" >
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.pulseOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_zbdmbd')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.pulseOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="肛门指诊" required>
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.anusDreOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_gmzz')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.anusDreOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="乳腺" required>
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.glandOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_rx')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.glandOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="妇科" required/>
 							<FormItem label="外阴" >
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.vulvaOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fk_wy')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.vulvaOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="阴道">
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.vaginaOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fk_yd')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.vaginaOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="宫颈">
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.cervicalOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fk_gj')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.cervicalOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="宫体">
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.corpusOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fk_gt')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.corpusOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 							<FormItem label="附件">
-					        	<Select
-					        		tags
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.attachOptions)}
-								</Select>
+			        			{getFieldDecorator('grda_fk_fj')(
+						        	<Select
+						        		tags
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.attachOptions)}
+									</Select>
+			        			)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 							<FormItem label="其他" required />
 							<br />
-							<Input type="textarea" style={{ width: 1170 }} rows={4} />
+		        			{getFieldDecorator('grda_ct_qt')(
+								<Input type="textarea" style={{ width: 1170 }} rows={4} />
+		        			)}
 					    </Row>
 
 					</fieldset>
@@ -435,11 +503,18 @@ class MedicalTable2 extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalTable2 onFieldsChange")
+	console.log("MedicalTable2 onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaJkzk');
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalTable2 mapPropsToFields")
+	console.log("MedicalTable2 mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create(onFieldsChange, mapPropsToFields)(MedicalTable2)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(MedicalTable2)

@@ -152,7 +152,7 @@ class DMedicationsTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
+					{getFieldDecorator('ywmc_' + index)(
 						renderContent.drugName(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -163,7 +163,7 @@ class DMedicationsTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('mrcs_' + index)(
 						renderContent.dailyNum(value, this.dailyNumOptions)
 					)}
 				</FormItem>,
@@ -174,7 +174,7 @@ class DMedicationsTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('mcyl_' + index)(
 						renderContent.eTimeNum(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -246,10 +246,17 @@ DMedicationsTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("DMedicationsTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'tnbYyqk');
 }
 
 function mapPropsToFields(props) {
 	console.log("DMedicationsTable mapPropsToFields", props)
+	return props.tnbYyqkFields || {}
 }
 
-export default Form.create()(DMedicationsTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(DMedicationsTable)

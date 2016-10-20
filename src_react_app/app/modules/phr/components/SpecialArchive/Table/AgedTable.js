@@ -49,7 +49,7 @@ class AgedTable extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: true,
+			editSwitch: false,
 			data: [{}]
 		}
 
@@ -199,7 +199,7 @@ class AgedTable extends React.Component {
 			width: '6vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
+					{getFieldDecorator('lnr_sfrq_' + index)(
 						renderContent.followUpDate(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -210,7 +210,7 @@ class AgedTable extends React.Component {
 			width: '20vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_jc_' + index)(
 						renderContent.eating(value, this.dailyNumOptions)
 					)}
 				</FormItem>,
@@ -221,7 +221,7 @@ class AgedTable extends React.Component {
 			width: '20vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_sx_' + index)(
 						renderContent.wash(value, this.dailyNumOptions)
 					)}
 				</FormItem>,
@@ -232,7 +232,7 @@ class AgedTable extends React.Component {
 			width: '20vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_cy_' + index)(
 						renderContent.dress(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -243,7 +243,7 @@ class AgedTable extends React.Component {
 			width: '20vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_rc_' + index)(
 						renderContent.toilet(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -254,7 +254,7 @@ class AgedTable extends React.Component {
 			width: '20vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_hd_' + index)(
 						renderContent.activity(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -266,7 +266,7 @@ class AgedTable extends React.Component {
 			width: '6vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_xcsfrq_' + index)(
 						renderContent.nextFUDate(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -278,7 +278,7 @@ class AgedTable extends React.Component {
 			width: '6vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_sfys_' + index)(
 						renderContent.fuDoc(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -290,7 +290,7 @@ class AgedTable extends React.Component {
 			width: '4vw',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('lnr_zpf_' + index)(
 						renderContent.totalScore(value, this.eTimeNumOptions)
 					)}
 				</FormItem>,
@@ -362,10 +362,17 @@ AgedTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("AgedTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'lnrSfb');
 }
 
 function mapPropsToFields(props) {
 	console.log("AgedTable mapPropsToFields", props)
+	return props.lnrSfbFields || {}
 }
 
-export default Form.create()(AgedTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(AgedTable)

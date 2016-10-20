@@ -37,7 +37,7 @@ const InputGroup = Input.Group;
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
-		return <Option key={Date.now()}>{item.rateValue}</Option>
+		return <Option key={item.value}>{item.value}</Option>
 	})
 }
 
@@ -47,7 +47,6 @@ class AgedForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			rateValue: 1,
 			eatingValue: 1,
 			washValue: 1,
 			dressValue: 1,
@@ -76,11 +75,10 @@ class AgedForm extends React.Component {
 
 	componentDidMount = () => {}
 
-	handleRateChange = (rateValue, teset) => {
+	handleRateChange = (rateValue, key) => {
 		this.setState({
-			rateValue
+			[key]: rateValue
 		});
-		console.log('handleRateChange', rateValue, teset)
 	}
 
 	render() {
@@ -89,7 +87,6 @@ class AgedForm extends React.Component {
 		} = this.props.form
 
 		const {
-			rateValue,
 			eatingValue,
 			washValue,
 			dressValue,
@@ -97,13 +94,11 @@ class AgedForm extends React.Component {
 			activityValue,
 		} = this.state;
 
-		const rateIndex = rateValue - 1
-
-		const eatOption = this.eatOptions[rateIndex]
-		const washOption = this.washOptions[rateIndex]
-		const dreOption = this.dreOptions[rateIndex]
-		const tolOption = this.tolOptions[rateIndex]
-		const actOption = this.actOptions[rateIndex]
+		const eatOption = this.eatOptions[eatingValue - 1]
+		const washOption = this.washOptions[washValue - 1]
+		const dreOption = this.dreOptions[dressValue - 1]
+		const tolOption = this.tolOptions[toiletValue - 1]
+		const actOption = this.actOptions[activityValue - 1]
 
 		const eatingRate = `${eatOption.score} ${eatOption.level}`
 		const washRate = `${washOption.score} ${washOption.level}`
@@ -115,22 +110,29 @@ class AgedForm extends React.Component {
 			<div>
 				{/*老年人评估表*/}
 				<div className="dashed_border form inside">
-					<AgedTable />
+					<AgedTable
+						lnrSfbFields={this.props.lnrSfbFields}
+						onFieldsChange={this.props.onFieldsChange}
+					/>
 				</div>
 
 				<div className="dashed_border form marginlr8">
 					<Form inline>
 						<Row className="item_inline_spacing">
 							<FormItem label="随访日期" >
+							{getFieldDecorator('lnr_sfrq')(
 								<DatePicker />
+							)}
 					        </FormItem>
 							<FormItem label="随访方式" >
+							{getFieldDecorator('lnr_sffs')(
 								<Select
 								    style={{ width: 120 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.fuwOptions)}
 								</Select>
+							)}
 					        </FormItem>
 						</Row>
 
@@ -150,27 +152,27 @@ class AgedForm extends React.Component {
 
 						  	<Row>
 						  		<span>进餐：</span>
-						        <Rate key="eating" onChange={(value) => this.handleRateChange(value, 'testte')} count={4} value={eatingValue} />
+						        <Rate key="eating" onChange={value => this.handleRateChange(value, "eatingValue")} count={4} value={eatingValue} />
 						        {<span className="ant-rate-text">{eatingRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>梳洗：</span>
-						        <Rate key="wash" onChange={this.handleRateChange} count={4} value={washValue} />
+						        <Rate key="wash" onChange={value => this.handleRateChange(value, "washValue")} count={4} value={washValue} />
 						        {<span className="ant-rate-text">{washRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>穿衣：</span>
-						        <Rate key="dress" onChange={this.handleRateChange} count={4} value={dressValue} />
+						        <Rate key="dress" onChange={value => this.handleRateChange(value, "dressValue")} count={4} value={dressValue} />
 						        {<span className="ant-rate-text">{dressRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>如厕：</span>
-						        <Rate key="toilet" onChange={this.handleRateChange} count={4} value={toiletValue} />
+						        <Rate key="toilet" onChange={value => this.handleRateChange(value, "toiletValue")} count={4} value={toiletValue} />
 						        {<span className="ant-rate-text">{toiletRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>活动：</span>
-						        <Rate key="activity" onChange={this.handleRateChange} count={4} value={activityValue} />
+						        <Rate key="activity" onChange={value => this.handleRateChange(value, "activityValue")} count={4} value={activityValue} />
 						        {<span className="ant-rate-text">{activityRate}</span>}
 					      	</Row>
 
@@ -178,10 +180,14 @@ class AgedForm extends React.Component {
 
 						<Row className="item_inline_spacing">
 							<FormItem label="下次随访日期" >
+							{getFieldDecorator('lnr_xcsfrq')(
 								<DatePicker />
+							)}
 					        </FormItem>
 							<FormItem label="随访医生签名">
+							{getFieldDecorator('lnr_sfys')(
 					        	<Input />
+							)}
 							</FormItem>
 						</Row>
 					</Form>
@@ -193,11 +199,18 @@ class AgedForm extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("AgedForm onFieldsChange")
+	console.log("AgedForm onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'lnrSfb');
 }
 
 function mapPropsToFields(props) {
-	console.log("AgedForm mapPropsToFields")
+	console.log("AgedForm mapPropsToFields", props)
+	return props.lnrSfbFields || {}
 }
 
-export default Form.create()(AgedForm)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(AgedForm)

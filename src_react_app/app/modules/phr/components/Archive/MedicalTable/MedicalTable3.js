@@ -82,162 +82,226 @@ class MedicalTable3 extends React.Component {
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="血常规" required/>
 					        <FormItem label="红细胞(10⁹/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xcg_hxb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血红蛋白(10⁹/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xcg_xhdb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="白细胞(10⁹/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xcg_bxb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血小板(10⁹/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xcg_xxb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="其他">
-					        	<Input />
+					        	{getFieldDecorator('grda_xcg_qt')(
+					        		<Input />
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="尿常规" required/>
 					        <FormItem label="尿蛋白">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ncg_ndb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="尿糖">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ncg_nt')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="尿酮体">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ncg_ntt')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="尿潜血">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ncg_nqx')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="其他">
-					        	<Input />
+					        	{getFieldDecorator('grda_ncg_qt')(
+					        		<Input />
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="空腹血糖" required>
-				        		<InputNumber style={{width: 100}}/>
+					        	{getFieldDecorator('grda_kfxt1/2')(
+				        			<InputNumber style={{width: 100}}/>
+					        	)}
 					        	<RadioGroup>
 					              <RadioButton value="mmol/L">mmol/L</RadioButton>
 					              <RadioButton value="mg/dL">mg/dL</RadioButton>
 					            </RadioGroup>
 					        </FormItem>
 							<FormItem label="心电图" required>
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.eleOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_xdt')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.eleOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="尿微量白蛋白(mg/dL)" required>
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_nwlbdb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="大便潜血" required>
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.dBloodOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_dbqx')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.dBloodOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="糖化血红蛋白(%)" required>
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_thxhdb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="乙型肝炎表面抗原" required>
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.antigenOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_yxgybmky')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.antigenOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="肝功能" required/>
-					        <FormItem label="血清谷丙转胺酶(U/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        <FormItem label="血清谷丙转氨酶(U/L)">
+					        	{getFieldDecorator('grda_ggn_alt')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血清谷草转胺酶(U/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ggn_ast')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血蛋白(g/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ggn_bdb')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="总胆红素(μmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ggn_zdhs')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="结合胆红素(μmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_ggn_jhdhs')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="肾功能" required/>
 					        <FormItem label="血清肌酐(μmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_sgn_xqjg')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血尿素氮(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_sgn_xnsd')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血钾浓度(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_sgn_xjnd')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血钠浓度(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_sgn_xnnd')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="血脂" required/>
 					        <FormItem label="总胆固醇(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xz_zdgc')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="甘油三酯(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xz_gysz')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血清低密度脂蛋白胆固醇(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xz_dmdzdbdgc')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血清高密度脂蛋白胆固醇(mmol/L)">
-					        	<InputNumber style={{width: 60}}/>
+					        	{getFieldDecorator('grda_xz_gmdzdbdgc')(
+					        		<InputNumber style={{width: 60}}/>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="胸部x线片" required>
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.antigenOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_xbxxp')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.antigenOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="B超">
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.xRayOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_bc')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.xRayOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="宫颈涂片">
-					        	<Select
-					        		tags
-								    style={{ width: 200 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.csOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_gjtp')(
+						        	<Select
+						        		tags
+									    style={{ width: 200 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.csOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					    </Row>
 					</fieldset>
@@ -246,81 +310,88 @@ class MedicalTable3 extends React.Component {
 						<legend style={{width: '110px'}}>中医体质辨识</legend>
 
 			       		<Row className="item_inline_spacing">
-					        <FormItem label="宫颈涂片">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.gtOptions)}
-								</Select>
-					        </FormItem>
 					        <FormItem label="气虚质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_qxz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="阳虚质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_yxz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="阴虚质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_yinxz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="痰湿质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_tsz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
-			       			&nbsp;&nbsp;&nbsp;&nbsp;
 					        <FormItem label="湿热质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.csOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_srz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.csOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="血瘀质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_xyz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="气郁质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_qyz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					        <FormItem label="特秉质">
-					        	<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.uGTOptions)}
-								</Select>
+					        	{getFieldDecorator('grda_zybs_tbz')(
+						        	<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.uGTOptions)}
+									</Select>
+					        	)}
 					        </FormItem>
 					    </Row>
 					</fieldset>
@@ -330,11 +401,18 @@ class MedicalTable3 extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalTable3 onFieldsChange")
+	console.log("MedicalTable3 onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaJkzk');
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalTable3 mapPropsToFields")
+	console.log("MedicalTable3 mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create(onFieldsChange, mapPropsToFields)(MedicalTable3)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(MedicalTable3)

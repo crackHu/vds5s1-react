@@ -521,7 +521,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("GeneralSituationForm mapPropsToFields", props)
-	return props.fields || {}
+	return props.grdaJbzlFields || {}
 }
 
 GeneralSituationForm.propTypes = {

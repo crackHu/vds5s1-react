@@ -94,24 +94,20 @@ class HealthMedicalTable extends React.Component {
 		const renderContent = {
 			medicalDate(value, option) {
 				return (
-					<Select style={{width: '40vh'}}>
-						{option}
-					</Select>
-				)
-			},
-			medicalEvaluation(value, option) {
-				return (
-					<Select style={{width: '40vh'}}>
-						{option}
-					</Select>
-				)
-			},
-			medicalGuide(value) {
-				return (
 					<DatePicker
 					 	style={{width: '40vh'}}
 						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 					/>
+				)
+			},
+			medicalEvaluation(value, option) {
+				return (
+					<Input style={{width: '40vh'}}/>
+				)
+			},
+			medicalGuide(value) {
+				return (
+					<Input style={{width: '40vh'}}/>
 				)
 			},
 		}
@@ -123,7 +119,9 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_tjrq_' + index)(
+					{getFieldDecorator('grda_tjrq_' + index, {
+						initialValue: value
+					})(
 						renderContent.medicalDate(value, this.dtOptions)
 					)}
 				</FormItem>,
@@ -134,7 +132,9 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkpj_' + index)(
+					{getFieldDecorator('grda_jkpj_' + index, {
+						initialValue: value
+					})(
 						renderContent.medicalEvaluation(value, this.dnOptions)
 					)}
 				</FormItem>,
@@ -145,7 +145,9 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkzd_' + index)(
+					{getFieldDecorator('grda_jkzd_' + index, {
+						initialValue: value
+					})(
 						renderContent.medicalGuide(value)
 					)}
 				</FormItem>,
@@ -216,11 +218,18 @@ class HealthMedicalTable extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("HealthMedicalTable onFieldsChange")
+	console.log("HealthMedicalTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaJkzk');
 }
 
 function mapPropsToFields(props) {
-	console.log("HealthMedicalTable mapPropsToFields")
+	console.log("HealthMedicalTable mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create(onFieldsChange, mapPropsToFields)(HealthMedicalTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(HealthMedicalTable)

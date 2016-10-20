@@ -50,7 +50,7 @@ class DiabetesTable extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: true,
+			editSwitch: false,
 			data: [{}]
 		}
 	}
@@ -163,7 +163,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('gxy_sfrq2_' + index)(
+					{getFieldDecorator('tnb_sfrq2_' + index)(
 						renderContent.inoutDate(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -174,7 +174,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_sffs_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -185,7 +185,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_zz_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -196,7 +196,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_xy1_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -207,7 +207,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_xy2_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -218,7 +218,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_sg_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -229,7 +229,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_tz_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -240,7 +240,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_tzzs_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -251,7 +251,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_zbdmbd_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -262,7 +262,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_tz_qt_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -273,7 +273,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('tnb_ccsffl_' + index)(
 						renderContent.institutionName(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -284,7 +284,7 @@ class DiabetesTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('bz_' + index)(
+					{getFieldDecorator('tnb_xcsfrq2_' + index)(
 						renderContent.remark(value)
 					)}
 				</FormItem>,
@@ -356,10 +356,17 @@ DiabetesTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("DiabetesTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'tnbSfjl');
 }
 
 function mapPropsToFields(props) {
 	console.log("DiabetesTable mapPropsToFields", props)
+	return props.tnbSfjlFields || {}
 }
 
-export default Form.create()(DiabetesTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(DiabetesTable)

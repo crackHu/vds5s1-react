@@ -92,7 +92,9 @@ class MedicalTable6 extends React.Component {
 
 			        <Row className="item_inline_spacing">
 		       			<FormItem label="异常1" >
-				        	<Input style={{ width: '250px', margin: '0 8px 0 32px' }}/>
+		       				{getFieldDecorator('grda_ycqk1')(
+				        		<Input style={{ width: '250px', margin: '0 8px 0 32px' }}/>
+		       				)}
 				        	<Button onClick={() => this.onAbnormalRemove()}>移除</Button>
 				        </FormItem>
 				    </Row>
@@ -141,24 +143,28 @@ class MedicalTable6 extends React.Component {
 			        <Row className="item_inline_spacing">
 			        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		       			<FormItem label="健康指导" >
-				        	<Select
-				        		tags
-							    style={{ width: 500 }}
-								placeholder="请选择"
-							  >	
-							  {getSelectOptions(this.healthGuiOptions)}
-							</Select>
+		       				{getFieldDecorator('grda_jkzd')(
+					        	<Select
+					        		tags
+								    style={{ width: 500 }}
+									placeholder="请选择"
+								  >	
+								  {getSelectOptions(this.healthGuiOptions)}
+								</Select>
+		       				)}
 				        </FormItem>
 				    </Row>
 			        <Row className="item_inline_spacing">
 		       			<FormItem label="危险因素控制" >
-				        	<Select
-				        		tags
-							    style={{ width: 500 }}
-								placeholder="请选择"
-							  >	
-							  {getSelectOptions(this.rfcOptions)}
-							</Select>
+		       				{getFieldDecorator('grda_whyskz')(
+					        	<Select
+					        		tags
+								    style={{ width: 500 }}
+									placeholder="请选择"
+								  >	
+								  {getSelectOptions(this.rfcOptions)}
+								</Select>
+		       				)}
 				        </FormItem>
 				    </Row>
 				</fieldset>
@@ -168,11 +174,18 @@ class MedicalTable6 extends React.Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("MedicalTable6 onFieldsChange")
+	console.log("MedicalTable6 onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaJkzk');
 }
 
 function mapPropsToFields(props) {
-	console.log("MedicalTable6 mapPropsToFields")
+	console.log("MedicalTable6 mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create(onFieldsChange, mapPropsToFields)(MedicalTable6)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(MedicalTable6)

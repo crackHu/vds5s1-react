@@ -43,7 +43,7 @@ class HealthMedicalForm extends React.Component {
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
-									fields={this.props.fields}
+									fields={this.props.grdaJkzkFields}
 									onFieldsChange={this.props.onFieldsChange}
 								/>
 							</TabPane>
@@ -57,7 +57,10 @@ class HealthMedicalForm extends React.Component {
 			<div>
 				{/*体检记录*/}
 				<div className="dashed_border form inside">
-					<HealthMedicalTable/>
+					<HealthMedicalTable
+					 fields={this.props.grdaJkzkFields}
+					 onFieldsChange={this.props.onFieldsChange}
+					/>
 				</div>
 				<div>
 					{tabpane}
@@ -67,12 +70,19 @@ class HealthMedicalForm extends React.Component {
 	}
 }
 
-function onFieldsChange(props, fields) {
-	console.log("HealthMedicalForm onFieldsChange")
+function onFieldsChange(props, fields, flag) {
+	console.log("HealthMedicalForm onFieldsChange", props, fields, flag)
+		/*props.onFieldsChange({
+			fields
+		}, 'grdaZyyyqk');*/
 }
 
 function mapPropsToFields(props) {
-	console.log("HealthMedicalForm mapPropsToFields")
+	console.log("HealthMedicalForm mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create()(HealthMedicalForm)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(HealthMedicalForm)

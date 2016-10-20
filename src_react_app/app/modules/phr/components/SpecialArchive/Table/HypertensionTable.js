@@ -49,7 +49,7 @@ class HypertensionTable extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: true,
+			editSwitch: false,
 			data: [{}]
 		}
 	}
@@ -173,7 +173,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_sffs_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -184,7 +184,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_zz_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -195,7 +195,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_xy1_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -206,7 +206,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_xy2_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -228,7 +228,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_sg_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -239,7 +239,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_tzzs_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -250,7 +250,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_xl_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -261,7 +261,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_tz_qt_' + index)(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -272,7 +272,7 @@ class HypertensionTable extends React.Component {
 			width: '8%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('gxy_ccsffl_' + index)(
 						renderContent.institutionName(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -283,7 +283,7 @@ class HypertensionTable extends React.Component {
 			width: '6%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('bz_' + index)(
+					{getFieldDecorator('gxy_xcsfrq2_' + index)(
 						renderContent.remark(value)
 					)}
 				</FormItem>,
@@ -353,10 +353,17 @@ HypertensionTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("HypertensionTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'gxyJxb');
 }
 
 function mapPropsToFields(props) {
 	console.log("HypertensionTable mapPropsToFields", props)
+	return props.gxyJxbFields || {}
 }
 
-export default Form.create()(HypertensionTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(HypertensionTable)

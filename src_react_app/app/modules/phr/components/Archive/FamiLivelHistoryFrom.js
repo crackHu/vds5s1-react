@@ -198,7 +198,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("FamiLivelHistoryFrom mapPropsToFields", props)
-	return props.fields || {}
+	return props.grdaJbzlFields || {}
 }
 
 export default Form.create({

@@ -5,6 +5,7 @@ export const ARC_TYPE_CONFIG = {
 		content: 'Archive/PersonalDetailForm',
 		key: "personalDetail",
 		containKey: "grdaJbzl",
+		disabled: false,
 		sub: [{
 			name: "一般情况",
 			content: 'Archive/GeneralSituationForm',
@@ -21,6 +22,7 @@ export const ARC_TYPE_CONFIG = {
 		content: 'Archive/HealthMedicalForm',
 		key: "healthMedical",
 		containKey: "grdaJkzk",
+		disabled: false,
 		sub: [{
 			name: "体检表1",
 			content: 'Archive/MedicalTable/MedicalTable1',
@@ -58,41 +60,49 @@ export const ARC_TYPE_CONFIG = {
 		content: 'SpecialArchive/HypertensionForm',
 		key: "hypertension",
 		containKey: 'gxyJxb',
+		disabled: false,
 	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
 		key: "diabetes",
-		containKey: 'tnbSfjl'
+		containKey: 'tnbSfjl',
+		disabled: false,
 	}, {
 		name: "老年人专档",
 		content: 'SpecialArchive/AgedForm',
 		key: "aged",
 		containKey: 'lnrSfb',
+		disabled: false,
 	}, {
 		name: "肿瘤病",
 		content: 'SpecialArchive/OncosisForm',
 		key: "oncosis",
-		containKey: "oncosis"
+		containKey: "oncosis",
+		disabled: true,
 	}, {
 		name: "残疾人",
 		content: 'SpecialArchive/HandicappedForm',
 		key: "handicapped",
-		containKey: "handicapped"
+		containKey: "handicapped",
+		disabled: true,
 	}, {
 		name: "女性保健专档",
 		content: 'SpecialArchive/FemalecareForm',
 		key: "femalecare",
-		containKey: "femalecare"
+		containKey: "femalecare",
+		disabled: true,
 	}, {
 		name: "孕产妇专档",
 		content: 'SpecialArchive/MaternalForm',
 		key: "maternal",
 		containKey: "maternal",
+		disabled: true,
 	}, {
 		name: "钉钉医疗档案",
 		content: 'SpecialArchive/DDMedicalForm',
 		key: "ddmedical",
-		containKey: "ddmedical"
+		containKey: "ddmedical",
+		disabled: true,
 	}]
 }
 
@@ -1639,8 +1649,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		}, {
 			level: '不能自理：完全失禁，完全需要帮助',
 			score: '10分'
-		}, ],
-		/*活动*/
+}, ], /*活动*/
 		activity: [{
 			level: '可自理：独立完成所有活动',
 			score: '0分'

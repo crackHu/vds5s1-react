@@ -315,11 +315,6 @@ export function getLoginUser() {
   const UID = CONFIG.LS.UID
   const LOGGEDIN = CONFIG.LS.LOGGEDIN
   const user = JSON.parse(localStorage.getItem(USR))
-  if (!__DEBUG__ && (!eval(user) || !eval(UID) || !eval(LOGGEDIN) || LOGGEDIN == '0')) {
-    const msg = '登陆用户异常！'
-    notify('error', '内部错误', msg);
-    return;
-  }
   return {
     ...user,
     UID
