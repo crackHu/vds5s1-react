@@ -479,7 +479,7 @@ class MedicalTable1 extends React.Component {
 				        </FormItem>
 			        </Row>
 
-			        <Row className="item_inline_spacing">
+			        {/*<Row className="item_inline_spacing">
 			        	<FormItem label="近一年内是否曾醉酒">
 				        	{getFieldDecorator('grda_jynsfczj')(
 								<Select
@@ -501,7 +501,7 @@ class MedicalTable1 extends React.Component {
 								</Select>
 				        	)}
 				        </FormItem>
-			        </Row>
+			        </Row>*/}
 
 			        <Row className="item_inline_spacing">
 			        	<FormItem label="职业病危害因素接触史">
@@ -534,7 +534,7 @@ class MedicalTable1 extends React.Component {
 				        </FormItem>
 			        </Row>
 
-			        <Row className="item_inline_spacing">
+			        {/*<Row className="item_inline_spacing">
 			        	<FormItem label="毒物种类">
 				        	{getFieldDecorator('grda_dwzl')(
 								<Select
@@ -552,7 +552,7 @@ class MedicalTable1 extends React.Component {
 								<Input />
 				        	)}
 				        </FormItem>
-			        </Row>
+			        </Row>*/}
 				</fieldset>
 	        </Form>
 		)

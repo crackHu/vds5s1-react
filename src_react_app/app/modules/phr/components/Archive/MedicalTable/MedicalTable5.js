@@ -58,11 +58,17 @@ class MedicalTable5 extends React.Component {
 			<div>
 				<fieldset>
 					<legend style={{width: '100px'}}>主要用药情况</legend>
-					<MainMedicationsTable />
+					<MainMedicationsTable
+						fields={this.props.grdaZyyyqkFields}
+						onFieldsChange={this.props.onFieldsChange}
+					/>
 				</fieldset>
 				<fieldset>
 					<legend style={{width: '150px'}}>非免疫规划预防接种史</legend>
-					<VaccinationHistoryTable />
+					<VaccinationHistoryTable
+						fields={this.props.grdaFmyjzsFields}
+						onFieldsChange={this.props.onFieldsChange}
+					/>
 				</fieldset>
 			</div>
 		)

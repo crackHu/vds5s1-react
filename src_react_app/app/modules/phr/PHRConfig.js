@@ -135,19 +135,23 @@ export const ARC_FORM_WIDGET_CONFIG = {
 		/*常住类型 居住类型*/
 		permanentType: [{
 			key: 'jurisdiction',
-			value: '户籍（辖区）'
+			value: '户籍'
 		}, {
 			key: 'nojurisdiction',
-			value: 'test'
+			value: '非户籍'
 		}],
 
 		/*档案状态*/
 		archiveStatus: [{
-			key: '1',
 			value: '在册'
 		}, {
-			key: '0',
-			value: '不在册'
+			value: '迁出'
+		}, {
+			value: '注销'
+		}, {
+			value: '死亡'
+		}, {
+			value: '其他'
 		}],
 
 		/*民族*/
@@ -331,42 +335,70 @@ export const ARC_FORM_WIDGET_CONFIG = {
 		}, {
 			key: "OT",
 			value: "O型"
+		}, {
+			value: "AB型"
+		}, {
+			value: "不详"
 		}],
 
 		/*RH阴性*/
 		rhNegative: [{
-			key: 'panda',
+			value: '否'
+		}, {
 			value: '是'
 		}, {
-			key: 'nopanda',
-			value: 'test'
+			value: '不详'
 		}],
 
 		/*文化程度*/
 		lvOfEducation: [{
-			key: 'college',
-			value: '大专'
+			value: '文盲及半文盲'
 		}, {
-			key: 'Undergraduate',
-			value: '本科'
+			value: '小学'
+		}, {
+			value: '初中'
+		}, {
+			value: '高中/技校/中专'
+		}, {
+			value: '大学专科及以上'
+		}, {
+			value: '不详'
 		}],
 
 		/*职业*/
 		profession: [{
-			key: 'waiter',
-			value: '商业  人员'
+			value: '国家机关、党组织、企业、事业单位负责人'
 		}, {
-			key: 'technicist',
-			value: '技术人员'
+			value: '专业技术人员'
+		}, {
+			value: '办事人员和有关人员'
+		}, {
+			value: '商业、服务业人员'
+		}, {
+			value: '农、林、牧、渔、水利业生产人员'
+		}, {
+			value: '生产、运输设备操作人员及有关人员'
+		}, {
+			value: '军人'
+		}, {
+			value: '不便分类的其他从业人员'
+		}, {
+			value: '退休/离休'
+		}, {
+			value: '无业'
 		}],
 
 		/*婚姻状况*/
 		maritalStatus: [{
-			key: '已婚',
+			value: '未婚'
+		}, {
 			value: '已婚'
 		}, {
-			key: '未婚',
-			value: '未婚'
+			value: '丧偶'
+		}, {
+			value: '离婚'
+		}, {
+			value: '未说明的婚姻状况'
 		}],
 
 		/*既往史 类别*/
@@ -968,16 +1000,113 @@ export const ARC_FORM_WIDGET_CONFIG = {
 						value: '署前',
 						label: '署前',
 						children: [{
+							value: '署前一街',
+							label: '署前一街',
+						}, {
+							value: '署前二街',
+							label: '署前二街',
+						}, {
+							value: '仓园',
+							label: '仓园',
+						}, {
+							value: '关园',
+							label: '关园',
+						}, {
 							value: '庙前西街',
 							label: '庙前西街',
+						}, {
+							value: '东华北路',
+							label: '东华北路',
+						}, {
+							value: '仑园',
+							label: '仑园',
+						}, ],
+					}, {
+						value: '启明',
+						label: '启明',
+						children: [{
+							value: '启明一马路',
+							label: '启明一马路',
+						}, {
+							value: '启明二马路',
+							label: '启明二马路',
+						}, {
+							value: '启明三马路',
+							label: '启明三马路',
+						}, {
+							value: '启明四马路',
+							label: '启明四马路',
+						}, {
+							value: '启明横马路',
+							label: '启明横马路',
+						}, {
+							value: '启明大马路',
+							label: '启明大马路',
+						}, {
+							value: '龟岗一马路',
+							label: '龟岗一马路',
+						}, {
+							value: '龟岗二马路',
+							label: '龟岗二马路',
+						}, {
+							value: '龟岗三马路',
+							label: '龟岗三马路',
+						}, {
+							value: '龟岗四马路',
+							label: '龟岗四马路',
+						}, {
+							value: '龟岗五马路',
+							label: '龟岗五马路',
+						}, {
+							value: '东华东路',
+							label: '东华东路',
+						}, {
+							value: '庙前西街',
+							label: '庙前西街',
+						}, {
+							value: '均益路',
+							label: '均益路',
 						}],
-					}],
-				}, {
-					value: '启明',
-					label: '启明',
-					children: [{
-						value: '启明一马路',
-						label: '启明一马路'
+					}, {
+						value: '东华市场',
+						label: '东华市场',
+						children: [{
+							value: '东华市场东街',
+							label: '东华市场东街',
+						}, {
+							value: '东华市场南街',
+							label: '东华市场南街',
+						}, {
+							value: '东华市场西街',
+							label: '东华市场西街',
+						}, {
+							value: '东华市场北街',
+							label: '东华市场北街',
+						}, {
+							value: '紫来一巷',
+							label: '紫来一巷',
+						}, {
+							value: '紫来二巷',
+							label: '紫来二巷',
+						}, {
+							value: '紫来三巷',
+							label: '紫来三巷',
+						}, {
+							value: '塘罗涌',
+							label: '塘罗涌',
+						}, {
+							value: '东湖路',
+							label: '东湖路',
+						}, {
+							value: '百子东',
+							label: '百子东',
+						}, {
+							value: '新河浦路',
+							label: '新河浦路',
+						}, {
+							value: '东华东路',
+							label: '东华东路',
+						}],
 					}],
 				}],
 			}],
@@ -1000,8 +1129,112 @@ export const ARC_FORM_WIDGET_CONFIG = {
 							value: '署前',
 							label: '署前',
 							children: [{
+								value: '署前一街',
+								label: '署前一街',
+							}, {
+								value: '署前二街',
+								label: '署前二街',
+							}, {
+								value: '仓园',
+								label: '仓园',
+							}, {
+								value: '关园',
+								label: '关园',
+							}, {
 								value: '庙前西街',
 								label: '庙前西街',
+							}, {
+								value: '东华北路',
+								label: '东华北路',
+							}, {
+								value: '仑园',
+								label: '仑园',
+							}, ],
+						}, {
+							value: '启明',
+							label: '启明',
+							children: [{
+								value: '启明一马路',
+								label: '启明一马路',
+							}, {
+								value: '启明二马路',
+								label: '启明二马路',
+							}, {
+								value: '启明三马路',
+								label: '启明三马路',
+							}, {
+								value: '启明四马路',
+								label: '启明四马路',
+							}, {
+								value: '启明横马路',
+								label: '启明横马路',
+							}, {
+								value: '启明大马路',
+								label: '启明大马路',
+							}, {
+								value: '龟岗一马路',
+								label: '龟岗一马路',
+							}, {
+								value: '龟岗二马路',
+								label: '龟岗二马路',
+							}, {
+								value: '龟岗三马路',
+								label: '龟岗三马路',
+							}, {
+								value: '龟岗四马路',
+								label: '龟岗四马路',
+							}, {
+								value: '龟岗五马路',
+								label: '龟岗五马路',
+							}, {
+								value: '东华东路',
+								label: '东华东路',
+							}, {
+								value: '庙前西街',
+								label: '庙前西街',
+							}, {
+								value: '均益路',
+								label: '均益路',
+							}],
+						}, {
+							value: '东华市场',
+							label: '东华市场',
+							children: [{
+								value: '东华市场东街',
+								label: '东华市场东街',
+							}, {
+								value: '东华市场南街',
+								label: '东华市场南街',
+							}, {
+								value: '东华市场西街',
+								label: '东华市场西街',
+							}, {
+								value: '东华市场北街',
+								label: '东华市场北街',
+							}, {
+								value: '紫来一巷',
+								label: '紫来一巷',
+							}, {
+								value: '紫来二巷',
+								label: '紫来二巷',
+							}, {
+								value: '紫来三巷',
+								label: '紫来三巷',
+							}, {
+								value: '塘罗涌',
+								label: '塘罗涌',
+							}, {
+								value: '东湖路',
+								label: '东湖路',
+							}, {
+								value: '百子东',
+								label: '百子东',
+							}, {
+								value: '新河浦路',
+								label: '新河浦路',
+							}, {
+								value: '东华东路',
+								label: '东华东路',
 							}],
 						}],
 					}],
@@ -1040,21 +1273,19 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: 'h',
 			label: '全自费',
 			value: '全自费'
+		}, {
+			value: '其他'
 		}],
 
 		/*药物过敏*/
 		drugAllergy: [{
-			key: 'adrenaline',
-			label: '肾上腺素',
-			value: '肾上腺素'
+			value: '青霉素'
 		}, {
-			key: 'a',
-			label: '大姨妈素',
-			value: '大姨妈素'
+			value: '磺胺'
 		}, {
-			key: 'b',
-			label: '肾上腺素',
-			value: '肾上腺素1'
+			value: '链霉素'
+		}, {
+			value: '其他'
 		}],
 
 		/*暴露史*/
@@ -1066,6 +1297,8 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: 'radial',
 			label: 'bb',
 			value: '射线'
+		}, {
+			value: '其他'
 		}],
 
 		/*家族史 残疾情况*/
@@ -1649,7 +1882,8 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		}, {
 			level: '不能自理：完全失禁，完全需要帮助',
 			score: '10分'
-}, ], /*活动*/
+		}, ],
+		/*活动*/
 		activity: [{
 			level: '可自理：独立完成所有活动',
 			score: '0分'
@@ -1683,19 +1917,23 @@ export const AS_FORM_WIDGET_CONFIG = {
 		/*常住类型 居住类型*/
 		permanentType: [{
 			key: 'jurisdiction',
-			value: '户籍（辖区）'
+			value: '户籍'
 		}, {
 			key: 'nojurisdiction',
-			value: 'test'
+			value: '非户籍'
 		}],
 
 		/*档案状态*/
 		archiveStatus: [{
-			key: '1',
 			value: '在册'
 		}, {
-			key: '0',
-			value: '不在册'
+			value: '迁出'
+		}, {
+			value: '注销'
+		}, {
+			value: '死亡'
+		}, {
+			value: '其他'
 		}],
 
 		/*档案类型（所属专档、排除专档）*/
@@ -1755,6 +1993,34 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_lrrq',
 		],
 		addressFields: {
+			grda_xzz: [
+				/*现住址_市名称*/
+				'grda_xzz_smc',
+				/*现住址_区(县)名称*/
+				'grda_xzz_qxmc',
+				/*现住址_街道(镇)名称*/
+				'grda_xzz_jdzmc',
+				/*现住址_居委(村)名称*/
+				'grda_xzz_jwcmc',
+				/*现住址_路(街)名称*/
+				'grda_xzz_ljmc',
+			],
+			grda_hkdz: [
+				/*户口地址_省份名称*/
+				'grda_hkdz_xfmc',
+				/*户口地址_市名称*/
+				'grda_hkdz_smc',
+				/*户口地址_区(县)名称*/
+				'grda_hkdz_qxmc',
+				/*户口地址_街道(镇)名称*/
+				'grda_hkdz_jdzmc',
+				/*户口地址_居委(村)名称*/
+				'grda_hkdz_jwcmc',
+				/*户口地址_路_街_名称*/
+				'grda_hkdz_ljmc',
+			]
+		},
+		cascadeFields: {
 			grda_xzz: [
 				/*现住址_市名称*/
 				'grda_xzz_smc',
@@ -1933,4 +2199,47 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'bz',
 		]
 	},
+
+	/*健康体检表*/
+	grdaJkzk: {
+		dateFields: [
+			'grda_tjrq'
+		]
+
+	},
+	//健康体检表-主要用药情况
+	grdaZyyyqk: {
+
+	},
+	//健康体检表-非免疫规划预防接种史
+	grdaFmyjzs: {
+
+	},
+	//健康体检表-住院治疗情况
+	grdaZyzlqk: {
+
+	},
+
+	/*高血压*/
+	gxyJxb: {
+
+	},
+	//高血压-用药情况
+	gxyYyqk: {
+
+	},
+
+	/*糖尿病*/
+	tnbSfjl: {
+
+	},
+	//糖尿病-用药情况
+	tnbYyqk: {
+
+	},
+
+	/*老年人*/
+	lnrSfb: {
+
+	}
 }

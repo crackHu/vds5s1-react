@@ -163,7 +163,10 @@ class MedicalTable4 extends React.Component {
 
 		       	<fieldset>
 					<legend style={{width: '100px'}}>住院治疗情况</legend>
-					<HospitalizationTable />
+					<HospitalizationTable 
+					 fields={this.props.grdaZyzlqkFields}
+					 onFieldsChange={this.props.onFieldsChange}
+					/>
 				</fieldset>
 			</Form>
 		)

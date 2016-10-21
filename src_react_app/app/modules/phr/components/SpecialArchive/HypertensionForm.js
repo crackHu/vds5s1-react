@@ -90,53 +90,53 @@ class HypertensionForm extends React.Component {
 					<Form inline>
 						<Row className="item_inline_spacing">
 							<FormItem label="随访日期" >
-			       			{getFieldDecorator('gxy_sfrq2')(
-								<DatePicker />
-			       			)}
+				       			{getFieldDecorator('gxy_sfrq2')(
+									<DatePicker />
+				       			)}
 					        </FormItem>
 							<FormItem label="随访方式" >
-			       			{getFieldDecorator('gxy_sffs')(
-								<Select
-								    style={{ width: 120 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.fuwOptions)}
-								</Select>
-			       			)}
+				       			{getFieldDecorator('gxy_sffs')(
+									<Select
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.fuwOptions)}
+									</Select>
+				       			)}
 					        </FormItem>
 						</Row>
 
 						<Row className="item_inline_spacing" style={{marginLeft: 23}}>
 							<FormItem label="症状" >
-			       			{getFieldDecorator('gxy_zz')(
-								<Select
-									tags
-								    style={{ width: 350 }}
-									placeholder="请选择"
-								  >	
-								  {getSelectOptions(this.hsOptions)}
-								</Select>
-			       			)}
+				       			{getFieldDecorator('gxy_zz')(
+									<Select
+										tags
+									    style={{ width: 350 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.hsOptions)}
+									</Select>
+				       			)}
 					        </FormItem>
 						</Row>
 
 						<Row className="item_inline_spacing">
 							<FormItem label="体征" />
-							<div className="inputSpanGroup" style={{width: '250px'}}>
-								<span>{'血压:'}</span>&nbsp;
-	    						<div className="disline" style={{width: '30%'}}>
-					       			{getFieldDecorator('gxy_tz_xy1')(
-							        	<InputNumber size="large"/>
-					       			)}
-						      	</div>
-						      	&nbsp;{' / '}&nbsp;
-					    		<div className="disline" style={{width: '30%'}}>
-					       			{getFieldDecorator('gxy_tz_xy2')(
-						        		<InputNumber size="large"/>
-					       			)}
-						      	</div>
-						      	&nbsp;{'mmhg'}
-					        </div>
+								<div className="inputSpanGroup" style={{width: '250px'}}>
+									<span>{'血压:'}</span>&nbsp;
+		    						<div className="disline" style={{width: '30%'}}>
+						       			{getFieldDecorator('gxy_tz_xy1')(
+								        	<InputNumber size="large"/>
+						       			)}
+							      	</div>
+							      	&nbsp;{' / '}&nbsp;
+						    		<div className="disline" style={{width: '30%'}}>
+						       			{getFieldDecorator('gxy_tz_xy2')(
+							        		<InputNumber size="large"/>
+						       			)}
+							      	</div>
+							      	&nbsp;{'mmhg'}
+						        </div>
 					        <FormItem label="体重(kg)">
 				       			{getFieldDecorator('gxy_tz_tz')(
 						        	<InputNumber style={{width: 60}}/>

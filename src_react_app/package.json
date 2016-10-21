@@ -9,7 +9,7 @@
         "lint": "webpack-dev-server --progress --profile --colors --hot --config webpack.lint.config.js",
         "build": "set NODE_ENV=production&&webpack -p --process --colors --profile --display-modules --config webpack.production.config.js"
     },
-    "author": "D.D.",
+    "author": "DM.",
     "license": "ISC",
     "repository": {
         "type": "git",

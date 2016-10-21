@@ -49,7 +49,7 @@ class AgedTable extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			editSwitch: false,
+			editSwitch: true,
 			data: [{}]
 		}
 

@@ -176,7 +176,7 @@ class MainMedicationsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
+					{getFieldDecorator('yf_' + index)(
 						renderContent.usage(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -187,7 +187,7 @@ class MainMedicationsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('yl_' + index)(
 						renderContent.dosage(value, this.dosageOptions)
 					)}
 				</FormItem>,
@@ -198,7 +198,7 @@ class MainMedicationsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('yysj_' + index)(
 						renderContent.usageDate(value, this.usageDateOptions)
 					)}
 				</FormItem>,
@@ -209,7 +209,7 @@ class MainMedicationsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('fyycx_' + index)(
 						renderContent.adherence(value, this.adherenceOptions)
 					)}
 				</FormItem>,
@@ -282,10 +282,17 @@ MainMedicationsTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("MainMedicationsTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaZyyyqk');
 }
 
 function mapPropsToFields(props) {
 	console.log("MainMedicationsTable mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create()(MainMedicationsTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(MainMedicationsTable)

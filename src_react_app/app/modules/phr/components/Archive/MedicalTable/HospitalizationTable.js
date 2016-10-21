@@ -270,7 +270,7 @@ function onFieldsChange(props, fields) {
 	console.log("HospitalizationTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'grdaZyyyqk');
+	}, 'grdaZyzlqk');
 }
 
 function mapPropsToFields(props) {

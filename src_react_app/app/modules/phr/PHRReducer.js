@@ -65,14 +65,33 @@ export default function PHRReducer(state = initialState, action) {
 			}
 		case QUERY_PHR:
 			let dout = action.data.dout
-			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS)
-			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS.grdaJws.dateFields)
-			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS.grdaJws.dateFields)
+			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, 'grdaJbzl')
+			let grdaJws = getFieldsValueArrObj(dout.grdaJws, 'grdaJws')
+			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, 'grdaJzs')
+
+			let grdaJkzk = getFieldsValueObj(dout.grdaJkzk[0], 'grdaJkzk')
+
+			//let grdaZyyyqk = getFieldsValueArrObj(dout.grdaJkzk[0].grdaZyyyqk, 'grdaZyyyqk')
+
+			// let grdaFmyjzs = getFieldsValueArrObj(dout.grdaJkzk[0].grdaFmyjzs, 'grdaFmyjzs')
+			// let grdaZyzlqk = getFieldsValueArrObj(dout.grdaJkzk[0].grdaZyzlqk, 'grdaZyzlqk')
+
+			// let gxyJxb = getFieldsValueObj(dout.gxyJxb, 'gxyJxb')
+			// let gxyYyqk = getFieldsValueArrObj(dout.gxyYyqk, 'gxyYyqk')
+
+			// let tnbSfjl = getFieldsValueObj(dout.tnbSfjl, 'tnbSfjl')
+			// let tnbYyqk = getFieldsValueArrObj(dout.tnbYyqk, 'tnbYyqk')
+
+			// let lnrSfb = getFieldsValueObj(dout.lnrSfb, 'lnrSfb')
+
 			return {
 				[FIELDS.name]: {
 					grdaJbzl,
 					grdaJws,
-					grdaJzs
+					grdaJzs,
+					grdaJkzk,
+
+
 				}
 			}
 		case DELETE_PHR:
@@ -92,7 +111,10 @@ export default function PHRReducer(state = initialState, action) {
 				return {
 					[`${FIELDS.name}`]: {
 						...state[`${FIELDS.name}`],
-						...grbh
+						grdaJbzl: {
+							...state[`${FIELDS.name}`]['grdaJbzl'],
+							...grbh
+						}
 					}
 				}
 			} else {

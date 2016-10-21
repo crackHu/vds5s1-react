@@ -57,36 +57,45 @@ class GeneralSituationForm extends React.Component {
 		super(props);
 		this.state = {}
 
+		this.cascadeOptions = WIDGET_CONFIG.cascadeOptions
+		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
+		this.selectOption = WIDGET_CONFIG.selectOption
+
 		/*现住址*/
-		this.curAddressOptions = WIDGET_CONFIG.cascadeOptions.curAddress;
+		this.curAddressOptions = this.cascadeOptions.curAddress;
 		/*户籍地址*/
-		this.censusRegisterOptions = WIDGET_CONFIG.cascadeOptions.censusRegister;
+		this.censusRegisterOptions = this.cascadeOptions.censusRegister;
 
 		/*医疗费用支付方式*/
-		this.medicalPayMethodOptions = WIDGET_CONFIG.checkboxGroupOptions.medicalPayMethod;
+		this.medicalPayMethodOptions = this.checkboxGroupOptions.medicalPayMethod;
 		/*药物过敏*/
-		this.drugAllergyOptions = WIDGET_CONFIG.checkboxGroupOptions.drugAllergy;
+		this.drugAllergyOptions = this.checkboxGroupOptions.drugAllergy;
 		/*暴露史*/
-		this.exposureHistoryOptions = WIDGET_CONFIG.checkboxGroupOptions.exposureHistory;
+		this.exposureHistoryOptions = this.checkboxGroupOptions.exposureHistory;
 
 		/*性别*/
-		this.sexOptions = WIDGET_CONFIG.selectOption.sex;
+		this.sexOptions = this.selectOption.sex;
 		/*常住类型 居住类型*/
-		this.perTypeOptions = WIDGET_CONFIG.selectOption.permanentType;
+		this.perTypeOptions = this.selectOption.permanentType;
 		/*档案状态*/
-		this.arcStatusOptions = WIDGET_CONFIG.selectOption.archiveStatus;
+		this.arcStatusOptions = this.selectOption.archiveStatus;
 		/*民族*/
-		this.nationalityOptions = WIDGET_CONFIG.selectOption.nationality;
+		this.nationalityOptions = this.selectOption.nationality;
 		/*血型*/
-		this.bloodTypeOptions = WIDGET_CONFIG.selectOption.bloodType;
+		this.bloodTypeOptions = this.selectOption.bloodType;
 		/*True or false*/
-		this.tofOptions = WIDGET_CONFIG.selectOption.tof;
+		this.tofOptions = this.selectOption.tof;
+		/*RH阴性*/
+		this.rhOptions = this.selectOption.rhNegative;
 		/*文化程度*/
-		this.lvOfEduOptions = WIDGET_CONFIG.selectOption.lvOfEducation;
+		this.lvOfEduOptions = this.selectOption.lvOfEducation;
 		/*职业*/
-		this.professionOptions = WIDGET_CONFIG.selectOption.profession;
+		this.professionOptions = this.selectOption.profession;
 		/*婚姻状况*/
-		this.maritalStatusOptions = WIDGET_CONFIG.selectOption.maritalStatus;
+		this.maritalStatusOptions = this.selectOption.maritalStatus;
+
+		this.xzz = ''
+		this.xzz_qt = ''
 	}
 
 	getSelectOptions = (data) => {
@@ -106,23 +115,35 @@ class GeneralSituationForm extends React.Component {
 
 	/*现住址事件 用于获取个人编号*/
 	onXzzQtBlur = () => {
-		let fields = this.props.fields
+		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
 			let grda_xzz_qt = fields.grda_xzz_qt
 			if (!!grda_xzz && !!grda_xzz_qt) {
-				this.props.getCurrentAddress(grda_xzz.value, grda_xzz_qt.value)
+				let xzzValue = grda_xzz.value
+				let xzzQtValue = grda_xzz_qt.value
+				console.log('onXzzQtBlur', xzzValue, xzzQtValue)
+				if (xzzQtValue != this.xzz_qt) {
+					this.props.getCurrentAddress(xzzValue, xzzQtValue)
+					this.xzz = xzzValue
+					this.xzz_qt = xzzQtValue
+				}
 			}
 		}
 	}
 
-	onXzzChange = () => {
-		let fields = this.props.fields
+	onXzzChange = (value) => {
+		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
 			let grda_xzz_qt = fields.grda_xzz_qt
 			if (!!grda_xzz && !!grda_xzz_qt) {
-				this.props.getCurrentAddress(grda_xzz.value, grda_xzz_qt.value)
+				let xzzQtValue = grda_xzz_qt.value
+				if (value + '' != this.xzz + '') {
+					this.props.getCurrentAddress(value, xzzQtValue)
+					this.xzz = value
+					this.xzz_qt = xzzQtValue
+				}
 			}
 		}
 	}
@@ -189,7 +210,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_xzz_qt =
 			getFieldDecorator('grda_xzz_qt')(
 				<Input
-				 placeholder="其它"
+				 placeholder="路（街）"
 				 style={{ width: 150 }}
 				 onBlur={this.onXzzQtBlur}
 				/>
@@ -198,7 +219,7 @@ class GeneralSituationForm extends React.Component {
 		/*常住类型*/
 		const grda_hklx =
 			getFieldDecorator('grda_hklx')(
-				<Select style={{ width: 148 }}>
+				<Select combobox style={{ width: 148 }}>
 			       	{this.getSelectOptions(this.perTypeOptions)}
 		      	</Select>
 			)
@@ -217,14 +238,14 @@ class GeneralSituationForm extends React.Component {
 		/*户口地址 其它*/
 		const grda_hkdz_qt =
 			getFieldDecorator('grda_hkdz_qt')(
-				<Input placeholder="其它" style={{ width: 150 }}/>
+				<Input placeholder="路（街）" style={{ width: 150 }}/>
 			)
 
 		/*婚姻状况*/
 		const grda_hys =
 			getFieldDecorator('grda_hys')(
 				<Select combobox style={{ width: 148 }}>
-	       	  		<Option key='未提供'>未提供</Option>
+       	  			{this.getSelectOptions(this.maritalStatusOptions)}
 			    </Select>
 			)
 
@@ -272,14 +293,14 @@ class GeneralSituationForm extends React.Component {
 		const grda_xxflii =
 			getFieldDecorator('grda_xxflii')(
 				<Select style={{ width: 122 }}>
-			       {this.getSelectOptions(this.tofOptions)}
+			       {this.getSelectOptions(this.rhOptions)}
 			  	</Select>
 			)
 
 		/*职业*/
 		const grda_zygzmc =
 			getFieldDecorator('grda_zygzmc')(
-				<Select style={{ width: 304 }}>
+				<Select combobox style={{ width: 304 }}>
 			       {this.getSelectOptions(this.professionOptions)}
 			  	</Select>
 			)
@@ -295,7 +316,7 @@ class GeneralSituationForm extends React.Component {
 		/*文化程度*/
 		const grda_whcd =
 			getFieldDecorator('grda_whcd')(
-				<Select style={{ width: 304 }}>
+				<Select combobox style={{ width: 304 }}>
 			       {this.getSelectOptions(this.lvOfEduOptions)}
 			  	</Select>
 			)

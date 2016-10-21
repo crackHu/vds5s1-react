@@ -5,6 +5,9 @@ import {
 import {
   CONFIG
 } from 'login_conf'
+import {
+  PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+} from 'phr_conf'
 
 // ------ 识别 debug production 模式 ------ //
 const __DEBUG__ = !(process.env.NODE_ENV === 'production')
@@ -207,73 +210,61 @@ export function getFieldsArr(fields, fields_state, date_format) {
 }
 
 // ------ 获取表单字段与值对象的封装对象 拆箱 ------ //
-export function getFieldsValueObj(dout, fields) {
+export function getFieldsValueObj(dout, flag) {
 
   let obj = {}
-  let xzz = []
-  let hkdz = []
-  let multi = []
 
-  let dateFields = fields.grdaJbzl.dateFields
-  let casXZZFields = fields.grdaJbzl.addressFields.grda_xzz
-  let casHKDZFields = fields.grdaJbzl.addressFields.grda_hkdz
-  let multiFields = fields.grdaJbzl.multiFields
+  let dateFields = FIELDS[flag].dateFields || ''
+  let cascadeFields = FIELDS[flag].cascadeFields || ''
+  let multiFields = FIELDS[flag].multiFields || ''
 
+  /*init cascade array*/
+  for (let cascades in cascadeFields) {
+    obj[cascades] = {
+      value: []
+    }
+  }
   for (let field in dout) {
     /*时间字段转换*/
     if (dateFields.indexOf(field) > -1) {
       obj[field] = {
         value: moment(dout[field], DATE_FORMAT_STRING)
       }
-    } else {
-      let xzzIndex = casXZZFields.indexOf(field)
-      if (xzzIndex > -1) {
-        xzz[xzzIndex] = dout[field]
-      }
-      let hkdzIndex = casHKDZFields.indexOf(field)
-      if (hkdzIndex > -1) {
-        hkdz[hkdzIndex] = dout[field]
-      }
+    } else if (multiFields.indexOf(field) > -1) {
       /*多选字段转换*/
-      if (multiFields.indexOf(field) > -1) {
-        obj[field] = {
-          value: dout[field].split(',')
-        }
-      } else {
-        obj[field] = {
-          value: dout[field]
-        }
+      obj[field] = {
+        value: dout[field].split(',')
+      }
+    } else {
+      /*地区级联字段转换*/
+      for (let cascades in cascadeFields) {
+        cascadeFields[cascades].forEach((cascade, index) => {
+          if (cascade.indexOf(field) > -1) {
+            obj[cascades].value[index] = dout[field]
+          }
+        })
+      }
+      /*正常字段处理*/
+      obj[field] = {
+        value: dout[field]
       }
     }
   }
 
-  let grda_xzz = {
-      grda_xzz: {
-        value: xzz
-      }
-    },
-    grda_hkdz = {
-      grda_hkdz: {
-        value: hkdz
-      }
-    }
-  Object.assign(obj, grda_xzz, grda_hkdz)
-
-  console.debug('getFieldsValueObj', '=>', obj)
+  console.debug('getFieldsValueObj', '=>', obj, obj.grda_xzz, obj.grda_hkdz)
   return obj
 }
 
 // ------ 获取表单字段与值的封装数组 拆箱 ------ //
-export function getFieldsValueArrObj(doutArr, dateFields) {
+export function getFieldsValueArrObj(doutArr, flag) {
 
   let fieldObjs = {}
   let size = 0
 
+  let dateFields = FIELDS[flag].dateFields || ''
   doutArr.forEach((dout, i) => {
-
     size += 1
     for (let attr in dout) {
-
       fieldObjs[`${attr}_${i}`] = {}
       if (dateFields.indexOf(attr) > -1) {
         if (dout[attr] != '') {
@@ -284,6 +275,7 @@ export function getFieldsValueArrObj(doutArr, dateFields) {
       }
     }
   })
+
   console.debug('getFieldsValueArrObj', '=>', fieldObjs)
   return {
     ...fieldObjs,

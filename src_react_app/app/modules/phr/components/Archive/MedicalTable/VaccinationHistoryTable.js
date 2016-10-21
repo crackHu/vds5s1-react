@@ -157,7 +157,7 @@ class VaccinationHistoryTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('cylb_' + index)(
+					{getFieldDecorator('ymmc_' + index)(
 						renderContent.vaccineName(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -168,7 +168,7 @@ class VaccinationHistoryTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('jzrq_' + index)(
 						renderContent.vaccinationDate(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -179,7 +179,7 @@ class VaccinationHistoryTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('jbmc_' + index)(
+					{getFieldDecorator('jzjg_' + index)(
 						renderContent.vaccinationAgency(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -251,10 +251,17 @@ VaccinationHistoryTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
 	console.log("VaccinationHistoryTable onFieldsChange", props, fields)
+	props.onFieldsChange({
+		fields
+	}, 'grdaFmyjzs');
 }
 
 function mapPropsToFields(props) {
 	console.log("VaccinationHistoryTable mapPropsToFields", props)
+	return props.fields || {}
 }
 
-export default Form.create()(VaccinationHistoryTable)
+export default Form.create({
+	onFieldsChange,
+	mapPropsToFields
+})(VaccinationHistoryTable)
