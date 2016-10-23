@@ -5,12 +5,9 @@ import {
 import {
   CONFIG
 } from 'login_conf'
-import {
-  PERSONALDETAIL_FIELDS_CONFIG as FIELDS
-} from 'phr_conf'
 
 // ------ 识别 debug production 模式 ------ //
-const __DEBUG__ = !(process.env.NODE_ENV === 'production')
+export const __DEBUG__ = !(process.env.NODE_ENV === 'production')
 
 // 对URL地址进行拆分，返回其中附带的值
 // a返回对象,b值得字符串集合,c子值（即类似于"XX=XX"）
@@ -181,6 +178,8 @@ export function getFieldsObj(fields, fields_state, date_format) {
       }
     }
   })
+
+  console.debug('getFieldsObj', '=>', obj)
   return obj
 }
 
@@ -198,7 +197,7 @@ export function getFieldsArr(fields, fields_state, date_format) {
         if (isString(value)) {
           obj[field] = value
         } else {
-          obj[field] = value.format(date_format)
+          obj[field] = !!value ? value.format(date_format) : ''
         }
       }
     })
@@ -206,17 +205,19 @@ export function getFieldsArr(fields, fields_state, date_format) {
       arr.push(obj)
     }
   }
+
+  console.debug('getFieldsArr', '=>', arr)
   return arr
 }
 
 // ------ 获取表单字段与值对象的封装对象 拆箱 ------ //
-export function getFieldsValueObj(dout, flag) {
+export function getFieldsValueObj(dout, files) {
 
   let obj = {}
 
-  let dateFields = FIELDS[flag].dateFields || ''
-  let cascadeFields = FIELDS[flag].cascadeFields || ''
-  let multiFields = FIELDS[flag].multiFields || ''
+  let dateFields = files.dateFields || ''
+  let cascadeFields = files.cascadeFields || ''
+  let multiFields = files.multiFields || ''
 
   /*init cascade array*/
   for (let cascades in cascadeFields) {
@@ -225,45 +226,64 @@ export function getFieldsValueObj(dout, flag) {
     }
   }
   for (let field in dout) {
-    /*时间字段转换*/
+    // 接口数据
+    let servdate = dout[field]
+      /*时间字段转换*/
     if (dateFields.indexOf(field) > -1) {
       obj[field] = {
-        value: moment(dout[field], DATE_FORMAT_STRING)
+        value: moment(servdate, DATE_FORMAT_STRING)
       }
     } else if (multiFields.indexOf(field) > -1) {
       /*多选字段转换*/
       obj[field] = {
-        value: dout[field].split(',')
+        value: servdate == '' ? [] : servdate.split(',')
       }
     } else {
       /*地区级联字段转换*/
       for (let cascades in cascadeFields) {
         cascadeFields[cascades].forEach((cascade, index) => {
           if (cascade.indexOf(field) > -1) {
-            obj[cascades].value[index] = dout[field]
+            obj[cascades].value[index] = servdate
           }
         })
       }
       /*正常字段处理*/
       obj[field] = {
-        value: dout[field]
+        value: servdate
       }
     }
   }
 
-  console.debug('getFieldsValueObj', '=>', obj, obj.grda_xzz, obj.grda_hkdz)
+  console.debug('getFieldsValueObj', '=>', obj)
   return obj
 }
 
+// ------ 获取表单字段与值对象数组的封装对象 拆箱 ------ //
+export function getArrFieldsValueObj(doutArrObj, files) {
+
+  let arr = []
+  if (!!doutArrObj)
+    doutArrObj.forEach((obj, index) => {
+      let arrObj = getFieldsValueObj(obj, files)
+      arr.push(arrObj)
+    })
+
+  console.debug('getArrFieldsValueObj', '=>', arr)
+  return arr
+}
+
 // ------ 获取表单字段与值的封装数组 拆箱 ------ //
-export function getFieldsValueArrObj(doutArr, flag) {
+export function getFieldsValueArrObj(doutArr, files) {
+
+  if (!doutArr || !isArray(doutArr))
+    throw Error('getFieldsValueArrObj param [doutArr] error')
 
   let fieldObjs = {}
-  let size = 0
+  let objSize = []
 
-  let dateFields = FIELDS[flag].dateFields || ''
+  let dateFields = files.dateFields || ''
   doutArr.forEach((dout, i) => {
-    size += 1
+    objSize.push({})
     for (let attr in dout) {
       fieldObjs[`${attr}_${i}`] = {}
       if (dateFields.indexOf(attr) > -1) {
@@ -279,8 +299,22 @@ export function getFieldsValueArrObj(doutArr, flag) {
   console.debug('getFieldsValueArrObj', '=>', fieldObjs)
   return {
     ...fieldObjs,
-    size
+    objSize
   }
+}
+
+// ------ 获取表单字段与值数组的封装数组 拆箱 ------ //
+export function getArrFieldsValueArrObj(doutArrObj, files, flag) {
+
+  let arr = []
+  if (!!doutArrObj)
+    doutArrObj.forEach((obj, index) => {
+      let arrObj = getFieldsValueArrObj(obj[flag], files)
+      arr.push(arrObj)
+    })
+
+  console.debug('getArrFieldsValueArrObj', '=>', arr)
+  return arr
 }
 
 function isObject(obj) {
@@ -311,4 +345,56 @@ export function getLoginUser() {
     ...user,
     UID
   }
+}
+
+// ------ 调整cascade字段 ------ //
+export function adjustGrdaJbzlField(grdaJbzl) {
+
+  let grda_xzz1 = grdaJbzl.grda_xzz
+  if (grda_xzz1) {
+    let grda_xzz = grda_xzz1.split(',')
+    let grda_xzz_smc = grda_xzz[0]
+    let grda_xzz_qxmc = grda_xzz[1]
+    let grda_xzz_jdzmc = grda_xzz[2]
+    let grda_xzz_jwcmc = grda_xzz[3]
+    let grda_xzz_ljmc = grda_xzz[4]
+    Object.assign(grdaJbzl, {
+      grda_xzz_smc
+    }, {
+      grda_xzz_qxmc
+    }, {
+      grda_xzz_jdzmc
+    }, {
+      grda_xzz_jwcmc
+    }, {
+      grda_xzz_ljmc
+    })
+  }
+
+  let grda_hkdz1 = grdaJbzl.grda_hkdz
+  if (grda_hkdz1) {
+    let grda_hkdz = grda_hkdz1.split(',')
+    let grda_hkdz_xfmc = grda_hkdz[0]
+    let grda_hkdz_smc = grda_hkdz[1]
+    let grda_hkdz_qxmc = grda_hkdz[2]
+    let grda_hkdz_jdzmc = grda_hkdz[3]
+    let grda_hkdz_jwcmc = grda_hkdz[4]
+    let grda_hkdz_ljmc = grda_hkdz[5]
+    Object.assign(grdaJbzl, {
+      grda_hkdz_xfmc
+    }, {
+      grda_hkdz_smc
+    }, {
+      grda_hkdz_qxmc
+    }, {
+      grda_hkdz_jdzmc
+    }, {
+      grda_hkdz_jwcmc
+    }, {
+      grda_hkdz_ljmc
+    })
+  }
+
+  delete grdaJbzl.grda_hkdz
+  delete grdaJbzl.grda_xzz
 }

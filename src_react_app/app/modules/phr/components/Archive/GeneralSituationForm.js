@@ -527,6 +527,7 @@ class GeneralSituationForm extends React.Component {
 	        	<MedicalRecordsTable
 	        	 fields={this.props.grdaJwsFields}
 				 onFieldsChange={this.props.onFieldsChange}
+				 updatestate={this.props.updatestate}
 				/>
 		    </Form>
 		)

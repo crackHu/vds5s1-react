@@ -62,7 +62,7 @@ class FamiHistoryTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: false,
-			data: [{}, {}, {}, {}]
+			data: []
 		}
 
 		/*成员类别*/
@@ -74,6 +74,19 @@ class FamiHistoryTable extends React.Component {
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
+
+	componentWillReceiveProps = (nextProps) => {
+		console.log("FamiHistoryTable componentWillReceiveProps", nextProps)
+		const data = this.state.data
+		if (!!nextProps.fields && !!nextProps.fields.objSize && data.length == 0)
+			this.setState({
+				data: nextProps.fields.objSize
+			})
+	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log('FamiHistoryTable componentDidUpdate', prevProps, prevState)
+	}
 
 	/*家族史 选中项发生变化时的回调*/
 	onSelectChange = (selectedRowKeys, selectedRows) => {
@@ -117,7 +130,8 @@ class FamiHistoryTable extends React.Component {
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			editSwitch
+			editSwitch,
+			data
 		} = this.state
 
 		const renderContent = {
@@ -242,7 +256,7 @@ class FamiHistoryTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={data} 
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}

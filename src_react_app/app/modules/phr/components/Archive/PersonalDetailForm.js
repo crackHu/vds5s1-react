@@ -83,6 +83,7 @@ class PersonalDetailForm extends React.Component {
 									grdaJzsFields={this.props.grdaJzsFields}
 									onFieldsChange={this.props.onFieldsChange}
 									getCurrentAddress={this.getCurrentAddress}
+				 					updatestate={this.props.updatestate}
 								/>
 							</TabPane>
 						)

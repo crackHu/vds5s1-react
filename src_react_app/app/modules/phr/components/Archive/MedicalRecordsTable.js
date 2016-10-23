@@ -61,7 +61,7 @@ class MedicalRecordsTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: false,
-			data: new Array()
+			data: []
 		}
 
 		/*既往史 类别*/
@@ -76,27 +76,17 @@ class MedicalRecordsTable extends React.Component {
 		console.log('MedicalRecordsTable componentDidMount', this.props)
 	}
 
-	componentDidUpdate = () => {
-		console.log('MedicalRecordsTable componentDidUpdate', this.props)
-
+	componentWillReceiveProps = (nextProps) => {
+		console.log("MedicalRecordsTable componentWillReceiveProps", nextProps)
 		const data = this.state.data
-		const fields = this.props.fields
-		const size = !!fields ? fields.size : 0
-		console.log('componentDidUpdate', data.length, size)
-		if (data.length != size) {
-			let dataArr = new Array()
-			for (let i = 0; i < size; i++) {
-				dataArr.push({})
-			}
+		if (!!nextProps.fields && !!nextProps.fields.objSize && data.length == 0)
 			this.setState({
-				data: dataArr
+				data: nextProps.fields.objSize
 			})
-		}
 	}
 
-	componentWillReceiveProps = () => {
-		console.log("MedicalRecordsTable componentWillReceiveProps")
-
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log('MedicalRecordsTable componentDidUpdate', prevProps, prevState)
 	}
 
 	/*既往史 选中项发生变化时的回调*/
@@ -316,7 +306,7 @@ class MedicalRecordsTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={data}
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}

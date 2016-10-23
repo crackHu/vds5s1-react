@@ -1,5 +1,7 @@
 import {
 	GET_ARCHIVES,
+	SAVE_ARCHIVES,
+	UPDATE_ARCHIVES,
 	QUERY_PHR,
 	DELETE_PHR,
 	FIELDS_CHANGE,
@@ -17,12 +19,15 @@ import {
 	getMomentObj as moment,
 	getFieldsValueObj,
 	getFieldsValueArrObj,
+	getArrFieldsValueObj,
+	getArrFieldsValueArrObj,
 	getLoginUser
 } from 'utils'
 
 let initialState = {
 	archiveListloading: true,
-	data: null,
+	submitloading: false,
+	updatestate: false,
 	[FIELDS.name]: {
 		grdaJbzl: {
 			grda_csrq: {
@@ -35,7 +40,7 @@ let initialState = {
 				value: getLoginUser().userName || 'admin'
 			}
 		}
-	}
+	},
 }
 
 
@@ -45,57 +50,90 @@ export default function PHRReducer(state = initialState, action) {
 
 	switch (action.type) {
 		case GET_ARCHIVES:
-			return {
+			return Object.assign({}, initialState, {
 				archiveListloading: false,
-				data: action.data,
-			}
+				data: action.data
+			})
 		case FIELDS_CHANGE:
 			let data = action.data
 			let flag = action.flag
 			let stateFields = state[FIELDS.name]
 			let flagFields = !!stateFields ? stateFields[flag] : null
-			return {
-				[FIELDS.name]: {
-					...stateFields,
-					[flag]: {
-						...flagFields,
-						...data
+
+			if (FIELDS.fieldsKey.isArr.indexOf(flag) > -1) {
+				return Object.assign({}, initialState, {
+					[FIELDS.name]: {
+						...stateFields,
+						[flag]: {
+							...flagFields,
+							...data
+						}
 					}
-				}
+				})
+			} else {
+				return Object.assign({}, initialState, {
+					[FIELDS.name]: {
+						...stateFields,
+						[flag]: {
+							...flagFields,
+							...data
+						}
+					}
+				})
 			}
 		case QUERY_PHR:
 			let dout = action.data.dout
-			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, 'grdaJbzl')
-			let grdaJws = getFieldsValueArrObj(dout.grdaJws, 'grdaJws')
-			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, 'grdaJzs')
+			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
+			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
+			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
-			let grdaJkzk = getFieldsValueObj(dout.grdaJkzk[0], 'grdaJkzk')
+			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, FIELDS['grdaJkzk'])
+			let grdaZyyyqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyyyqk'], 'grdaZyyyqk')
+			let grdaFmyjzs = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaFmyjzs'], 'grdaFmyjzs')
+			let grdaZyzlqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyzlqk'], 'grdaZyzlqk')
 
-			//let grdaZyyyqk = getFieldsValueArrObj(dout.grdaJkzk[0].grdaZyyyqk, 'grdaZyyyqk')
+			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, FIELDS['gxyJxb'])
+			let gxyYyqk = getArrFieldsValueArrObj(dout.gxyJxb, FIELDS['gxyYyqk'], 'gxyYyqk')
 
-			// let grdaFmyjzs = getFieldsValueArrObj(dout.grdaJkzk[0].grdaFmyjzs, 'grdaFmyjzs')
-			// let grdaZyzlqk = getFieldsValueArrObj(dout.grdaJkzk[0].grdaZyzlqk, 'grdaZyzlqk')
+			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, FIELDS['tnbSfjl'])
+			let tnbYyqk = getArrFieldsValueArrObj(dout.tnbSfjl, FIELDS['tnbYyqk'], 'tnbYyqk')
 
-			// let gxyJxb = getFieldsValueObj(dout.gxyJxb, 'gxyJxb')
-			// let gxyYyqk = getFieldsValueArrObj(dout.gxyYyqk, 'gxyYyqk')
+			let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, FIELDS['lnrSfb'], 'lnrSfb')
 
-			// let tnbSfjl = getFieldsValueObj(dout.tnbSfjl, 'tnbSfjl')
-			// let tnbYyqk = getFieldsValueArrObj(dout.tnbYyqk, 'tnbYyqk')
-
-			// let lnrSfb = getFieldsValueObj(dout.lnrSfb, 'lnrSfb')
-
-			return {
+			return Object.assign({}, initialState, {
+				submitloading: false,
+				updatestate: true,
 				[FIELDS.name]: {
 					grdaJbzl,
 					grdaJws,
 					grdaJzs,
+
 					grdaJkzk,
+					grdaZyyyqk,
+					grdaFmyjzs,
+					grdaZyzlqk,
 
+					gxyJxb,
+					gxyYyqk,
 
+					tnbSfjl,
+					tnbYyqk,
+
+					lnrSfb,
 				}
-			}
+			})
 		case DELETE_PHR:
 			return action.data
+		case SAVE_ARCHIVES:
+			return Object.assign({}, initialState, state, {
+				updatestate: true,
+				...action.data,
+			})
+		case UPDATE_ARCHIVES:
+			return Object.assign({}, initialState, state, {
+				updatestate: true,
+				...action.data,
+			})
 		case SEARCH_PHR:
 			return {
 				data: action.data
@@ -108,15 +146,15 @@ export default function PHRReducer(state = initialState, action) {
 						value: action.data.dout.grbh
 					}
 				}
-				return {
-					[`${FIELDS.name}`]: {
-						...state[`${FIELDS.name}`],
+				return Object.assign({}, initialState, {
+					[FIELDS.name]: {
+						...state[FIELDS.name],
 						grdaJbzl: {
-							...state[`${FIELDS.name}`]['grdaJbzl'],
+							...state[FIELDS.name]['grdaJbzl'],
 							...grbh
 						}
 					}
-				}
+				})
 			} else {
 				return state
 			}

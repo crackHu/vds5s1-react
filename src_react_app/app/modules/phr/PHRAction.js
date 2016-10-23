@@ -2,6 +2,7 @@ import {
 	GET_ARCHIVES,
 	SUBMIT_ARCHIVES,
 	SAVE_ARCHIVES,
+	UPDATE_ARCHIVES,
 	LOGIN,
 	QUERY_PHR,
 	DELETE_PHR,
@@ -17,6 +18,7 @@ import {
 	getDate,
 	getFieldsObj,
 	getDateTimestamp,
+	__DEBUG__,
 } from 'utils'
 
 const fetchCatchMsg = '内部错误'
@@ -92,10 +94,37 @@ export function getArchiveList(pageSize, pageNo) {
 	return dispatch => dispatchMethod('getArchiveList', query, dispatch, false, GET_ARCHIVES, null)
 }
 
-/*保存个人档案*/
-export function saveArchiveData(data) {
+/*保存个人基本信息档案*/
+export function savePersonalDetail(data) {
 
-	let query = api.saveArchiveData(data)
+	let query = api.savePersonalDetail(data)
+	const hide = msg('loading', '正在保存中...', 120);
+
+	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*更新个人基本信息档案*/
+export function updatePersonalDetail(data) {
+
+	let query = api.updatePersonalDetail(data)
+	const hide = msg('loading', '正在保存中...', 120);
+
+	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*保存健康体检表*/
+export function saveHealthMedical(data) {
+
+	let query = api.saveHealthMedical(data)
+	const hide = msg('loading', '正在保存中...', 120);
+
+	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*更新健康体检表*/
+export function updateHealthMedical(data) {
+
+	let query = api.updateHealthMedical(data)
 	const hide = msg('loading', '正在保存中...', 120);
 
 	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)

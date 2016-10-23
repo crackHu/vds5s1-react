@@ -18,6 +18,9 @@ import {
 } from 'antd'
 
 import {
+	DATE_FORMAT_STRING
+} from 'config'
+import {
 	msg,
 	notify
 } from 'utils'
@@ -39,6 +42,7 @@ class HealthMedicalTable extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			editSwitch: true,
 			data: new Array()
 		}
 	}
@@ -84,31 +88,45 @@ class HealthMedicalTable extends React.Component {
 	render() {
 
 		const {
-			getFieldDecorator
+			getFieldDecorator,
+			getFieldValue
 		} = this.props.form
 		const {
 			selectedRowKeys,
-			data
+			editSwitch
 		} = this.state
 
 		const renderContent = {
+
 			medicalDate(value, option) {
-				return (
-					<DatePicker
+				if (editSwitch) {
+					return <a>{getFieldValue('grda_tjrq').format(DATE_FORMAT_STRING)}</a>
+				} else {
+					return (
+						<DatePicker
 					 	style={{width: '40vh'}}
 						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 					/>
-				)
+					)
+				}
 			},
 			medicalEvaluation(value, option) {
-				return (
-					<Input style={{width: '40vh'}}/>
-				)
+				if (editSwitch) {
+					return <span>{getFieldValue('grda_jkpj')}</span>
+				} else {
+					return (
+						<Input style={{width: '40vh'}}/>
+					)
+				}
 			},
 			medicalGuide(value) {
-				return (
-					<Input style={{width: '40vh'}}/>
-				)
+				if (editSwitch) {
+					return <span>{getFieldValue('grda_jkzd')}</span>
+				} else {
+					return (
+						<Input style={{width: '40vh'}}/>
+					)
+				}
 			},
 		}
 
@@ -116,12 +134,10 @@ class HealthMedicalTable extends React.Component {
 			title: '体检日期',
 			dataIndex: 'medicalDate',
 			key: 'medicalDate',
-			width: '30%',
+			width: '10%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_tjrq_' + index, {
-						initialValue: value
-					})(
+					{getFieldDecorator('grda_tjrq')(
 						renderContent.medicalDate(value, this.dtOptions)
 					)}
 				</FormItem>,
@@ -132,9 +148,7 @@ class HealthMedicalTable extends React.Component {
 			width: '30%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkpj_' + index, {
-						initialValue: value
-					})(
+					{getFieldDecorator('grda_jkpj')(
 						renderContent.medicalEvaluation(value, this.dnOptions)
 					)}
 				</FormItem>,
@@ -142,12 +156,10 @@ class HealthMedicalTable extends React.Component {
 			title: '健康指导',
 			dataIndex: 'medicalGuide',
 			key: 'medicalGuide',
-			width: '30%',
+			width: '50%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('grda_jkzd_' + index, {
-						initialValue: value
-					})(
+					{getFieldDecorator('grda_jkzd')(
 						renderContent.medicalGuide(value)
 					)}
 				</FormItem>,
@@ -226,7 +238,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("HealthMedicalTable mapPropsToFields", props)
-	return props.fields || {}
+	return props.fields[0] || {}
 }
 
 export default Form.create({

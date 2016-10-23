@@ -3,7 +3,7 @@ export const ARC_TYPE_CONFIG = {
 	arcType: [{
 		name: "个人基本信息表",
 		content: 'Archive/PersonalDetailForm',
-		key: "personalDetail",
+		key: "PersonalDetail",
 		containKey: "grdaJbzl",
 		disabled: false,
 		sub: [{
@@ -20,7 +20,7 @@ export const ARC_TYPE_CONFIG = {
 	}, {
 		name: "健康体检表",
 		content: 'Archive/HealthMedicalForm',
-		key: "healthMedical",
+		key: "HealthMedical",
 		containKey: "grdaJkzk",
 		disabled: false,
 		sub: [{
@@ -58,49 +58,49 @@ export const ARC_TYPE_CONFIG = {
 	specArcType: [{
 		name: "高血压专档",
 		content: 'SpecialArchive/HypertensionForm',
-		key: "hypertension",
+		key: "Hypertension",
 		containKey: 'gxyJxb',
 		disabled: false,
 	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
-		key: "diabetes",
+		key: "Diabetes",
 		containKey: 'tnbSfjl',
 		disabled: false,
 	}, {
 		name: "老年人专档",
 		content: 'SpecialArchive/AgedForm',
-		key: "aged",
+		key: "Aged",
 		containKey: 'lnrSfb',
 		disabled: false,
 	}, {
 		name: "肿瘤病",
 		content: 'SpecialArchive/OncosisForm',
-		key: "oncosis",
+		key: "Oncosis",
 		containKey: "oncosis",
 		disabled: true,
 	}, {
 		name: "残疾人",
 		content: 'SpecialArchive/HandicappedForm',
-		key: "handicapped",
+		key: "Handicapped",
 		containKey: "handicapped",
 		disabled: true,
 	}, {
 		name: "女性保健专档",
 		content: 'SpecialArchive/FemalecareForm',
-		key: "femalecare",
+		key: "Femalecare",
 		containKey: "femalecare",
 		disabled: true,
 	}, {
 		name: "孕产妇专档",
 		content: 'SpecialArchive/MaternalForm',
-		key: "maternal",
+		key: "Maternal",
 		containKey: "maternal",
 		disabled: true,
 	}, {
 		name: "钉钉医疗档案",
 		content: 'SpecialArchive/DDMedicalForm',
-		key: "ddmedical",
+		key: "DDMedical",
 		containKey: "ddmedical",
 		disabled: true,
 	}]
@@ -1972,18 +1972,27 @@ export const ARCHIVE_LIST_PAGESIZE = 10
 export const PERSONALDETAIL_FIELDS_CONFIG = {
 	name: 'PHR_FIELDS_DATA',
 	fieldsKey: {
-		grdaJbzl: 'grdaJbzl',
-		grdaJws: 'grdaJws',
-		grdaJzs: 'grdaJzs',
-		grdaJkzk: {
-			grdaFmyjzs: 'grdaFmyjzs',
-			grdaZyyyqk: 'grdaZyyyqk',
-			grdaZyzlqk: 'grdaZyzlqk',
-			grdaWtml: 'grdaWtml'
-		},
-		lnrSfb: 'lnrSfb',
-		gxyJxb: 'gxyJxb',
-		tnbSfjl: 'tnbSfjl'
+		isObj: [
+			'grdaJbzl',
+			'grdaJws',
+			'grdaJzs',
+		],
+		isArr: [
+			'grdaJkzk',
+			'grdaFmyjzs',
+			'grdaZyyyqk',
+			'grdaZyzlqk',
+			'grdaWtml',
+
+			'gxyJxb',
+			'gxyYyqk',
+
+			'tnbSfjl',
+			'tnbYyqk',
+
+			'lnrSfb',
+		]
+
 	},
 	grdaJbzl: {
 		name: 'grdaJbzl',
@@ -2204,6 +2213,46 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	grdaJkzk: {
 		dateFields: [
 			'grda_tjrq'
+		],
+		multiFields: [
+			/*table1*/
+			'grda_zz',
+			'grda_yjzl',
+			'grda_dwzl',
+			/*table2*/
+			'grda_yd',
+			'grda_pf',
+			'grda_gm',
+			'grda_lbj',
+			'grda_f_hxy',
+			'grda_f_ly',
+			'grda_xz_zy',
+			'grda_fb_yt',
+			'grda_fb_bk',
+			'grda_fb_gd',
+			'grda_fb_pd',
+			'grda_fb_ydxzy',
+			'grda_gmzz',
+			'grda_fk_wy',
+			'grda_fk_yd',
+			'grda_fk_gj',
+			'grda_fk_gt',
+			'grda_fk_fj',
+			/*table3*/
+			'grda_xbxxp',
+			'grda_bc',
+			'grda_gjtp',
+			/*table4*/
+			'grda_nxgjb',
+			'grda_szjb',
+			'grda_xzjb',
+			'grda_sjxtjb',
+			'grda_ybjb',
+			'grda_xgjb',
+			'grda_qtxtjb',
+			/*table6*/
+			'grda_jkzd',
+			'grda_whyskz',
 		]
 
 	},

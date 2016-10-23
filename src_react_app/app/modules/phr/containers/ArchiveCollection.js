@@ -23,7 +23,8 @@ import {
 	getDate,
 	getFieldsObj,
 	getFieldsArr,
-	emptyObject
+	emptyObject,
+	adjustGrdaJbzlField,
 } from 'utils'
 import {
 	DATE_FORMAT_STRING
@@ -63,15 +64,6 @@ const DEFAULT_VALUE = {
 
 const TabPane = Tabs.TabPane;
 
-/*基本资料 字段*/
-const grdaJbzl = FIELDS.grdaJbzl
-
-/*既往史 字段*/
-const grdaJws = FIELDS.grdaJws
-
-/*家族史 字段*/
-const grdaJzs = FIELDS.grdaJzs
-
 class ArchiveCollection extends React.Component {
 
 	arcType = ARC_TYPE_CONFIG.arcType
@@ -79,8 +71,7 @@ class ArchiveCollection extends React.Component {
 	state = {
 		activeKey: this.arcType[0].key,
 		arcType: this.arcType,
-		[`${FIELDS.name}`]: DEFAULT_VALUE,
-		submit: false,
+		submitloading: false,
 		id: null
 	}
 
@@ -98,94 +89,61 @@ class ArchiveCollection extends React.Component {
 
 	componentWillUnmount = () => {}
 
+	componentWillReceiveProps = (nextProps) => {
+		console.log("ArchiveCollection.componentWillReceiveProps", nextProps)
+		this.setState({
+			submitloading: nextProps.phr.submitloading
+		})
+	}
+
 	componentWillUpdate = () => {
 		console.log('ArchiveCollection.componentWillUpdate')
 	}
 
-	componentDidUpdate = () => {
-		console.log("ArchiveCollection.componentDidUpdate", this.state, this.props.phr)
-
-		/*if (!emptyObject(this.props.data.phr)) {
-			console.log('phr resp data:', this.props.data.phr)
-			let result = this.props.data.phr.result
-			if (result && result.status && result.dout) {
-				let status = result.status
-				let	dout = result.dout
-				if (status.resultCode > 0) {
-				}
-			}
-		}*/
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log("ArchiveCollection.componentDidUpdate", prevProps, prevState)
 	}
 
 	/*save archiv*/
 	saveForm = (e) => {
+		const {
+			phr
+		} = this.props
+
 		this.setState({
-			submit: true
+			submitloading: true
 		})
+		let updatestate = phr.updatestate
+		let flag = updatestate ? 'update' : 'save'
 
-		let grdaJbzl = getFieldsObj(grdaJbzl.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
+		switch (this.state.activeKey) {
+			case 'PersonalDetail':
+				let grdaJbzlFields = FIELDS.grdaJbzl.fields
+				let grdaJwsFields = FIELDS.grdaJws.fields
+				let grdaJzsFields = FIELDS.grdaJzs.fields
 
-		let grda_xzz1 = grdaJbzl.grda_xzz
-		if (grda_xzz1) {
-			let grda_xzz = grda_xzz1.split(',')
-			let grda_xzz_smc = grda_xzz[0]
-			let grda_xzz_qxmc = grda_xzz[1]
-			let grda_xzz_jdzmc = grda_xzz[2]
-			let grda_xzz_jwcmc = grda_xzz[3]
-			let grda_xzz_ljmc = grda_xzz[4]
-			Object.assign(grdaJbzl, {
-				grda_xzz_smc
-			}, {
-				grda_xzz_qxmc
-			}, {
-				grda_xzz_jdzmc
-			}, {
-				grda_xzz_jwcmc
-			}, {
-				grda_xzz_ljmc
-			})
+				let grdaJbzlState = phr[FIELDS.name].grdaJbzl
+				let grdaJwsState = phr[FIELDS.name].grdaJws
+				let grdaJzsState = phr[FIELDS.name].grdaJzs
+
+				let grdaJbzl = getFieldsObj(grdaJbzlFields, grdaJbzlState, DATE_FORMAT_STRING)
+				adjustGrdaJbzlField(grdaJbzl)
+				let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING)
+				let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING)
+					//save/update PersonalDetail
+				this.props[`${flag}${activeKey}`]({
+					grdaJbzl,
+					grdaJws,
+					grdaJzs
+				})
+			case 'HealthMedical':
+				//save/update HealthMedical
+				this.props[`${flag}${activeKey}`](phr[FIELDS.name].grdaJkzk)
+			default:
+				console.log(`${flag}${activeKey}`, 'dev...')
 		}
 
-		let grda_hkdz1 = grdaJbzl.grda_hkdz
-		if (grda_hkdz1) {
-			let grda_hkdz = grda_hkdz1.split(',')
-			let grda_hkdz_xfmc = grda_hkdz[0]
-			let grda_hkdz_smc = grda_hkdz[1]
-			let grda_hkdz_qxmc = grda_hkdz[2]
-			let grda_hkdz_jdzmc = grda_hkdz[3]
-			let grda_hkdz_jwcmc = grda_hkdz[4]
-			let grda_hkdz_ljmc = grda_hkdz[5]
-			Object.assign(grdaJbzl, {
-				grda_hkdz_xfmc
-			}, {
-				grda_hkdz_smc
-			}, {
-				grda_hkdz_qxmc
-			}, {
-				grda_hkdz_jdzmc
-			}, {
-				grda_hkdz_jwcmc
-			}, {
-				grda_hkdz_ljmc
-			})
-		}
 
-		grdaJbzl.grda_jdrq = grdaJbzl.grda_lrrq = '2016-10-13'
-		grdaJbzl.grda_csrq = '1950-1-1'
-		delete grdaJbzl.grda_hkdz
-		delete grdaJbzl.grda_xzz
-		console.log('getFieldsObj', grdaJbzl)
-		let grdaJws = getFieldsArr(grdaJws.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
-		let grdaJzs = getFieldsArr(grdaJzs.fields, this.props.phr[FIELDS.name], DATE_FORMAT_STRING)
-		console.log('getFieldsArr', grdaJws, grdaJzs)
-		this.props.saveArchiveData({
-			grdaJbzl: grdaJbzl,
-			grdaJws: grdaJws,
-			grdaJzs: grdaJzs
-		})
-		this.setState({
-			submit: false
-		})
 	}
 
 	onFieldsChange = ({
@@ -244,7 +202,7 @@ class ArchiveCollection extends React.Component {
 			}
 			this.setState({
 				arcType,
-				activeKey
+				activeKey,
 			});
 		}
 	}
@@ -282,18 +240,27 @@ class ArchiveCollection extends React.Component {
 		}
 	}
 
+	getActiveName = () => {
+		const arc = this.state.arcType.filter(arc => arc.key == this.state.activeKey);
+		return arc[0].name
+	}
+
 	render() {
 
+		const {
+			phr
+		} = this.props
+
 		let title, operatText
-		if (this.props.params.id) {
-			title = '编辑档案'
-			operatText = '更新档案'
+		if (phr.updatestate) {
+			title = `编辑档案`
+			operatText = `更新${this.getActiveName()}`
 		} else {
-			title = '新建档案'
-			operatText = '保存档案'
+			title = `新建档案`
+			operatText = `保存${this.getActiveName()}`
 		}
 
-		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submit}>{operatText}</Button>
+		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
 		const moreSpecArc = (
 			<Menu>
 			    {
@@ -381,6 +348,7 @@ class ArchiveCollection extends React.Component {
 
 						onFieldsChange={this.onFieldsChange}
 						getIndividualNumbe={this.getIndividualNumbe}
+						updatestate={this.props.phr.updatestate}
 					/>
 				</TabPane>
 			)

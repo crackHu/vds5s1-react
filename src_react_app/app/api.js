@@ -30,11 +30,32 @@ export function getArchiveList(pageNo, pageSize) {
 	return postQuery.serialize('getArchiveList');
 }
 
-/*保存檔案*/
-export function saveArchiveData(data) {
+/*保存个人基本信息表*/
+export function savePersonalDetail(data) {
 
 	let postQuery = new PostQuery(data, 'savePdData', 'boPersonDoc')
-	return postQuery.serialize('saveArchiveData');
+	return postQuery.serialize('savePersonalDetail');
+}
+
+/*更新个人基本信息表*/
+export function updatePersonalDetail(data) {
+
+	let postQuery = new PostQuery(data, 'updatePdData', 'boPersonDoc')
+	return postQuery.serialize('updatePersonalDetail');
+}
+
+/*保存健康体检表*/
+export function saveHealthMedical(data) {
+
+	let postQuery = new PostQuery(data, 'heathSaveData', 'boPersonDoc')
+	return postQuery.serialize('saveHealthMedical');
+}
+
+/*更新健康体检表*/
+export function updateHealthMedical(data) {
+
+	let postQuery = new PostQuery(data, 'heathUpdateData', 'boPersonDoc')
+	return postQuery.serialize('updateHealthMedical');
 }
 
 /*登陆*/
