@@ -71,17 +71,26 @@ class FamiHistoryTable extends React.Component {
 		this.sickOptions = getSelectOptions(WIDGET_CONFIG.selectOption.sicknessName);
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		console.log('FamiHistoryTable.componentWillMount')
+	}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+		console.log('FamiHistoryTable.componentDidMount')
+		const data = this.state.data
+		const fields = this.props.fields
+		if (!!fields && !!fields.objSize && data.length == 0)
+			this.setState({
+				data: fields.objSize
+			})
+	}
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log("FamiHistoryTable componentWillReceiveProps", nextProps)
-		const data = this.state.data
-		if (!!nextProps.fields && !!nextProps.fields.objSize && data.length == 0)
-			this.setState({
-				data: nextProps.fields.objSize
-			})
+	}
+
+	componentWillUpdate = (nextProps, nextState) => {
+		console.log('FamiHistoryTable.componentWillUpdate', nextProps, nextState)
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {

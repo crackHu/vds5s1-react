@@ -1,16 +1,18 @@
 //*************全局配置*************//
-let baseUrl
+let baseUrl, projectPath
 if (process.env.NODE_ENV === 'production') {
   baseUrl = ''
+  projectPath = "/medicPHR/app/"
 } else {
   baseUrl = ''
+  projectPath = '/'
 }
 
 export const CONFIG = {
   baseUrl: baseUrl,
   projectName: "medicPHR",
-  projectPath: "medicPHR/app/",
-  host: 'http://www.basoft.cn/',
+  projectPath: projectPath,
+  host: 'http://dev.basoft.cn:10001/',
   needDevTool: true,
 }
 

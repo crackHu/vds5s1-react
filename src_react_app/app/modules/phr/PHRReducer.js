@@ -31,7 +31,13 @@ let initialState = {
 	[FIELDS.name]: {
 		grdaJbzl: {
 			grda_csrq: {
-				value: moment('1999-1-1', DATE_FORMAT_STRING)
+				value: moment('1950-1-1', DATE_FORMAT_STRING)
+			},
+			grda_jdrq: {
+				value: moment(new Date(), DATE_FORMAT_STRING)
+			},
+			grda_lrrq: {
+				value: moment(new Date(), DATE_FORMAT_STRING)
 			},
 			grda_jdys: {
 				value: getLoginUser().userName || 'admin'
@@ -42,7 +48,6 @@ let initialState = {
 		}
 	},
 }
-
 
 export default function PHRReducer(state = initialState, action) {
 
@@ -61,7 +66,7 @@ export default function PHRReducer(state = initialState, action) {
 			let flagFields = !!stateFields ? stateFields[flag] : null
 
 			if (FIELDS.fieldsKey.isArr.indexOf(flag) > -1) {
-				return Object.assign({}, initialState, {
+				return Object.assign({}, initialState, state, {
 					[FIELDS.name]: {
 						...stateFields,
 						[flag]: {
@@ -71,7 +76,7 @@ export default function PHRReducer(state = initialState, action) {
 					}
 				})
 			} else {
-				return Object.assign({}, initialState, {
+				return Object.assign({}, initialState, state, {
 					[FIELDS.name]: {
 						...stateFields,
 						[flag]: {

@@ -16,15 +16,17 @@ import {
 } from 'utils'
 import {
 	CONFIG
+} from 'config'
+import {
+	CONFIG as LCONFIG
 } from 'login_conf'
 
-
-const DEFAULT = CONFIG.DEFAULT
+const DEFAULT = LCONFIG.DEFAULT
 const DEFAULT_USERNAME = DEFAULT.USERNAME
 const DEFAULT_ROLENAME = DEFAULT.ROLENAME
 const DEFAULT_DEPTNAME = DEFAULT.DEPTNAME
 
-const USR = CONFIG.LS.USR
+const USR = LCONFIG.LS.USR
 const user = JSON.parse(localStorage.getItem(USR))
 const userName = user ? user.userName : DEFAULT_USERNAME
 const roleName = user ? user.roleName : DEFAULT_ROLENAME
@@ -34,7 +36,7 @@ const deptName = user ? user.deptName : DEFAULT_DEPTNAME
 export default class UserProfile extends React.Component {
 
 	Logout = () => {
-		location.href = '/'
+		location.href = CONFIG.projectPath
 
 		//this.context.router.replace('/');
 	}

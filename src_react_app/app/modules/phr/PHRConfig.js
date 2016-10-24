@@ -1979,18 +1979,6 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 		],
 		isArr: [
 			'grdaJkzk',
-			'grdaFmyjzs',
-			'grdaZyyyqk',
-			'grdaZyzlqk',
-			'grdaWtml',
-
-			'gxyJxb',
-			'gxyYyqk',
-
-			'tnbSfjl',
-			'tnbYyqk',
-
-			'lnrSfb',
 		]
 
 	},

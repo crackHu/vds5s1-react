@@ -143,6 +143,7 @@ class FamiLivelHistoryFrom extends React.Component {
 					<FamiHistoryTable
 						fields={this.props.grdaJzsFields}
 				 		onFieldsChange={this.props.onFieldsChange}
+				 		updatestate={this.props.updatestate}
 					/>
 				</div>
 

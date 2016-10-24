@@ -98,36 +98,36 @@ export function getArchiveList(pageSize, pageNo) {
 export function savePersonalDetail(data) {
 
 	let query = api.savePersonalDetail(data)
-	const hide = msg('loading', '正在保存中...', 120);
+	const hide = msg('loading', '正在保存中...', 30);
 
-	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
 
 /*更新个人基本信息档案*/
 export function updatePersonalDetail(data) {
 
 	let query = api.updatePersonalDetail(data)
-	const hide = msg('loading', '正在保存中...', 120);
+	const hide = msg('loading', '正在更新中...', 30);
 
-	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
 
 /*保存健康体检表*/
 export function saveHealthMedical(data) {
 
 	let query = api.saveHealthMedical(data)
-	const hide = msg('loading', '正在保存中...', 120);
+	const hide = msg('loading', '正在保存中...', 30);
 
-	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
 
 /*更新健康体检表*/
 export function updateHealthMedical(data) {
 
 	let query = api.updateHealthMedical(data)
-	const hide = msg('loading', '正在保存中...', 120);
+	const hide = msg('loading', '正在更新中...', 30);
 
-	return dispatch => dispatchMethod('saveArchiveData', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
 
 /*查询个人详细档案资料*/

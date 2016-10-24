@@ -43,7 +43,7 @@ class HealthMedicalForm extends React.Component {
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
-									fields={this.props.grdaJkzkFields[0]}
+									fields={this.props.grdaJkzkFields}
 									grdaZyyyqkFields={this.props.grdaZyyyqkFields}
 									grdaFmyjzsFields={this.props.grdaFmyjzsFields}
 									grdaZyzlqkFields={this.props.grdaZyzlqkFields}

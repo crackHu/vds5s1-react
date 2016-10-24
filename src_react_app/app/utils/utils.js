@@ -163,6 +163,21 @@ export function msg(type, content, duration) {
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
 export function getFieldsObj(fields, fields_state, date_format) {
   let obj = {}
+    /*fields.forEach((field, i) => {
+      let state = fields_state[field]
+      if (state) {
+        let value = state.value
+        if (isString(value)) {
+          obj[field] = value
+        } else if (isArray(value)) {
+          obj[field] = value.join(',')
+        } else if (typeof value == "object") {
+          obj[field] = value.format(date_format)
+        } else {
+          obj[field] = value
+        }
+      }
+    })*/
   fields.forEach((field, i) => {
     let state = fields_state[field]
     if (state) {
@@ -187,22 +202,24 @@ export function getFieldsObj(fields, fields_state, date_format) {
 export function getFieldsArr(fields, fields_state, date_format) {
 
   let arr = []
-  for (let i in fields) {
-    let obj = {}
-    fields.forEach((field, j) => {
+  if (!!fields_state) {
+    for (let i in fields) {
+      let obj = {}
+      fields.forEach((field, j) => {
 
-      let state = fields_state[`${field}_${i}`]
-      if (state) {
-        let value = state.value
-        if (isString(value)) {
-          obj[field] = value
-        } else {
-          obj[field] = !!value ? value.format(date_format) : ''
+        let state = fields_state[`${field}_${i}`]
+        if (state) {
+          let value = state.value
+          if (isString(value)) {
+            obj[field] = value
+          } else {
+            obj[field] = !!value ? value.format(date_format) : ''
+          }
         }
+      })
+      if (!emptyObject(obj)) {
+        arr.push(obj)
       }
-    })
-    if (!emptyObject(obj)) {
-      arr.push(obj)
     }
   }
 

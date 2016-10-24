@@ -238,7 +238,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("HealthMedicalTable mapPropsToFields", props)
-	return props.fields[0] || {}
+	return props.fields || {}
 }
 
 export default Form.create({

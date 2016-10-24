@@ -66,8 +66,8 @@ const TabPane = Tabs.TabPane;
 
 class ArchiveCollection extends React.Component {
 
-	arcType = ARC_TYPE_CONFIG.arcType
-	specArcType = ARC_TYPE_CONFIG.specArcType
+	arcType = ARC_TYPE_CONFIG.arcType.slice(0)
+	specArcType = ARC_TYPE_CONFIG.specArcType.slice(0)
 	state = {
 		activeKey: this.arcType[0].key,
 		arcType: this.arcType,
@@ -109,6 +109,9 @@ class ArchiveCollection extends React.Component {
 		const {
 			phr
 		} = this.props
+		const {
+			activeKey
+		} = this.state
 
 		this.setState({
 			submitloading: true
@@ -116,7 +119,7 @@ class ArchiveCollection extends React.Component {
 		let updatestate = phr.updatestate
 		let flag = updatestate ? 'update' : 'save'
 
-		switch (this.state.activeKey) {
+		switch (activeKey) {
 			case 'PersonalDetail':
 				let grdaJbzlFields = FIELDS.grdaJbzl.fields
 				let grdaJwsFields = FIELDS.grdaJws.fields
@@ -130,15 +133,30 @@ class ArchiveCollection extends React.Component {
 				adjustGrdaJbzlField(grdaJbzl)
 				let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING)
 				let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING)
-					//save/update PersonalDetail
+
+				// save|update PersonalDetail
 				this.props[`${flag}${activeKey}`]({
 					grdaJbzl,
 					grdaJws,
 					grdaJzs
 				})
+				break
 			case 'HealthMedical':
-				//save/update HealthMedical
-				this.props[`${flag}${activeKey}`](phr[FIELDS.name].grdaJkzk)
+				// save|update HealthMedical
+				// this.props[`${flag}${activeKey}`](phr[FIELDS.name].grdaJkzk)
+				break
+			case 'Hypertension':
+				// save|update Hypertension
+				// TODO
+				break
+			case 'Diabetes':
+				// save|update Diabetes
+				// TODO
+				break
+			case 'Aged':
+				// save|update HealthMedical
+				// TODO
+				break
 			default:
 				console.log(`${flag}${activeKey}`, 'dev...')
 		}
@@ -182,7 +200,7 @@ class ArchiveCollection extends React.Component {
 		let deleteAbled = true
 
 		/*this.arcType.forEach((pane, i) => {*/
-		if ('personalDetail' === targetKey || 'healthMedical' === targetKey) {
+		if ('PersonalDetail' === targetKey || 'HealthMedical' === targetKey) {
 			msg('warn', '不能删除档案基本信息表(个人基本信息表、健康体检表)', 3)
 			return deleteAbled = false
 		}
@@ -260,7 +278,12 @@ class ArchiveCollection extends React.Component {
 			operatText = `保存${this.getActiveName()}`
 		}
 
-		const operations = <Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
+		const operations = (
+			<div>
+				<Button type="ghost" shape="circle-outline" icon="swap" />
+				<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
+			</div>
+		)
 		const moreSpecArc = (
 			<Menu>
 			    {
@@ -378,7 +401,11 @@ class ArchiveCollection extends React.Component {
 }
 
 ArchiveCollection.propTypes = {
-	saveArchiveData: PropTypes.func.isRequired,
+	savePersonalDetail: PropTypes.func.isRequired,
+	updatePersonalDetail: PropTypes.func.isRequired,
+	saveHealthMedical: PropTypes.func.isRequired,
+	updateHealthMedical: PropTypes.func.isRequired,
+
 	saveFieldsChange: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
 	getIndividualNumbe: PropTypes.func.isRequired,
