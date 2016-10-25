@@ -99,8 +99,10 @@ class HealthMedicalTable extends React.Component {
 		const renderContent = {
 
 			medicalDate(value, option) {
+				let grda_tjrq = getFieldValue('grda_tjrq')
+				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
 				if (editSwitch) {
-					return <a>{getFieldValue('grda_tjrq').format(DATE_FORMAT_STRING)}</a>
+					return <a>{grda_tjrq_value}</a>
 				} else {
 					return (
 						<DatePicker

@@ -2054,6 +2054,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_zyblqk',
 		],
 		fields: [
+			'id',
 			/*姓名*/
 			'grda_xm',
 			/*个人编号*/
@@ -2175,6 +2176,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'qzne',
 		],
 		fields: [
+			'id',
 			/*类别*/
 			'lb',
 			/*疾病名称*/
@@ -2188,6 +2190,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	grdaJzs: {
 		name: 'grdaJzs',
 		fields: [
+			'id',
 			/*成员类别*/
 			'cylb',
 			/*疾病名称*/

@@ -9,6 +9,8 @@ import {
 	FIELDS_CHANGE,
 	SEARCH_PHR,
 	INDIVIDUAL_NUMBER,
+	STATE_CHANGE,
+	CLEAR_STORE
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -170,4 +172,18 @@ export function getIndividualNumbe(grda_xzz, grda_xzz_fields) {
 	let query = api.getIndividualNumbe(obj)
 
 	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, true, INDIVIDUAL_NUMBER, null)
+}
+
+/*改变新增/编辑状态*/
+export function changeState() {
+	return {
+		type: STATE_CHANGE
+	};
+}
+
+/*清除Store*/
+export function clearStore() {
+	return {
+		type: CLEAR_STORE
+	};
 }

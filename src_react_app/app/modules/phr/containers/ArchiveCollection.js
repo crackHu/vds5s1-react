@@ -280,8 +280,17 @@ class ArchiveCollection extends React.Component {
 
 		const operations = (
 			<div>
-				<Button type="ghost" shape="circle-outline" icon="swap" />
-				<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
+				{phr.updatestate ? (
+					<div>
+						<Button type="ghost" onClick={() => this.props.clearStore()} shape="circle-outline" icon="close-circle-o" />
+						<Button type="ghost" onClick={() => this.props.changeState()} shape="circle-outline" icon="swap" />
+						<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
+					</div>
+				) : (
+					<div>
+						<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
+					</div>
+				)}
 			</div>
 		)
 		const moreSpecArc = (
@@ -405,7 +414,8 @@ ArchiveCollection.propTypes = {
 	updatePersonalDetail: PropTypes.func.isRequired,
 	saveHealthMedical: PropTypes.func.isRequired,
 	updateHealthMedical: PropTypes.func.isRequired,
-
+	changeState: PropTypes.func.isRequired,
+	clearStore: PropTypes.func.isRequired,
 	saveFieldsChange: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
 	getIndividualNumbe: PropTypes.func.isRequired,

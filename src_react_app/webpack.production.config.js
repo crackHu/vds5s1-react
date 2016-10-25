@@ -80,14 +80,19 @@ const config = {
 			'ActionTypes': path.resolve(APP_PATH, 'constants/ActionTypes'),
 
 			/*钉钉医疗*/
+			'ddm': path.resolve(APP_PATH, 'modules/ddm'),
 			'ddm_conf': path.resolve(APP_PATH, 'modules/ddm/DDMConfig'),
 			/*登陆*/
+			'login': path.resolve(APP_PATH, 'modules/login'),
 			'login_conf': path.resolve(APP_PATH, 'modules/login/LoginConfig'),
 			/*健康档案*/
+			'phr': path.resolve(APP_PATH, 'modules/phr'),
 			'phr_conf': path.resolve(APP_PATH, 'modules/phr/PHRConfig'),
 			/*权限*/
+			'rg': path.resolve(APP_PATH, 'modules/rg'),
 			'rg_conf': path.resolve(APP_PATH, 'modules/rg/RGConfig'),
 			/*统计*/
+			'stat': path.resolve(APP_PATH, 'modules/stat'),
 			'stat_conf': path.resolve(APP_PATH, 'modules/stat/STATConfig'),
 		},
 		extensions: ['', '.js', '.jsx']

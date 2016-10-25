@@ -78,6 +78,8 @@ class MedicalRecordsTable extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log("MedicalRecordsTable componentWillReceiveProps", nextProps)
+
+		//TODO
 		const data = this.state.data
 		if (!!nextProps.fields && !!nextProps.fields.objSize && data.length == 0)
 			this.setState({

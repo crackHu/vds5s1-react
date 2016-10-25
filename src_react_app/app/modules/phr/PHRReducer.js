@@ -7,6 +7,8 @@ import {
 	FIELDS_CHANGE,
 	SEARCH_PHR,
 	INDIVIDUAL_NUMBER,
+	STATE_CHANGE,
+	CLEAR_STORE
 } from 'ActionTypes';
 
 import {
@@ -163,6 +165,24 @@ export default function PHRReducer(state = initialState, action) {
 			} else {
 				return state
 			}
+		case STATE_CHANGE:
+			let idValue = "";
+			return Object.assign({}, {
+				[FIELDS.name]: {
+					grdaJbzl: {
+						id: {
+							value: null
+						}
+					}
+				},
+				updatestate: !state.updatestate
+			}, state)
+		case CLEAR_STORE:
+			return Object.assign({}, {
+				[FIELDS.name]: null,
+			}, initialState, {
+				updatestate: state.updatestate,
+			})
 		default:
 			return state
 	}

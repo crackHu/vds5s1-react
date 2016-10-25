@@ -9,8 +9,12 @@ import {
 	DatePicker
 } from 'antd'
 import {
+	connect
+} from 'react-redux';
+import {
 	ARC_TYPE_CONFIG
 } from 'phr_conf'
+import * as PHRAction from 'phr/PHRAction'
 
 import HealthMedicalTable from './HealthMedicalTable'
 
@@ -34,7 +38,7 @@ class HealthMedicalForm extends React.Component {
 		const {
 			getFieldDecorator
 		} = this.props.form
-
+		console.log('render', this.props)
 		const tabpane = (
 			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>
 			    {
@@ -43,7 +47,7 @@ class HealthMedicalForm extends React.Component {
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
-									fields={this.props.grdaJkzkFields}
+									fields={this.props.grdaJkzkFields[0]}
 									grdaZyyyqkFields={this.props.grdaZyyyqkFields}
 									grdaFmyjzsFields={this.props.grdaFmyjzsFields}
 									grdaZyzlqkFields={this.props.grdaZyzlqkFields}
@@ -62,7 +66,7 @@ class HealthMedicalForm extends React.Component {
 				{/*体检记录*/}
 				<div className="dashed_border form inside">
 					<HealthMedicalTable
-					 fields={this.props.grdaJkzkFields}
+					 fields={this.props.grdaJkzkFields[0]}
 					 onFieldsChange={this.props.onFieldsChange}
 					/>
 				</div>
@@ -86,7 +90,18 @@ function mapPropsToFields(props) {
 	return props.grdaJkzkFields || {}
 }
 
-export default Form.create({
+function mapStateToProps(state) {
+	console.log('HealthMedicalForm mapStateToProps:', state)
+	return {
+		phr: state.phr
+	}
+}
+
+HealthMedicalForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(HealthMedicalForm)
+
+export default connect(mapStateToProps, {
+	...PHRAction
 })(HealthMedicalForm)

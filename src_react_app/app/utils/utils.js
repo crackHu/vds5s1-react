@@ -163,21 +163,6 @@ export function msg(type, content, duration) {
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
 export function getFieldsObj(fields, fields_state, date_format) {
   let obj = {}
-    /*fields.forEach((field, i) => {
-      let state = fields_state[field]
-      if (state) {
-        let value = state.value
-        if (isString(value)) {
-          obj[field] = value
-        } else if (isArray(value)) {
-          obj[field] = value.join(',')
-        } else if (typeof value == "object") {
-          obj[field] = value.format(date_format)
-        } else {
-          obj[field] = value
-        }
-      }
-    })*/
   fields.forEach((field, i) => {
     let state = fields_state[field]
     if (state) {
@@ -198,6 +183,30 @@ export function getFieldsObj(fields, fields_state, date_format) {
   return obj
 }
 
+// ------ 获取表单字段与值的封装对象 装箱 ------ // 
+export function getFieldsObjWithout(fields_state, date_format) {
+  let obj = {}
+
+  for (let field in fields_state) {
+    let stateField = fields_state[field]
+    if (stateField) {
+      let value = stateField.value
+      if (isString(value)) {
+        obj[field] = value
+      } else if (isArray(value)) {
+        obj[field] = value.join(',')
+      } else if (typeof value == "object") {
+        obj[field] = value.format(date_format)
+      } else {
+        obj[field] = value
+      }
+    }
+  }
+
+  console.debug('getFieldsObj', '=>', obj)
+  return obj
+}
+
 // ------ 获取表单字段与值的封装数组 装箱 ------ //
 export function getFieldsArr(fields, fields_state, date_format) {
 
@@ -213,7 +222,11 @@ export function getFieldsArr(fields, fields_state, date_format) {
           if (isString(value)) {
             obj[field] = value
           } else {
-            obj[field] = !!value ? value.format(date_format) : ''
+            if (!!value) {
+              obj[field] = value.format(date_format)
+            } else {
+              obj[field] = '0000-00-00 00:00:00'
+            }
           }
         }
       })
@@ -335,15 +348,15 @@ export function getArrFieldsValueArrObj(doutArrObj, files, flag) {
 }
 
 function isObject(obj) {
-  return typeof obj == "object" && obj.constructor == Object
+  return typeof obj == "object" && !!obj && obj.constructor == Object
 }
 
 function isArray(arr) {
-  return typeof arr == "object" && arr.constructor == Array
+  return typeof arr == "object" && !!arr && arr.constructor == Array
 }
 
 function isString(str) {
-  return typeof str == "string" && str.constructor == String
+  return typeof str == "string" && !!str && str.constructor == String
 }
 
 // ------ 获取 moment 对象 ------ //
