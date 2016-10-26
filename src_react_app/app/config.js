@@ -17,7 +17,7 @@ export const CONFIG = {
 }
 
 /**************时间格式配置**************/
-export const DATE_FORMAT_STRING = 'YYYY-M-D'
+export const DATE_FORMAT_STRING = 'YYYY-MM-DD'
 
 /**************菜单配置**************/
 export const MENU_CONFIG = {

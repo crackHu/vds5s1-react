@@ -12,14 +12,18 @@ import {
 	connect
 } from 'react-redux';
 import {
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 	ARC_TYPE_CONFIG
 } from 'phr_conf'
+import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
 
 import HealthMedicalTable from './HealthMedicalTable'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
+const FNAME = FIELDS.name
 
 /*健康体检表*/
 class HealthMedicalForm extends React.Component {
@@ -36,23 +40,39 @@ class HealthMedicalForm extends React.Component {
 	render() {
 
 		const {
+			onFieldsChangeByKey
+		} = this.props
+		const {
 			getFieldDecorator
 		} = this.props.form
-		console.log('render', this.props)
+		const {
+			grdaJkzk,
+			grdaJkjl,
+			grdaZyyyqk,
+			grdaFmyjzs,
+			grdaZyzlqk,
+		} = this.props.phr[FNAME]
+
+		let fields = {}
+		for (let key in grdaJkzk) {
+			fields = grdaJkzk[key]
+			break
+		}
 		const tabpane = (
 			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>
 			    {
+
 			    	this.arcType[1].sub.map((arc, index) => {
 			    		let Container = require(`../${arc.content}`).default
 						return (
 						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
-									fields={this.props.grdaJkzkFields[0]}
-									grdaZyyyqkFields={this.props.grdaZyyyqkFields}
-									grdaFmyjzsFields={this.props.grdaFmyjzsFields}
-									grdaZyzlqkFields={this.props.grdaZyzlqkFields}
+									fields={fields}
+									grdaZyyyqkFields={grdaZyyyqk}
+									grdaFmyjzsFields={grdaFmyjzs}
+									grdaZyzlqkFields={grdaZyzlqk}
 									
-									onFieldsChange={this.props.onFieldsChange}
+									onFieldsChange={onFieldsChangeByKey}
 								/>
 							</TabPane>
 						)
@@ -66,8 +86,8 @@ class HealthMedicalForm extends React.Component {
 				{/*体检记录*/}
 				<div className="dashed_border form inside">
 					<HealthMedicalTable
-					 fields={this.props.grdaJkzkFields[0]}
-					 onFieldsChange={this.props.onFieldsChange}
+					 fields={grdaJkjl}
+					 onFieldsChange={onFieldsChangeByKey}
 					/>
 				</div>
 				<div>
@@ -78,8 +98,8 @@ class HealthMedicalForm extends React.Component {
 	}
 }
 
-function onFieldsChange(props, fields, flag) {
-	console.log("HealthMedicalForm onFieldsChange", props, fields, flag)
+function onFieldsChange(props, fields) {
+	console.log("HealthMedicalForm onFieldsChange", props, fields)
 		/*props.onFieldsChange({
 			fields
 		}, 'grdaJkzk');*/
@@ -87,7 +107,7 @@ function onFieldsChange(props, fields, flag) {
 
 function mapPropsToFields(props) {
 	console.log("HealthMedicalForm mapPropsToFields", props)
-	return props.grdaJkzkFields || {}
+	return props.phr[FNAME].grdaJkzk || {}
 }
 
 function mapStateToProps(state) {
@@ -103,5 +123,6 @@ HealthMedicalForm = Form.create({
 })(HealthMedicalForm)
 
 export default connect(mapStateToProps, {
-	...PHRAction
+	...PHRAction,
+	...AppActions,
 })(HealthMedicalForm)

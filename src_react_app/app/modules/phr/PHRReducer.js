@@ -8,7 +8,8 @@ import {
 	SEARCH_PHR,
 	INDIVIDUAL_NUMBER,
 	STATE_CHANGE,
-	CLEAR_STORE
+	CLEAR_STORE,
+	FIELDS_CHANGE_KEY,
 } from 'ActionTypes';
 
 import {
@@ -23,6 +24,7 @@ import {
 	getFieldsValueArrObj,
 	getArrFieldsValueObj,
 	getArrFieldsValueArrObj,
+	getArrFieldsObjByObj,
 	getLoginUser
 } from 'utils'
 
@@ -62,39 +64,46 @@ export default function PHRReducer(state = initialState, action) {
 				data: action.data
 			})
 		case FIELDS_CHANGE:
-			let data = action.data
-			let flag = action.flag
-			let stateFields = state[FIELDS.name]
-			let flagFields = !!stateFields ? stateFields[flag] : null
-
-			if (FIELDS.fieldsKey.isArr.indexOf(flag) > -1) {
-				return Object.assign({}, initialState, state, {
-					[FIELDS.name]: {
-						...stateFields,
-						[flag]: {
-							...flagFields,
+			var data = action.data
+			var flag = action.flag
+			var stateFields = state[FIELDS.name]
+			var flagFields = !!stateFields ? stateFields[flag] : null
+			return Object.assign({}, initialState, state, {
+				[FIELDS.name]: {
+					...stateFields,
+					[flag]: {
+						...flagFields,
+						...data
+					}
+				}
+			})
+		case FIELDS_CHANGE_KEY:
+			var data = action.data
+			var flag = action.flag
+			var key = action.targetKey
+			var stateFields = state[FIELDS.name]
+			var flagFields = !!stateFields ? stateFields[flag] : null
+			var keyFields = !!flagFields ? flagFields[key] : null
+			return Object.assign({}, initialState, state, {
+				[FIELDS.name]: {
+					...stateFields,
+					[flag]: {
+						...flagFields,
+						[key]: {
+							...keyFields,
 							...data
 						}
 					}
-				})
-			} else {
-				return Object.assign({}, initialState, state, {
-					[FIELDS.name]: {
-						...stateFields,
-						[flag]: {
-							...flagFields,
-							...data
-						}
-					}
-				})
-			}
+				}
+			})
 		case QUERY_PHR:
 			let dout = action.data.dout
 			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
-			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, FIELDS['grdaJkzk'])
+			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, FIELDS['grdaJkzk'], 'grda_tjrq')
+			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
 			let grdaZyyyqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyyyqk'], 'grdaZyyyqk')
 			let grdaFmyjzs = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaFmyjzs'], 'grdaFmyjzs')
 			let grdaZyzlqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyzlqk'], 'grdaZyzlqk')
@@ -116,6 +125,7 @@ export default function PHRReducer(state = initialState, action) {
 					grdaJzs,
 
 					grdaJkzk,
+					grdaJkjl,
 					grdaZyyyqk,
 					grdaFmyjzs,
 					grdaZyzlqk,
@@ -167,16 +177,9 @@ export default function PHRReducer(state = initialState, action) {
 			}
 		case STATE_CHANGE:
 			let idValue = "";
-			return Object.assign({}, {
-				[FIELDS.name]: {
-					grdaJbzl: {
-						id: {
-							value: null
-						}
-					}
-				},
+			return Object.assign({}, state, {
 				updatestate: !state.updatestate
-			}, state)
+			})
 		case CLEAR_STORE:
 			return Object.assign({}, {
 				[FIELDS.name]: null,

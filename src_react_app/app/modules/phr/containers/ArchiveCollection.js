@@ -37,31 +37,6 @@ import {
 	CONFIG as LCONFIG
 } from 'login_conf'
 
-const USR = LCONFIG.LS.USR
-const DEFAULT = LCONFIG.DEFAULT
-
-const user = JSON.parse(localStorage.getItem(USR))
-const DEFAULT_USERNAME = DEFAULT.USERNAME
-const userName = user ? user.userName : DEFAULT_USERNAME
-const DEFAULT_DATE = '1950-1-1'
-const DEFAULT_VALUE = {
-	grda_csrq: {
-		value: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
-	},
-	grda_jdys: {
-		value: userName
-	},
-	grda_jdrq: {
-		value: moment(new Date(), DATE_FORMAT_STRING)
-	},
-	grda_lrr: {
-		value: userName
-	},
-	grda_lrrq: {
-		value: moment(new Date(), DATE_FORMAT_STRING)
-	},
-}
-
 const TabPane = Tabs.TabPane;
 
 class ArchiveCollection extends React.Component {
@@ -84,7 +59,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentDidMount = () => {
-		console.log('ArchiveCollection.state', this.state)
+		console.log('ArchiveCollection.state', this.state, this.props)
 	}
 
 	componentWillUnmount = () => {}

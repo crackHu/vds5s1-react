@@ -2184,7 +2184,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			/*时间*/
 			'qzne',
 			/*备注*/
-			'jzyymc',
+			'bz',
 		]
 	},
 	grdaJzs: {
@@ -2246,6 +2246,14 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_whyskz',
 		]
 
+	},
+	//健康体检表-健康记录表(自定义，非服务端返回)
+	grdaJkjl: {
+		fields: [
+			'grda_tjrq',
+			'grda_jkpj',
+			'grda_jkzd',
+		]
 	},
 	//健康体检表-主要用药情况
 	grdaZyyyqk: {

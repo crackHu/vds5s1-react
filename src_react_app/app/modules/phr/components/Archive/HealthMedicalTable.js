@@ -51,6 +51,14 @@ class HealthMedicalTable extends React.Component {
 
 	componentDidMount = () => {}
 
+	componentWillReceiveProps = (nextProps) => {
+		console.log("HealthMedicalTable componentWillReceiveProps", nextProps)
+	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log('HealthMedicalTable componentDidUpdate', prevProps, prevState)
+	}
+
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({

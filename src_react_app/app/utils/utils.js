@@ -241,13 +241,13 @@ export function getFieldsArr(fields, fields_state, date_format) {
 }
 
 // ------ 获取表单字段与值对象的封装对象 拆箱 ------ //
-export function getFieldsValueObj(dout, files) {
+export function getFieldsValueObj(dout, fields) {
 
   let obj = {}
 
-  let dateFields = files.dateFields || ''
-  let cascadeFields = files.cascadeFields || ''
-  let multiFields = files.multiFields || ''
+  let dateFields = fields.dateFields || ''
+  let cascadeFields = fields.cascadeFields || ''
+  let multiFields = fields.multiFields || ''
 
   /*init cascade array*/
   for (let cascades in cascadeFields) {
@@ -289,21 +289,54 @@ export function getFieldsValueObj(dout, files) {
 }
 
 // ------ 获取表单字段与值对象数组的封装对象 拆箱 ------ //
-export function getArrFieldsValueObj(doutArrObj, files) {
+export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag) {
 
-  let arr = []
+  let obj = {}
   if (!!doutArrObj)
-    doutArrObj.forEach((obj, index) => {
-      let arrObj = getFieldsValueObj(obj, files)
-      arr.push(arrObj)
+    doutArrObj.forEach((fieldsObj, index) => {
+      let fieldKey
+      for (let field in fieldsObj) {
+        if (field == fieldFlag) {
+          fieldKey = fieldsObj[fieldFlag]
+        }
+      }
+      let valueObj = getFieldsValueObj(fieldsObj, fields)
+      if (!!fieldKey) {
+        obj[fieldKey] = valueObj
+      }
     })
 
-  console.debug('getArrFieldsValueObj', '=>', arr)
-  return arr
+  console.debug('getArrFieldsValueObj', '=>', obj)
+  return obj
+}
+
+// ------ 获取表单字段与值对象数组的封装对象 用于该表字段存在于主表字段情况（例：健康体检表中的体检记录 ------ //
+export function getArrFieldsObjByObj(fieldObj, sfieldArr) {
+
+  let obj = {}
+  let index = 0
+  for (let pkey in fieldObj) {
+    let arr = []
+    let pobj = fieldObj[pkey]
+    for (let skey in pobj) {
+      /*let sobj = sfieldArr.filter(field => field == skey)
+      if (!!sobj && sobj.length > 0) {
+        obj[`${sobj}_${index}`] = pobj[skey]
+        arr.push(obj)
+      }*/
+      if (sfieldArr.indexOf(skey) > -1) {
+        obj[`${skey}_${index}`] = pobj[skey]
+        arr.push(obj)
+      }
+    }
+    index += 1
+  }
+  console.debug('getArrFieldsObjByObj', '=>', obj)
+  return obj
 }
 
 // ------ 获取表单字段与值的封装数组 拆箱 ------ //
-export function getFieldsValueArrObj(doutArr, files) {
+export function getFieldsValueArrObj(doutArr, fields) {
 
   if (!doutArr || !isArray(doutArr))
     throw Error('getFieldsValueArrObj param [doutArr] error')
@@ -311,7 +344,7 @@ export function getFieldsValueArrObj(doutArr, files) {
   let fieldObjs = {}
   let objSize = []
 
-  let dateFields = files.dateFields || ''
+  let dateFields = fields.dateFields || ''
   doutArr.forEach((dout, i) => {
     objSize.push({})
     for (let attr in dout) {
@@ -334,12 +367,12 @@ export function getFieldsValueArrObj(doutArr, files) {
 }
 
 // ------ 获取表单字段与值数组的封装数组 拆箱 ------ //
-export function getArrFieldsValueArrObj(doutArrObj, files, flag) {
+export function getArrFieldsValueArrObj(doutArrObj, fields, flag) {
 
   let arr = []
   if (!!doutArrObj)
     doutArrObj.forEach((obj, index) => {
-      let arrObj = getFieldsValueArrObj(obj[flag], files)
+      let arrObj = getFieldsValueArrObj(obj[flag], fields)
       arr.push(arrObj)
     })
 
