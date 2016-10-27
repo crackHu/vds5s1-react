@@ -10,7 +10,9 @@ import {
 	SEARCH_PHR,
 	INDIVIDUAL_NUMBER,
 	STATE_CHANGE,
-	CLEAR_STORE
+	CLEAR_STORE,
+	GET_GRDA_JKZK,
+	CHANGE_GRDA_JKZK_SELKEY,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -185,5 +187,13 @@ export function changeState() {
 export function clearStore() {
 	return {
 		type: CLEAR_STORE
+	};
+}
+
+/*改变 体检表数组选中的kye*/
+export function changeGrdaJkzkSelectKey(selectKey) {
+	return {
+		type: CHANGE_GRDA_JKZK_SELKEY,
+		selectKey
 	};
 }

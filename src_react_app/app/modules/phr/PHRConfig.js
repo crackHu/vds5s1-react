@@ -1979,6 +1979,11 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 		],
 		isArr: [
 			'grdaJkzk',
+		],
+		isArrObj: [
+			'grdaZyyyqk',
+			'grdaFmyjzs',
+			'grdaZyzlqk',
 		]
 
 	},
@@ -2244,7 +2249,38 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			/*table6*/
 			'grda_jkzd',
 			'grda_whyskz',
-		]
+		],
+		arrFields: {
+			//健康体检表-主要用药情况
+			'grdaZyyyqk': {
+				fields: [
+					'yf',
+					'yl',
+					'yysj',
+					'fyycx',
+					'bz',
+				]
+			},
+			//健康体检表-非免疫规划预防接种史
+			'grdaFmyjzs': {
+				fields: [
+					'ymmc',
+					'jzrq',
+					'jzjg',
+					'bz',
+				]
+			},
+			//健康体检表-住院治疗情况
+			'grdaZyzlqk': {
+				fields: [
+					'rcyrq',
+					'yy',
+					'yljgmc',
+					'bah',
+					'bz',
+				]
+			},
+		}
 
 	},
 	//健康体检表-健康记录表(自定义，非服务端返回)
@@ -2254,18 +2290,6 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_jkpj',
 			'grda_jkzd',
 		]
-	},
-	//健康体检表-主要用药情况
-	grdaZyyyqk: {
-
-	},
-	//健康体检表-非免疫规划预防接种史
-	grdaFmyjzs: {
-
-	},
-	//健康体检表-住院治疗情况
-	grdaZyzlqk: {
-
 	},
 
 	/*高血压*/

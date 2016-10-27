@@ -166,6 +166,7 @@ class MedicalTable4 extends React.Component {
 					<HospitalizationTable 
 					 fields={this.props.grdaZyzlqkFields}
 					 onFieldsChange={this.props.onFieldsChange}
+					 grdaZyzlqkObjSize={this.props.grdaZyzlqkObjSize}
 					/>
 				</fieldset>
 			</Form>

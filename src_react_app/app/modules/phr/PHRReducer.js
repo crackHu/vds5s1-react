@@ -10,6 +10,8 @@ import {
 	STATE_CHANGE,
 	CLEAR_STORE,
 	FIELDS_CHANGE_KEY,
+	GET_GRDA_JKZK,
+	CHANGE_GRDA_JKZK_SELKEY,
 } from 'ActionTypes';
 
 import {
@@ -68,22 +70,41 @@ export default function PHRReducer(state = initialState, action) {
 			var flag = action.flag
 			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
-			return Object.assign({}, initialState, state, {
-				[FIELDS.name]: {
-					...stateFields,
-					[flag]: {
-						...flagFields,
-						...data
+			var fieldsKey = FIELDS.fieldsKey
+			if (fieldsKey.isArr.indexOf(flag) > -1) {
+				var key = flagFields['selectKey']
+				var keyFields = !!flagFields[key] ? flagFields[key] : null
+				return Object.assign({}, initialState, state, {
+					[FIELDS.name]: {
+						...stateFields,
+						[flag]: {
+							...flagFields,
+							[key]: {
+								...keyFields,
+								...data
+							}
+						}
 					}
-				}
-			})
+				})
+			} else {
+				return Object.assign({}, initialState, state, {
+					[FIELDS.name]: {
+						...stateFields,
+						[flag]: {
+							...flagFields,
+							...data
+						}
+					}
+				})
+			}
 		case FIELDS_CHANGE_KEY:
 			var data = action.data
 			var flag = action.flag
-			var key = action.targetKey
 			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
-			var keyFields = !!flagFields ? flagFields[key] : null
+			var key = flagFields['selectKey']
+			var keyFields = !!flagFields[key] ? flagFields[key] : null
+			console.log('FIELDS_CHANGE_KEY', data, key, keyFields)
 			return Object.assign({}, initialState, state, {
 				[FIELDS.name]: {
 					...stateFields,
@@ -102,11 +123,12 @@ export default function PHRReducer(state = initialState, action) {
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
-			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, FIELDS['grdaJkzk'], 'grda_tjrq')
+			let grdaJkzkFields = FIELDS['grdaJkzk']
+			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
 			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
-			let grdaZyyyqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyyyqk'], 'grdaZyyyqk')
-			let grdaFmyjzs = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaFmyjzs'], 'grdaFmyjzs')
-			let grdaZyzlqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyzlqk'], 'grdaZyzlqk')
+				/*let grdaZyyyqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyyyqk'], 'grdaZyyyqk')
+				let grdaFmyjzs = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaFmyjzs'], 'grdaFmyjzs')
+				let grdaZyzlqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyzlqk'], 'grdaZyzlqk')*/
 
 			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, FIELDS['gxyJxb'])
 			let gxyYyqk = getArrFieldsValueArrObj(dout.gxyJxb, FIELDS['gxyYyqk'], 'gxyYyqk')
@@ -126,9 +148,9 @@ export default function PHRReducer(state = initialState, action) {
 
 					grdaJkzk,
 					grdaJkjl,
-					grdaZyyyqk,
+					/*grdaZyyyqk,
 					grdaFmyjzs,
-					grdaZyzlqk,
+					grdaZyzlqk,*/
 
 					gxyJxb,
 					gxyYyqk,
@@ -163,11 +185,12 @@ export default function PHRReducer(state = initialState, action) {
 						value: action.data.dout.grbh
 					}
 				}
-				return Object.assign({}, initialState, {
+				var stateFields = state[FIELDS.name]
+				return Object.assign({}, state, {
 					[FIELDS.name]: {
-						...state[FIELDS.name],
+						...stateFields,
 						grdaJbzl: {
-							...state[FIELDS.name]['grdaJbzl'],
+							...stateFields['grdaJbzl'],
 							...grbh
 						}
 					}
@@ -185,6 +208,17 @@ export default function PHRReducer(state = initialState, action) {
 				[FIELDS.name]: null,
 			}, initialState, {
 				updatestate: state.updatestate,
+			})
+		case CHANGE_GRDA_JKZK_SELKEY:
+			var stateFields = state[FIELDS.name]
+			return Object.assign({}, state, {
+				[FIELDS.name]: {
+					...stateFields,
+					grdaJkzk: {
+						...stateFields['grdaJkzk'],
+						selectKey: action.selectKey
+					}
+				},
 			})
 		default:
 			return state

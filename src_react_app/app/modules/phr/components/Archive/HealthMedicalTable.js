@@ -93,8 +93,16 @@ class HealthMedicalTable extends React.Component {
 		}, () => msg("success", "已添加", 1))
 	}
 
+	/*改变选中的体检表 根据体检时间*/
+	changeSelectDate = (selectDate) => {
+		this.props.changeGrdaJkzkSelectKey(selectDate)
+	}
+
 	render() {
 
+		const {
+			objSize
+		} = this.props
 		const {
 			getFieldDecorator,
 			getFieldValue
@@ -104,6 +112,7 @@ class HealthMedicalTable extends React.Component {
 			editSwitch
 		} = this.state
 
+		// 目前没有调用
 		const renderContent = {
 
 			medicalDate(value, option) {
@@ -145,34 +154,35 @@ class HealthMedicalTable extends React.Component {
 			dataIndex: 'medicalDate',
 			key: 'medicalDate',
 			width: '10%',
-			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('grda_tjrq')(
-						renderContent.medicalDate(value, this.dtOptions)
-					)}
-				</FormItem>,
+			render: (value, row, index) => {
+				let grda_tjrq = getFieldValue(`grda_tjrq_${index}`)
+				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
+				return <span>{grda_tjrq_value}</span>
+			}
 		}, {
 			title: '健康评价',
 			dataIndex: 'medicalEvaluation',
 			key: 'medicalEvaluation',
 			width: '30%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('grda_jkpj')(
-						renderContent.medicalEvaluation(value, this.dnOptions)
-					)}
-				</FormItem>,
+				<span>{getFieldValue(`grda_jkpj_${index}`)}</span>,
 		}, {
 			title: '健康指导',
 			dataIndex: 'medicalGuide',
 			key: 'medicalGuide',
-			width: '50%',
+			width: '45%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('grda_jkzd')(
-						renderContent.medicalGuide(value)
-					)}
-				</FormItem>,
+				<span>{getFieldValue(`grda_jkzd_${index}`)}</span>,
+		}, {
+			title: '操作',
+			dataIndex: 'operation',
+			key: 'operation',
+			width: '10%',
+			render: (value, row, index) => {
+				let grda_tjrq = getFieldValue(`grda_tjrq_${index}`)
+				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
+				return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(grda_tjrq_value)}>查看</a>
+			}
 		}];
 
 		// rowSelection objects indicates the need for row selection
@@ -183,6 +193,7 @@ class HealthMedicalTable extends React.Component {
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
 		const pagination = {
+			total: !!objSize ? objSize.length : 0,
 			pageSize: 5
 		}
 		const title = () => (
@@ -227,14 +238,14 @@ class HealthMedicalTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={objSize} 
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
     			pagination={false}
+    			scroll={{ y: 200 }}
     			bordered
-			>
-			</Table>
+			/>
 		)
 	}
 }

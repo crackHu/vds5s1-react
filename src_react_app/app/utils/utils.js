@@ -289,9 +289,10 @@ export function getFieldsValueObj(dout, fields) {
 }
 
 // ------ 获取表单字段与值对象数组的封装对象 拆箱 ------ //
-export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag) {
+export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
 
   let obj = {}
+  let selectKey
   if (!!doutArrObj)
     doutArrObj.forEach((fieldsObj, index) => {
       let fieldKey
@@ -303,11 +304,20 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag) {
       let valueObj = getFieldsValueObj(fieldsObj, fields)
       if (!!fieldKey) {
         obj[fieldKey] = valueObj
+        for (let arr in arrFields) {
+          obj[fieldKey][arr] = getFieldsValueArrObj(valueObj[arr].value, arrFields[arr].fields)
+        }
       }
     })
-
+  for (let date in obj) {
+    selectKey = date
+    break
+  }
   console.debug('getArrFieldsValueObj', '=>', obj)
-  return obj
+  return {
+    ...obj,
+    selectKey
+  }
 }
 
 // ------ 获取表单字段与值对象数组的封装对象 用于该表字段存在于主表字段情况（例：健康体检表中的体检记录 ------ //
@@ -315,9 +325,11 @@ export function getArrFieldsObjByObj(fieldObj, sfieldArr) {
 
   let obj = {}
   let index = 0
+  let objSize = []
   for (let pkey in fieldObj) {
     let arr = []
     let pobj = fieldObj[pkey]
+    let existsFlag = false
     for (let skey in pobj) {
       /*let sobj = sfieldArr.filter(field => field == skey)
       if (!!sobj && sobj.length > 0) {
@@ -326,13 +338,20 @@ export function getArrFieldsObjByObj(fieldObj, sfieldArr) {
       }*/
       if (sfieldArr.indexOf(skey) > -1) {
         obj[`${skey}_${index}`] = pobj[skey]
-        arr.push(obj)
+        existsFlag = true
       }
     }
-    index += 1
+    if (existsFlag) {
+      objSize.push({})
+      index += 1
+    }
   }
+
   console.debug('getArrFieldsObjByObj', '=>', obj)
-  return obj
+  return {
+    ...obj,
+    objSize
+  }
 }
 
 // ------ 获取表单字段与值的封装数组 拆箱 ------ //
@@ -383,7 +402,6 @@ export function getArrFieldsValueArrObj(doutArrObj, fields, flag) {
 function isObject(obj) {
   return typeof obj == "object" && !!obj && obj.constructor == Object
 }
-
 function isArray(arr) {
   return typeof arr == "object" && !!arr && arr.constructor == Array
 }

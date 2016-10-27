@@ -61,6 +61,8 @@ class MedicalTable5 extends React.Component {
 					<MainMedicationsTable
 						fields={this.props.grdaZyyyqkFields}
 						onFieldsChange={this.props.onFieldsChange}
+						grdaZyyyqkObjSize={this.props.grdaZyyyqkObjSize}
+						grdaFmyjzsObjSize={this.props.grdaFmyjzsObjSize}
 					/>
 				</fieldset>
 				<fieldset>

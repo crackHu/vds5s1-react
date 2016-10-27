@@ -15,6 +15,7 @@ import {
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 	ARC_TYPE_CONFIG
 } from 'phr_conf'
+
 import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
 
@@ -38,26 +39,44 @@ class HealthMedicalForm extends React.Component {
 	componentDidMount = () => {}
 
 	render() {
-
 		const {
-			onFieldsChangeByKey
+			onFieldsChange,
+			changeGrdaJkzkSelectKey
 		} = this.props
 		const {
 			getFieldDecorator
 		} = this.props.form
 		const {
+			updatestate
+		} = this.props.phr
+		const {
 			grdaJkzk,
 			grdaJkjl,
-			grdaZyyyqk,
-			grdaFmyjzs,
-			grdaZyzlqk,
 		} = this.props.phr[FNAME]
 
 		let fields = {}
-		for (let key in grdaJkzk) {
-			fields = grdaJkzk[key]
-			break
+		let grdaZyyyqk, grdaFmyjzs, grdaZyzlqk
+		let objSize, grdaZyyyqkObjSize, grdaFmyjzsObjSize, grdaZyzlqkObjSize
+
+		if (updatestate) {
+			let selectKey = grdaJkzk['selectKey']
+			for (let key in grdaJkzk) {
+				let grdaJkzk_value = grdaJkzk[key]
+				if (selectKey == key && grdaJkzk_value.constructor == Object) {
+					fields = grdaJkzk_value
+					grdaZyyyqk = grdaJkzk_value['grdaZyyyqk']
+					grdaFmyjzs = grdaJkzk_value['grdaFmyjzs']
+					grdaZyzlqk = grdaJkzk_value['grdaZyzlqk']
+					break
+				}
+			}
+
+			objSize = grdaJkjl.objSize
+			grdaZyyyqkObjSize = grdaZyyyqk.objSize
+			grdaFmyjzsObjSize = grdaFmyjzs.objSize
+			grdaZyzlqkObjSize = grdaZyzlqk.objSize
 		}
+
 		const tabpane = (
 			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>
 			    {
@@ -72,7 +91,10 @@ class HealthMedicalForm extends React.Component {
 									grdaFmyjzsFields={grdaFmyjzs}
 									grdaZyzlqkFields={grdaZyzlqk}
 									
-									onFieldsChange={onFieldsChangeByKey}
+									onFieldsChange={onFieldsChange}
+									grdaZyyyqkObjSize = {grdaZyyyqkObjSize}
+									grdaFmyjzsObjSize = {grdaFmyjzsObjSize}
+									grdaZyzlqkObjSize = {grdaZyzlqkObjSize}
 								/>
 							</TabPane>
 						)
@@ -87,7 +109,9 @@ class HealthMedicalForm extends React.Component {
 				<div className="dashed_border form inside">
 					<HealthMedicalTable
 					 fields={grdaJkjl}
-					 onFieldsChange={onFieldsChangeByKey}
+					 onFieldsChange={onFieldsChange}
+					 changeGrdaJkzkSelectKey={changeGrdaJkzkSelectKey}
+					 objSize={objSize}
 					/>
 				</div>
 				<div>
@@ -115,6 +139,11 @@ function mapStateToProps(state) {
 	return {
 		phr: state.phr
 	}
+}
+
+HealthMedicalForm.propTypes = {
+	changeGrdaJkzkSelectKey: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
 }
 
 HealthMedicalForm = Form.create({

@@ -67,34 +67,20 @@ class HospitalizationTable extends React.Component {
 	}
 
 	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+		//TODO
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-
-		let ndata = {}
-		ndata.key = Date.now()
-
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
-
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+		//TODO
 	}
 
 	render() {
 
+		const {
+			grdaZyzlqkObjSize
+		} = this.props
 		const {
 			getFieldDecorator
 		} = this.props.form
@@ -252,7 +238,7 @@ class HospitalizationTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={grdaZyzlqkObjSize} 
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
