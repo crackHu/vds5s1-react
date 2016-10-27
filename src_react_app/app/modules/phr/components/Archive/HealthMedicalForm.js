@@ -57,7 +57,6 @@ class HealthMedicalForm extends React.Component {
 		let fields = {}
 		let grdaZyyyqk, grdaFmyjzs, grdaZyzlqk
 		let objSize, grdaZyyyqkObjSize, grdaFmyjzsObjSize, grdaZyzlqkObjSize
-
 		if (updatestate) {
 			let selectKey = grdaJkzk['selectKey']
 			for (let key in grdaJkzk) {

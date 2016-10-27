@@ -12,6 +12,7 @@ import {
 	FIELDS_CHANGE_KEY,
 	GET_GRDA_JKZK,
 	CHANGE_GRDA_JKZK_SELKEY,
+	FETCH_ERROR,
 } from 'ActionTypes';
 
 import {
@@ -59,14 +60,19 @@ export default function PHRReducer(state = initialState, action) {
 
 	console.debug('reducer state =>', state, ' action =>', action)
 
+	let data = action.data || undefined
+	let dout = !!data ? data.dout : undefined
+	let status = !!data ? data.status : undefined
+	let resultCode = !!status ? status.resultCode : undefined
+	let resultMesg = !!status ? status.resultMesg : undefined
+
 	switch (action.type) {
 		case GET_ARCHIVES:
 			return Object.assign({}, initialState, {
 				archiveListloading: false,
-				data: action.data
+				data
 			})
 		case FIELDS_CHANGE:
-			var data = action.data
 			var flag = action.flag
 			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
@@ -98,7 +104,6 @@ export default function PHRReducer(state = initialState, action) {
 				})
 			}
 		case FIELDS_CHANGE_KEY:
-			var data = action.data
 			var flag = action.flag
 			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
@@ -118,7 +123,6 @@ export default function PHRReducer(state = initialState, action) {
 				}
 			})
 		case QUERY_PHR:
-			let dout = action.data.dout
 			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
@@ -162,27 +166,26 @@ export default function PHRReducer(state = initialState, action) {
 				}
 			})
 		case DELETE_PHR:
-			return action.data
+			return data
 		case SAVE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
-				updatestate: true,
-				...action.data,
+				updatestate: resultCode > 0,
+				...data,
 			})
 		case UPDATE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
-				updatestate: true,
-				...action.data,
+				updatestate: resultCode > 0,
+				...data,
 			})
 		case SEARCH_PHR:
 			return {
-				data: action.data
+				data
 			}
 		case INDIVIDUAL_NUMBER:
-			let result = action.data.status
-			if (result.resultCode == 0) {
+			if (resultCode > 0) {
 				let grbh = {
 					grbh: {
-						value: action.data.dout.grbh
+						value: dout.grbh
 					}
 				}
 				var stateFields = state[FIELDS.name]
@@ -199,7 +202,6 @@ export default function PHRReducer(state = initialState, action) {
 				return state
 			}
 		case STATE_CHANGE:
-			let idValue = "";
 			return Object.assign({}, state, {
 				updatestate: !state.updatestate
 			})
@@ -220,6 +222,9 @@ export default function PHRReducer(state = initialState, action) {
 					}
 				},
 			})
+		case FETCH_ERROR:
+			console.error('FETCH_ERROR')
+			return initialState
 		default:
 			return state
 	}

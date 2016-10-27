@@ -13,6 +13,7 @@ import {
 	CLEAR_STORE,
 	GET_GRDA_JKZK,
 	CHANGE_GRDA_JKZK_SELKEY,
+	FETCH_ERROR,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -87,6 +88,9 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, type, func) =
 		.catch(e => {
 			notify('error', fetchCatchMsg, e.stack.toString());
 			console.error("Oops, error", e)
+			dispatch({
+				type: FETCH_ERROR
+			})
 		})
 }
 
@@ -190,10 +194,10 @@ export function clearStore() {
 	};
 }
 
-/*改变 体检表数组选中的kye*/
+/*更改选中的体检表*/
 export function changeGrdaJkzkSelectKey(selectKey) {
 	return {
 		type: CHANGE_GRDA_JKZK_SELKEY,
-		selectKey
+		selectKey,
 	};
 }

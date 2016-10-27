@@ -43,8 +43,7 @@ export default class UserProfile extends React.Component {
 
 	render() {
 
-		let avatarUrl = `url('${require('../assets/img/ding-medic-logo.png')}')`
-		avatarUrl = `url('https://zos.alipayobjects.com/rmsportal/iXsgowFDTJtGpZM.png')`
+		let avatarUrl = `url('${require('../assets/img/avatar.png')}')`
 		const regard = `${regards()}`
 		const time = `${new Date()}`
 		const overlay = (
