@@ -15,6 +15,8 @@ import {
 	CHANGE_GRDA_JKZK_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
+	ADD_ITEM,
+	REMOVE_ITEM,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -207,6 +209,21 @@ export function changeGrdaJkzkSelectKey(selectKey) {
 export function changeSubmitLoad(flag) {
 	return {
 		type: CHANGE_SUBMIT_LOAD,
+		flag
+	};
+}
+
+// ------ 子表 ------ //
+export function addItem(flag) {
+	return {
+		type: ADD_ITEM,
+		flag
+	};
+}
+
+export function removeItem(flag) {
+	return {
+		type: REMOVE_ITEM,
 		flag
 	};
 }
