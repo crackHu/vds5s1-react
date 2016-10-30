@@ -132,18 +132,17 @@ function mapPropsToFields(props) {
 	return props.phr[FNAME].grdaJkzk || {}
 }
 
+HealthMedicalForm.propTypes = {
+	changeGrdaJkzkSelectKey: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
 function mapStateToProps(state) {
 	console.log('HealthMedicalForm mapStateToProps:', state)
 	return {
 		phr: state.phr
 	}
 }
-
-HealthMedicalForm.propTypes = {
-	changeGrdaJkzkSelectKey: PropTypes.func.isRequired,
-	phr: PropTypes.object.isRequired
-}
-
 HealthMedicalForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields

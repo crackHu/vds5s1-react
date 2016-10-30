@@ -9,13 +9,11 @@ import archive from './archive';
 import login from '../modules/login/LoginReducer'
 import {
 	phr,
-	childTable
 } from '../modules/phr/PHRReducer'
 
 const rootReducer = combineReducers({
 
 	login,
-	childTable,
 	phr,
 });
 

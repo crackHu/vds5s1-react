@@ -283,7 +283,8 @@ const phr = function(state = initialState, action) {
 			})
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
-				// ------ 子表 ------ //
+
+			// ------ 子表 ------ //
 		case ADD_ITEM:
 			console.log(ADD_ITEM)
 			return {}
@@ -293,27 +294,8 @@ const phr = function(state = initialState, action) {
 		default:
 			return state
 	}
-}
-
-const childTable = function(state = {}, action) {
-
-	console.debug('childTable reducer state =>', state, ' action =>', action)
-
-	switch (action.type) {
-
-		case ADD_ITEM:
-			console.log(ADD_ITEM)
-			return {}
-		case REMOVE_ITEM:
-			console.log(REMOVE_ITEM)
-			return {}
-		default:
-			return state
-	}
-	return state
 }
 
 module.exports = {
 	phr,
-	childTable
 }

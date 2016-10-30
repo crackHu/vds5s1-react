@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -19,6 +19,7 @@ import {
 	Switch,
 	Tooltip
 } from 'antd'
+import * as PHRAction from 'phr/PHRAction'
 
 import {
 	msg,
@@ -334,7 +335,24 @@ function mapPropsToFields(props) {
 	return props.fields || {}
 }
 
-export default Form.create({
+MedicalRecordsTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('MedicalRecordsTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+MedicalRecordsTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(MedicalRecordsTable)
+
+export default connect(mapStateToProps, {
+	...PHRAction
 })(MedicalRecordsTable)
