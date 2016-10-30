@@ -356,17 +356,13 @@ class GeneralSituationForm extends React.Component {
 
 		/*建档人*/
 		const grda_jdys =
-			getFieldDecorator('grda_jdys', {
-				initialValue: userName
-			})(
+			getFieldDecorator('grda_jdys')(
 				<Input style={{ width: 120 }}/>
 			)
 
 		/*建档日期*/
 		const grda_jdrq =
-			getFieldDecorator('grda_jdrq', {
-				initialValue: moment(new Date(), DATE_FORMAT_STRING)
-			})(
+			getFieldDecorator('grda_jdrq')(
 				<DatePicker
 		           	format={DATE_FORMAT_STRING}
 		           	style={{ width: 120 }}
@@ -376,17 +372,13 @@ class GeneralSituationForm extends React.Component {
 
 		/*录入人*/
 		const grda_lrr =
-			getFieldDecorator('grda_lrr', {
-				initialValue: userName
-			})(
+			getFieldDecorator('grda_lrr')(
 				<Input style={{ width: 120 }}/>
 			)
 
 		/*录入日期*/
 		const grda_lrrq =
-			getFieldDecorator('grda_lrrq', {
-				initialValue: moment(new Date(), DATE_FORMAT_STRING)
-			})(
+			getFieldDecorator('grda_lrrq')(
 				<DatePicker
 		           	format={DATE_FORMAT_STRING}
 		           	style={{ width: 113 }}

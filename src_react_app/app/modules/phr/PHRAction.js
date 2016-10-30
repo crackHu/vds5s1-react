@@ -14,6 +14,7 @@ import {
 	GET_GRDA_JKZK,
 	CHANGE_GRDA_JKZK_SELKEY,
 	FETCH_ERROR,
+	CHANGE_SUBMIT_LOAD,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -199,5 +200,13 @@ export function changeGrdaJkzkSelectKey(selectKey) {
 	return {
 		type: CHANGE_GRDA_JKZK_SELKEY,
 		selectKey,
+	};
+}
+
+/*关闭提交状态*/
+export function changeSubmitLoad(flag) {
+	return {
+		type: CHANGE_SUBMIT_LOAD,
+		flag
 	};
 }

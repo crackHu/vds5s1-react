@@ -83,7 +83,9 @@ export default class HomeList extends React.Component {
 			<Table
 			 columns={columns}
 			 dataSource={data}
-			 scroll={{ x: 1800, y: 300 }}
+			 size="small"
+			 scroll={{ x: 1800 }}
+			 pagination={{pageSize: 5}}
 			/>
 		)
 	}

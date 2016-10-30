@@ -56,25 +56,24 @@ class HealthMedicalForm extends React.Component {
 
 		let fields = {}
 		let grdaZyyyqk, grdaFmyjzs, grdaZyzlqk
-		let objSize, grdaZyyyqkObjSize, grdaFmyjzsObjSize, grdaZyzlqkObjSize
-		if (updatestate) {
-			let selectKey = grdaJkzk['selectKey']
-			for (let key in grdaJkzk) {
-				let grdaJkzk_value = grdaJkzk[key]
-				if (selectKey == key && grdaJkzk_value.constructor == Object) {
-					fields = grdaJkzk_value
-					grdaZyyyqk = grdaJkzk_value['grdaZyyyqk']
-					grdaFmyjzs = grdaJkzk_value['grdaFmyjzs']
-					grdaZyzlqk = grdaJkzk_value['grdaZyzlqk']
-					break
-				}
+		let objSize = [{}],
+			grdaZyyyqkObjSize, grdaFmyjzsObjSize, grdaZyzlqkObjSize
+		let selectKey = grdaJkzk['selectKey']
+		for (let key in grdaJkzk) {
+			let grdaJkzk_value = grdaJkzk[key]
+			if (selectKey == key && grdaJkzk_value.constructor == Object) {
+				fields = grdaJkzk_value
+				grdaZyyyqk = grdaJkzk_value['grdaZyyyqk']
+				grdaFmyjzs = grdaJkzk_value['grdaFmyjzs']
+				grdaZyzlqk = grdaJkzk_value['grdaZyzlqk']
+				break
 			}
-
-			objSize = grdaJkjl.objSize
-			grdaZyyyqkObjSize = grdaZyyyqk.objSize
-			grdaFmyjzsObjSize = grdaFmyjzs.objSize
-			grdaZyzlqkObjSize = grdaZyzlqk.objSize
 		}
+
+		objSize = !!grdaJkjl ? grdaJkjl.objSize : objSize
+		grdaZyyyqkObjSize = !!grdaZyyyqk ? grdaZyyyqk.objSize : grdaZyyyqkObjSize
+		grdaFmyjzsObjSize = !!grdaFmyjzs ? grdaFmyjzs.objSize : grdaFmyjzsObjSize
+		grdaZyzlqkObjSize = !!grdaZyzlqk ? grdaZyzlqk.objSize : grdaZyzlqkObjSize
 
 		const tabpane = (
 			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>

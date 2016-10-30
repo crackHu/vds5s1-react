@@ -13,6 +13,7 @@ import {
 	GET_GRDA_JKZK,
 	CHANGE_GRDA_JKZK_SELKEY,
 	FETCH_ERROR,
+	CHANGE_SUBMIT_LOAD,
 } from 'ActionTypes';
 
 import {
@@ -31,6 +32,10 @@ import {
 	getLoginUser
 } from 'utils'
 
+const today = moment(new Date())
+const todayStr = today.format(DATE_FORMAT_STRING)
+const username = getLoginUser().userName
+
 let initialState = {
 	archiveListloading: true,
 	submitloading: false,
@@ -38,33 +43,48 @@ let initialState = {
 	[FIELDS.name]: {
 		grdaJbzl: {
 			grda_csrq: {
-				value: moment('1950-1-1', DATE_FORMAT_STRING)
+				value: moment('1950-1-1')
 			},
 			grda_jdrq: {
-				value: moment(new Date(), DATE_FORMAT_STRING)
+				value: today
 			},
 			grda_lrrq: {
-				value: moment(new Date(), DATE_FORMAT_STRING)
+				value: today
 			},
 			grda_jdys: {
-				value: getLoginUser().userName || 'admin'
+				value: username || 'admin'
 			},
 			grda_lrr: {
-				value: getLoginUser().userName || 'admin'
+				value: username || 'admin'
 			}
+		},
+		grdaJkzk: {
+			[todayStr]: {
+				grda_tjrq: {
+					value: today
+				},
+			},
+			selectKey: todayStr
+		},
+		grdaJkjl: {
+			grda_tjrq_0: {
+				value: today
+			},
+			objSize: [{}]
 		}
 	},
 }
 
-export default function PHRReducer(state = initialState, action) {
+const phr = function(state = initialState, action) {
 
-	console.debug('reducer state =>', state, ' action =>', action)
+	console.debug('phr reducer state =>', state, ' action =>', action)
 
 	let data = action.data || undefined
 	let dout = !!data ? data.dout : undefined
 	let status = !!data ? data.status : undefined
 	let resultCode = !!status ? status.resultCode : undefined
 	let resultMesg = !!status ? status.resultMesg : undefined
+	let flag = action.flag
 
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -73,26 +93,16 @@ export default function PHRReducer(state = initialState, action) {
 				data
 			})
 		case FIELDS_CHANGE:
-			var flag = action.flag
 			var stateFields = state[FIELDS.name]
-			var flagFields = !!stateFields ? stateFields[flag] : null
+			var flagFields = !!stateFields ? stateFields[flag] : undefined
+			var key = !!flagFields ? flagFields['selectKey'] : undefined
+			var keyFields = !!flagFields ? flagFields[key] : undefined
 			var fieldsKey = FIELDS.fieldsKey
-			if (fieldsKey.isArr.indexOf(flag) > -1) {
-				var key = flagFields['selectKey']
-				var keyFields = !!flagFields[key] ? flagFields[key] : null
-				return Object.assign({}, initialState, state, {
-					[FIELDS.name]: {
-						...stateFields,
-						[flag]: {
-							...flagFields,
-							[key]: {
-								...keyFields,
-								...data
-							}
-						}
-					}
-				})
-			} else {
+			var isArrObj = fieldsKey.isArr
+
+			//isObj
+			if (fieldsKey.isObj.indexOf(flag) > -1) {
+				console.log('FIELDS_CHANGE', 'isObj')
 				return Object.assign({}, initialState, state, {
 					[FIELDS.name]: {
 						...stateFields,
@@ -102,9 +112,51 @@ export default function PHRReducer(state = initialState, action) {
 						}
 					}
 				})
+			} else {
+				for (let arrKey in isArrObj) {
+					var flagFields = !!stateFields ? stateFields[arrKey] : undefined
+					var key = !!flagFields ? flagFields['selectKey'] : undefined
+					var isArrFields = !!stateFields ? stateFields[arrKey] : undefined
+					var selectKeyFields = !!isArrFields ? isArrFields[key] : undefined
+					var isArrObjKeyFields = !!selectKeyFields ? selectKeyFields[flag] : undefined
+
+					//isArrObj
+					if (isArrObj[arrKey].indexOf(flag) > -1) {
+						console.log('FIELDS_CHANGE', 'isArrObj', key, flagFields)
+						return Object.assign({}, initialState, state, {
+							[FIELDS.name]: {
+								...stateFields,
+								[arrKey]: {
+									...isArrFields,
+									[key]: {
+										...selectKeyFields,
+										[flag]: {
+											...isArrObjKeyFields,
+											...data
+										}
+									}
+								}
+							}
+						})
+					} else {
+						//isArr
+						console.log('FIELDS_CHANGE', 'isArr', flagFields)
+						return Object.assign({}, initialState, state, {
+							[FIELDS.name]: {
+								...stateFields,
+								[flag]: {
+									...flagFields,
+									[key]: {
+										...keyFields,
+										...data
+									}
+								}
+							}
+						})
+					}
+				}
 			}
 		case FIELDS_CHANGE_KEY:
-			var flag = action.flag
 			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
 			var key = flagFields['selectKey']
@@ -222,10 +274,26 @@ export default function PHRReducer(state = initialState, action) {
 					}
 				},
 			})
+			return initialState
+		case CHANGE_SUBMIT_LOAD:
+			return Object.assign({}, state, {
+				submitloading: flag
+			})
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
-			return initialState
 		default:
 			return state
 	}
+}
+
+const childTable = function(state = {}, action) {
+
+	console.debug('childTable reducer state =>', state, ' action =>', action)
+
+	return state
+}
+
+module.exports = {
+	phr,
+	childTable
 }

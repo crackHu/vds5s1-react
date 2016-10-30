@@ -59,6 +59,30 @@ export function getDateTimestamp() {
   return Date.now()
 }
 
+// ------ 日期格式化 ------ //
+Date.prototype.format = function(format) {
+  var o = {
+    "M+": this.getMonth() + 1, //month 
+    "d+": this.getDate(), //day 
+    "h+": this.getHours(), //hour 
+    "m+": this.getMinutes(), //minute 
+    "s+": this.getSeconds(), //second 
+    "q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
+    "S": this.getMilliseconds() //millisecond 
+  }
+
+  if (/(y+)/.test(format)) {
+    format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+
+  for (var k in o) {
+    if (new RegExp("(" + k + ")").test(format)) {
+      format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+    }
+  }
+  return format;
+}
+
 export function getIndexOfObjWithKeyVal(array, key, value) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].hasOwnProperty(key) && array[i][key] === value) {
@@ -162,6 +186,7 @@ export function msg(type, content, duration) {
 
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
 export function getFieldsObj(fields, fields_state, date_format) {
+
   let obj = {}
   fields.forEach((field, i) => {
     let state = fields_state[field]
@@ -171,7 +196,7 @@ export function getFieldsObj(fields, fields_state, date_format) {
         obj[field] = value
       } else if (isArray(value)) {
         obj[field] = value.join(',')
-      } else if (typeof value == "object") {
+      } else if (typeof value == 'object') {
         obj[field] = value.format(date_format)
       } else {
         obj[field] = value
@@ -184,28 +209,40 @@ export function getFieldsObj(fields, fields_state, date_format) {
 }
 
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
-export function getFieldsObjWithout(fields_state, date_format) {
-  let obj = {}
+export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
 
+  let obj = {}
   for (let field in fields_state) {
     let stateField = fields_state[field]
     if (stateField) {
       let value = stateField.value
       if (isString(value)) {
+        //普通字符串
         obj[field] = value
       } else if (isArray(value)) {
+        //数组 e.g.地址，多选
         obj[field] = value.join(',')
-      } else if (typeof value == "object") {
+      } else if (typeof value == 'object') {
+        //日期
         obj[field] = value.format(date_format)
+      } else if (isNoValueAttrObj(value)) {
+        //嵌套的子表 e.g.体检表的自由用药表
+        for (let arrField in arrObjFields) {
+          if (arrField == field) {
+            let arrFields = arrObjFields[arrField].fields
+            obj[field] = getFieldsArr(arrFields, stateField, date_format)
+          }
+        }
       } else {
         obj[field] = value
       }
     }
   }
 
-  console.debug('getFieldsObj', '=>', obj)
+  console.debug('getFieldsObjWithout', '=>', obj)
   return obj
 }
+
 
 // ------ 获取表单字段与值的封装数组 装箱 ------ //
 export function getFieldsArr(fields, fields_state, date_format) {
@@ -237,6 +274,26 @@ export function getFieldsArr(fields, fields_state, date_format) {
   }
 
   console.debug('getFieldsArr', '=>', arr)
+  return arr
+}
+
+// ------ 获取表单数组字段与值的封装数组(TODO 时间关系 没有传入字段配置) 装箱 ------ //
+export function getFieldsObjArr(fields_state, arrObjFields, date_format) {
+
+  let arr = []
+  let obj = {}
+
+  if (!!fields_state) {
+    for (let selectKey in fields_state) {
+      if (selectKey != 'selectKey') {
+        let selectValObj = fields_state[selectKey]
+        obj = getFieldsObjWithout(selectValObj, arrObjFields, date_format)
+        arr.push(obj)
+      }
+    }
+  }
+
+  console.debug('getFieldsObjArr', '=>', arr)
   return arr
 }
 
@@ -402,6 +459,7 @@ export function getArrFieldsValueArrObj(doutArrObj, fields, flag) {
 function isObject(obj) {
   return typeof obj == "object" && !!obj && obj.constructor == Object
 }
+
 function isArray(arr) {
   return typeof arr == "object" && !!arr && arr.constructor == Array
 }
@@ -410,9 +468,13 @@ function isString(str) {
   return typeof str == "string" && !!str && str.constructor == String
 }
 
+function isNoValueAttrObj(obj) {
+  return !obj
+}
+
 // ------ 获取 moment 对象 ------ //
 export function getMomentObj(date, dateFormat) {
-  return moment(date, dateFormat)
+  return moment(date, dateFormat || DATE_FORMAT_STRING)
 }
 
 // ------ 获取登陆用户对象 ------ //

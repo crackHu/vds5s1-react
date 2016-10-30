@@ -25,6 +25,7 @@ import {
 	getFieldsArr,
 	emptyObject,
 	adjustGrdaJbzlField,
+	getFieldsObjArr,
 } from 'utils'
 import {
 	DATE_FORMAT_STRING
@@ -93,47 +94,56 @@ class ArchiveCollection extends React.Component {
 		})
 		let updatestate = phr.updatestate
 		let flag = updatestate ? 'update' : 'save'
+		let FIELDSN = FIELDS.name
 
-		switch (activeKey) {
-			case 'PersonalDetail':
-				let grdaJbzlFields = FIELDS.grdaJbzl.fields
-				let grdaJwsFields = FIELDS.grdaJws.fields
-				let grdaJzsFields = FIELDS.grdaJzs.fields
+		if (this.judgeBAExistAndNotify(activeKey, true)) {
+			switch (activeKey) {
+				case 'PersonalDetail':
+					let grdaJbzlFields = FIELDS.grdaJbzl.fields
+					let grdaJwsFields = FIELDS.grdaJws.fields
+					let grdaJzsFields = FIELDS.grdaJzs.fields
 
-				let grdaJbzlState = phr[FIELDS.name].grdaJbzl
-				let grdaJwsState = phr[FIELDS.name].grdaJws
-				let grdaJzsState = phr[FIELDS.name].grdaJzs
+					let grdaJbzlState = phr[FIELDSN].grdaJbzl
+					let grdaJwsState = phr[FIELDSN].grdaJws
+					let grdaJzsState = phr[FIELDSN].grdaJzs
 
-				let grdaJbzl = getFieldsObj(grdaJbzlFields, grdaJbzlState, DATE_FORMAT_STRING)
-				adjustGrdaJbzlField(grdaJbzl)
-				let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING)
-				let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING)
+					let grdaJbzl = getFieldsObj(grdaJbzlFields, grdaJbzlState, DATE_FORMAT_STRING)
+					adjustGrdaJbzlField(grdaJbzl)
+					let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING)
+					let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING)
 
-				// save|update PersonalDetail
-				this.props[`${flag}${activeKey}`]({
-					grdaJbzl,
-					grdaJws,
-					grdaJzs
-				})
-				break
-			case 'HealthMedical':
-				// save|update HealthMedical
-				// this.props[`${flag}${activeKey}`](phr[FIELDS.name].grdaJkzk)
-				break
-			case 'Hypertension':
-				// save|update Hypertension
-				// TODO
-				break
-			case 'Diabetes':
-				// save|update Diabetes
-				// TODO
-				break
-			case 'Aged':
-				// save|update HealthMedical
-				// TODO
-				break
-			default:
-				console.log(`${flag}${activeKey}`, 'dev...')
+					// save|update PersonalDetail 基本档
+					this.props[`${flag}${activeKey}`]({
+						grdaJbzl,
+						grdaJws,
+						grdaJzs
+					})
+					break
+				case 'HealthMedical':
+					let grdaJkzkState = phr[FIELDSN].grdaJkzk
+					let arrObjFields = FIELDS.grdaJkzk.arrFields
+					let grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING)
+
+					// save|update HealthMedical 健康体检表
+					this.props[`${flag}${activeKey}`]({
+						grdaJkzk
+					})
+					break
+				case 'Hypertension':
+					// save|update Hypertension 高血压
+					// TODO
+					break
+				case 'Diabetes':
+					// save|update Diabetes 糖尿病
+					// TODO
+					break
+				case 'Aged':
+					// save|update HealthMedical 老年人
+					// TODO
+					break
+				default:
+					console.log(`${flag}${activeKey}`, 'dev...')
+			}
 		}
 
 
@@ -162,6 +172,31 @@ class ArchiveCollection extends React.Component {
 		let grda_xzz_fields = FIELDS.grdaJbzl.addressFields.grda_xzz.slice(0)
 		grda_xzz_fields.push('grda_xzz_qt')
 		this.props.getIndividualNumbe(grda_xzz, grda_xzz_fields)
+	}
+
+	//检查基本档是否已经建立和提醒，按需关闭提交按钮加载状态
+	judgeBAExistAndNotify = (activeKey, boolean) => {
+
+		const {
+			phr
+		} = this.props
+
+		let FIELDSN = FIELDS.name
+		let grdaJbzlState = phr[FIELDSN].grdaJbzl
+		let grbh = grdaJbzlState.grbh
+		let exist = !!grbh && !!grbh.value
+
+		if (activeKey != 'PersonalDetail') {
+			if (!exist) {
+				notify('warn', '警告', '请先新建保存个人基本信息表');
+				if (boolean) {
+					this.props.changeSubmitLoad(false)
+				}
+			}
+		} else {
+			return true
+		}
+		return exist
 	}
 
 	/*Tab Edit event*/
@@ -394,13 +429,15 @@ ArchiveCollection.propTypes = {
 	saveFieldsChange: PropTypes.func.isRequired,
 	queryPHR: PropTypes.func.isRequired,
 	getIndividualNumbe: PropTypes.func.isRequired,
+	changeSubmitLoad: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	console.log('ArchiveCollection mapStateToProps:', state)
 	return {
-		phr: state.phr
+		phr: state.phr,
+		childTable: state.childTable,
 	}
 }
 

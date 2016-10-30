@@ -128,12 +128,12 @@ export default class Home extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
-				<div className="survey" key="home">
+		<div className="survey" key="home">
 					<Card title="档案年龄百分比">
 						<PieChart
 			                data={data}
 			                width={550}
-			                height={350}
+			                height={340}
 			                margin={{top: 10, bottom: 10, left: 100, right: 100}}
 			                sort={sort}
 			            />
@@ -150,7 +150,7 @@ export default class Home extends React.Component {
 			            <LineChart
 		                   data={data3}
 		                   width={550}
-		                   height={350}
+		                   height={340}
 		                   margin={{top: 10, bottom: 50, left: 50, right: 20}}
 		                   xScale={xScale}
 		                   xAxis={{tickValues: xScale.ticks(d3.time.day, 1), tickFormat: d3.time.format("%m/%d")}}

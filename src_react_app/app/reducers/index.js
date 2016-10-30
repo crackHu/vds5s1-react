@@ -7,12 +7,16 @@ import app from './app';
 import archive from './archive';
 
 import login from '../modules/login/LoginReducer'
-import phr from '../modules/phr/PHRReducer'
+import {
+	phr,
+	childTable
+} from '../modules/phr/PHRReducer'
 
 const rootReducer = combineReducers({
 
 	login,
-	phr
+	childTable,
+	phr,
 });
 
 export default rootReducer;

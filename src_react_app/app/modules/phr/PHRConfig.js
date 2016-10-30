@@ -1977,14 +1977,15 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grdaJws',
 			'grdaJzs',
 		],
-		isArr: [
-			'grdaJkzk',
-		],
-		isArrObj: [
-			'grdaZyyyqk',
-			'grdaFmyjzs',
-			'grdaZyzlqk',
-		]
+		isArr: {
+			'grdaJkzk': [
+				'grdaZyyyqk',
+				'grdaFmyjzs',
+				'grdaZyzlqk',
+				'grdaWtml',
+			],
+			'test': []
+		},
 
 	},
 	grdaJbzl: {
@@ -2280,6 +2281,10 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'bz',
 				]
 			},
+			//健康状况记录_异常情况
+			grdaWtml: {
+				fields: []
+			}
 		}
 
 	},
