@@ -53,6 +53,7 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const GRDAJWS = 'grdaJws'
 
 /*既往史*/
 class MedicalRecordsTable extends React.Component {
@@ -79,13 +80,6 @@ class MedicalRecordsTable extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log("MedicalRecordsTable componentWillReceiveProps", nextProps)
-
-		//TODO
-		const data = this.state.data
-		if (!!nextProps.fields && !!nextProps.fields.objSize && data.length == 0)
-			this.setState({
-				data: nextProps.fields.objSize
-			})
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -114,40 +108,33 @@ class MedicalRecordsTable extends React.Component {
 		})
 	}
 
-	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, GRDAJWS)
+			/*const {
+				selectedRowKeys,
+				data
+			} = this.state
+			const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
+			this.setState({
+				data: data_,
+				selectedRowKeys: []
+			}, () => msg("success", "已删除", 1))*/
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-
-		let ndata = {}
-		ndata.key = Date.now()
-
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
-
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+		this.props.addItem(GRDAJWS)
 	}
 
 	render() {
-
 		const {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			selectedRowKeys,
+			grdaJws
+		} = this.props.phr[FIELDS_CONFIG.name]
+		const {
 			editSwitch,
 			data
 		} = this.state
@@ -250,9 +237,10 @@ class MedicalRecordsTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
+		const selectedRowKeys = grdaJws.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, GRDAJWS),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -284,7 +272,7 @@ class MedicalRecordsTable extends React.Component {
 					title = {
 						`确定要删除所选${selectedLength}条既往史吗？`
 					}
-				 onConfirm={this.deleteConfirm}
+				 onConfirm={() => this.deleteConfirm(selectedRowKeys)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
@@ -309,7 +297,7 @@ class MedicalRecordsTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={data}
+				dataSource={grdaJws.objSize}
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
@@ -327,7 +315,7 @@ function onFieldsChange(props, fields) {
 	console.log("MedicalRecordsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields,
-	}, 'grdaJws');
+	}, GRDAJWS);
 }
 
 function mapPropsToFields(props) {
@@ -338,6 +326,7 @@ function mapPropsToFields(props) {
 MedicalRecordsTable.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

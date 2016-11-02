@@ -41,7 +41,6 @@ class HealthMedicalForm extends React.Component {
 	render() {
 		const {
 			onFieldsChange,
-			changeGrdaJkzkSelectKey
 		} = this.props
 		const {
 			getFieldDecorator
@@ -76,13 +75,13 @@ class HealthMedicalForm extends React.Component {
 		grdaZyzlqkObjSize = !!grdaZyzlqk ? grdaZyzlqk.objSize : grdaZyzlqkObjSize
 
 		const tabpane = (
-			<Tabs defaultActiveKey = {this.arcType[1].sub[0].key}>
+			<Tabs defaultActiveKey={this.arcType[1].sub[0].key}>
 			    {
-
 			    	this.arcType[1].sub.map((arc, index) => {
 			    		let Container = require(`../${arc.content}`).default
 						return (
-						    <TabPane tab={arc.name} key={arc.key}>
+						    <TabPane
+						     tab={arc.name} key={arc.key}>
 								<Container
 									fields={fields}
 									grdaZyyyqkFields={grdaZyyyqk}
@@ -100,6 +99,7 @@ class HealthMedicalForm extends React.Component {
 				}
 		  	</Tabs>
 		)
+		let tabDisplay = !!(grdaJkjl.objSize) ? objSize.length > 0 ? 'block' : 'none' : 'none'
 
 		return (
 			<div>
@@ -108,11 +108,10 @@ class HealthMedicalForm extends React.Component {
 					<HealthMedicalTable
 					 fields={grdaJkjl}
 					 onFieldsChange={onFieldsChange}
-					 changeGrdaJkzkSelectKey={changeGrdaJkzkSelectKey}
 					 objSize={objSize}
 					/>
 				</div>
-				<div>
+				<div style={{display: tabDisplay}}>
 					{tabpane}
 				</div>
 			</div>
@@ -133,7 +132,6 @@ function mapPropsToFields(props) {
 }
 
 HealthMedicalForm.propTypes = {
-	changeGrdaJkzkSelectKey: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

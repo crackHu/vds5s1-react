@@ -11,11 +11,13 @@ import {
 	CLEAR_STORE,
 	FIELDS_CHANGE_KEY,
 	GET_GRDA_JKZK,
-	CHANGE_GRDA_JKZK_SELKEY,
+	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
 	ADD_ITEM,
+	ADD_OBJ_ITEM,
 	REMOVE_ITEM,
+	SELECT_ROW_KEY,
 } from 'ActionTypes';
 
 import {
@@ -31,6 +33,7 @@ import {
 	getArrFieldsValueObj,
 	getArrFieldsValueArrObj,
 	getArrFieldsObjByObj,
+	removeChildTRBySelKey,
 	getLoginUser
 } from 'utils'
 
@@ -38,11 +41,12 @@ const today = moment(new Date())
 const todayStr = today.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName
 
+const FIELDSN = FIELDS.name
 let initialState = {
 	archiveListloading: true,
 	submitloading: false,
 	updatestate: false,
-	[FIELDS.name]: {
+	[FIELDSN]: {
 		grdaJbzl: {
 			grda_csrq: {
 				value: moment('1950-1-1')
@@ -60,20 +64,46 @@ let initialState = {
 				value: username || 'admin'
 			}
 		},
+		grdaJws: {
+			selectedRowKeys: [],
+			objSize: []
+		},
+		grdaJzs: {
+			selectedRowKeys: [],
+			objSize: []
+		},
 		grdaJkzk: {
 			[todayStr]: {
 				grda_tjrq: {
 					value: today
 				},
+				grdaZyzlqk: {
+					selectedRowKeys: [],
+					objSize: []
+				},
+				grdaZyyyqk: {
+					selectedRowKeys: [],
+					objSize: []
+				},
+				grdaFmyjzs: {
+					selectedRowKeys: [],
+					objSize: []
+				},
+				grdaWtml: {
+					selectedRowKeys: [],
+					objSize: []
+				},
 			},
 			selectKey: todayStr
 		},
 		grdaJkjl: {
-			grda_tjrq_0: {
-				value: today
-			},
-			objSize: [{}]
-		}
+			selectedRowKeys: [],
+			objSize: []
+		},
+		tnbYyqk: {
+			selectedRowKeys: [],
+			objSize: []
+		},
 	},
 }
 
@@ -81,12 +111,14 @@ const phr = function(state = initialState, action) {
 
 	console.debug('phr reducer state =>', state, ' action =>', action)
 
+	let flag = action.flag
 	let data = action.data || undefined
 	let dout = !!data ? data.dout : undefined
 	let status = !!data ? data.status : undefined
 	let resultCode = !!status ? status.resultCode : undefined
 	let resultMesg = !!status ? status.resultMesg : undefined
-	let flag = action.flag
+	let stateFields = state[FIELDSN]
+	let selectedRowKeys = action.selectedRowKeys || undefined
 
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -95,7 +127,6 @@ const phr = function(state = initialState, action) {
 				data
 			})
 		case FIELDS_CHANGE:
-			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : undefined
 			var key = !!flagFields ? flagFields['selectKey'] : undefined
 			var keyFields = !!flagFields ? flagFields[key] : undefined
@@ -106,7 +137,7 @@ const phr = function(state = initialState, action) {
 			if (fieldsKey.isObj.indexOf(flag) > -1) {
 				console.log('FIELDS_CHANGE', 'isObj')
 				return Object.assign({}, initialState, state, {
-					[FIELDS.name]: {
+					[FIELDSN]: {
 						...stateFields,
 						[flag]: {
 							...flagFields,
@@ -126,7 +157,7 @@ const phr = function(state = initialState, action) {
 					if (isArrObj[arrKey].indexOf(flag) > -1) {
 						console.log('FIELDS_CHANGE', 'isArrObj', key, flagFields)
 						return Object.assign({}, initialState, state, {
-							[FIELDS.name]: {
+							[FIELDSN]: {
 								...stateFields,
 								[arrKey]: {
 									...isArrFields,
@@ -144,7 +175,7 @@ const phr = function(state = initialState, action) {
 						//isArr
 						console.log('FIELDS_CHANGE', 'isArr', flagFields)
 						return Object.assign({}, initialState, state, {
-							[FIELDS.name]: {
+							[FIELDSN]: {
 								...stateFields,
 								[flag]: {
 									...flagFields,
@@ -159,13 +190,12 @@ const phr = function(state = initialState, action) {
 				}
 			}
 		case FIELDS_CHANGE_KEY:
-			var stateFields = state[FIELDS.name]
 			var flagFields = !!stateFields ? stateFields[flag] : null
 			var key = flagFields['selectKey']
 			var keyFields = !!flagFields[key] ? flagFields[key] : null
 			console.log('FIELDS_CHANGE_KEY', data, key, keyFields)
 			return Object.assign({}, initialState, state, {
-				[FIELDS.name]: {
+				[FIELDSN]: {
 					...stateFields,
 					[flag]: {
 						...flagFields,
@@ -199,7 +229,7 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, initialState, {
 				submitloading: false,
 				updatestate: true,
-				[FIELDS.name]: {
+				[FIELDSN]: {
 					grdaJbzl,
 					grdaJws,
 					grdaJzs,
@@ -208,7 +238,7 @@ const phr = function(state = initialState, action) {
 					grdaJkjl,
 					/*grdaZyyyqk,
 					grdaFmyjzs,
-					grdaZyzlqk,*/
+					grdaZyzlqk,
 
 					gxyJxb,
 					gxyYyqk,
@@ -216,7 +246,7 @@ const phr = function(state = initialState, action) {
 					tnbSfjl,
 					tnbYyqk,
 
-					lnrSfb,
+					lnrSfb,*/
 				}
 			})
 		case DELETE_PHR:
@@ -224,7 +254,18 @@ const phr = function(state = initialState, action) {
 		case SAVE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
-				...data,
+				[FIELDSN]: {
+					...stateFields,
+					grdaJkzk: {
+						...stateFields['grdaJkzk'],
+						['2016-10-31']: {
+							grbh: {
+								value: stateFields.grdaJbzl.grbh.value
+							}
+						}
+					}
+				}
+
 			})
 		case UPDATE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
@@ -242,9 +283,8 @@ const phr = function(state = initialState, action) {
 						value: dout.grbh
 					}
 				}
-				var stateFields = state[FIELDS.name]
 				return Object.assign({}, state, {
-					[FIELDS.name]: {
+					[FIELDSN]: {
 						...stateFields,
 						grdaJbzl: {
 							...stateFields['grdaJbzl'],
@@ -261,22 +301,20 @@ const phr = function(state = initialState, action) {
 			})
 		case CLEAR_STORE:
 			return Object.assign({}, {
-				[FIELDS.name]: null,
+				[FIELDSN]: null,
 			}, initialState, {
 				updatestate: state.updatestate,
 			})
-		case CHANGE_GRDA_JKZK_SELKEY:
-			var stateFields = state[FIELDS.name]
+		case CHANGE_ARRTABLE_SELKEY:
 			return Object.assign({}, state, {
-				[FIELDS.name]: {
+				[FIELDSN]: {
 					...stateFields,
-					grdaJkzk: {
-						...stateFields['grdaJkzk'],
+					[flag]: {
+						...stateFields[flag],
 						selectKey: action.selectKey
 					}
 				},
 			})
-			return initialState
 		case CHANGE_SUBMIT_LOAD:
 			return Object.assign({}, state, {
 				submitloading: flag
@@ -284,13 +322,63 @@ const phr = function(state = initialState, action) {
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
 
-			// ------ 子表 ------ //
+			// ------ 子表组件状态的一些操作 ------ //
 		case ADD_ITEM:
-			console.log(ADD_ITEM)
-			return {}
+			var stateFlag = stateFields[flag]
+			var objSize = stateFlag.objSize.slice(0)
+			objSize.push({
+				rkey: Date.now()
+			})
+			return Object.assign({}, state, {
+				[FIELDSN]: {
+					...stateFields,
+					[flag]: {
+						...stateFlag,
+						objSize
+					}
+				}
+			})
+		case ADD_OBJ_ITEM:
+			var stateFlag = stateFields[flag]
+			var grbh = stateFields['grdaJbzl']['grbh'] || null
+			return Object.assign({}, state, {
+				[FIELDSN]: {
+					...stateFields,
+					[flag]: {
+						...stateFlag,
+						[todayStr]: {
+							grda_tjrq: {
+								value: today
+							},
+							grbh,
+						},
+						selectKey: todayStr
+					}
+				}
+			})
 		case REMOVE_ITEM:
-			console.log(REMOVE_ITEM)
-			return {}
+			console.log(REMOVE_ITEM, selectedRowKeys)
+			var grdaJwsFields = FIELDS['grdaJws'].fields
+			var stateField = stateFields[flag]
+			var childTRArr = removeChildTRBySelKey(grdaJwsFields, stateField, selectedRowKeys)
+			console.log('childTRArr', childTRArr)
+			return Object.assign({}, state, {
+				[FIELDSN]: {
+					...stateFields,
+					[flag]: childTRArr
+				}
+			})
+		case SELECT_ROW_KEY:
+			var stateField = stateFields[flag]
+			return Object.assign({}, state, {
+				[FIELDSN]: {
+					...stateFields,
+					[flag]: {
+						...stateField,
+						selectedRowKeys
+					}
+				}
+			})
 		default:
 			return state
 	}

@@ -407,7 +407,8 @@ export function getArrFieldsObjByObj(fieldObj, sfieldArr) {
   console.debug('getArrFieldsObjByObj', '=>', obj)
   return {
     ...obj,
-    objSize
+    objSize,
+    selectedRowKeys: []
   }
 }
 
@@ -438,7 +439,8 @@ export function getFieldsValueArrObj(doutArr, fields) {
   console.debug('getFieldsValueArrObj', '=>', fieldObjs)
   return {
     ...fieldObjs,
-    objSize
+    objSize,
+    selectedRowKeys: []
   }
 }
 
@@ -475,6 +477,11 @@ function isNoValueAttrObj(obj) {
 // ------ 获取 moment 对象 ------ //
 export function getMomentObj(date, dateFormat) {
   return moment(date, dateFormat || DATE_FORMAT_STRING)
+}
+
+// ------ 获取 moment format 对象 ------ //
+export function getMomentFormat(moment, dateFormat) {
+  return moment.format(date_format)
 }
 
 // ------ 获取登陆用户对象 ------ //
@@ -540,4 +547,98 @@ export function adjustGrdaJbzlField(grdaJbzl) {
 
   delete grdaJbzl.grda_hkdz
   delete grdaJbzl.grda_xzz
+}
+
+// ------ 数组去重 ------ //
+function unique(arr) {
+  var result = [],
+    hash = {};
+  for (var i = 0, elem;
+    (elem = arr[i]) != null; i++) {
+    if (!hash[elem]) {
+      result.push(elem);
+      hash[elem] = true;
+    }
+  }
+  return result;
+}
+
+// ------ 移除子表（既往史、家族史...）记录通过选中的key ------ //
+export function removeChildTRBySelKey(fields, stateField, selectedRowKeys) {
+
+  let obj = {
+    objSize: [],
+    selectedRowKeys: []
+  }
+  let objSize = stateField.objSize || undefined
+  if (!!objSize) {
+    objSize = objSize.filter((item, index) => selectedRowKeys.indexOf(index) == -1)
+    for (let i = 0; i < objSize.length; i++) {
+      for (let key in stateField) {
+        let stateFieldValue = stateField[key]
+        if (!isArray(stateFieldValue)) {
+          let indexof = key.indexOf('_')
+          let keysub = key.substring(0, indexof)
+          let keyindex = key.substring(indexof + 1)
+          let keyint
+          try {
+            keyint = parseInt(keyindex)
+          } catch (err) {
+            console.error('转换错误', err)
+          }
+          if (selectedRowKeys.indexOf(keyint) == -1) {
+            //obj[`${keysub}_${i}`] = stateFieldValue TODO
+            obj[`${keysub}_${i}`] = stateField[`${keysub}_${keyint}`]
+            console.log('stateFieldValue', stateField[`${keysub}_${keyint}`], keysub, keyint, i)
+          }
+        } else {
+          if (i == 0) {
+            if (key == 'objSize') {
+              obj[key] = objSize
+            } else if (key == 'selectedRowKeys') {
+              obj['selectedRowKeys'] = []
+            }
+          }
+        }
+      }
+    }
+  } else {
+    console.error('removeChildTRBySelKey[stateField.objSize] param error')
+  }
+
+  console.debug('removeChildTRBySelKey', '=>', obj)
+  return obj
+}
+
+// ------ 通过字段数组获取字段值数组 e.g. JKJL ------ //
+export function getValueArrByFieldArr(fields, stateField, date_format) {
+
+  let obj = {}
+  for (let date in stateField) {
+    let fieldArrObj = stateField[date]
+    for (let field in fieldArrObj) {
+      if (fields.indexOf(field) > -1) {
+        let value = fieldArrObj[field].value
+        let objField = obj[field]
+        if (!objField) {
+          obj[field] = []
+        }
+        if (isString(value)) {
+          //普通字符串
+          obj[field].push(value)
+        } else if (isArray(value)) {
+          //数组 e.g.地址，多选
+          obj[field].push(value.join(','))
+        } else if (typeof value == 'object') {
+          //日期
+          obj[field].push(value.format(date_format))
+        } else {
+          obj[field].push(value)
+        }
+      }
+    }
+  }
+
+  console.debug('getValueArrByFieldArr', '=>', obj)
+  return obj
 }

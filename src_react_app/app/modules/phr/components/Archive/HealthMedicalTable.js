@@ -3,6 +3,9 @@ import React, {
 	PropTypes
 } from 'react'
 import {
+	connect
+} from 'react-redux';
+import {
 	Form,
 	Input,
 	Table,
@@ -16,13 +19,21 @@ import {
 	Switch,
 	Tooltip
 } from 'antd'
+import * as PHRAction from 'phr/PHRAction'
 
 import {
 	DATE_FORMAT_STRING
 } from 'config'
 import {
+	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
+} from 'phr_conf'
+import {
 	msg,
-	notify
+	notify,
+	getMomentFormat,
+	getValueArrByFieldArr,
+	emptyObject,
 } from 'utils'
 
 const FormItem = Form.Item;
@@ -34,6 +45,10 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const GRDAJKJL = 'grdaJkjl'
+const GRDAJKZK = 'grdaJkzk'
+const FIELDSN = FIELDS_CONFIG.name
+const JKJLFIELDS = FIELDS_CONFIG.grdaJkjl.fields
 
 /*健康体检表 表格*/
 class HealthMedicalTable extends React.Component {
@@ -59,95 +74,86 @@ class HealthMedicalTable extends React.Component {
 		console.log('HealthMedicalTable componentDidUpdate', prevProps, prevState)
 	}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, GRDAJKJL)
 	}
 
 	deleteCancel = () => {}
 
-	addRow = (e) => {
-
-		let ndata = {}
-		ndata.key = Date.now()
-
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
-
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+	addRow = () => {
+		let date = this.getSelectKeyDate(GRDAJKZK)
+		console.log('addRow', date, typeof date)
+		if (!date && typeof date === 'undefined') {
+			notify('warn', '警告', '体检日期不能为空');
+		} else {
+			this.props.addItem(GRDAJKJL)
+			this.props.addObjItem(GRDAJKZK)
+		}
 	}
 
 	/*改变选中的体检表 根据体检时间*/
-	changeSelectDate = (selectDate) => {
-		this.props.changeGrdaJkzkSelectKey(selectDate)
+	changeSelectDate = (key, selectDate) => {
+		this.props.changeArrTableSelectKey(key, selectDate)
+	}
+
+	/*检查各个档案是不是处于updatestate @return boolean*/
+	isArchiveUpdateState = (key) => {
+		let records = this.getJkzkSelectDateRecord(key)
+		return !!records ? !!records.grda_tjrq ? records.grda_tjrq.length > 0 : false : false
+	}
+
+	/*获取健康体检表的数据，用于体检表更改，体检记录表获取数据 @return 时间为date(默认selectKey)的体检表*/
+	getJkjlRecord = (key) => {
+		let records = this.getJkzkSelectDateRecord(key)
+		return records
+	}
+
+	/*获取健康体检表的数据， @return 时间为date(默认selectKey)的体检表*/
+	getJkzkSelectDateRecord = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return getValueArrByFieldArr(JKJLFIELDS, keyState, DATE_FORMAT_STRING)
+	}
+
+	/*获取选中的key*/
+	getSelectKey = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return keyState.selectKey
+	}
+
+	/*获取选中的key date*/
+	getSelectKeyDate = (key) => {
+		let selectKey = this.getSelectKey(key)
+		let selectValue = !!selectKey ? this.props.phr[FIELDSN][GRDAJKZK][selectKey] : undefined
+		return !!selectValue ? !!selectValue.grda_tjrq ? selectValue.grda_tjrq.value : undefined : null
 	}
 
 	render() {
-
-		const {
-			objSize
-		} = this.props
 		const {
 			getFieldDecorator,
-			getFieldValue
+			getFieldValue,
+			setFieldsValue
 		} = this.props.form
 		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
+			updatestate
+		} = this.props.phr
+		const {
+			grdaJkjl
+		} = this.props.phr[FIELDS_CONFIG.name]
 
-		// 目前没有调用
-		const renderContent = {
+		const jkjlRecord = this.getJkjlRecord(GRDAJKZK)
+		const empty = emptyObject(jkjlRecord)
 
-			medicalDate(value, option) {
-				let grda_tjrq = getFieldValue('grda_tjrq')
-				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
-				if (editSwitch) {
-					return <a>{grda_tjrq_value}</a>
-				} else {
-					return (
-						<DatePicker
-					 	style={{width: '40vh'}}
-						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-					/>
-					)
-				}
-			},
-			medicalEvaluation(value, option) {
-				if (editSwitch) {
-					return <span>{getFieldValue('grda_jkpj')}</span>
-				} else {
-					return (
-						<Input style={{width: '40vh'}}/>
-					)
-				}
-			},
-			medicalGuide(value) {
-				if (editSwitch) {
-					return <span>{getFieldValue('grda_jkzd')}</span>
-				} else {
-					return (
-						<Input style={{width: '40vh'}}/>
-					)
-				}
-			},
-		}
+		const grdaTjrq = !empty ? !!jkjlRecord.grda_tjrq ? jkjlRecord.grda_tjrq : [] : []
+		const grdaJkpj = !empty ? !!jkjlRecord.grda_jkpj ? jkjlRecord.grda_jkpj : [] : []
+		const grdaJkzd = !empty ? !!jkjlRecord.grda_jkzd ? jkjlRecord.grda_jkzd : [] : []
 
 		const columns = [{
 			title: '体检日期',
@@ -155,9 +161,7 @@ class HealthMedicalTable extends React.Component {
 			key: 'medicalDate',
 			width: '10%',
 			render: (value, row, index) => {
-				let grda_tjrq = getFieldValue(`grda_tjrq_${index}`)
-				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
-				return <span>{grda_tjrq_value}</span>
+				return <span>{grdaTjrq[index]}</span>
 			}
 		}, {
 			title: '健康评价',
@@ -165,37 +169,37 @@ class HealthMedicalTable extends React.Component {
 			key: 'medicalEvaluation',
 			width: '30%',
 			render: (value, row, index) =>
-				<span>{getFieldValue(`grda_jkpj_${index}`)}</span>,
+				<span>{grdaJkpj[index]}</span>,
 		}, {
 			title: '健康指导',
 			dataIndex: 'medicalGuide',
 			key: 'medicalGuide',
 			width: '45%',
 			render: (value, row, index) =>
-				<span>{getFieldValue(`grda_jkzd_${index}`)}</span>,
-		}, {
-			title: '操作',
-			dataIndex: 'operation',
-			key: 'operation',
-			width: '10%',
-			render: (value, row, index) => {
-				let grda_tjrq = getFieldValue(`grda_tjrq_${index}`)
-				let grda_tjrq_value = !!grda_tjrq ? grda_tjrq.format(DATE_FORMAT_STRING) : ''
-				return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(grda_tjrq_value)}>查看</a>
-			}
+				<span>{grdaJkzd[index]}</span>,
 		}];
 
+		if (this.isArchiveUpdateState(GRDAJKZK)) {
+			columns.push({
+				title: '操作',
+				dataIndex: 'operation',
+				key: 'operation',
+				width: '10%',
+				render: (value, row, index) => {
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(GRDAJKZK, grdaTjrq[index])}>查看</a>
+				}
+			})
+		}
+
 		// rowSelection objects indicates the need for row selection
+		const objSize = grdaJkjl.objSize
+		const selectedRowKeys = grdaJkjl.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, GRDAJKJL),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
-		const pagination = {
-			total: !!objSize ? objSize.length : 0,
-			pageSize: 5
-		}
 		const title = () => (
 			<div style={{display: 'flex', height: 32}}>
 	        	<FormItem
@@ -212,7 +216,7 @@ class HealthMedicalTable extends React.Component {
 						title = {
 							`确定要删除所选${selectedLength}条体检记录吗？`
 						}
-					 onConfirm={this.deleteConfirm}
+					 onConfirm={() => this.deleteConfirm(selectedRowKeys)}
 					 onCancel={this.deleteCancel}
 					>
 						<Button
@@ -222,12 +226,34 @@ class HealthMedicalTable extends React.Component {
 						 icon="delete"
 						 style={{ marginLeft: 10 }}>删除</Button>
 				    </Popconfirm>
-					<Button
-					 size="large"
-					 type="primary"
-					 icon="plus"
-					 style={{ marginLeft: 10 }}
-					 onClick={this.addRow}>新增</Button>
+				    {objSize.length > 0 ? [
+				    	<Popconfirm
+					    	key="addItem"
+							title = {
+								`是否保存日期为 ${this.getSelectKey(GRDAJKZK)} 的体检表？`
+							}
+							onConfirm={this.addRow}
+							onCancel={this.deleteCancel}
+						>
+							<Button
+						    	 key="addItem"
+								 size="large"
+								 type="primary"
+								 icon="plus"
+								 style={{ marginLeft: 10 }}
+							>新增</Button>
+					    </Popconfirm>
+				    ] : [
+				    	<Button
+					    	 key="addItem"
+							 size="large"
+							 type="primary"
+							 icon="plus"
+							 style={{ marginLeft: 10 }}
+							 onClick={this.addRow}
+						>新增</Button>
+				    ]}
+				    
 					<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 				</div>
 		    </div>
@@ -262,7 +288,27 @@ function mapPropsToFields(props) {
 	return props.fields || {}
 }
 
-export default Form.create({
+HealthMedicalTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	addObjItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	changeArrTableSelectKey: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('HealthMedicalTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+HealthMedicalTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(HealthMedicalTable)
+
+export default connect(mapStateToProps, {
+	...PHRAction
 })(HealthMedicalTable)

@@ -21,7 +21,7 @@ export default class Home extends React.Component {
 			label: 'somethingA',
 			values: [{
 				x: '16周岁以下',
-				y: 2
+				y: 12
 			}, {
 				x: '16~60周岁',
 				y: 1

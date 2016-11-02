@@ -124,6 +124,8 @@ class ArchiveCollection extends React.Component {
 					let arrObjFields = FIELDS.grdaJkzk.arrFields
 					let grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING)
 
+					flag = this.isArchiveUpdateState('grdaJkzk')
+
 					// save|update HealthMedical 健康体检表
 					this.props[`${flag}${activeKey}`]({
 						grdaJkzk
@@ -197,6 +199,21 @@ class ArchiveCollection extends React.Component {
 			return true
 		}
 		return exist
+	}
+
+	/*检查各个档案是不是处于updatestate @return update/save*/
+	isArchiveUpdateState = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let FIELDSN = FIELDS.name
+		let keyState = phr[FIELDSN][key]
+		let selectKey = keyState.selectKey || undefined
+		let selectValue = !!selectKey ? keyState[selectKey] : undefined
+		let grbh = !!selectValue ? selectValue['grbh'] : undefined
+
+		return !!grbh ? 'update' : 'save'
 	}
 
 	/*Tab Edit event*/

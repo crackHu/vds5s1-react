@@ -12,11 +12,14 @@ import {
 	STATE_CHANGE,
 	CLEAR_STORE,
 	GET_GRDA_JKZK,
-	CHANGE_GRDA_JKZK_SELKEY,
+	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
 	ADD_ITEM,
 	REMOVE_ITEM,
+	SELECT_ROW_KEY,
+	IS_UPDATE,
+	ADD_OBJ_ITEM,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -198,9 +201,10 @@ export function clearStore() {
 }
 
 /*更改选中的体检表*/
-export function changeGrdaJkzkSelectKey(selectKey) {
+export function changeArrTableSelectKey(flag, selectKey) {
 	return {
-		type: CHANGE_GRDA_JKZK_SELKEY,
+		type: CHANGE_ARRTABLE_SELKEY,
+		flag,
 		selectKey,
 	};
 }
@@ -213,17 +217,32 @@ export function changeSubmitLoad(flag) {
 	};
 }
 
-// ------ 子表 ------ //
+// ------ 子表组件状态的一些操作 ------ //
 export function addItem(flag) {
 	return {
 		type: ADD_ITEM,
 		flag
 	};
 }
+export function addObjItem(flag) {
+	return {
+		type: ADD_OBJ_ITEM,
+		flag
+	};
+}
 
-export function removeItem(flag) {
+export function removeItem(selectedRowKeys, flag) {
 	return {
 		type: REMOVE_ITEM,
+		selectedRowKeys,
+		flag
+	};
+}
+
+export function onSelectChange(selectedRowKeys, selectedRows, flag) {
+	return {
+		type: SELECT_ROW_KEY,
+		selectedRowKeys,
 		flag
 	};
 }
