@@ -21,18 +21,26 @@ import {
 	Card,
 	Tooltip
 } from 'antd'
+import {
+	connect
+} from 'react-redux';
 import DiabetesTable from './Table/DiabetesTable'
 import DMedicationsTable from './Table/DMedicationsTable'
 
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
+
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
+const FNAME = FIELDS.name
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -74,16 +82,41 @@ class DiabetesForm extends React.Component {
 
 	render() {
 		const {
+			onFieldsChange,
+		} = this.props
+		const {
 			getFieldDecorator
 		} = this.props.form
+		const {
+			tnbSfjl,
+			tnbjl,
+		} = this.props.phr[FNAME]
+
+		let fields = {}
+		let tnbYyqk = {}
+		let objSize = []
+		let tnbYyqkObjSize = []
+		let selectKey = tnbSfjl['selectKey']
+		for (let key in tnbSfjl) {
+			let tnbSfjl_value = tnbSfjl[key]
+			if (selectKey == key && tnbSfjl_value.constructor == Object) {
+				fields = tnbSfjl_value
+				tnbYyqk = tnbSfjl_value['tnbYyqk']
+				break
+			}
+		}
+
+		objSize = !!tnbSfjl ? tnbSfjl.objSize : objSize
+		tnbYyqkObjSize = !!tnbYyqk ? tnbYyqk.objSize : tnbYyqkObjSize
 
 		return (
 			<div>
 				{/*糖尿病记录表*/}
 				<div className="dashed_border form inside">
 					<DiabetesTable
-						tnbSfjlFields={this.props.tnbSfjlFields}
-						onFieldsChange={this.props.onFieldsChange}
+						fields={tnbjl}
+						onFieldsChange={onFieldsChange}
+						objSize={objSize}
 					/>
 				</div>
 
@@ -91,7 +124,7 @@ class DiabetesForm extends React.Component {
 					<Form inline>
 						<Row className="item_inline_spacing">
 							<FormItem label="随访日期" >
-				       			{getFieldDecorator('gxy_sfys2')(
+				       			{getFieldDecorator('tnb_sfrq2')(
 									<DatePicker />
 				       			)}
 					        </FormItem>
@@ -300,10 +333,10 @@ class DiabetesForm extends React.Component {
 
 				{/*糖尿病 用药情况*/}
 				<DMedicationsTable 
-					tnbYyqkFields={this.props.tnbYyqkFields}
-					onFieldsChange={this.props.onFieldsChange}
+					tnbYyqkFields={tnbYyqk}
+					onFieldsChange={onFieldsChange}
+					objSize={tnbYyqkObjSize}
 				/>
-
 			</div>
 		)
 	}
@@ -318,10 +351,40 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("DiabetesForm mapPropsToFields", props)
-	return props.tnbSfjlFields || {}
+
+	const {
+		tnbSfjl,
+	} = props.phr[FNAME]
+
+	let fields = {}
+	let selectKey = tnbSfjl['selectKey']
+	for (let key in tnbSfjl) {
+		let tnbSfjl_value = tnbSfjl[key]
+		if (selectKey == key && tnbSfjl_value.constructor == Object) {
+			fields = tnbSfjl_value
+			break
+		}
+	}
+	return fields
 }
 
-export default Form.create({
+DiabetesForm.propTypes = {
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('DiabetesForm mapStateToProps:', state)
+	return {
+		phr: state.phr
+	}
+}
+
+DiabetesForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(DiabetesForm)
+
+export default connect(mapStateToProps, {
+	...PHRAction,
+	...AppActions,
 })(DiabetesForm)

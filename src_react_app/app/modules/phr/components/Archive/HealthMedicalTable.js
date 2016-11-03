@@ -19,6 +19,7 @@ import {
 	Switch,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
 
 import {
@@ -45,10 +46,11 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
-const GRDAJKJL = 'grdaJkjl'
-const GRDAJKZK = 'grdaJkzk'
+const ARC_TAB = 'grdaJkzk'
+const RECORD_TAB = 'grdaJkjl'
+const RECORD_KEY = 'grda_tjrq'
 const FIELDSN = FIELDS_CONFIG.name
-const JKJLFIELDS = FIELDS_CONFIG.grdaJkjl.fields
+const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
 
 /*健康体检表 表格*/
 class HealthMedicalTable extends React.Component {
@@ -74,42 +76,41 @@ class HealthMedicalTable extends React.Component {
 		console.log('HealthMedicalTable componentDidUpdate', prevProps, prevState)
 	}
 
-	deleteConfirm = (selectedRowKeys) => {
-		this.props.removeItem(selectedRowKeys, GRDAJKJL)
+	deleteConfirm = (selectedRowKeys, record_key) => {
+		this.props.removeItem(selectedRowKeys, record_key)
 	}
 
 	deleteCancel = () => {}
 
-	addRow = () => {
-		let date = this.getSelectKeyDate(GRDAJKZK)
-		console.log('addRow', date, typeof date)
+	addRow = (key, record_key) => {
+		let date = this.getSelectKeyDate(key, record_key)
 		if (!date && typeof date === 'undefined') {
 			notify('warn', '警告', '体检日期不能为空');
 		} else {
-			this.props.addItem(GRDAJKJL)
-			this.props.addObjItem(GRDAJKZK)
+			this.props.addItem(RECORD_TAB)
+			this.props.addObjItem(ARC_TAB)
 		}
 	}
 
-	/*改变选中的体检表 根据体检时间*/
+	/*改变选中的体检表 根据时间*/
 	changeSelectDate = (key, selectDate) => {
 		this.props.changeArrTableSelectKey(key, selectDate)
 	}
 
 	/*检查各个档案是不是处于updatestate @return boolean*/
 	isArchiveUpdateState = (key) => {
-		let records = this.getJkzkSelectDateRecord(key)
+		let records = this.getArcTabSelectDateRecord(key)
 		return !!records ? !!records.grda_tjrq ? records.grda_tjrq.length > 0 : false : false
 	}
 
-	/*获取健康体检表的数据，用于体检表更改，体检记录表获取数据 @return 时间为date(默认selectKey)的体检表*/
-	getJkjlRecord = (key) => {
-		let records = this.getJkzkSelectDateRecord(key)
+	/*获取记录表的数据，用于档案表更改，记录表获取数据 @return 时间为date(默认selectKey)的档案表*/
+	getJlTabRecord = (key) => {
+		let records = this.getArcTabSelectDateRecord(key)
 		return records
 	}
 
-	/*获取健康体检表的数据， @return 时间为date(默认selectKey)的体检表*/
-	getJkzkSelectDateRecord = (key) => {
+	/*获取档案表的数据， @return 时间为date(默认selectKey)的档案表*/
+	getArcTabSelectDateRecord = (key) => {
 		const {
 			phr
 		} = this.props
@@ -129,10 +130,10 @@ class HealthMedicalTable extends React.Component {
 	}
 
 	/*获取选中的key date*/
-	getSelectKeyDate = (key) => {
+	getSelectKeyDate = (key, dateField) => {
 		let selectKey = this.getSelectKey(key)
-		let selectValue = !!selectKey ? this.props.phr[FIELDSN][GRDAJKZK][selectKey] : undefined
-		return !!selectValue ? !!selectValue.grda_tjrq ? selectValue.grda_tjrq.value : undefined : null
+		let selectValue = !!selectKey ? this.props.phr[FIELDSN][ARC_TAB][selectKey] : undefined
+		return !!selectValue ? !!selectValue[dateField] ? selectValue[dateField].value : undefined : null
 	}
 
 	render() {
@@ -144,16 +145,13 @@ class HealthMedicalTable extends React.Component {
 		const {
 			updatestate
 		} = this.props.phr
-		const {
-			grdaJkjl
-		} = this.props.phr[FIELDS_CONFIG.name]
+		const RECORD_TABLE = this.props.phr[FIELDSN][RECORD_TAB]
 
-		const jkjlRecord = this.getJkjlRecord(GRDAJKZK)
-		const empty = emptyObject(jkjlRecord)
-
-		const grdaTjrq = !empty ? !!jkjlRecord.grda_tjrq ? jkjlRecord.grda_tjrq : [] : []
-		const grdaJkpj = !empty ? !!jkjlRecord.grda_jkpj ? jkjlRecord.grda_jkpj : [] : []
-		const grdaJkzd = !empty ? !!jkjlRecord.grda_jkzd ? jkjlRecord.grda_jkzd : [] : []
+		const jlRecord = this.getJlTabRecord(ARC_TAB)
+		const empty = emptyObject(jlRecord)
+		const grdaTjrq = !empty ? !!jlRecord.grda_tjrq ? jlRecord.grda_tjrq : [] : []
+		const grdaJkpj = !empty ? !!jlRecord.grda_jkpj ? jlRecord.grda_jkpj : [] : []
+		const grdaJkzd = !empty ? !!jlRecord.grda_jkzd ? jlRecord.grda_jkzd : [] : []
 
 		const columns = [{
 			title: '体检日期',
@@ -179,24 +177,24 @@ class HealthMedicalTable extends React.Component {
 				<span>{grdaJkzd[index]}</span>,
 		}];
 
-		if (this.isArchiveUpdateState(GRDAJKZK)) {
+		if (this.isArchiveUpdateState(ARC_TAB)) {
 			columns.push({
 				title: '操作',
 				dataIndex: 'operation',
 				key: 'operation',
 				width: '10%',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(GRDAJKZK, grdaTjrq[index])}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index])}>查看</a>
 				}
 			})
 		}
 
 		// rowSelection objects indicates the need for row selection
-		const objSize = grdaJkjl.objSize
-		const selectedRowKeys = grdaJkjl.selectedRowKeys
+		const objSize = RECORD_TABLE.objSize
+		const selectedRowKeys = RECORD_TABLE.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, GRDAJKJL),
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, RECORD_TAB),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -230,9 +228,9 @@ class HealthMedicalTable extends React.Component {
 				    	<Popconfirm
 					    	key="addItem"
 							title = {
-								`是否保存日期为 ${this.getSelectKey(GRDAJKZK)} 的体检表？`
+								`是否保存日期为 ${this.getSelectKey(ARC_TAB)} 的体检表？`
 							}
-							onConfirm={this.addRow}
+							onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY)}
 							onCancel={this.deleteCancel}
 						>
 							<Button
@@ -250,10 +248,9 @@ class HealthMedicalTable extends React.Component {
 							 type="primary"
 							 icon="plus"
 							 style={{ marginLeft: 10 }}
-							 onClick={this.addRow}
+							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY)}
 						>新增</Button>
 				    ]}
-				    
 					<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 				</div>
 		    </div>
@@ -280,7 +277,7 @@ function onFieldsChange(props, fields) {
 	console.log("HealthMedicalTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'grdaJkzk');
+	}, ARC_TAB);
 }
 
 function mapPropsToFields(props) {
@@ -310,5 +307,6 @@ HealthMedicalTable = Form.create({
 })(HealthMedicalTable)
 
 export default connect(mapStateToProps, {
+	...AppActions,
 	...PHRAction
 })(HealthMedicalTable)

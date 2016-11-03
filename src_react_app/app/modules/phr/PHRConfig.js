@@ -2299,24 +2299,98 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 	/*高血压*/
 	gxyJxb: {
-
+		dateFields: [
+			'gxy_sfrq2',
+			'gxy_xcsfrq2',
+		],
+		multiFields: [],
+		arrFields: {
+			//高血压-用药情况
+			gxyYyqk: {
+				fields: [
+					'ywmc',
+					'mrcs',
+					'mcyl',
+				]
+			},
+		}
 	},
-	//高血压-用药情况
-	gxyYyqk: {
-
+	//高血压-记录表(自定义，非服务端返回)
+	grdaGxyjl: {
+		fields: [
+			'gxy_sfrq2',
+			'gxy_sffs',
+			'gxy_zz',
+			'gxy_tz_xy1',
+			'gxy_tz_xy2',
+			'gxy_tz_sg',
+			'gxy_tz_tz',
+			'gxy_tz_tzzs',
+			'gxy_tz_xl',
+			'gxy_tz_qt',
+			'gxy_ccsffl',
+			'gxy_xcsfrq2',
+		]
 	},
 
 	/*糖尿病*/
 	tnbSfjl: {
-
+		dateFields: [
+			'tnb_sfrq2',
+			'tnb_jzjc_jcrq',
+			'tnb_xcsfrq2',
+		],
+		multiFields: [],
+		arrFields: {
+			//糖尿病-用药情况
+			tnbYyqk: {
+				fields: [
+					'ywmc',
+					'mrcs',
+					'mcyl',
+				]
+			},
+		}
 	},
-	//糖尿病-用药情况
-	tnbYyqk: {
-
+	//糖尿病-记录表(自定义，非服务端返回)
+	tnbjl: {
+		fields: [
+			'gxy_sfrq2',
+			'tnb_sffs',
+			'tnb_tz_xy1',
+			'tnb_tz_xy2',
+			'tnb_tz_sg',
+			'tnb_tz_tz',
+			'tnb_tz_tzzs',
+			'tnb_tz_zbdmbd',
+			'tnb_tz_qt',
+			'tnb_ccsffl',
+			'tnb_xcsfrq2',
+		]
 	},
+
 
 	/*老年人*/
 	lnrSfb: {
-
-	}
+		dateFields: [
+			'lnr_sfrq',
+			'lnr_xcsfrq',
+		],
+		multiFields: [],
+		arrFields: {}
+	},
+	//老年人-记录表(自定义，非服务端返回)
+	lnrjl: {
+		fields: [
+			'lnr_sfrq',
+			'lnr_jc',
+			'lnr_sx',
+			'lnr_cy',
+			'lnr_rc',
+			'lnr_hd',
+			'lnr_xcsfrq',
+			'lnr_sfys',
+			'lnr_zpf',
+		]
+	},
 }

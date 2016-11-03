@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -20,16 +20,22 @@ import {
 } from 'antd'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 
 import {
 	msg,
-	notify
+	notify,
+	getMomentFormat,
+	getValueArrByFieldArr,
+	emptyObject,
 } from 'utils'
 import {
 	DATE_FORMAT_STRING
 } from 'config'
 import {
-	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG
+	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
 } from 'phr_conf'
 
 const FormItem = Form.Item;
@@ -41,6 +47,12 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+
+const ARC_TAB = 'lnrSfb'
+const RECORD_TAB = 'lnrjl'
+const RECORD_KEY = 'lnr_sfrq'
+const FIELDSN = FIELDS_CONFIG.name
+const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
 
 /*老年人评估表*/
 class AgedTable extends React.Component {
@@ -63,133 +75,84 @@ class AgedTable extends React.Component {
 
 	componentDidMount = () => {}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+	deleteConfirm = (selectedRowKeys, record_key) => {
+		this.props.removeItem(selectedRowKeys, record_key)
 	}
 
 	deleteCancel = () => {}
 
-	addRow = (e) => {
+	addRow = (key, record_key) => {
+		let date = this.getSelectKeyDate(key, record_key)
+		if (!date && typeof date === 'undefined') {
+			notify('warn', '警告', '随访日期不能为空');
+		} else {
+			this.props.addItem(RECORD_TAB)
+			this.props.addObjItem(ARC_TAB)
+		}
+	}
 
-		let ndata = {}
-		ndata.key = Date.now()
+	/*改变选中的体检表 根据时间*/
+	changeSelectDate = (key, selectDate) => {
+		this.props.changeArrTableSelectKey(key, selectDate)
+	}
 
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
+	/*检查各个档案是不是处于updatestate @return boolean*/
+	isArchiveUpdateState = (key) => {
+		let records = this.getArcTabSelectDateRecord(key)
+		return !!records ? !!records[RECORD_KEY] ? records[RECORD_KEY].length > 0 : false : false
+	}
 
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+	/*获取记录表的数据，用于档案表更改，记录表获取数据 @return 时间为date(默认selectKey)的档案表*/
+	getJlTabRecord = (key) => {
+		let records = this.getArcTabSelectDateRecord(key)
+		return records
+	}
+
+	/*获取档案表的数据， @return 时间为date(默认selectKey)的档案表*/
+	getArcTabSelectDateRecord = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return getValueArrByFieldArr(JKJLFIELDS, keyState, DATE_FORMAT_STRING)
+	}
+
+	/*获取选中的key*/
+	getSelectKey = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return keyState.selectKey
+	}
+
+	/*获取选中的key date*/
+	getSelectKeyDate = (key, dateField) => {
+		let selectKey = this.getSelectKey(key)
+		let selectValue = !!selectKey ? this.props.phr[FIELDSN][ARC_TAB][selectKey] : undefined
+		return !!selectValue ? !!selectValue[dateField] ? selectValue[dateField].value : undefined : null
 	}
 
 	render() {
-
 		const {
 			getFieldDecorator
 		} = this.props.form
-		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
+		const RECORD_TABLE = this.props.phr[FIELDSN][RECORD_TAB]
 
-		const renderContent = {
-			followUpDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '6vw'}}/>
-					)
-				}
-			},
-			eating(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '20vw'}}/>
-					)
-				}
-			},
-			wash(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '20vw'}}/>
-					)
-				}
-			},
-			dress(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '20vw'}}/>
-					)
-				}
-			},
-			toilet(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '20vw'}}/>
-					)
-				}
-			},
-			activity(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '20vw'}}/>
-					)
-				}
-			},
-			nextFUDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '6vw'}}/>
-					)
-				}
-			},
-			fuDoc(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '6vw'}}/>
-					)
-				}
-			},
-			totalScore(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '4vw'}}/>
-					)
-				}
-			},
-		}
+		const jlRecord = this.getJlTabRecord(ARC_TAB)
+		const empty = emptyObject(jlRecord)
+
+		const lnr_sfrq = !empty ? !!jlRecord.lnr_sfrq ? jlRecord.lnr_sfrq : [] : []
+		const lnr_jc = !empty ? !!jlRecord.lnr_jc ? jlRecord.lnr_jc : [] : []
+		const lnr_sx = !empty ? !!jlRecord.lnr_sx ? jlRecord.lnr_sx : [] : []
+		const lnr_cy = !empty ? !!jlRecord.lnr_cy ? jlRecord.lnr_cy : [] : []
+		const lnr_rc = !empty ? !!jlRecord.lnr_rc ? jlRecord.lnr_rc : [] : []
+		const lnr_hd = !empty ? !!jlRecord.lnr_hd ? jlRecord.lnr_hd : [] : []
+		const lnr_xcsfrq = !empty ? !!jlRecord.lnr_xcsfrq ? jlRecord.lnr_xcsfrq : [] : []
+		const lnr_sfys = !empty ? !!jlRecord.lnr_sfys ? jlRecord.lnr_sfys : [] : []
+		const lnr_zpf = !empty ? !!jlRecord.lnr_zpf ? jlRecord.lnr_zpf : [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -197,67 +160,44 @@ class AgedTable extends React.Component {
 			key: 'followUpDate',
 			fixed: 'left',
 			width: '6vw',
-			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_sfrq_' + index)(
-						renderContent.followUpDate(value, this.memberOptions)
-					)}
-				</FormItem>,
+			render: (value, row, index) => {
+				return <span>{lnr_sfrq[index]}</span>
+			}
 		}, {
 			title: '进餐',
 			dataIndex: 'eating',
 			key: 'eating',
 			width: '20vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_jc_' + index)(
-						renderContent.eating(value, this.dailyNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_jc[index]}</span>,
 		}, {
 			title: '梳洗',
 			dataIndex: 'wash',
 			key: 'wash',
 			width: '20vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_sx_' + index)(
-						renderContent.wash(value, this.dailyNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_sx[index]}</span>,
 		}, {
 			title: '穿衣',
 			dataIndex: 'dress',
 			key: 'dress',
 			width: '20vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_cy_' + index)(
-						renderContent.dress(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_cy[index]}</span>,
 		}, {
 			title: '如厕',
 			dataIndex: 'toilet',
 			key: 'toilet',
 			width: '20vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_rc_' + index)(
-						renderContent.toilet(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_rc[index]}</span>,
 		}, {
 			title: '活动',
 			dataIndex: 'activity',
 			key: 'activity',
 			width: '20vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_hd_' + index)(
-						renderContent.activity(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_hd[index]}</span>,
 		}, {
 			title: '下次随访日期',
 			dataIndex: 'nextFUDate',
@@ -265,11 +205,7 @@ class AgedTable extends React.Component {
 			fixed: 'right',
 			width: '6vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_xcsfrq_' + index)(
-						renderContent.nextFUDate(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{!!lnr_xcsfrq[index] || '未填写'}</span>,
 		}, {
 			title: '随访医生',
 			dataIndex: 'fuDoc',
@@ -277,11 +213,7 @@ class AgedTable extends React.Component {
 			fixed: 'right',
 			width: '6vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_sfys_' + index)(
-						renderContent.fuDoc(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_sfys[index]}</span>,
 		}, {
 			title: '总评分',
 			dataIndex: 'totalScore',
@@ -289,14 +221,24 @@ class AgedTable extends React.Component {
 			fixed: 'right',
 			width: '4vw',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('lnr_zpf_' + index)(
-						renderContent.totalScore(value, this.eTimeNumOptions)
-					)}
-				</FormItem>,
+				<span>{lnr_zpf[index]}</span>,
 		}];
 
+		if (this.isArchiveUpdateState(ARC_TAB)) {
+			columns.push({
+				title: '操作',
+				dataIndex: 'operation',
+				key: 'operation',
+				width: '10%',
+				render: (value, row, index) => {
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index])}>查看</a>
+				}
+			})
+		}
+
 		// rowSelection objects indicates the need for row selection
+		const objSize = RECORD_TABLE.objSize
+		const selectedRowKeys = RECORD_TABLE.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
 			onChange: this.onSelectChange,
@@ -330,12 +272,33 @@ class AgedTable extends React.Component {
 						 icon="delete"
 						 style={{ marginLeft: 20 }}>删除</Button>
 				    </Popconfirm>
-					<Button
-					 size="large"
-					 type="primary"
-					 icon="plus"
-					 style={{ marginLeft: 20 }}
-					 onClick={this.addRow}>新增</Button>
+					{objSize.length > 0 ? [
+				    	<Popconfirm
+					    	key="addItem"
+							title = {
+								`是否保存日期为 ${this.getSelectKey(ARC_TAB)} 的老年人记录？`
+							}
+							onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY)}
+							onCancel={this.deleteCancel}
+						>
+							<Button
+						    	 key="addItem"
+								 size="large"
+								 type="primary"
+								 icon="plus"
+								 style={{ marginLeft: 10 }}
+							>新增</Button>
+					    </Popconfirm>
+				    ] : [
+				    	<Button
+					    	 key="addItem"
+							 size="large"
+							 type="primary"
+							 icon="plus"
+							 style={{ marginLeft: 10 }}
+							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY)}
+						>新增</Button>
+				    ]}
 					<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 				</div>
 		    </div>
@@ -346,33 +309,52 @@ class AgedTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={objSize} 
 				size="middle"
    				title={title}
     			pagination={false}
-    			bordered
     			scroll={{ x: 200 }} 
+    			bordered
 			>
 			</Table>
 		)
 	}
 }
 
-AgedTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
 	console.log("AgedTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'lnrSfb');
+	}, ARC_TAB);
 }
 
 function mapPropsToFields(props) {
 	console.log("AgedTable mapPropsToFields", props)
-	return props.lnrSfbFields || {}
+	return props.fields || {}
 }
 
-export default Form.create({
+AgedTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	addObjItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	changeArrTableSelectKey: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('AgedTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+AgedTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(AgedTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
 })(AgedTable)

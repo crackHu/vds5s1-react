@@ -392,19 +392,6 @@ class ArchiveCollection extends React.Component {
 						grdaJwsFields={grdaJwsFields}
 						grdaJzsFields={grdaJzsFields}
 
-						grdaJkzkFields={grdaJkzkFields}
-						grdaZyyyqkFields={grdaZyyyqkFields}
-						grdaFmyjzsFields={grdaFmyjzsFields}
-						grdaZyzlqkFields={grdaZyzlqkFields}
-
-						gxyJxbFields={gxyJxbFields}
-						gxyYyqkFields={gxyYyqkFields}
-
-						tnbSfjlFields={tnbSfjlFields}
-						tnbYyqkFields={tnbYyqkFields}
-
-						lnrSfbFields={lnrSfbFields}
-
 						onFieldsChange={this.onFieldsChange}
 						getIndividualNumbe={this.getIndividualNumbe}
 						updatestate={this.props.phr.updatestate}

@@ -318,7 +318,7 @@ export function getFieldsValueObj(dout, fields) {
       /*时间字段转换*/
     if (dateFields.indexOf(field) > -1) {
       obj[field] = {
-        value: moment(servdate, DATE_FORMAT_STRING)
+        value: !!servdate ? moment(servdate, DATE_FORMAT_STRING) : null
       }
     } else if (multiFields.indexOf(field) > -1) {
       /*多选字段转换*/
@@ -350,7 +350,7 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
 
   let obj = {}
   let selectKey
-  if (!!doutArrObj)
+  if (!!doutArrObj && doutArrObj.length > 0)
     doutArrObj.forEach((fieldsObj, index) => {
       let fieldKey
       for (let field in fieldsObj) {
@@ -448,7 +448,7 @@ export function getFieldsValueArrObj(doutArr, fields) {
 export function getArrFieldsValueArrObj(doutArrObj, fields, flag) {
 
   let arr = []
-  if (!!doutArrObj)
+  if (!!doutArrObj && doutArrObj.length > 0)
     doutArrObj.forEach((obj, index) => {
       let arrObj = getFieldsValueArrObj(obj[flag], fields)
       arr.push(arrObj)
@@ -631,7 +631,7 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
           obj[field].push(value.join(','))
         } else if (typeof value == 'object') {
           //日期
-          obj[field].push(value.format(date_format))
+          !!value ? obj[field].push(value.format(date_format)) : ''
         } else {
           obj[field].push(value)
         }

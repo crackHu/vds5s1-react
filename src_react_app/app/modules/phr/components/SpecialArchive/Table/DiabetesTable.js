@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -20,10 +20,15 @@ import {
 } from 'antd'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 
 import {
 	msg,
-	notify
+	notify,
+	getMomentFormat,
+	getValueArrByFieldArr,
+	emptyObject,
 } from 'utils'
 import {
 	DATE_FORMAT_STRING
@@ -43,6 +48,12 @@ const getSelectOptions = (data) => {
 	})
 }
 
+const ARC_TAB = 'tnbSfjl'
+const RECORD_TAB = 'tnbjl'
+const RECORD_KEY = 'tnb_sfrq2'
+const FIELDSN = FIELDS_CONFIG.name
+const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
+
 /*糖尿病记录表*/
 class DiabetesTable extends React.Component {
 
@@ -59,102 +70,87 @@ class DiabetesTable extends React.Component {
 
 	componentDidMount = () => {}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+	deleteConfirm = (selectedRowKeys, record_key) => {
+		this.props.removeItem(selectedRowKeys, record_key)
 	}
 
 	deleteCancel = () => {}
 
-	addRow = (e) => {
+	addRow = (key, record_key) => {
+		let date = this.getSelectKeyDate(key, record_key)
+		if (!date && typeof date === 'undefined') {
+			notify('warn', '警告', '随访日期不能为空');
+		} else {
+			this.props.addItem(RECORD_TAB)
+			this.props.addObjItem(ARC_TAB)
+		}
+	}
 
-		let ndata = {}
-		ndata.key = Date.now()
+	/*改变选中的体检表 根据时间*/
+	changeSelectDate = (key, selectDate) => {
+		this.props.changeArrTableSelectKey(key, selectDate)
+	}
 
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
+	/*检查各个档案是不是处于updatestate @return boolean*/
+	isArchiveUpdateState = (key) => {
+		let records = this.getArcTabSelectDateRecord(key)
+		return !!records ? !!records[RECORD_KEY] ? records[RECORD_KEY].length > 0 : false : false
+	}
 
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+	/*获取记录表的数据，用于档案表更改，记录表获取数据 @return 时间为date(默认selectKey)的档案表*/
+	getJlTabRecord = (key) => {
+		let records = this.getArcTabSelectDateRecord(key)
+		return records
+	}
+
+	/*获取档案表的数据， @return 时间为date(默认selectKey)的档案表*/
+	getArcTabSelectDateRecord = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return getValueArrByFieldArr(JKJLFIELDS, keyState, DATE_FORMAT_STRING)
+	}
+
+	/*获取选中的key*/
+	getSelectKey = (key) => {
+		const {
+			phr
+		} = this.props
+
+		let keyState = phr[FIELDSN][key]
+		return keyState.selectKey
+	}
+
+	/*获取选中的key date*/
+	getSelectKeyDate = (key, dateField) => {
+		let selectKey = this.getSelectKey(key)
+		let selectValue = !!selectKey ? this.props.phr[FIELDSN][ARC_TAB][selectKey] : undefined
+		return !!selectValue ? !!selectValue[dateField] ? selectValue[dateField].value : undefined : null
 	}
 
 	render() {
-
 		const {
 			getFieldDecorator
 		} = this.props.form
-		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
+		const RECORD_TABLE = this.props.phr[FIELDSN][RECORD_TAB]
 
-		const renderContent = {
-			inoutDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
-			},
-			reason(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
-			},
-			institutionName(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
-			},
-			mRecordNo(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
-			},
-			remark(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input
-							style={{width: '70vh'}}
-							type="textarea"
-							autosize={{ minRows: 1, maxRows: 2 }}
-						/>
-					)
-				}
-			},
+		const jlRecord = this.getJlTabRecord(ARC_TAB)
+		const empty = emptyObject(jlRecord)
 
-		}
+		const tnb_sfrq2 = !empty ? !!jlRecord.tnb_sfrq2 ? jlRecord.tnb_sfrq2 : [] : []
+		const tnb_sffs = !empty ? !!jlRecord.tnb_sffs ? jlRecord.tnb_sffs : [] : []
+		const tnb_zz = !empty ? !!jlRecord.tnb_zz ? jlRecord.tnb_zz : [] : []
+		const tnb_tz_xy1 = !empty ? !!jlRecord.tnb_tz_xy1 ? jlRecord.tnb_tz_xy1 : [] : []
+		const tnb_tz_xy2 = !empty ? !!jlRecord.tnb_tz_xy2 ? jlRecord.tnb_tz_xy2 : [] : []
+		const tnb_tz_sg = !empty ? !!jlRecord.tnb_tz_sg ? jlRecord.tnb_tz_sg : [] : []
+		const tnb_tz_tz = !empty ? !!jlRecord.tnb_tz_tz ? jlRecord.tnb_tz_tz : [] : []
+		const tnb_tz_tzzs = !empty ? !!jlRecord.tnb_tz_tzzs ? jlRecord.tnb_tz_tzzs : [] : []
+		const tnb_tz_zbdmbd = !empty ? !!jlRecord.tnb_tz_zbdmbd ? jlRecord.tnb_tz_zbdmbd : [] : []
+		const tnb_tz_qt = !empty ? !!jlRecord.tnb_tz_qt ? jlRecord.tnb_tz_qt : [] : []
+		const tnb_ccsffl = !empty ? !!jlRecord.tnb_ccsffl ? jlRecord.tnb_ccsffl : [] : []
+		const tnb_xcsfrq2 = !empty ? !!jlRecord.tnb_xcsfrq2 ? jlRecord.tnb_xcsfrq2 : [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -162,135 +158,94 @@ class DiabetesTable extends React.Component {
 			key: 'followUpDate',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_sfrq2_' + index)(
-						renderContent.inoutDate(value, this.memberOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_sfrq2[index]}</span>
 		}, {
 			title: '随访方式',
 			dataIndex: 'followUpWay',
 			key: 'followUpWay',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_sffs_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_sffs[index]}</span>,
 		}, {
 			title: '症状',
 			dataIndex: 'symptoms',
 			key: 'symptoms',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_zz_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
-		}, {
-			title: '血压/',
-			dataIndex: 'bloodPress1',
-			key: 'reason',
-			width: '8%',
-			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_xy1_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_zz[index]}</span>,
 		}, {
 			title: '血压',
-			dataIndex: 'bloodPress2',
-			key: 'bloodPress1',
+			dataIndex: 'bloodPress',
+			key: 'bloodPress',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_xy2_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{`${tnb_tz_xy1[index]} / ${tnb_tz_xy2[index]}`}</span>,
 		}, {
 			title: '身高',
 			dataIndex: 'height',
 			key: 'height',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_sg_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_tz_sg[index]}</span>,
 		}, {
 			title: '体重',
 			dataIndex: 'weight',
 			key: 'weight',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_tz_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_tz_tz[index]}</span>,
 		}, {
 			title: '体质指数',
 			dataIndex: 'bmi',
 			key: 'bmi',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_tzzs_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_tz_tzzs[index]}</span>,
 		}, {
 			title: '总背动脉搏动',
 			dataIndex: 'carryPulses',
 			key: 'carryPulses',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_zbdmbd_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_tz_zbdmbd[index]}</span>,
 		}, {
 			title: '其他',
 			dataIndex: 'other',
 			key: 'other',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_tz_qt_' + index)(
-						renderContent.reason(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_tz_qt[index]}</span>,
 		}, {
 			title: '此次随访分类',
 			dataIndex: 'followUpClass',
 			key: 'followUpClass',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_ccsffl_' + index)(
-						renderContent.institutionName(value, this.sickOptions)
-					)}
-				</FormItem>,
+				<span>{tnb_ccsffl[index]}</span>,
 		}, {
 			title: '下次随访日期',
 			dataIndex: 'nextFUDate',
 			key: 'nextFUDate',
 			width: '8%',
 			render: (value, row, index) =>
-				<FormItem>
-					{getFieldDecorator('tnb_xcsfrq2_' + index)(
-						renderContent.remark(value)
-					)}
-				</FormItem>,
+				<span>{tnb_xcsfrq2[index]}</span>,
 		}];
 
+		if (this.isArchiveUpdateState(ARC_TAB)) {
+			columns.push({
+				title: '操作',
+				dataIndex: 'operation',
+				key: 'operation',
+				width: '10%',
+				render: (value, row, index) => {
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index])}>查看</a>
+				}
+			})
+		}
+
 		// rowSelection objects indicates the need for row selection
+		const objSize = RECORD_TABLE.objSize
+		const selectedRowKeys = RECORD_TABLE.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
 			onChange: this.onSelectChange,
@@ -324,12 +279,33 @@ class DiabetesTable extends React.Component {
 						 icon="delete"
 						 style={{ marginLeft: 10 }}>删除</Button>
 				    </Popconfirm>
-					<Button
-					 size="large"
-					 type="primary"
-					 icon="plus"
-					 style={{ marginLeft: 10 }}
-					 onClick={this.addRow}>新增</Button>
+				    {objSize.length > 0 ? [
+				    	<Popconfirm
+					    	key="addItem"
+							title = {
+								`是否保存日期为 ${this.getSelectKey(ARC_TAB)} 的糖尿病记录？`
+							}
+							onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY)}
+							onCancel={this.deleteCancel}
+						>
+							<Button
+						    	 key="addItem"
+								 size="large"
+								 type="primary"
+								 icon="plus"
+								 style={{ marginLeft: 10 }}
+							>新增</Button>
+					    </Popconfirm>
+				    ] : [
+				    	<Button
+					    	 key="addItem"
+							 size="large"
+							 type="primary"
+							 icon="plus"
+							 style={{ marginLeft: 10 }}
+							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY)}
+						>新增</Button>
+				    ]}
 					<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
 				</div>
 		    </div>
@@ -340,11 +316,12 @@ class DiabetesTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={this.state.data} 
+				dataSource={objSize} 
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
     			pagination={false}
+    			scroll={{ y: 200 }}
     			bordered
 			>
 			</Table>
@@ -352,21 +329,40 @@ class DiabetesTable extends React.Component {
 	}
 }
 
-DiabetesTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
 	console.log("DiabetesTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'tnbSfjl');
+	}, ARC_TAB);
 }
 
 function mapPropsToFields(props) {
 	console.log("DiabetesTable mapPropsToFields", props)
-	return props.tnbSfjlFields || {}
+	return props.fields || {}
 }
 
-export default Form.create({
+DiabetesTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	addObjItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	changeArrTableSelectKey: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('DiabetesTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+DiabetesTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(DiabetesTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
 })(DiabetesTable)

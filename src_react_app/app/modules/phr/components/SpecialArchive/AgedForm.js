@@ -23,17 +23,25 @@ import {
 	Alert,
 	Rate,
 } from 'antd'
+import {
+	connect
+} from 'react-redux';
 import AgedTable from './Table/AgedTable'
 
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
+
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
+const FNAME = FIELDS.name
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -83,8 +91,27 @@ class AgedForm extends React.Component {
 
 	render() {
 		const {
+			onFieldsChange,
+		} = this.props
+		const {
 			getFieldDecorator
 		} = this.props.form
+		const {
+			lnrSfb,
+			lnrjl,
+		} = this.props.phr[FNAME]
+
+		let fields = {}
+		let objSize = []
+		let selectKey = lnrSfb['selectKey']
+		for (let key in lnrSfb) {
+			let lnrSfb_value = lnrSfb[key]
+			if (selectKey == key && lnrSfb_value.constructor == Object) {
+				fields = lnrSfb_value
+				break
+			}
+		}
+		objSize = !!lnrSfb ? lnrSfb.objSize : objSize
 
 		const {
 			eatingValue,
@@ -111,8 +138,9 @@ class AgedForm extends React.Component {
 				{/*老年人评估表*/}
 				<div className="dashed_border form inside">
 					<AgedTable
-						lnrSfbFields={this.props.lnrSfbFields}
-						onFieldsChange={this.props.onFieldsChange}
+						fields={lnrjl}
+						onFieldsChange={onFieldsChange}
+						objSize={objSize}
 					/>
 				</div>
 
@@ -125,7 +153,7 @@ class AgedForm extends React.Component {
 							)}
 					        </FormItem>
 							<FormItem label="随访方式" >
-							{getFieldDecorator('lnr_sffs')(
+								{getFieldDecorator('lnr_sffs')(
 								<Select
 								    style={{ width: 120 }}
 									placeholder="请选择"
@@ -207,10 +235,41 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("AgedForm mapPropsToFields", props)
-	return props.lnrSfbFields || {}
+
+	const {
+		lnrSfb,
+	} = props.phr[FNAME]
+
+	let fields = {}
+	let selectKey = lnrSfb['selectKey']
+	console.log('aaaaaaaaaaaaaaaa', selectKey)
+	for (let key in lnrSfb) {
+		let lnrSfb_value = lnrSfb[key]
+		if (selectKey == key && lnrSfb_value.constructor == Object) {
+			fields = lnrSfb_value
+			break
+		}
+	}
+	return fields
 }
 
-export default Form.create({
+AgedForm.propTypes = {
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('AgedForm mapStateToProps:', state)
+	return {
+		phr: state.phr
+	}
+}
+
+AgedForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(AgedForm)
+
+export default connect(mapStateToProps, {
+	...PHRAction,
+	...AppActions,
 })(AgedForm)

@@ -214,17 +214,18 @@ const phr = function(state = initialState, action) {
 			let grdaJkzkFields = FIELDS['grdaJkzk']
 			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
 			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
-				/*let grdaZyyyqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyyyqk'], 'grdaZyyyqk')
-				let grdaFmyjzs = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaFmyjzs'], 'grdaFmyjzs')
-				let grdaZyzlqk = getArrFieldsValueArrObj(dout.grdaJkzk, FIELDS['grdaZyzlqk'], 'grdaZyzlqk')*/
 
-			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, FIELDS['gxyJxb'])
-			let gxyYyqk = getArrFieldsValueArrObj(dout.gxyJxb, FIELDS['gxyYyqk'], 'gxyYyqk')
+			let gxyJxbFields = FIELDS['gxyJxb']
+			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, gxyJxbFields, 'gxy_sfrq2', gxyJxbFields['arrFields'])
+			let grdaGxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['grdaGxyjl'].fields)
 
-			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, FIELDS['tnbSfjl'])
-			let tnbYyqk = getArrFieldsValueArrObj(dout.tnbSfjl, FIELDS['tnbYyqk'], 'tnbYyqk')
+			let tnbSfjlFields = FIELDS['tnbSfjl']
+			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, tnbSfjlFields, 'tnb_sfrq2', tnbSfjlFields['arrFields'])
+			let tnbjl = getArrFieldsObjByObj(tnbSfjl, FIELDS['tnbjl'].fields)
 
-			let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, FIELDS['lnrSfb'], 'lnrSfb')
+			let lnrSfbFields = FIELDS['lnrSfb']
+			let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, lnrSfbFields, 'lnr_sfrq', lnrSfbFields['arrFields'])
+			let lnrjl = getArrFieldsObjByObj(lnrSfb, FIELDS['lnrjl'].fields)
 
 			return Object.assign({}, initialState, {
 				submitloading: false,
@@ -236,17 +237,15 @@ const phr = function(state = initialState, action) {
 
 					grdaJkzk,
 					grdaJkjl,
-					/*grdaZyyyqk,
-					grdaFmyjzs,
-					grdaZyzlqk,
 
 					gxyJxb,
-					gxyYyqk,
+					grdaGxyjl,
 
 					tnbSfjl,
-					tnbYyqk,
+					tnbjl,
 
-					lnrSfb,*/
+					lnrSfb,
+					lnrjl,
 				}
 			})
 		case DELETE_PHR:
@@ -273,9 +272,10 @@ const phr = function(state = initialState, action) {
 				...data,
 			})
 		case SEARCH_PHR:
-			return {
-				data
-			}
+			return Object.assign({}, initialState, {
+				archiveListloading: false,
+				data,
+			})
 		case INDIVIDUAL_NUMBER:
 			if (resultCode > 0) {
 				let grbh = {
@@ -340,19 +340,26 @@ const phr = function(state = initialState, action) {
 			})
 		case ADD_OBJ_ITEM:
 			var stateFlag = stateFields[flag]
+			var selectKey
+			if (!!stateFlag.selectKey) {
+				selectKey = moment(stateFlag.selectKey, DATE_FORMAT_STRING).add(1, 'days')
+			} else {
+				selectKey = today.subtract(7, 'days')
+			}
+			var selectDay = selectKey.format(DATE_FORMAT_STRING)
 			var grbh = stateFields['grdaJbzl']['grbh'] || null
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,
 					[flag]: {
 						...stateFlag,
-						[todayStr]: {
+						[selectDay]: {
 							grda_tjrq: {
-								value: today
+								value: selectKey
 							},
 							grbh,
 						},
-						selectKey: todayStr
+						selectKey: selectDay,
 					}
 				}
 			})

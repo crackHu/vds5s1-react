@@ -21,18 +21,26 @@ import {
 	Card,
 	Tooltip
 } from 'antd'
+import {
+	connect
+} from 'react-redux';
 import HypertensionTable from './Table/HypertensionTable'
 import HMedicationsTable from './Table/HMedicationsTable'
 
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
+
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
+const FNAME = FIELDS.name
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -73,16 +81,41 @@ class HypertensionForm extends React.Component {
 
 	render() {
 		const {
+			onFieldsChange,
+		} = this.props
+		const {
 			getFieldDecorator
 		} = this.props.form
+		const {
+			gxyJxb,
+			grdaGxyjl,
+		} = this.props.phr[FNAME]
+
+		let fields = {}
+		let gxyYyqk
+		let objSize = [{}],
+			gxyYyqkObjSize
+		let selectKey = gxyJxb['selectKey']
+		for (let key in gxyJxb) {
+			let gxyJxb_value = gxyJxb[key]
+			if (selectKey == key && gxyJxb_value.constructor == Object) {
+				fields = gxyJxb_value
+				gxyYyqk = gxyJxb_value['gxyYyqk']
+				break
+			}
+		}
+
+		objSize = !!gxyJxb ? gxyJxb.objSize : objSize
+		gxyYyqkObjSize = !!gxyYyqk ? gxyYyqk.objSize : gxyYyqkObjSize
 
 		return (
 			<div>
 				{/*高血压记录表*/}
 				<div className="dashed_border form inside">
 					<HypertensionTable
-						gxyJxbFields={this.props.gxyJxbFields}
-						onFieldsChange={this.props.onFieldsChange}
+						gxyJxbFields={grdaGxyjl}
+						onFieldsChange={onFieldsChange}
+					 	objSize={objSize}
 					/>
 				</div>
 
@@ -276,8 +309,9 @@ class HypertensionForm extends React.Component {
 
 				{/*高血压 用药情况*/}
 				<HMedicationsTable
-					gxyYyqkFields={this.props.gxyYyqkFields}
-					onFieldsChange={this.props.onFieldsChange}
+					gxyYyqkFields={gxyYyqk}
+					onFieldsChange={onFieldsChange}
+				    objSize={gxyYyqkObjSize}
 				/>
 			</div>
 		)
@@ -293,10 +327,40 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("HypertensionForm mapPropsToFields", props)
-	return props.gxyJxbFields || {}
+
+	const {
+		gxyJxb,
+	} = props.phr[FNAME]
+
+	let fields = {}
+	let selectKey = gxyJxb['selectKey']
+	for (let key in gxyJxb) {
+		let gxyJxb_value = gxyJxb[key]
+		if (selectKey == key && gxyJxb_value.constructor == Object) {
+			fields = gxyJxb_value
+			break
+		}
+	}
+	return fields
 }
 
-export default Form.create({
+HypertensionForm.propTypes = {
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('HypertensionForm mapStateToProps:', state)
+	return {
+		phr: state.phr
+	}
+}
+
+HypertensionForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(HypertensionForm)
+
+export default connect(mapStateToProps, {
+	...PHRAction,
+	...AppActions,
 })(HypertensionForm)
