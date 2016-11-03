@@ -335,8 +335,6 @@ class HypertensionTable extends React.Component {
 	}
 }
 
-HypertensionTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
 	console.log("HypertensionTable onFieldsChange", props, fields)
 	props.onFieldsChange({
