@@ -1984,7 +1984,13 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 				'grdaZyzlqk',
 				'grdaWtml',
 			],
-			'test': []
+			'gxyJxb': [
+				'gxyYyqk',
+			],
+			'tnbSfjl': [
+				'tnbYyqk',
+			],
+			'lnrSfb': [],
 		},
 
 	},
@@ -2316,7 +2322,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 		}
 	},
 	//高血压-记录表(自定义，非服务端返回)
-	grdaGxyjl: {
+	gxyjl: {
 		fields: [
 			'gxy_sfrq2',
 			'gxy_sffs',
@@ -2355,8 +2361,9 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	//糖尿病-记录表(自定义，非服务端返回)
 	tnbjl: {
 		fields: [
-			'gxy_sfrq2',
+			'tnb_sfrq2',
 			'tnb_sffs',
+			'tnb_zz',
 			'tnb_tz_xy1',
 			'tnb_tz_xy2',
 			'tnb_tz_sg',
@@ -2368,7 +2375,6 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'tnb_xcsfrq2',
 		]
 	},
-
 
 	/*老年人*/
 	lnrSfb: {

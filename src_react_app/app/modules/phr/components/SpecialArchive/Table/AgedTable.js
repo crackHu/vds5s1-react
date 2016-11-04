@@ -87,7 +87,7 @@ class AgedTable extends React.Component {
 			notify('warn', '警告', '随访日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 		}
 	}
 
@@ -203,9 +203,9 @@ class AgedTable extends React.Component {
 			dataIndex: 'nextFUDate',
 			key: 'nextFUDate',
 			fixed: 'right',
-			width: '6vw',
+			width: '7vw',
 			render: (value, row, index) =>
-				<span>{!!lnr_xcsfrq[index] || '未填写'}</span>,
+				<span>{lnr_xcsfrq[index]}</span>,
 		}, {
 			title: '随访医生',
 			dataIndex: 'fuDoc',
@@ -229,9 +229,10 @@ class AgedTable extends React.Component {
 				title: '操作',
 				dataIndex: 'operation',
 				key: 'operation',
-				width: '10%',
+				fixed: 'right',
+				width: '5vw',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index])}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, lnr_sfrq[index])}>查看</a>
 				}
 			})
 		}
@@ -313,7 +314,7 @@ class AgedTable extends React.Component {
 				size="middle"
    				title={title}
     			pagination={false}
-    			scroll={{ x: 200 }} 
+    			scroll={{ x: 1650, y: 200 }}
     			bordered
 			>
 			</Table>

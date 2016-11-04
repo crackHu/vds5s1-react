@@ -15,6 +15,7 @@ import {
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
 	ADD_ITEM,
+	ADD_SON_ITEM,
 	ADD_OBJ_ITEM,
 	REMOVE_ITEM,
 	SELECT_ROW_KEY,
@@ -40,7 +41,6 @@ import {
 const today = moment(new Date())
 const todayStr = today.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName
-
 const FIELDSN = FIELDS.name
 let initialState = {
 	archiveListloading: true,
@@ -72,35 +72,23 @@ let initialState = {
 			selectedRowKeys: [],
 			objSize: []
 		},
-		grdaJkzk: {
-			[todayStr]: {
-				grda_tjrq: {
-					value: today
-				},
-				grdaZyzlqk: {
-					selectedRowKeys: [],
-					objSize: []
-				},
-				grdaZyyyqk: {
-					selectedRowKeys: [],
-					objSize: []
-				},
-				grdaFmyjzs: {
-					selectedRowKeys: [],
-					objSize: []
-				},
-				grdaWtml: {
-					selectedRowKeys: [],
-					objSize: []
-				},
-			},
-			selectKey: todayStr
-		},
+		grdaJkzk: {},
 		grdaJkjl: {
 			selectedRowKeys: [],
 			objSize: []
 		},
-		tnbYyqk: {
+		tnbSfjl: {},
+		tnbjl: {
+			selectedRowKeys: [],
+			objSize: []
+		},
+		gxyJxb: {},
+		gxyjl: {
+			selectedRowKeys: [],
+			objSize: []
+		},
+		lnrSfb: {},
+		lnrjl: {
 			selectedRowKeys: [],
 			objSize: []
 		},
@@ -146,66 +134,53 @@ const phr = function(state = initialState, action) {
 					}
 				})
 			} else {
+				var isArrObjFlag = false
 				for (let arrKey in isArrObj) {
+					if (isArrObj[arrKey].indexOf(flag) > -1) {
+						isArrObjFlag = true
+					}
+				}
+				if (isArrObjFlag) {
+					//isArrObj
 					var flagFields = !!stateFields ? stateFields[arrKey] : undefined
 					var key = !!flagFields ? flagFields['selectKey'] : undefined
 					var isArrFields = !!stateFields ? stateFields[arrKey] : undefined
 					var selectKeyFields = !!isArrFields ? isArrFields[key] : undefined
 					var isArrObjKeyFields = !!selectKeyFields ? selectKeyFields[flag] : undefined
 
-					//isArrObj
-					if (isArrObj[arrKey].indexOf(flag) > -1) {
-						console.log('FIELDS_CHANGE', 'isArrObj', key, flagFields)
-						return Object.assign({}, initialState, state, {
-							[FIELDSN]: {
-								...stateFields,
-								[arrKey]: {
-									...isArrFields,
-									[key]: {
-										...selectKeyFields,
-										[flag]: {
-											...isArrObjKeyFields,
-											...data
-										}
-									}
-								}
-							}
-						})
-					} else {
-						//isArr
-						console.log('FIELDS_CHANGE', 'isArr', flagFields)
-						return Object.assign({}, initialState, state, {
-							[FIELDSN]: {
-								...stateFields,
-								[flag]: {
-									...flagFields,
-									[key]: {
-										...keyFields,
+					console.log('FIELDS_CHANGE', 'isArrObj', key, flagFields)
+					return Object.assign({}, initialState, state, {
+						[FIELDSN]: {
+							...stateFields,
+							[arrKey]: {
+								...isArrFields,
+								[key]: {
+									...selectKeyFields,
+									[flag]: {
+										...isArrObjKeyFields,
 										...data
 									}
 								}
 							}
-						})
-					}
+						}
+					})
+				} else {
+					//isArr
+					console.log('FIELDS_CHANGE', 'isArr', flagFields)
+					return Object.assign({}, initialState, state, {
+						[FIELDSN]: {
+							...stateFields,
+							[flag]: {
+								...flagFields,
+								[key]: {
+									...keyFields,
+									...data
+								}
+							}
+						}
+					})
 				}
 			}
-		case FIELDS_CHANGE_KEY:
-			var flagFields = !!stateFields ? stateFields[flag] : null
-			var key = flagFields['selectKey']
-			var keyFields = !!flagFields[key] ? flagFields[key] : null
-			console.log('FIELDS_CHANGE_KEY', data, key, keyFields)
-			return Object.assign({}, initialState, state, {
-				[FIELDSN]: {
-					...stateFields,
-					[flag]: {
-						...flagFields,
-						[key]: {
-							...keyFields,
-							...data
-						}
-					}
-				}
-			})
 		case QUERY_PHR:
 			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
@@ -217,7 +192,7 @@ const phr = function(state = initialState, action) {
 
 			let gxyJxbFields = FIELDS['gxyJxb']
 			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, gxyJxbFields, 'gxy_sfrq2', gxyJxbFields['arrFields'])
-			let grdaGxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['grdaGxyjl'].fields)
+			let gxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['gxyjl'].fields)
 
 			let tnbSfjlFields = FIELDS['tnbSfjl']
 			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, tnbSfjlFields, 'tnb_sfrq2', tnbSfjlFields['arrFields'])
@@ -239,7 +214,7 @@ const phr = function(state = initialState, action) {
 					grdaJkjl,
 
 					gxyJxb,
-					grdaGxyjl,
+					gxyjl,
 
 					tnbSfjl,
 					tnbjl,
@@ -253,23 +228,10 @@ const phr = function(state = initialState, action) {
 		case SAVE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
-				[FIELDSN]: {
-					...stateFields,
-					grdaJkzk: {
-						...stateFields['grdaJkzk'],
-						['2016-10-31']: {
-							grbh: {
-								value: stateFields.grdaJbzl.grbh.value
-							}
-						}
-					}
-				}
-
 			})
 		case UPDATE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
-				updatestate: resultCode > 0,
-				...data,
+				updatestate: true,
 			})
 		case SEARCH_PHR:
 			return Object.assign({}, initialState, {
@@ -300,11 +262,7 @@ const phr = function(state = initialState, action) {
 				updatestate: !state.updatestate
 			})
 		case CLEAR_STORE:
-			return Object.assign({}, {
-				[FIELDSN]: null,
-			}, initialState, {
-				updatestate: state.updatestate,
-			})
+			return Object.assign({}, initialState, flag)
 		case CHANGE_ARRTABLE_SELKEY:
 			return Object.assign({}, state, {
 				[FIELDSN]: {
@@ -338,6 +296,21 @@ const phr = function(state = initialState, action) {
 					}
 				}
 			})
+		case ADD_SON_ITEM:
+			var stateFlag = stateFields[flag]
+			var objSize = stateFlag.objSize.slice(0)
+			objSize.push({
+				rkey: Date.now()
+			})
+			return Object.assign({}, state, {
+				[FIELDSN]: {
+					...stateFields,
+					[flag]: {
+						...stateFlag,
+						objSize
+					}
+				}
+			})
 		case ADD_OBJ_ITEM:
 			var stateFlag = stateFields[flag]
 			var selectKey
@@ -354,7 +327,7 @@ const phr = function(state = initialState, action) {
 					[flag]: {
 						...stateFlag,
 						[selectDay]: {
-							grda_tjrq: {
+							[action.recordKey]: {
 								value: selectKey
 							},
 							grbh,

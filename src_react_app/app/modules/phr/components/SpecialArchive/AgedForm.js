@@ -133,6 +133,8 @@ class AgedForm extends React.Component {
 		const toiletRate = `${tolOption.score} ${tolOption.level}`
 		const activityRate = `${actOption.score} ${actOption.level}`
 
+		let formDisplay = !!(lnrjl.objSize) ? lnrjl.objSize.length > 0 ? 'block' : 'none' : 'none'
+
 		return (
 			<div>
 				{/*老年人评估表*/}
@@ -144,7 +146,7 @@ class AgedForm extends React.Component {
 					/>
 				</div>
 
-				<div className="dashed_border form marginlr8">
+				<div className="dashed_border form marginlr8" style={{display: formDisplay}}>
 					<Form inline>
 						<Row className="item_inline_spacing">
 							<FormItem label="随访日期" >
@@ -242,7 +244,6 @@ function mapPropsToFields(props) {
 
 	let fields = {}
 	let selectKey = lnrSfb['selectKey']
-	console.log('aaaaaaaaaaaaaaaa', selectKey)
 	for (let key in lnrSfb) {
 		let lnrSfb_value = lnrSfb[key]
 		if (selectKey == key && lnrSfb_value.constructor == Object) {

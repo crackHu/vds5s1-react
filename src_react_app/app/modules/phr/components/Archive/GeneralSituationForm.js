@@ -34,7 +34,6 @@ import {
 } from 'phr_conf'
 
 import MedicalRecordsTable from './MedicalRecordsTable'
-import SelectWithUnknown from '../../../../components/SelectWithUnknown'
 
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;

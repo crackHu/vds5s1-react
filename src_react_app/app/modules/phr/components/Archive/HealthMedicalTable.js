@@ -88,7 +88,7 @@ class HealthMedicalTable extends React.Component {
 			notify('warn', '警告', '体检日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 		}
 	}
 
@@ -146,7 +146,6 @@ class HealthMedicalTable extends React.Component {
 			updatestate
 		} = this.props.phr
 		const RECORD_TABLE = this.props.phr[FIELDSN][RECORD_TAB]
-
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
 		const grdaTjrq = !empty ? !!jlRecord.grda_tjrq ? jlRecord.grda_tjrq : [] : []

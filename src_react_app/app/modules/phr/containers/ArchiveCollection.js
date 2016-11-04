@@ -56,6 +56,10 @@ class ArchiveCollection extends React.Component {
 		let id = this.props.params.id
 		if (!!id) {
 			this.props.queryPHR(id)
+		} else {
+			this.props.clearStore({
+				updatestate: false
+			})
 		}
 	}
 
@@ -77,7 +81,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
-		console.log("ArchiveCollection.componentDidUpdate", prevProps, prevState)
+		console.log("ArchiveCollection.componentDidUpdate", this.props, prevProps, prevState)
 	}
 
 	/*save archiv*/
@@ -120,9 +124,9 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'HealthMedical':
-					let grdaJkzkState = phr[FIELDSN].grdaJkzk
-					let arrObjFields = FIELDS.grdaJkzk.arrFields
-					let grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING)
+					var grdaJkzkState = phr[FIELDSN].grdaJkzk
+					var arrObjFields = FIELDS.grdaJkzk.arrFields
+					var grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING)
 
 					flag = this.isArchiveUpdateState('grdaJkzk')
 
@@ -132,16 +136,43 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'Hypertension':
+
+					var gxyJxbState = phr[FIELDSN].gxyJxb
+					var arrObjFields = FIELDS.gxyJxb.arrFields
+					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING)
+
+					flag = this.isArchiveUpdateState('gxyJxb')
+
 					// save|update Hypertension 高血压
-					// TODO
+					this.props[`${flag}${activeKey}`]({
+						gxyJxb
+					})
 					break
 				case 'Diabetes':
+
+					var tnbSfjlState = phr[FIELDSN].tnbSfjl
+					var arrObjFields = FIELDS.tnbSfjl.arrFields
+					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING)
+
+					flag = this.isArchiveUpdateState('tnbSfjl')
+
 					// save|update Diabetes 糖尿病
-					// TODO
+					this.props[`${flag}${activeKey}`]({
+						tnbSfjl
+					})
 					break
 				case 'Aged':
+
+					var lnrSfbState = phr[FIELDSN].lnrSfb
+					var arrObjFields = FIELDS.lnrSfb.arrFields
+					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING)
+
+					flag = this.isArchiveUpdateState('lnrSfb')
+
 					// save|update HealthMedical 老年人
-					// TODO
+					this.props[`${flag}${activeKey}`]({
+						lnrSfb
+					})
 					break
 				default:
 					console.log(`${flag}${activeKey}`, 'dev...')
@@ -209,11 +240,17 @@ class ArchiveCollection extends React.Component {
 
 		let FIELDSN = FIELDS.name
 		let keyState = phr[FIELDSN][key]
-		let selectKey = keyState.selectKey || undefined
-		let selectValue = !!selectKey ? keyState[selectKey] : undefined
-		let grbh = !!selectValue ? selectValue['grbh'] : undefined
-
-		return !!grbh ? 'update' : 'save'
+		let flag = 'save'
+		for (let key1 in keyState) {
+			let selectValue = keyState[key1]
+			let id = selectValue['id'] || null
+			if (!!id && !!id.value) {
+				flag = 'update'
+				break
+			}
+		}
+		console.log('flag', flag)
+		return flag
 	}
 
 	/*Tab Edit event*/
@@ -426,8 +463,19 @@ class ArchiveCollection extends React.Component {
 ArchiveCollection.propTypes = {
 	savePersonalDetail: PropTypes.func.isRequired,
 	updatePersonalDetail: PropTypes.func.isRequired,
+
 	saveHealthMedical: PropTypes.func.isRequired,
 	updateHealthMedical: PropTypes.func.isRequired,
+
+	saveHypertension: PropTypes.func.isRequired,
+	updateHypertension: PropTypes.func.isRequired,
+
+	saveDiabetes: PropTypes.func.isRequired,
+	updateDiabetes: PropTypes.func.isRequired,
+
+	saveAged: PropTypes.func.isRequired,
+	updateAged: PropTypes.func.isRequired,
+
 	changeState: PropTypes.func.isRequired,
 	clearStore: PropTypes.func.isRequired,
 	saveFieldsChange: PropTypes.func.isRequired,

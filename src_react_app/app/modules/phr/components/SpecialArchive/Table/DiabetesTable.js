@@ -82,7 +82,7 @@ class DiabetesTable extends React.Component {
 			notify('warn', '警告', '随访日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 		}
 	}
 
@@ -138,7 +138,7 @@ class DiabetesTable extends React.Component {
 
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
-
+		console.log('jlRecord', jlRecord)
 		const tnb_sfrq2 = !empty ? !!jlRecord.tnb_sfrq2 ? jlRecord.tnb_sfrq2 : [] : []
 		const tnb_sffs = !empty ? !!jlRecord.tnb_sffs ? jlRecord.tnb_sffs : [] : []
 		const tnb_zz = !empty ? !!jlRecord.tnb_zz ? jlRecord.tnb_zz : [] : []
@@ -178,8 +178,13 @@ class DiabetesTable extends React.Component {
 			dataIndex: 'bloodPress',
 			key: 'bloodPress',
 			width: '8%',
-			render: (value, row, index) =>
-				<span>{`${tnb_tz_xy1[index]} / ${tnb_tz_xy2[index]}`}</span>,
+			render: (value, row, index) => {
+				let percent
+				if (!!tnb_tz_xy1[index] && !!tnb_tz_xy2[index]) {
+					percent = `${tnb_tz_xy1[index]} / ${tnb_tz_xy2[index]}`
+				}
+				return <span>{percent}</span>
+			}
 		}, {
 			title: '身高',
 			dataIndex: 'height',
@@ -238,7 +243,7 @@ class DiabetesTable extends React.Component {
 				key: 'operation',
 				width: '10%',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index])}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, tnb_sfrq2[index])}>查看</a>
 				}
 			})
 		}

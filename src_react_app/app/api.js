@@ -36,7 +36,6 @@ export function savePersonalDetail(data) {
 	let postQuery = new PostQuery(data, 'savePdData', 'boPersonDoc')
 	return postQuery.serialize('savePersonalDetail');
 }
-
 /*更新个人基本信息表*/
 export function updatePersonalDetail(data) {
 
@@ -50,12 +49,50 @@ export function saveHealthMedical(data) {
 	let postQuery = new PostQuery(data, 'heathSaveData', 'boPersonDoc')
 	return postQuery.serialize('saveHealthMedical');
 }
-
 /*更新健康体检表*/
 export function updateHealthMedical(data) {
 
 	let postQuery = new PostQuery(data, 'heathUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateHealthMedical');
+}
+
+/*保存高血压专档*/
+export function saveHypertension(data) {
+
+	let postQuery = new PostQuery(data, 'gxySaveData', 'boPersonDoc')
+	return postQuery.serialize('saveHypertension');
+}
+/*更新高血压专档*/
+export function updateHypertension(data) {
+
+	let postQuery = new PostQuery(data, 'gxyUpdateData', 'boPersonDoc')
+	return postQuery.serialize('updateHypertension');
+}
+
+/*保存糖尿病专档*/
+export function saveDiabetes(data) {
+
+	let postQuery = new PostQuery(data, 'saveTnbData', 'boPersonDoc')
+	return postQuery.serialize('saveDiabetes');
+}
+/*更新糖尿病专档*/
+export function updateDiabetes(data) {
+
+	let postQuery = new PostQuery(data, 'updateTnbData', 'boPersonDoc')
+	return postQuery.serialize('updateDiabetes');
+}
+
+/*保存老年人专档*/
+export function saveAged(data) {
+
+	let postQuery = new PostQuery(data, 'lnrSaveData', 'boPersonDoc')
+	return postQuery.serialize('saveAged');
+}
+/*更新老年人专档*/
+export function updateAged(data) {
+
+	let postQuery = new PostQuery(data, 'lnrUpdateData', 'boPersonDoc')
+	return postQuery.serialize('updateAged');
 }
 
 /*登陆*/
@@ -107,4 +144,26 @@ export function getIndividualNumbe(data) {
 	let postQuery = new PostQuery(data, 'getGrbh', 'boPersonDoc')
 
 	return postQuery.serialize('getIndividualNumbe');
+}
+
+/*获取档案年龄百分比*/
+export function API_getAgePercent() {
+	const query = {
+		din: {},
+		fid: 'agePercent',
+		pid: 'boHomePage'
+	}
+
+	return getReqUrl + JSON.stringify(query)
+}
+
+/*近期建档*/
+export function API_getJqjds() {
+	const query = {
+		din: {},
+		fid: 'jqjds',
+		pid: 'boHomePage'
+	}
+
+	return getReqUrl + JSON.stringify(query)
 }

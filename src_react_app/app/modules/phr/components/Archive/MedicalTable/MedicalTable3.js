@@ -139,7 +139,7 @@ class MedicalTable3 extends React.Component {
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="空腹血糖" required>
-					        	{getFieldDecorator('grda_kfxt1/2')(
+					        	{getFieldDecorator('grda_kfxt1')(//grda_kfxt1/2
 				        			<InputNumber style={{width: 100}}/>
 					        	)}
 					        	<RadioGroup>

@@ -48,7 +48,7 @@ const getSelectOptions = (data) => {
 	})
 }
 const ARC_TAB = 'gxyJxb'
-const RECORD_TAB = 'grdaGxyjl'
+const RECORD_TAB = 'gxyjl'
 const RECORD_KEY = 'gxy_sfrq2'
 const FIELDSN = FIELDS_CONFIG.name
 const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
@@ -81,11 +81,11 @@ class HypertensionTable extends React.Component {
 			notify('warn', '警告', '随访日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 		}
 	}
 
-	/*改变选中的体检表 根据时间*/
+	/*改变选中的记录表 根据时间*/
 	changeSelectDate = (key, selectDate) => {
 		this.props.changeArrTableSelectKey(key, selectDate)
 	}
@@ -138,7 +138,7 @@ class HypertensionTable extends React.Component {
 
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
-
+		console.log('jlRecord', jlRecord)
 		const gxySfrq2 = !empty ? !!jlRecord.gxy_sfrq2 ? jlRecord.gxy_sfrq2 : [] : []
 		const gxySffs = !empty ? !!jlRecord.gxy_sffs ? jlRecord.gxy_sffs : [] : []
 		const gxyZz = !empty ? !!jlRecord.gxy_zz ? jlRecord.gxy_zz : [] : []
@@ -166,7 +166,7 @@ class HypertensionTable extends React.Component {
 			key: 'followUpWay',
 			width: '8%',
 			render: (value, row, index) => {
-				return <span>{gxySffs[index]}</span>
+				return <span>{gxySffs[index] || ''}</span>
 			}
 		}, {
 			title: '症状',
@@ -174,7 +174,7 @@ class HypertensionTable extends React.Component {
 			key: 'symptoms',
 			width: '8%',
 			render: (value, row, index) => {
-				return <span>{gxyZz[index]}</span>
+				return <span>{gxyZz[index] || ''}</span>
 			}
 		}, {
 			title: '血压',
@@ -182,7 +182,11 @@ class HypertensionTable extends React.Component {
 			key: 'bloodPress',
 			width: '8%',
 			render: (value, row, index) => {
-				return <span>{`${gxyTzXy1[index]} / ${gxyTzXy2[index]}`}</span>
+				let percent
+				if (!!gxyTzXy1[index] && !!gxyTzXy2[index]) {
+					percent = `${gxyTzXy1[index]} / ${gxyTzXy2[index]}`
+				}
+				return <span>{percent}</span>
 			}
 		}, {
 			title: '身高',

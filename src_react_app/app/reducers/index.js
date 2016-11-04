@@ -2,19 +2,21 @@ import {
 	combineReducers
 } from 'redux';
 import 'babel-polyfill'
-import counter from './counter';
 import app from './app';
-import archive from './archive';
 
-import login from '../modules/login/LoginReducer'
+import login from 'login/LoginReducer'
 import {
 	phr,
-} from '../modules/phr/PHRReducer'
+} from 'phr/PHRReducer'
+import {
+	stat,
+} from 'stat/STATReducer'
 
 const rootReducer = combineReducers({
 
 	login,
 	phr,
+	stat
 });
 
 export default rootReducer;

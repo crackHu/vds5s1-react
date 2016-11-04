@@ -16,18 +16,3 @@ export function saveFieldsChange(fields, flag) {
 		})
 	}
 }
-
-/*保存档案页面字段更改 e.g. 体检表*/
-export function onFieldsChangeByKey(fields, flag, targetKey) {
-
-	console.debug('onFieldsChangeByKey', "=>", "DATA:", fields);
-	return (dispatch, getState) => {
-		console.log('onFieldsChangeByKey', "=-=>", dispatch, getState)
-		dispatch({
-			type: FIELDS_CHANGE_KEY,
-			data: fields,
-			flag,
-			targetKey
-		})
-	}
-}

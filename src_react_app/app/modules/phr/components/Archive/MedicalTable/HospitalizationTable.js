@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -18,6 +18,8 @@ import {
 	Button,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
 
@@ -42,9 +44,11 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const FIELDSN = FIELDS_CONFIG.name
+const GRDAZYZLQK = 'grdaZyzlqk'
 
 /*住院治疗情况*/
-class HospitalizationTable extends React.Component {
+class MedicalRecordsTable extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -67,23 +71,22 @@ class HospitalizationTable extends React.Component {
 	}
 
 	deleteConfirm = () => {
-		//TODO
+		this.props.removeItem(selectedRowKeys, GRDAZYZLQK)
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-		//TODO
+		this.props.addItem(GRDAZYZLQK)
 	}
 
 	render() {
-
-		const {
-			grdaZyzlqkObjSize
-		} = this.props
 		const {
 			getFieldDecorator
 		} = this.props.form
+		const {
+			grdaZyzlqkObjSize
+		} = this.props
 		const {
 			selectedRowKeys,
 			editSwitch
@@ -217,7 +220,6 @@ class HospitalizationTable extends React.Component {
 				 onCancel={this.deleteCancel}
 				>
 					<Button
-					 disabled={!hasSelected}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -250,21 +252,38 @@ class HospitalizationTable extends React.Component {
 	}
 }
 
-HospitalizationTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
-	console.log("HospitalizationTable onFieldsChange", props, fields)
+	console.log("MedicalRecordsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'grdaZyzlqk');
+	}, GRDAZYZLQK);
 }
 
 function mapPropsToFields(props) {
-	console.log("HospitalizationTable mapPropsToFields", props)
+	console.log("MedicalRecordsTable mapPropsToFields", props)
 	return props.fields || {}
 }
 
-export default Form.create({
+MedicalRecordsTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('MedicalRecordsTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+MedicalRecordsTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
-})(HospitalizationTable)
+})(MedicalRecordsTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
+})(MedicalRecordsTable)

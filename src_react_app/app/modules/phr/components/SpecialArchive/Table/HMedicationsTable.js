@@ -235,8 +235,7 @@ class HMedicationsTable extends React.Component {
    				title={title}
     			footer={footer}
     			pagination={false}
-			>
-			</Table>
+			/>
 		)
 	}
 }

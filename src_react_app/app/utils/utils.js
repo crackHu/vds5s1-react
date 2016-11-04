@@ -194,10 +194,12 @@ export function getFieldsObj(fields, fields_state, date_format) {
       let value = state.value
       if (isString(value)) {
         obj[field] = value
+      } else if (typeof value == 'number') {
+        obj[field] = value + ''
       } else if (isArray(value)) {
         obj[field] = value.join(',')
       } else if (typeof value == 'object') {
-        obj[field] = value.format(date_format)
+        obj[field] = !!value ? value.format(date_format) : ''
       } else {
         obj[field] = value
       }
@@ -219,12 +221,14 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
       if (isString(value)) {
         //普通字符串
         obj[field] = value
+      } else if (typeof value == 'number') {
+        obj[field] = value + ''
       } else if (isArray(value)) {
         //数组 e.g.地址，多选
         obj[field] = value.join(',')
       } else if (typeof value == 'object') {
         //日期
-        obj[field] = value.format(date_format)
+        obj[field] = !!value ? value.format(date_format) : '0000-00-00 00:00:00'
       } else if (isNoValueAttrObj(value)) {
         //嵌套的子表 e.g.体检表的自由用药表
         for (let arrField in arrObjFields) {
@@ -258,6 +262,8 @@ export function getFieldsArr(fields, fields_state, date_format) {
           let value = state.value
           if (isString(value)) {
             obj[field] = value
+          } else if (typeof value == 'number') {
+            obj[field] = value + ''
           } else {
             if (!!value) {
               obj[field] = value.format(date_format)
@@ -626,6 +632,8 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
         if (isString(value)) {
           //普通字符串
           obj[field].push(value)
+        } else if (typeof value == 'number') {
+          obj[field].push(value + '')
         } else if (isArray(value)) {
           //数组 e.g.地址，多选
           obj[field].push(value.join(','))

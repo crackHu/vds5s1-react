@@ -108,6 +108,7 @@ class DiabetesForm extends React.Component {
 
 		objSize = !!tnbSfjl ? tnbSfjl.objSize : objSize
 		tnbYyqkObjSize = !!tnbYyqk ? tnbYyqk.objSize : tnbYyqkObjSize
+		let formDisplay = !!(tnbjl.objSize) ? tnbjl.objSize.length > 0 ? 'block' : 'none' : 'none'
 
 		return (
 			<div>
@@ -120,223 +121,225 @@ class DiabetesForm extends React.Component {
 					/>
 				</div>
 
-				<div className="dashed_border form marginlr8">
-					<Form inline>
-						<Row className="item_inline_spacing">
-							<FormItem label="随访日期" >
-				       			{getFieldDecorator('tnb_sfrq2')(
-									<DatePicker />
-				       			)}
-					        </FormItem>
-							<FormItem label="随访方式" >
-				       			{getFieldDecorator('tnb_sffs')(
-									<Select
-									    style={{ width: 120 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.fuwOptions)}
-									</Select>
-				       			)}
-					        </FormItem>
-						</Row>
-
-						<Row className="item_inline_spacing" style={{marginLeft: 23}}>
-							<FormItem label="症状" >
-				       			{getFieldDecorator('tnb_zz')(
-									<Select
-										tags
-									    style={{ width: 350 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.dsOptions)}
-									</Select>
-				       			)}
-					        </FormItem>
-						</Row>
-
-						<Row className="item_inline_spacing">
-							<FormItem label="体征" />
-							<div className="inputSpanGroup" style={{width: '250px'}}>
-								<span>{'血压:'}</span>&nbsp;
-	    						<div className="disline" style={{width: '30%'}}>
-					       			{getFieldDecorator('tnb_tz_xy1')(
-							        	<InputNumber size="large"/>
+				<div style={{display: formDisplay}}>
+					<div className="dashed_border form marginlr8">
+						<Form inline>
+							<Row className="item_inline_spacing">
+								<FormItem label="随访日期" >
+					       			{getFieldDecorator('tnb_sfrq2')(
+										<DatePicker />
 					       			)}
-						      	</div>
-						      	&nbsp;{' / '}&nbsp;
-					    		<div className="disline" style={{width: '30%'}}>
-					       			{getFieldDecorator('tnb_tz_xy2')(
-							        	<InputNumber size="large"/>
+						        </FormItem>
+								<FormItem label="随访方式" >
+					       			{getFieldDecorator('tnb_sffs')(
+										<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.fuwOptions)}
+										</Select>
 					       			)}
-						      	</div>
-						      	&nbsp;{'mmhg'}
-					        </div>
-					        <FormItem label="体重(kg)">
-				       			{getFieldDecorator('tnb_tz_sg')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-					        </FormItem>
-					        <FormItem label="体质指数(Kg/m²)">
-				       			{getFieldDecorator('tnb_tz_tzzs')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-					        </FormItem>
-					        <FormItem label="足背动脉搏动">
-				       			{getFieldDecorator('tnb_tz_zbdmbd')(
-									<Select
-									    style={{ width: 120 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.arpOptions)}
-									</Select>
-				       			)}
-					        </FormItem>
-					        <FormItem label="其他">
-				       			{getFieldDecorator('tnb_tz_qt')(
-									<Input />
-				       			)}
-					        </FormItem>
-						</Row>
+						        </FormItem>
+							</Row>
 
-						<Row className="item_inline_spacing">
-							<FormItem label="生活指导方式" />
-							<FormItem label="日吸烟量(支)">
-				       			{getFieldDecorator('tnb_shfs_rxyl')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-							</FormItem>
-							<FormItem label="日饮酒量(两)">
-				       			{getFieldDecorator('tnb_shfs_ryjl')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-							</FormItem>
-							<FormItem label="运动">
-				       			{getFieldDecorator('tnb_shfs_mzydcs')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-					        	<span className="disline middle">{'次/周'}&nbsp;</span>
-				       			{getFieldDecorator('tnb_shfs_mcydsj')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-					        	<span className="disline middle">{'次/分钟'}</span>
-							</FormItem>
-							<FormItem label="主食(克/天)">
-				       			{getFieldDecorator('tnb_shfs_zs')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-							</FormItem>
-							<FormItem label="心理调整">
-				       			{getFieldDecorator('tnb_shfs_xltz')(
-						        	<Select
-									    style={{ width: 80 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.psyAdjustOptions)}
-									</Select>
-				       			)}
-							</FormItem>
-							<FormItem label="遵医行为">
-				       			{getFieldDecorator('tnb_shfs_zyxw')(
-						        	<Select
-									    style={{ width: 80 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.bemOptions)}
-									</Select>
-				       			)}
-							</FormItem>
-						</Row>
+							<Row className="item_inline_spacing" style={{marginLeft: 23}}>
+								<FormItem label="症状" >
+					       			{getFieldDecorator('tnb_zz')(
+										<Select
+											tags
+										    style={{ width: 350 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.dsOptions)}
+										</Select>
+					       			)}
+						        </FormItem>
+							</Row>
 
-						<Row className="item_inline_spacing">
-							<FormItem label="辅助检查" />
-							<FormItem label="空腹血糖值(mmol/L)">
-				       			{getFieldDecorator('tnb_jzjc_kfxtz')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-							</FormItem>
-							<FormItem label="其他检查" required/>
-							<FormItem label="糖化血红蛋白(%)">
-				       			{getFieldDecorator('tnb_jzjc_thxhdb')(
-					        		<InputNumber style={{width: 60}}/>
-				       			)}
-							</FormItem>
-							<FormItem label="检查日期" >
-				       			{getFieldDecorator('tnb_jzjc_jcrq')(
-									<DatePicker />
-				       			)}
-					        </FormItem>
-							<FormItem label="其他" >
-				       			{getFieldDecorator('tnb_jzjc_qtjc')(
-									<Input />
-				       			)}
-					        </FormItem>
-						</Row>
+							<Row className="item_inline_spacing">
+								<FormItem label="体征" />
+								<div className="inputSpanGroup" style={{width: '250px'}}>
+									<span>{'血压:'}</span>&nbsp;
+		    						<div className="disline" style={{width: '30%'}}>
+						       			{getFieldDecorator('tnb_tz_xy1')(
+								        	<InputNumber size="large"/>
+						       			)}
+							      	</div>
+							      	&nbsp;{' / '}&nbsp;
+						    		<div className="disline" style={{width: '30%'}}>
+						       			{getFieldDecorator('tnb_tz_xy2')(
+								        	<InputNumber size="large"/>
+						       			)}
+							      	</div>
+							      	&nbsp;{'mmhg'}
+						        </div>
+						        <FormItem label="体重(kg)">
+					       			{getFieldDecorator('tnb_tz_sg')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+						        </FormItem>
+						        <FormItem label="体质指数(Kg/m²)">
+					       			{getFieldDecorator('tnb_tz_tzzs')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+						        </FormItem>
+						        <FormItem label="足背动脉搏动">
+					       			{getFieldDecorator('tnb_tz_zbdmbd')(
+										<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.arpOptions)}
+										</Select>
+					       			)}
+						        </FormItem>
+						        <FormItem label="其他">
+					       			{getFieldDecorator('tnb_tz_qt')(
+										<Input />
+					       			)}
+						        </FormItem>
+							</Row>
 
-						<Row className="item_inline_spacing">
-							<FormItem label="药物依从性">
-				       			{getFieldDecorator('tnb_fyycx')(
-									<Select
-									    style={{ width: 120 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.admOptions)}
-									</Select>
-				       			)}
-							</FormItem>
-							<FormItem label="药物不良反应">
-				       			{getFieldDecorator('tnb_ywblfy')(
-									<Select
-									    style={{ width: 120 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.drugReactOptions)}
-									</Select>
-				       			)}
-							</FormItem>
-							<FormItem label="此次随访分类">
-				       			{getFieldDecorator('tnb_ccsffl')(
-									<Select
-									    style={{ width: 120 }}
-										placeholder="请选择"
-									  >	
-									  {getSelectOptions(this.fucOptions)}
-									</Select>
-				       			)}
-							</FormItem>
-						</Row>
+							<Row className="item_inline_spacing">
+								<FormItem label="生活指导方式" />
+								<FormItem label="日吸烟量(支)">
+					       			{getFieldDecorator('tnb_shfs_rxyl')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="日饮酒量(两)">
+					       			{getFieldDecorator('tnb_shfs_ryjl')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="运动">
+					       			{getFieldDecorator('tnb_shfs_mzydcs')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+						        	<span className="disline middle">{'次/周'}&nbsp;</span>
+					       			{getFieldDecorator('tnb_shfs_mcydsj')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+						        	<span className="disline middle">{'次/分钟'}</span>
+								</FormItem>
+								<FormItem label="主食(克/天)">
+					       			{getFieldDecorator('tnb_shfs_zs')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="心理调整">
+					       			{getFieldDecorator('tnb_shfs_xltz')(
+							        	<Select
+										    style={{ width: 80 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.psyAdjustOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+								<FormItem label="遵医行为">
+					       			{getFieldDecorator('tnb_shfs_zyxw')(
+							        	<Select
+										    style={{ width: 80 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.bemOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+							</Row>
 
-						<Row className="item_inline_spacing">
-							<FormItem label="转诊" />
-							<FormItem label="原因">
-				       			{getFieldDecorator('tnb_zzyy')(
-					        		<Input />
-				       			)}
-							</FormItem>
-							<FormItem label="机构及科别">
-				       			{getFieldDecorator('tnb_zzjgjkb')(
-					        		<Input />
-				       			)}
-							</FormItem>
-							<FormItem label="下次随访日期" >
-				       			{getFieldDecorator('tnb_xcsfrq2')(
-									<DatePicker />
-				       			)}
-					        </FormItem>
-							<FormItem label="随访医生签名">
-				       			{getFieldDecorator('tnb_sfys2')(
-					        		<Input />
-				       			)}
-							</FormItem>
-						</Row>
-				    </Form>
-			    </div>
+							<Row className="item_inline_spacing">
+								<FormItem label="辅助检查" />
+								<FormItem label="空腹血糖值(mmol/L)">
+					       			{getFieldDecorator('tnb_jzjc_kfxtz')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="其他检查" required/>
+								<FormItem label="糖化血红蛋白(%)">
+					       			{getFieldDecorator('tnb_jzjc_thxhdb')(
+						        		<InputNumber style={{width: 60}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="检查日期" >
+					       			{getFieldDecorator('tnb_jzjc_jcrq')(
+										<DatePicker />
+					       			)}
+						        </FormItem>
+								<FormItem label="其他" >
+					       			{getFieldDecorator('tnb_jzjc_qtjc')(
+										<Input />
+					       			)}
+						        </FormItem>
+							</Row>
 
-				{/*糖尿病 用药情况*/}
-				<DMedicationsTable 
-					tnbYyqkFields={tnbYyqk}
-					onFieldsChange={onFieldsChange}
-					objSize={tnbYyqkObjSize}
-				/>
+							<Row className="item_inline_spacing">
+								<FormItem label="药物依从性">
+					       			{getFieldDecorator('tnb_fyycx')(
+										<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.admOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+								<FormItem label="药物不良反应">
+					       			{getFieldDecorator('tnb_ywblfy')(
+										<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.drugReactOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+								<FormItem label="此次随访分类">
+					       			{getFieldDecorator('tnb_ccsffl')(
+										<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.fucOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
+								<FormItem label="转诊" />
+								<FormItem label="原因">
+					       			{getFieldDecorator('tnb_zzyy')(
+						        		<Input />
+					       			)}
+								</FormItem>
+								<FormItem label="机构及科别">
+					       			{getFieldDecorator('tnb_zzjgjkb')(
+						        		<Input />
+					       			)}
+								</FormItem>
+								<FormItem label="下次随访日期" >
+					       			{getFieldDecorator('tnb_xcsfrq2')(
+										<DatePicker />
+					       			)}
+						        </FormItem>
+								<FormItem label="随访医生签名">
+					       			{getFieldDecorator('tnb_sfys2')(
+						        		<Input />
+					       			)}
+								</FormItem>
+							</Row>
+					    </Form>
+				    </div>
+
+					{/*糖尿病 用药情况*/}
+					<DMedicationsTable 
+						tnbYyqkFields={tnbYyqk}
+						onFieldsChange={onFieldsChange}
+						objSize={tnbYyqkObjSize}
+					/>
+				</div>
 			</div>
 		)
 	}

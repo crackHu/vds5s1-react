@@ -16,6 +16,7 @@ import {
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
 	ADD_ITEM,
+	ADD_SON_ITEM,
 	REMOVE_ITEM,
 	SELECT_ROW_KEY,
 	IS_UPDATE,
@@ -116,14 +117,13 @@ export function savePersonalDetail(data) {
 
 	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
-
 /*更新个人基本信息档案*/
 export function updatePersonalDetail(data) {
 
 	let query = api.updatePersonalDetail(data)
 	const hide = msg('loading', '正在更新中...', 30);
 
-	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, UPDATE_ARCHIVES, hide)
 }
 
 /*保存健康体检表*/
@@ -134,14 +134,64 @@ export function saveHealthMedical(data) {
 
 	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
-
 /*更新健康体检表*/
 export function updateHealthMedical(data) {
 
 	let query = api.updateHealthMedical(data)
 	const hide = msg('loading', '正在更新中...', 30);
 
-	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, SAVE_ARCHIVES, hide)
+	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, UPDATE_ARCHIVES, hide)
+}
+
+/*更新高血压专档*/
+export function updateHypertension(data) {
+
+	let query = api.updateHypertension(data)
+	const hide = msg('loading', '正在更新中...', 30);
+
+	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, UPDATE_ARCHIVES, hide)
+}
+/*保存高血压专档*/
+export function saveHypertension(data) {
+
+	let query = api.saveHypertension(data)
+	const hide = msg('loading', '正在保存中...', 30);
+
+	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*更新糖尿病专档*/
+export function updateDiabetes(data) {
+
+	let query = api.updateDiabetes(data)
+	const hide = msg('loading', '正在更新中...', 30);
+
+	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, UPDATE_ARCHIVES, hide)
+}
+/*保存糖尿病专档*/
+export function saveDiabetes(data) {
+
+	let query = api.saveDiabetes(data)
+	const hide = msg('loading', '正在保存中...', 30);
+
+	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*更新老年人专档*/
+export function updateAged(data) {
+
+	let query = api.updateAged(data)
+	const hide = msg('loading', '正在更新中...', 30);
+
+	return dispatch => dispatchMethod('updateAged', query, dispatch, true, UPDATE_ARCHIVES, hide)
+}
+/*保存老年人专档*/
+export function saveAged(data) {
+
+	let query = api.saveAged(data)
+	const hide = msg('loading', '正在保存中...', 30);
+
+	return dispatch => dispatchMethod('saveAged', query, dispatch, true, SAVE_ARCHIVES, hide)
 }
 
 /*查询个人详细档案资料*/
@@ -194,9 +244,10 @@ export function changeState() {
 }
 
 /*清除Store*/
-export function clearStore() {
+export function clearStore(flag) {
 	return {
-		type: CLEAR_STORE
+		type: CLEAR_STORE,
+		flag
 	};
 }
 
@@ -224,10 +275,17 @@ export function addItem(flag) {
 		flag
 	};
 }
-export function addObjItem(flag) {
+export function addSonItem(flag) {
+	return {
+		type: ADD_SON_ITEM,
+		flag
+	};
+}
+export function addObjItem(flag, recordKey) {
 	return {
 		type: ADD_OBJ_ITEM,
-		flag
+		flag,
+		recordKey
 	};
 }
 

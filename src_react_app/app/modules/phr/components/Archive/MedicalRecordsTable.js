@@ -19,6 +19,7 @@ import {
 	Switch,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
 
 import {
@@ -53,6 +54,7 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const FIELDSN = FIELDS_CONFIG.name
 const GRDAJWS = 'grdaJws'
 
 /*既往史*/
@@ -133,7 +135,7 @@ class MedicalRecordsTable extends React.Component {
 		} = this.props.form
 		const {
 			grdaJws
-		} = this.props.phr[FIELDS_CONFIG.name]
+		} = this.props.phr[FIELDSN]
 		const {
 			editSwitch,
 			data
@@ -309,8 +311,6 @@ class MedicalRecordsTable extends React.Component {
 	}
 }
 
-MedicalRecordsTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
 	console.log("MedicalRecordsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
@@ -343,5 +343,6 @@ MedicalRecordsTable = Form.create({
 })(MedicalRecordsTable)
 
 export default connect(mapStateToProps, {
+	...AppActions,
 	...PHRAction
 })(MedicalRecordsTable)
