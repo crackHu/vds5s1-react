@@ -19,6 +19,7 @@ import {
 	ADD_SON_ITEM,
 	REMOVE_ITEM,
 	SELECT_ROW_KEY,
+	SELECT_SON_ROW_KEY,
 	IS_UPDATE,
 	ADD_OBJ_ITEM,
 } from 'ActionTypes'
@@ -102,9 +103,9 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, type, func) =
 }
 
 /*查询个人档案列表*/
-export function getArchiveList(pageSize, pageNo) {
+export function getArchiveList(pageNo, pageSize) {
 
-	let query = api.getArchiveList(pageSize, pageNo)
+	let query = api.getArchiveList(pageNo, pageSize)
 
 	return dispatch => dispatchMethod('getArchiveList', query, dispatch, false, GET_ARCHIVES, null)
 }
@@ -275,10 +276,11 @@ export function addItem(flag) {
 		flag
 	};
 }
-export function addSonItem(flag) {
+export function addSonItem(pFlag, sFlag) {
 	return {
 		type: ADD_SON_ITEM,
-		flag
+		pFlag,
+		sFlag
 	};
 }
 export function addObjItem(flag, recordKey) {
@@ -300,6 +302,14 @@ export function removeItem(selectedRowKeys, flag) {
 export function onSelectChange(selectedRowKeys, selectedRows, flag) {
 	return {
 		type: SELECT_ROW_KEY,
+		selectedRowKeys,
+		flag
+	};
+}
+
+export function onSelectSonChange(selectedRowKeys, selectedRows, flag) {
+	return {
+		type: SELECT_SON_ROW_KEY,
 		selectedRowKeys,
 		flag
 	};

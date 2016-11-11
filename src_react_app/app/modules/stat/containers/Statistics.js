@@ -102,10 +102,14 @@ class Statistics extends React.Component {
      }];*/
     return (
       <QueueAnim delay={10}>
-        {/*<div className='survey' key='statistics'>*/}
+        <div className='survey' key='statistics'>
+        <Card>
           <div id="pieChart" style={{width: 550, height: 340}}></div>
+        </Card>
+        <Card>
           <div id="lineChart" style={{width: 600, height: 400}}></div>
-        {/*</div>*/}
+        </Card>
+        </div>
       </QueueAnim>
       /*<QueueAnim>
         <div className='survey' key="survey">

@@ -42,10 +42,13 @@ const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const InputGroup = Input.Group;
 const FNAME = FIELDS.name
+const RECORD_KEY = 'lnrjl'
+const RATE_FIELDS = FIELDS[RECORD_KEY].rateFields || []
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
-		return <Option key={item.value}>{item.value}</Option>
+		let value = item.value || item
+		return <Option key={value}>{value}</Option>
 	})
 }
 
@@ -64,29 +67,77 @@ class AgedForm extends React.Component {
 
 		this.selectOption = WIDGET_CONFIG.selectOption
 		this.rateOptions = WIDGET_CONFIG.rateOptions
+		this.rateExplains = WIDGET_CONFIG.rateExplains
 
 		/*随访方式*/
 		this.fuwOptions = this.selectOption.followUpWay;
 		/*进餐*/
 		this.eatOptions = this.rateOptions.eating;
+		this.eatSize = this.eatOptions.length
+
 		/*梳洗*/
 		this.washOptions = this.rateOptions.wash;
+		this.washSize = this.washOptions.length
+
 		/*穿衣*/
 		this.dreOptions = this.rateOptions.dress;
+		this.dreSize = this.dreOptions.length
+
 		/*如厕*/
 		this.tolOptions = this.rateOptions.toilet;
+		this.tolSize = this.tolOptions.length
+
 		/*活动*/
 		this.actOptions = this.rateOptions.activity;
+		this.actSize = this.actOptions.length
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
 
-	handleRateChange = (rateValue, key) => {
+	/*handleRateChange = (rateValue, key) => {
 		this.setState({
 			[key]: rateValue
 		});
+
+	}*/
+
+	handleRateChange = (value, scoKey) => {
+		try {
+			let length = value.length
+			let score = value.substring(length - 3, length - 1)
+			this.props.form.setFieldsValue({
+				[scoKey]: parseInt(score.trim())
+			})
+			this.calScore(null, null)
+		} catch (e) {
+			throw Error(`handleRateChange => ${e.message}`)
+		}
+	}
+
+	//计算总分
+	calScore = (value, scoKey) => {
+		try {
+			const {
+				setFieldsValue,
+				getFieldsValue,
+			} = this.props.form
+			const scores = getFieldsValue(['lnr_jcpf', 'lnr_sxpf', 'lnr_cypf', 'lnr_rcpf', 'lnr_hdpf'])
+			let lnr_zpf = 0
+			for (var item in scores) {
+				if (item == scoKey) {
+					lnr_zpf += value
+				} else {
+					lnr_zpf += parseInt(scores[item] || 0)
+				}
+			}
+			setFieldsValue({
+				lnr_zpf
+			})
+		} catch (e) {
+			throw Error(`calScore => ${e.message}`)
+		}
 	}
 
 	render() {
@@ -94,7 +145,9 @@ class AgedForm extends React.Component {
 			onFieldsChange,
 		} = this.props
 		const {
-			getFieldDecorator
+			getFieldDecorator,
+			getFieldValue,
+			getFieldsValue,
 		} = this.props.form
 		const {
 			lnrSfb,
@@ -135,6 +188,44 @@ class AgedForm extends React.Component {
 
 		let formDisplay = !!(lnrjl.objSize) ? lnrjl.objSize.length > 0 ? 'block' : 'none' : 'none'
 
+		/*const eatingRate = `${getFieldValue('lnr_jc')} ${getFieldValue('lnr_jcpf')}`
+		const washRate = `${getFieldValue('lnr_jc')} ${getFieldValue('lnr_jcpf')}`
+		const dressRate = `${getFieldValue('lnr_jc')} ${getFieldValue('lnr_jcpf')}`
+		const toiletRate = `${getFieldValue('lnr_jc')} ${getFieldValue('lnr_jcpf')}`
+		const activityRate = `${getFieldValue('lnr_jc')} ${getFieldValue('lnr_jcpf')}`*/
+
+		const columns = [{
+			title: '评估事项、内容与评分',
+			dataIndex: 'explain',
+			width: '30%',
+		}, {
+			title: '程度等级',
+			dataIndex: 'level',
+			width: '40%',
+		}, {
+			title: '判断评分',
+			dataIndex: 'score',
+		}];
+
+		const data = [];
+		this.rateExplains.forEach((rate, index) => {
+			let scoKey = rate.scoKey
+			data.push({
+				key: index,
+				explain: `(${index + 1}) ${rate.explain}`,
+				level:
+					(getFieldDecorator(rate.levKey)(
+						<Select onChange={(value) => this.handleRateChange(value, scoKey)}>
+							{getSelectOptions(rate.level)}
+						</Select>
+					)),
+				score:
+					(getFieldDecorator(scoKey)(
+						<InputNumber onChange={(value) => this.calScore(value, scoKey)}/>
+					)),
+			})
+		})
+
 		return (
 			<div>
 				{/*老年人评估表*/}
@@ -167,44 +258,46 @@ class AgedForm extends React.Component {
 						</Row>
 
 						<div style={{margin: '15px auto'}}>
-							{/*<Alert
+							<Alert
 							    message="说明"
 							    description="该表为自评表，根据下表中5个方面进行评估，将各方面判断评分汇总后，
 							    0~3分者为可自理；4~8分者为轻度依赖；9~18分者为中度依赖；≥19分者为不能自理。"
 							    type="info"
 							    showIcon
-						  	/>*/}
-						  	<Alert	
+						  	/>
+						  	{/*<Alert	
 						  	 message="该表为自评表，根据下表中5个方面进行评估，将各方面判断评分汇总后，
 							    0~3分者为可自理；4~8分者为轻度依赖；9~18分者为中度依赖；≥19分者为不能自理。"
 							 type="info"
-							 showIcon />
+							 showIcon />*/}
 
-						  	<Row>
+							 <Table columns={columns} dataSource={data} />
+
+						  	{/*<Row>
 						  		<span>进餐：</span>
-						        <Rate key="eating" onChange={value => this.handleRateChange(value, "eatingValue")} count={4} value={eatingValue} />
+						        <Rate key="eating" onChange={value => this.handleRateChange(value, "eatingValue")} count={this.eatSize} value={eatingValue} />
 						        {<span className="ant-rate-text">{eatingRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>梳洗：</span>
-						        <Rate key="wash" onChange={value => this.handleRateChange(value, "washValue")} count={4} value={washValue} />
+						        <Rate key="wash" onChange={value => this.handleRateChange(value, "washValue")} count={this.washSize} value={washValue} />
 						        {<span className="ant-rate-text">{washRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>穿衣：</span>
-						        <Rate key="dress" onChange={value => this.handleRateChange(value, "dressValue")} count={4} value={dressValue} />
+						        <Rate key="dress" onChange={value => this.handleRateChange(value, "dressValue")} count={this.dreSize} value={dressValue} />
 						        {<span className="ant-rate-text">{dressRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>如厕：</span>
-						        <Rate key="toilet" onChange={value => this.handleRateChange(value, "toiletValue")} count={4} value={toiletValue} />
+						        <Rate key="toilet" onChange={value => this.handleRateChange(value, "toiletValue")} count={this.tolSize} value={toiletValue} />
 						        {<span className="ant-rate-text">{toiletRate}</span>}
 					      	</Row>
 						  	<Row>
 						  		<span>活动：</span>
-						        <Rate key="activity" onChange={value => this.handleRateChange(value, "activityValue")} count={4} value={activityValue} />
+						        <Rate key="activity" onChange={value => this.handleRateChange(value, "activityValue")} count={this.actSize} value={activityValue} />
 						        {<span className="ant-rate-text">{activityRate}</span>}
-					      	</Row>
+					      	</Row>*/}
 
 						</div>
 

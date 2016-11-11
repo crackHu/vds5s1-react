@@ -31,6 +31,7 @@ const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+let uuid = 0;
 
 const getSelectOptions = (data) => {
 	return data.map((item, i) => {
@@ -60,21 +61,68 @@ class MedicalTable6 extends React.Component {
 		this.rfcOptions = this.checkboxGroupOptions.riskFactorsCon;
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		/*this.props.form.setFieldsValue({
+			keys: [0],
+		});*/
+	}
 
 	componentDidMount = () => {}
 
 	onAbnormalChange = (e) => {
 		console.log(`radio checked:${e.target.value}`);
 	}
-	onAbnormalAdd = (e) => {}
-	onAbnormalRemove = (e) => {}
+
+	onAbnormalAdd = () => {
+		if (uuid < 6) {
+			uuid++;
+			const {
+				form
+			} = this.props;
+			// can use data-binding to get
+			const keys = form.getFieldValue('keys');
+			const nextKeys = keys.concat(uuid);
+			// can use data-binding to set
+			// important! notify form to detect changes
+			form.setFieldsValue({
+				keys: nextKeys,
+			});
+		}
+	}
+
+	onAbnormalRemove = (k) => {
+		if (uuid < 6) {
+			const {
+				form
+			} = this.props;
+			// can use data-binding to get
+			const keys = form.getFieldValue('keys');
+			// can use data-binding to set
+			form.setFieldsValue({
+				keys: keys.filter(key => key !== k),
+			});
+		}
+	}
 
 	render() {
 
 		const {
-			getFieldDecorator
+			getFieldDecorator,
+			getFieldValue
 		} = this.props.form
+
+		const formItems = [0, 1, 2, 3, 4, 5, 6].map((k) => {
+			return (
+				<Row className="item_inline_spacing" key={k}>
+					<Form.Item label={`异常${k+1}：`} key={k}>
+			          {getFieldDecorator(`grda_ycqk${k+1}`)(
+			            <Input style={{ width: '250px', margin: '0 8px 0 32px' }}/>
+			          )}
+			          {/*<Button onClick={() => this.onAbnormalRemove(k)}>移除</Button>*/}
+			        </Form.Item>
+			    </Row>
+			);
+		});
 
 		return (
 			<Form inline>
@@ -82,28 +130,30 @@ class MedicalTable6 extends React.Component {
 					<legend style={{width: '70px'}}>健康评价</legend>
 
 					<FormItem label="异常情况" >
-						<RadioGroup
-						  style={{ marginLeft: '14px' }}
-						 onChange={this.onAbnormalChange}
-						 defaultValue="体检无异常">
-					      {getRadioOptions(this.abnormalOptions)}
-					    </RadioGroup>
+						{getFieldDecorator('grda_jkpj')(
+							<RadioGroup
+							  style={{ marginLeft: '14px' }}
+							 onChange={this.onAbnormalChange}>
+						      {getRadioOptions(this.abnormalOptions)}
+						    </RadioGroup>
+					    )}
 			        </FormItem>
 
-			        <Row className="item_inline_spacing">
+			        {/*<Row className="item_inline_spacing">
 		       			<FormItem label="异常1" >
 		       				{getFieldDecorator('grda_ycqk1')(
 				        		<Input style={{ width: '250px', margin: '0 8px 0 32px' }}/>
 		       				)}
 				        	<Button onClick={() => this.onAbnormalRemove()}>移除</Button>
-				        </FormItem>
-				    </Row>
-				    <Button
+				        </FormItem>			        
+				    </Row>*/}
+					{formItems}	
+				    {/*<Button
 				     type="primary"
 				     style={{ marginLeft: '75px' }}
 				     onClick={this.onAbnormalAdd}>添加异常</Button>
 
-			        {/*<Row className="item_inline_spacing">
+			        <Row className="item_inline_spacing">
 		       			<FormItem label="异常2" >
 				        	<Input />
 				        </FormItem>
@@ -182,7 +232,11 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("MedicalTable6 mapPropsToFields", props)
-	return props.fields || {}
+	return Object.assign({}, {
+		grda_Jkpj: {
+			value: '体检无异常'
+		}
+	}, props.fields || {})
 }
 
 export default Form.create({

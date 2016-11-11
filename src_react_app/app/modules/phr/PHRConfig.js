@@ -27,32 +27,32 @@ export const ARC_TYPE_CONFIG = {
 			name: "体检表1",
 			content: 'Archive/MedicalTable/MedicalTable1',
 			key: "medicalTable1",
-			containKey: "grdaJws",
+			containKey: "",
 		}, {
 			name: "体检表2",
 			content: 'Archive/MedicalTable/MedicalTable2',
 			key: "medicalTable2",
-			containKey: "grdaJws",
+			containKey: "",
 		}, {
 			name: "体检表3",
 			content: 'Archive/MedicalTable/MedicalTable3',
 			key: "medicalTable3",
-			containKey: "grdaJws",
+			containKey: "",
 		}, {
 			name: "体检表4",
 			content: 'Archive/MedicalTable/MedicalTable4',
 			key: "medicalTable4",
-			containKey: "grdaJws",
+			containKey: "",
 		}, {
 			name: "体检表5",
 			content: 'Archive/MedicalTable/MedicalTable5',
 			key: "medicalTable5",
-			containKey: "grdaJws",
+			containKey: "",
 		}, {
 			name: "体检表6",
 			content: 'Archive/MedicalTable/MedicalTable6',
 			key: "medicalTable6",
-			containKey: "grdaJws",
+			containKey: "",
 		}, ]
 	}],
 	specArcType: [{
@@ -1825,6 +1825,58 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 
 	},
 
+	rateExplains: [{
+		explain: '进餐：使用餐具将饭菜送入口、咀嚼、吞咽等活动',
+		levKey: 'lnr_jc',
+		level: [
+			'可自理：独立完成 0分',
+			'轻度依赖 0分',
+			'中度依赖：需要协助，如切碎、搅拌食物等 3分',
+			'不能自理：完成需要帮助 5分',
+		],
+		scoKey: 'lnr_jcpf',
+	}, {
+		explain: '梳洗：',
+		levKey: 'lnr_sx',
+		level: [
+			'可自理：独立完成 0分',
+			'轻度依赖：能独立地洗头、梳头、刷牙、剃须等；洗澡需要协助 1分',
+			'中度依赖：下协助下和适当时间内，能完成部分熟悉活动 3分',
+			'不能自理：完成需要帮助 7分',
+		],
+		scoKey: 'lnr_sxpf',
+	}, {
+		explain: '穿衣：',
+		levKey: 'lnr_cy',
+		level: [
+			'可自理：独立完成 0分',
+			'轻度依赖 0分',
+			'中度依赖：需要协助，在适当的时间内完成部分穿衣 3分',
+			'不能自理：完成需要帮助 5分',
+		],
+		scoKey: 'lnr_cypf',
+	}, {
+		explain: '如厕：',
+		levKey: 'lnr_rc',
+		level: [
+			'可自理：不需协助，可自控 0分',
+			'轻度依赖：偶尔失禁，但基本上能如厕或使用便具 1分',
+			'中度依赖：经常失禁，在很多提示和协助下尚能如厕或使用便具 5分',
+			'不能自理：完全失禁，完全需要帮助 10分',
+		],
+		scoKey: 'lnr_rcpf',
+	}, {
+		explain: '活动：',
+		levKey: 'lnr_hd',
+		level: [
+			'可自理：独立完成所有活动 0分',
+			'轻度依赖：借助较小的外力或辅助装置嗯能够完成站立、行走、上下楼梯等 1分',
+			'中度依赖：借助较大的外力才能完成站立、行走，不能上下楼梯 5分',
+			'不能自理：卧床不起，活动完全需要帮助 10分',
+		],
+		scoKey: 'lnr_hdpf',
+	}, ],
+
 	rateOptions: {
 		/*老年人自评表*/
 		/*进餐*/
@@ -2261,6 +2313,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			//健康体检表-主要用药情况
 			'grdaZyyyqk': {
 				fields: [
+					'id',
 					'yf',
 					'yl',
 					'yysj',
@@ -2271,6 +2324,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			//健康体检表-非免疫规划预防接种史
 			'grdaFmyjzs': {
 				fields: [
+					'id',
 					'ymmc',
 					'jzrq',
 					'jzjg',
@@ -2280,6 +2334,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			//健康体检表-住院治疗情况
 			'grdaZyzlqk': {
 				fields: [
+					'id',
 					'rcyrq',
 					'yy',
 					'yljgmc',
@@ -2314,6 +2369,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			//高血压-用药情况
 			gxyYyqk: {
 				fields: [
+					'id',
 					'ywmc',
 					'mrcs',
 					'mcyl',
@@ -2351,6 +2407,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			//糖尿病-用药情况
 			tnbYyqk: {
 				fields: [
+					'id',
 					'ywmc',
 					'mrcs',
 					'mcyl',
@@ -2390,13 +2447,76 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 		fields: [
 			'lnr_sfrq',
 			'lnr_jc',
+			'lnr_jcpf',
 			'lnr_sx',
+			'lnr_sxpf',
 			'lnr_cy',
+			'lnr_cypf',
 			'lnr_rc',
+			'lnr_rcpf',
 			'lnr_hd',
+			'lnr_hdpf',
 			'lnr_xcsfrq',
 			'lnr_sfys',
 			'lnr_zpf',
+		],
+		//评分用字段
+		rateFields: [
+			'lnr_jc',
+			'lnr_jcpf',
+			'lnr_sx',
+			'lnr_sxpf',
+			'lnr_cy',
+			'lnr_cypf',
+			'lnr_rc',
+			'lnr_rcpf',
+			'lnr_hd',
+			'lnr_hdpf',
 		]
 	},
+}
+
+import {
+	getMomentObj as moment,
+	getLoginUser,
+} from 'utils'
+import {
+	CONFIG as LOGIN_CONFIG
+} from 'login/LoginConfig'
+
+const TODAY = moment(new Date())
+const DEFAULT_USR = getLoginUser().userName || LOGIN_CONFIG.DEFAULT.USERNAME
+
+/**************表单默认值配置**************/
+export const FROM_INITIALVALUE_VALUE_CONFIG = {
+	grdaJbzl: {
+		grda_csrq: moment('1950-1-1'),
+		grda_jdrq: TODAY,
+		grda_lrrq: TODAY,
+		grda_jdys: DEFAULT_USR,
+		grda_lrr: DEFAULT_USR,
+		grda_hklx: '户籍',
+		grda_mzmc: '汉族',
+		grda_gms: '无',
+		grda_zyblqk: '无',
+		grda_dazt: '在册',
+		grda_ycbsjbmc: '无',
+		grda_cjqk: '无残疾',
+		grda_cfpfss: '抽油烟',
+		grda_rllx: '液化气',
+		grda_ys: '自来水',
+		grda_cs: '卫生厕所',
+		grda_csl: '无',
+	},
+	grdaJzs: {
+		cylb_0: '父亲',
+		jbmc_0: '无',
+		cylb_1: '母亲',
+		jbmc_1: '无',
+		cylb_2: '兄弟姐妹',
+		jbmc_2: '无',
+		cylb_3: '子女',
+		jbmc_3: '无',
+	},
+
 }

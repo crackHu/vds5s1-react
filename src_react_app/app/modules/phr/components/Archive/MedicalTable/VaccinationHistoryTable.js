@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -18,6 +18,8 @@ import {
 	Button,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
 
@@ -42,96 +44,71 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const FIELDSN = FIELDS_CONFIG.name
+const PARENT_KEY = 'grdaJkzk'
+const SON_KEY = 'grdaFmyjzs'
 
 /*非免疫规划预防接种史*/
-class VaccinationHistoryTable extends React.Component {
+class MainMedicationsTable extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			selectedRowKeys: [],
-			editSwitch: false,
-			data: [{}]
-		}
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		//TODO
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, SON_KEY)
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-		//TODO
+		this.props.addSonItem(PARENT_KEY, SON_KEY)
 	}
 
 	render() {
-
-		const {
-			grdaFmyjzsObjSize
-		} = this.props
 		const {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
+			fields,
+			grdaFmyjzsObjSize,
+			onFieldsChange
+		} = this.props
 
+		{
+			/*<DatePicker
+					 	style={{width: '30vh'}}
+						disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
+					/>*/
+		}
 		const renderContent = {
 			vaccineName(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			vaccinationDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<DatePicker
-						 	style={{width: '30vh'}}
-							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
-						/>
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			vaccinationAgency(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			remark(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input
-							style={{width: '70vh'}}
-							type="textarea"
-							autosize={{ minRows: 1, maxRows: 2 }}
-						/>
-					)
-				}
+				return (
+					<Input
+						style={{width: '70vh'}}
+						type="textarea"
+						autosize={{ minRows: 1, maxRows: 2 }}
+					/>
+				)
 			},
 
 		}
@@ -183,9 +160,10 @@ class VaccinationHistoryTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
+		const selectedRowKeys = !!fields ? fields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -196,13 +174,11 @@ class VaccinationHistoryTable extends React.Component {
 			<div>
 				<Popconfirm
 				 title={`确定要删除所选${selectedLength}条非免疫规划预防接种史吗？`}
-		onConfirm = {
-			this.deleteConfirm
-		}
+				 onConfirm = {() => this.deleteConfirm(selectedRowKeys)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
-					 disabled={!hasSelected}
+					 disabled={true}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -235,21 +211,41 @@ class VaccinationHistoryTable extends React.Component {
 	}
 }
 
-VaccinationHistoryTable.propTypes = {}
+MainMedicationsTable.propTypes = {}
 
 function onFieldsChange(props, fields) {
-	console.log("VaccinationHistoryTable onFieldsChange", props, fields)
+	console.log("MainMedicationsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'grdaFmyjzs');
+	}, SON_KEY);
 }
 
 function mapPropsToFields(props) {
-	console.log("VaccinationHistoryTable mapPropsToFields", props)
+	console.log("MainMedicationsTable mapPropsToFields", props)
 	return props.fields || {}
 }
 
-export default Form.create({
+MainMedicationsTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	addSonItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('MainMedicationsTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+MainMedicationsTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
-})(VaccinationHistoryTable)
+})(MainMedicationsTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
+})(MainMedicationsTable)

@@ -3,8 +3,8 @@ import React, {
 	PropTypes
 } from 'react'
 import {
-	Link
-} from 'react-router';
+	connect
+} from 'react-redux';
 import {
 	Form,
 	Input,
@@ -18,6 +18,8 @@ import {
 	Button,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
 
@@ -42,17 +44,15 @@ const getSelectOptions = (data) => {
 		return <Option key={item.value}>{item.value}</Option>
 	})
 }
+const FIELDSN = FIELDS_CONFIG.name
+const PARENT_KEY = 'grdaJkzk'
+const SON_KEY = 'grdaZyyyqk'
 
 /*主要用药情况*/
 class MainMedicationsTable extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			selectedRowKeys: [],
-			editSwitch: false,
-			data: [{}]
-		}
 
 		/*用量*/
 		this.dosageOptions = getSelectOptions(WIDGET_CONFIG.selectOption.dosage);
@@ -66,91 +66,61 @@ class MainMedicationsTable extends React.Component {
 
 	componentDidMount = () => {}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		//TODO
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, SON_KEY)
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-		//TODO
+		this.props.addSonItem(PARENT_KEY, SON_KEY)
 	}
 
 	render() {
-
-		const {
-			grdaZyyyqkObjSize
-		} = this.props
 		const {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
+			fields,
+			grdaZyyyqkObjSize,
+			onFieldsChange
+		} = this.props
 
 		const renderContent = {
 			usage(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input style={{width: '10vw'}}/>
-					)
-				}
+				return (
+					<Input style={{width: '10vw'}}/>
+				)
 			},
 			dosage(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Select style={{width: '10vw'}}>
-							{option}
-						</Select>
-					)
-				}
+				return (
+					<Select combobox style={{width: '10vw'}}>
+						{option}
+					</Select>
+				)
 			},
 			usageDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Select style={{width: '10vw'}}>
-							{option}
-						</Select>
-					)
-				}
+				return (
+					<Select combobox style={{width: '10vw'}}>
+						{option}
+					</Select>
+				)
 			},
 			adherence(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Select style={{width: '10vw'}}>
-							{option}
-						</Select>
-					)
-				}
+				return (
+					<Select combobox style={{width: '10vw'}}>
+						{option}
+					</Select>
+				)
 			},
 			remark(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input
-							style={{width: '25vw'}}
-							type="textarea"
-							autosize={{ minRows: 1, maxRows: 2 }}
-						/>
-					)
-				}
+				return (
+					<Input
+						style={{width: '25vw'}}
+						type="textarea"
+						autosize={{ minRows: 1, maxRows: 2 }}
+					/>
+				)
 			},
 
 		}
@@ -213,9 +183,10 @@ class MainMedicationsTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
+		const selectedRowKeys = !!fields ? fields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -227,11 +198,11 @@ class MainMedicationsTable extends React.Component {
 
 				<Popconfirm
 				 title={`确定要删除所选${selectedLength}条主要用药情况吗？`}
-				 onConfirm={this.deleteConfirm}
+				 onConfirm={() => this.deleteConfirm(selectedRowKeys)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
-					 disabled={!hasSelected}
+					 disabled={true}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -264,13 +235,11 @@ class MainMedicationsTable extends React.Component {
 	}
 }
 
-MainMedicationsTable.propTypes = {}
-
 function onFieldsChange(props, fields) {
 	console.log("MainMedicationsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, 'grdaZyyyqk');
+	}, SON_KEY);
 }
 
 function mapPropsToFields(props) {
@@ -278,7 +247,27 @@ function mapPropsToFields(props) {
 	return props.fields || {}
 }
 
-export default Form.create({
+MainMedicationsTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	addSonItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('MainMedicationsTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+MainMedicationsTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(MainMedicationsTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
 })(MainMedicationsTable)

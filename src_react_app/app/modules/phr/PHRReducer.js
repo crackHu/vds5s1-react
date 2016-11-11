@@ -48,7 +48,7 @@ let initialState = {
 	updatestate: false,
 	[FIELDSN]: {
 		grdaJbzl: {
-			grda_csrq: {
+			/*grda_csrq: {
 				value: moment('1950-1-1')
 			},
 			grda_jdrq: {
@@ -62,15 +62,75 @@ let initialState = {
 			},
 			grda_lrr: {
 				value: username || 'admin'
-			}
+			},
+			grda_hklx: {
+				value: '户籍'
+			},
+			grda_mzmc: {
+				value: '汉族'
+			},
+			grda_gms: {
+				value: '无'
+			},
+			grda_zyblqk: {
+				value: '无'
+			},
+			grda_dazt: {
+				value: '在册'
+			},
+			grda_ycbsjbmc: {
+				value: '无'
+			},
+			grda_cjqk: {
+				value: '无残疾'
+			},
+			grda_cfpfss: {
+				value: '抽油烟'
+			},
+			grda_rllx: {
+				value: '液化气'
+			},
+			grda_ys: {
+				value: '自来水'
+			},
+			grda_cs: {
+				value: '卫生厕所'
+			},
+			grda_csl: {
+				value: '无'
+			},*/
 		},
 		grdaJws: {
 			selectedRowKeys: [],
 			objSize: []
 		},
 		grdaJzs: {
+			/*cylb_0: {
+				value: '父亲'
+			},
+			jbmc_0: {
+				value: '无'
+			},
+			cylb_1: {
+				value: '母亲'
+			},
+			jbmc_1: {
+				value: '无'
+			},
+			cylb_2: {
+				value: '兄弟姐妹'
+			},
+			jbmc_2: {
+				value: '无'
+			},
+			cylb_3: {
+				value: '子女'
+			},
+			jbmc_3: {
+				value: '无'
+			},*/
 			selectedRowKeys: [],
-			objSize: []
+			objSize: [{}, {}, {}, {}]
 		},
 		grdaJkzk: {},
 		grdaJkjl: {
@@ -110,6 +170,12 @@ const phr = function(state = initialState, action) {
 
 	switch (action.type) {
 		case GET_ARCHIVES:
+			console.log('initialState =>', initialState)
+			console.log(GET_ARCHIVES, Object.assign({}, initialState, {
+				archiveListloading: false,
+				data
+			}))
+			console.log('222222222222222', initialState)
 			return Object.assign({}, initialState, {
 				archiveListloading: false,
 				data
@@ -135,11 +201,15 @@ const phr = function(state = initialState, action) {
 				})
 			} else {
 				var isArrObjFlag = false
-				for (let arrKey in isArrObj) {
-					if (isArrObj[arrKey].indexOf(flag) > -1) {
+				var arrKey
+				for (let key in isArrObj) {
+					if (isArrObj[key].indexOf(flag) > -1) {
 						isArrObjFlag = true
+						arrKey = key
+						break
 					}
 				}
+
 				if (isArrObjFlag) {
 					//isArrObj
 					var flagFields = !!stateFields ? stateFields[arrKey] : undefined
@@ -262,6 +332,8 @@ const phr = function(state = initialState, action) {
 				updatestate: !state.updatestate
 			})
 		case CLEAR_STORE:
+			console.log('CLEAR_STORE initialState =>', initialState)
+			console.log('CLEAR_STORE =>', Object.assign({}, initialState, flag))
 			return Object.assign({}, initialState, flag)
 		case CHANGE_ARRTABLE_SELKEY:
 			return Object.assign({}, state, {
@@ -279,6 +351,7 @@ const phr = function(state = initialState, action) {
 			})
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
+			return state
 
 			// ------ 子表组件状态的一些操作 ------ //
 		case ADD_ITEM:
@@ -297,17 +370,40 @@ const phr = function(state = initialState, action) {
 				}
 			})
 		case ADD_SON_ITEM:
-			var stateFlag = stateFields[flag]
-			var objSize = stateFlag.objSize.slice(0)
+			//夫表key
+			var pFlag = action.pFlag
+
+			//子表key
+			var sFlag = action.sFlag
+			var pStateFlag = stateFields[pFlag]
+			var selectKey = pStateFlag['selectKey']
+			var target = pStateFlag[selectKey]
+			var sStateFlag = target[sFlag]
+			var objSize
+			if (!sStateFlag) {
+				objSize = []
+				sStateFlag = {
+					selectedRowKeys: []
+				}
+			} else {
+				objSize = sStateFlag.objSize.slice(0)
+			}
 			objSize.push({
 				rkey: Date.now()
 			})
+			console.log(ADD_SON_ITEM, target, selectKey, target, sStateFlag)
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,
-					[flag]: {
-						...stateFlag,
-						objSize
+					[pFlag]: {
+						...pStateFlag,
+						[selectKey]: {
+							...target,
+							[sFlag]: {
+								...sStateFlag,
+								objSize
+							}
+						}
 					}
 				}
 			})

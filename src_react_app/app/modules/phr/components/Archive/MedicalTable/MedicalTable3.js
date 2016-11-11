@@ -83,22 +83,22 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="血常规" required/>
 					        <FormItem label="红细胞(10⁹/L)">
 					        	{getFieldDecorator('grda_xcg_hxb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血红蛋白(10⁹/L)">
 					        	{getFieldDecorator('grda_xcg_xhdb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="白细胞(10⁹/L)">
 					        	{getFieldDecorator('grda_xcg_bxb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血小板(10⁹/L)">
 					        	{getFieldDecorator('grda_xcg_xxb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="其他">
@@ -112,35 +112,35 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="尿常规" required/>
 					        <FormItem label="尿蛋白">
 					        	{getFieldDecorator('grda_ncg_ndb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="尿糖">
 					        	{getFieldDecorator('grda_ncg_nt')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="尿酮体">
 					        	{getFieldDecorator('grda_ncg_ntt')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
-					        <FormItem label="尿潜血">
+		<FormItem label="尿潜血">
 					        	{getFieldDecorator('grda_ncg_nqx')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
-					        </FormItem>
-					        <FormItem label="其他">
-					        	{getFieldDecorator('grda_ncg_qt')(
-					        		<Input />
-					        	)}
+					        </FormItem> < FormItem label = "其他" > {
+			getFieldDecorator('grda_ncg_qt')(
+				<Input />
+			)
+		}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="空腹血糖" required>
 					        	{getFieldDecorator('grda_kfxt1')(//grda_kfxt1/2
-				        			<InputNumber style={{width: 100}}/>
+				        			<InputNumber step={0.1} style={{width: 100}}/>
 					        	)}
 					        	<RadioGroup>
 					              <RadioButton value="mmol/L">mmol/L</RadioButton>
@@ -162,7 +162,7 @@ class MedicalTable3 extends React.Component {
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="尿微量白蛋白(mg/dL)" required>
 					        	{getFieldDecorator('grda_nwlbdb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="大便潜血" required>
@@ -177,7 +177,7 @@ class MedicalTable3 extends React.Component {
 					        </FormItem>
 					        <FormItem label="糖化血红蛋白(%)" required>
 					        	{getFieldDecorator('grda_thxhdb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="乙型肝炎表面抗原" required>
@@ -196,27 +196,27 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="肝功能" required/>
 					        <FormItem label="血清谷丙转氨酶(U/L)">
 					        	{getFieldDecorator('grda_ggn_alt')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血清谷草转胺酶(U/L)">
 					        	{getFieldDecorator('grda_ggn_ast')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血蛋白(g/L)">
 					        	{getFieldDecorator('grda_ggn_bdb')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="总胆红素(μmol/L)">
 					        	{getFieldDecorator('grda_ggn_zdhs')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="结合胆红素(μmol/L)">
 					        	{getFieldDecorator('grda_ggn_jhdhs')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					    </Row>
@@ -225,22 +225,22 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="肾功能" required/>
 					        <FormItem label="血清肌酐(μmol/L)">
 					        	{getFieldDecorator('grda_sgn_xqjg')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血尿素氮(mmol/L)">
 					        	{getFieldDecorator('grda_sgn_xnsd')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血钾浓度(mmol/L)">
 					        	{getFieldDecorator('grda_sgn_xjnd')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血钠浓度(mmol/L)">
 					        	{getFieldDecorator('grda_sgn_xnnd')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					    </Row>
@@ -249,22 +249,22 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="血脂" required/>
 					        <FormItem label="总胆固醇(mmol/L)">
 					        	{getFieldDecorator('grda_xz_zdgc')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="甘油三酯(mmol/L)">
 					        	{getFieldDecorator('grda_xz_gysz')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血清低密度脂蛋白胆固醇(mmol/L)">
 					        	{getFieldDecorator('grda_xz_dmdzdbdgc')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血清高密度脂蛋白胆固醇(mmol/L)">
 					        	{getFieldDecorator('grda_xz_gmdzdbdgc')(
-					        		<InputNumber style={{width: 60}}/>
+					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
 					    </Row>

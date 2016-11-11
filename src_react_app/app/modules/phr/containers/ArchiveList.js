@@ -24,16 +24,17 @@ import QueueAnim from 'rc-queue-anim';
 
 import {
 	msg,
-	notify
+	notify,
+	setCookie,
 } from 'utils'
 import {
 	ARCHIVE_LIST_PAGESIZE as PAGESIZE
 } from 'phr_conf'
 
-import * as PHRAction from '../PHRAction'
+import * as PHRAction from 'phr/PHRAction'
 
-import AdvancedSearch from '../components/AdvancedSearch'
-import SearchInput from '../../../components/SearchInput'
+import AdvancedSearch from 'phr/components/AdvancedSearch'
+import SearchInput from 'app_base/components/SearchInput'
 
 const ButtonGroup = Button.Group;
 
@@ -49,7 +50,9 @@ class ArchiveList extends React.Component {
 		this.props.getArchiveList(1, 45);
 	}
 
-	componentDidUpdate = () => {}
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log("ArchiveList.componentDidUpdate", prevProps, prevState)
+	}
 
 	/*modal event*/
 	showModal = (e) => {
@@ -85,7 +88,7 @@ class ArchiveList extends React.Component {
 	searchPHR = (keyword) => {
 		let page = 1
 		let rows = 10
-		let condition = `where grbh like '%${keyword}%' or grda_xm like '%${keyword}%' or grda_brdh like '%${keyword}%'`
+		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
 		this.props.searchPHR(page, rows, condition)
 	}
 
@@ -155,7 +158,6 @@ class ArchiveList extends React.Component {
 
 		const archiveProps = this.props.phr
 		const data = archiveProps.data ? archiveProps.data.dout : null;
-		console.log('datadatadatadfasdfasdf', archiveProps)
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {
@@ -192,7 +194,7 @@ class ArchiveList extends React.Component {
 					      	{advancedSearch}
 					    </ButtonGroup>
 					    <div style={{float: 'right', margin: "1em"}}>
-						    <SearchInput placeholder="搜索：编号、姓名、本人电话"
+						    <SearchInput placeholder="搜索：编号、姓名"
 							    onSearch={this.searchPHR} style={{ width: 200 }}
 							/>
 						</div>

@@ -24,6 +24,7 @@ import {
 import {
 	msg,
 	notify,
+	setCookie,
 } from 'utils'
 
 const FormItem = Form.Item;
@@ -74,6 +75,8 @@ class Login extends React.Component {
 				if (resultCode == 0) {
 					localStorage.setItem(LOGGEDIN, 1)
 					localStorage.setItem(UID, dout.uid ? dout.uid : '')
+					setCookie('uid', dout.uid ? dout.uid : '')
+					setCookie('LoginTime', Date.now())
 					delete dout.uid
 					localStorage.setItem(USR, JSON.stringify(dout))
 					location.reload()

@@ -37,7 +37,6 @@ class AdvancedSearch extends Component {
 	}
 
 	getSelectOptions = (data) => {
-		console.log('data::::::::::::', data)
 		if (data) {
 			return data.map((item, i) => {
 				return <Option key={i}>{item.value}</Option>
@@ -111,7 +110,7 @@ class AdvancedSearch extends Component {
 
 		return (
 			<div>
-				<Modal title="档案查询" width={720} visible={this.props.modalVisible} maskClosable={false}
+				<Modal title="档案查询" width={760} visible={this.props.modalVisible} maskClosable={false}
 			      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
 			      footer={[
 		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>
@@ -128,7 +127,9 @@ class AdvancedSearch extends Component {
 						          labelCol={{ sm: 3 }}
 						          wrapperCol={{ sm: 20 }}
 						        >
-						          <Input {...password}/>
+						        {getFieldDecorator('asss')(
+						          <Input/>
+								)}
 						        </FormItem>
 					        </Col>
 					        <Col sm={8}>
@@ -300,16 +301,14 @@ class AdvancedSearch extends Component {
 }
 
 function onFieldsChange(props, fields) {
-	console.log("onFieldsChange")
-	console.log('change', fields);
+	console.log("AdvancedSearch onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
 	});
 }
 
 function mapPropsToFields(props) {
-	console.log("mapPropsToFields")
-	console.log(props)
+	console.log("AdvancedSearch mapPropsToFields", props)
 	return props.fields;
 }
 

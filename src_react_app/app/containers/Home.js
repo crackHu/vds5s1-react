@@ -177,9 +177,7 @@ export default class Home extends React.Component {
 				<div className="survey" key="home">
 					{/*<div id="pieChart" style={{width: 550, height: 340}}></div>
 					<div id="lineChart" style={{width: 600, height: 400}}></div>*/}
-					<Card title="数据统计">
-						<Statistics/>
-					</Card>
+					<Statistics/>
 					<Card title="建档记录">
 						<HomeList/>
 					</Card>

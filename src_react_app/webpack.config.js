@@ -79,6 +79,7 @@ const config = {
 			'api': path.resolve(APP_PATH, 'api'),
 			'AppActions': path.resolve(APP_PATH, 'actions/AppActions'),
 			'ActionTypes': path.resolve(APP_PATH, 'constants/ActionTypes'),
+			'app_base': APP_PATH,
 
 			/*钉钉医疗*/
 			'ddm': path.resolve(APP_PATH, 'modules/ddm'),

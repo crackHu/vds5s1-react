@@ -10,6 +10,7 @@ import {
 	Card,
 	Menu,
 	Dropdown,
+	Affix,
 	Icon
 } from 'antd';
 import moment from 'moment'
@@ -39,6 +40,11 @@ import {
 } from 'login_conf'
 
 const TabPane = Tabs.TabPane;
+const FIELDSN = FIELDS.name
+const specArcKey = []
+for (let field of ARC_TYPE_CONFIG.specArcType) {
+	specArcKey.push(field.containKey)
+}
 
 class ArchiveCollection extends React.Component {
 
@@ -70,14 +76,36 @@ class ArchiveCollection extends React.Component {
 	componentWillUnmount = () => {}
 
 	componentWillReceiveProps = (nextProps) => {
-		console.log("ArchiveCollection.componentWillReceiveProps", nextProps)
+		console.log("ArchiveCollection.componentWillReceiveProps", nextProps.phr, this.props.phr)
 		this.setState({
 			submitloading: nextProps.phr.submitloading
 		})
+		const fields = nextProps.phr[FIELDSN]
+		const usersArc = this.state.arcType.slice(0)
+
+		//定死this.state.arcType数组长度为2才更新，可完善
+		if (!!fields && usersArc.length == 2) {
+			console.log('asdfasdfasdfasdfasdf')
+			for (let field in fields) {
+				let fieldObj = fields[field]
+				if (specArcKey.indexOf(field) > -1) {
+					//专档对象且属性不止selectKey一个
+					if (Object.getOwnPropertyNames(fieldObj).length > 1) {
+						let spec = this.getSpecArcTypeByKey(field)
+						if (spec.length == 1) {
+							usersArc.push(spec[0])
+						} else throw Error('用户专档数量异常')
+					}
+				}
+			}
+			this.setState({
+				arcType: usersArc
+			})
+		}
 	}
 
-	componentWillUpdate = () => {
-		console.log('ArchiveCollection.componentWillUpdate')
+	componentWillUpdate = (nextProps, nextState) => {
+		console.log('ArchiveCollection.componentWillUpdate', nextProps, nextState)
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -98,7 +126,6 @@ class ArchiveCollection extends React.Component {
 		})
 		let updatestate = phr.updatestate
 		let flag = updatestate ? 'update' : 'save'
-		let FIELDSN = FIELDS.name
 
 		if (this.judgeBAExistAndNotify(activeKey, true)) {
 			switch (activeKey) {
@@ -136,7 +163,6 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'Hypertension':
-
 					var gxyJxbState = phr[FIELDSN].gxyJxb
 					var arrObjFields = FIELDS.gxyJxb.arrFields
 					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING)
@@ -149,7 +175,6 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'Diabetes':
-
 					var tnbSfjlState = phr[FIELDSN].tnbSfjl
 					var arrObjFields = FIELDS.tnbSfjl.arrFields
 					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING)
@@ -162,7 +187,6 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'Aged':
-
 					var lnrSfbState = phr[FIELDSN].lnrSfb
 					var arrObjFields = FIELDS.lnrSfb.arrFields
 					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING)
@@ -241,15 +265,21 @@ class ArchiveCollection extends React.Component {
 		let FIELDSN = FIELDS.name
 		let keyState = phr[FIELDSN][key]
 		let flag = 'save'
-		for (let key1 in keyState) {
-			let selectValue = keyState[key1]
-			let id = selectValue['id'] || null
-			if (!!id && !!id.value) {
-				flag = 'update'
-				break
+		try {
+			for (let key1 in keyState) {
+				let selectValue = keyState[key1]
+				let id = selectValue['id'] || null
+				if (!!id && !!id.value) {
+					flag = 'update'
+					break
+				}
 			}
+		} catch (e) {
+			notify('warn', '警告', '请先新增一条记录');
+			this.props.changeSubmitLoad(false)
+			throw Error(`isArchiveUpdateState => ${e.message}`)
 		}
-		console.log('flag', flag)
+		console.debug('isArchiveUpdateState', flag)
 		return flag
 	}
 
@@ -282,6 +312,7 @@ class ArchiveCollection extends React.Component {
 			if (lastIndex >= 0 && activeKey === targetKey) {
 				activeKey = arcType[lastIndex].key;
 			}
+			console.log('this.state.arcType', this.state.arcType, arcType)
 			this.setState({
 				arcType,
 				activeKey,
@@ -327,6 +358,11 @@ class ArchiveCollection extends React.Component {
 		return arc[0].name
 	}
 
+	getSpecArcTypeByKey = (key) => {
+		const spec = this.specArcType.filter(specArc => specArc.containKey == key);
+		return spec
+	}
+
 	render() {
 
 		const {
@@ -343,19 +379,17 @@ class ArchiveCollection extends React.Component {
 		}
 
 		const operations = (
-			<div>
-				{phr.updatestate ? (
-					<div>
-						<Button type="ghost" onClick={() => this.props.clearStore()} shape="circle-outline" icon="close-circle-o" />
-						<Button type="ghost" onClick={() => this.props.changeState()} shape="circle-outline" icon="swap" />
+			phr.updatestate ? (
+				<Affix>
+						{/*<Button type="ghost" onClick={() => this.props.clearStore()} shape="circle-outline" icon="close-circle-o" />
+						<Button type="ghost" onClick={() => this.props.changeState()} shape="circle-outline" icon="swap" />*/}
 						<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
-					</div>
-				) : (
-					<div>
+					</Affix>
+			) : (
+				<Affix>
 						<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
-					</div>
-				)}
-			</div>
+					</Affix>
+			)
 		)
 		const moreSpecArc = (
 			<Menu>
@@ -489,7 +523,6 @@ function mapStateToProps(state) {
 	console.log('ArchiveCollection mapStateToProps:', state)
 	return {
 		phr: state.phr,
-		childTable: state.childTable,
 	}
 }
 

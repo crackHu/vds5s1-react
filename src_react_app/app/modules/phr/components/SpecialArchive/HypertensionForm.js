@@ -161,40 +161,40 @@ class HypertensionForm extends React.Component {
 										<span>{'血压:'}</span>&nbsp;
 			    						<div className="disline" style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy1')(
-									        	<InputNumber size="large"/>
+									        	<InputNumber step={0.1} size="large"/>
 							       			)}
 								      	</div>
 								      	&nbsp;{' / '}&nbsp;
 							    		<div className="disline" style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy2')(
-								        		<InputNumber size="large"/>
+								        		<InputNumber step={0.1} size="large"/>
 							       			)}
 								      	</div>
 								      	&nbsp;{'mmhg'}
 							        </div>
-						        <FormItem label="体重(kg)">
+						        <FormItem label="身高(cm)">
 					       			{getFieldDecorator('gxy_tz_sg')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="体重(kg)">
 					       			{getFieldDecorator('gxy_tz_tz')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="体质指数(Kg/m²)">
 					       			{getFieldDecorator('gxy_tz_tzzs')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="心率(次/分钟)">
 					       			{getFieldDecorator('gxy_tz_xl')(
-										<InputNumber style={{width: 60}}/>
+										<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="其他">
 					       			{getFieldDecorator('gxy_tz_qt')(
-										<Input style={{width: 60}}/>
+										<Input style={{width: 190}}/>
 					       			)}
 						        </FormItem>
 							</Row>
@@ -203,21 +203,21 @@ class HypertensionForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('gxy_shfs_rxyl')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('gxy_shfs_ryjl')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="运动">
 					       			{getFieldDecorator('gxy_shfs_mzydcs')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/周'}&nbsp;</span>
 					       			{getFieldDecorator('gxy_shfs_mcydsj')(
-							        	<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>

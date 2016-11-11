@@ -162,31 +162,36 @@ class DiabetesForm extends React.Component {
 									<span>{'血压:'}</span>&nbsp;
 		    						<div className="disline" style={{width: '30%'}}>
 						       			{getFieldDecorator('tnb_tz_xy1')(
-								        	<InputNumber size="large"/>
+								        	<InputNumber step={0.1} size="large"/>
 						       			)}
 							      	</div>
 							      	&nbsp;{' / '}&nbsp;
 						    		<div className="disline" style={{width: '30%'}}>
 						       			{getFieldDecorator('tnb_tz_xy2')(
-								        	<InputNumber size="large"/>
+								        	<InputNumber step={0.1} size="large"/>
 						       			)}
 							      	</div>
 							      	&nbsp;{'mmhg'}
 						        </div>
-						        <FormItem label="体重(kg)">
+						        <FormItem label="身高(cm)">
 					       			{getFieldDecorator('tnb_tz_sg')(
-						        		<InputNumber style={{width: 60}}/>
+							        	<InputNumber step={0.1} style={{width: 60}}/>
+					       			)}
+						        </FormItem>
+						        <FormItem label="体重(kg)">
+					       			{getFieldDecorator('tnb_tz_tz')(
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="体质指数(Kg/m²)">
 					       			{getFieldDecorator('tnb_tz_tzzs')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="足背动脉搏动">
 					       			{getFieldDecorator('tnb_tz_zbdmbd')(
 										<Select
-										    style={{ width: 120 }}
+										    style={{width: 120}}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.arpOptions)}
@@ -195,7 +200,7 @@ class DiabetesForm extends React.Component {
 						        </FormItem>
 						        <FormItem label="其他">
 					       			{getFieldDecorator('tnb_tz_qt')(
-										<Input />
+										<Input style={{width: 105}}/>
 					       			)}
 						        </FormItem>
 							</Row>
@@ -204,27 +209,27 @@ class DiabetesForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('tnb_shfs_rxyl')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('tnb_shfs_ryjl')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="运动">
 					       			{getFieldDecorator('tnb_shfs_mzydcs')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/周'}&nbsp;</span>
 					       			{getFieldDecorator('tnb_shfs_mcydsj')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>
 								<FormItem label="主食(克/天)">
 					       			{getFieldDecorator('tnb_shfs_zs')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="心理调整">
@@ -253,13 +258,13 @@ class DiabetesForm extends React.Component {
 								<FormItem label="辅助检查" />
 								<FormItem label="空腹血糖值(mmol/L)">
 					       			{getFieldDecorator('tnb_jzjc_kfxtz')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="其他检查" required/>
 								<FormItem label="糖化血红蛋白(%)">
 					       			{getFieldDecorator('tnb_jzjc_thxhdb')(
-						        		<InputNumber style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="检查日期" >

@@ -239,7 +239,7 @@ class MedicalRecordsTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
-		const selectedRowKeys = grdaJws.selectedRowKeys
+		const selectedRowKeys = !!grdaJws ? grdaJws.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
 			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, GRDAJWS),

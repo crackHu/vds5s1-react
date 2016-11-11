@@ -62,7 +62,6 @@ class MedicalTable5 extends React.Component {
 						fields={this.props.grdaZyyyqkFields}
 						onFieldsChange={this.props.onFieldsChange}
 						grdaZyyyqkObjSize={this.props.grdaZyyyqkObjSize}
-						grdaFmyjzsObjSize={this.props.grdaFmyjzsObjSize}
 					/>
 				</fieldset>
 				<fieldset>
@@ -70,6 +69,7 @@ class MedicalTable5 extends React.Component {
 					<VaccinationHistoryTable
 						fields={this.props.grdaFmyjzsFields}
 						onFieldsChange={this.props.onFieldsChange}
+						grdaFmyjzsObjSize={this.props.grdaFmyjzsObjSize}
 					/>
 				</fieldset>
 			</div>

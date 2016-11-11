@@ -26,6 +26,8 @@ const DEFAULT_USERNAME = DEFAULT.USERNAME
 const DEFAULT_ROLENAME = DEFAULT.ROLENAME
 const DEFAULT_DEPTNAME = DEFAULT.DEPTNAME
 
+const UID = LCONFIG.LS.UID
+const LOGGEDIN = LCONFIG.LS.LOGGEDIN
 const USR = LCONFIG.LS.USR
 const user = JSON.parse(localStorage.getItem(USR))
 const userName = user ? user.userName : DEFAULT_USERNAME
@@ -38,7 +40,10 @@ export default class UserProfile extends React.Component {
 	Logout = () => {
 		location.href = CONFIG.projectPath
 
-		//this.context.router.replace('/');
+		localStorage.removeItem(LOGGEDIN)
+		localStorage.removeItem(USR)
+		localStorage.removeItem(UID)
+			//this.context.router.replace('/');
 	}
 
 	render() {

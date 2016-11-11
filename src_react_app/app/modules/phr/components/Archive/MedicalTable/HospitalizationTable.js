@@ -45,39 +45,28 @@ const getSelectOptions = (data) => {
 	})
 }
 const FIELDSN = FIELDS_CONFIG.name
-const GRDAZYZLQK = 'grdaZyzlqk'
+const PARENT_KEY = 'grdaJkzk'
+const SON_KEY = 'grdaZyzlqk'
 
 /*住院治疗情况*/
 class MedicalRecordsTable extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			selectedRowKeys: [],
-			editSwitch: false,
-			data: [{}]
-		}
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount = () => {}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	}
-
-	deleteConfirm = () => {
-		this.props.removeItem(selectedRowKeys, GRDAZYZLQK)
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, SON_KEY)
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
-		this.props.addItem(GRDAZYZLQK)
+		this.props.addSonItem(PARENT_KEY, SON_KEY)
 	}
 
 	render() {
@@ -85,62 +74,40 @@ class MedicalRecordsTable extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			grdaZyzlqkObjSize
+			fields,
+			grdaZyzlqkObjSize,
+			onFieldsChange
 		} = this.props
-		const {
-			selectedRowKeys,
-			editSwitch
-		} = this.state
 
 		const renderContent = {
 			inoutDate(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			reason(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			institutionName(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			mRecordNo(value, option) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input />
-					)
-				}
+				return (
+					<Input />
+				)
 			},
 			remark(value) {
-				if (editSwitch) {
-					return <span>{value}</span>
-				} else {
-					return (
-						<Input
-							style={{width: '70vh'}}
-							type="textarea"
-							autosize={{ minRows: 1, maxRows: 2 }}
-						/>
-					)
-				}
+				return (
+					<Input
+						style={{width: '70vh'}}
+						type="textarea"
+						autosize={{ minRows: 1, maxRows: 2 }}
+					/>
+				)
 			},
 
 		}
@@ -203,9 +170,10 @@ class MedicalRecordsTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
+		const selectedRowKeys = !!fields ? fields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -216,10 +184,11 @@ class MedicalRecordsTable extends React.Component {
 			<div>
 				<Popconfirm
 				 title={`确定要删除所选${selectedLength}条住院治疗情况吗？`}
-				 onConfirm={this.deleteConfirm}
+				 onConfirm={() => this.deleteConfirm(selectedRowKeys)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
+					 disabled={true}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -256,7 +225,7 @@ function onFieldsChange(props, fields) {
 	console.log("MedicalRecordsTable onFieldsChange", props, fields)
 	props.onFieldsChange({
 		fields
-	}, GRDAZYZLQK);
+	}, SON_KEY);
 }
 
 function mapPropsToFields(props) {
@@ -266,6 +235,7 @@ function mapPropsToFields(props) {
 
 MedicalRecordsTable.propTypes = {
 	addItem: PropTypes.func.isRequired,
+	addSonItem: PropTypes.func.isRequired,
 	removeItem: PropTypes.func.isRequired,
 	onSelectChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired

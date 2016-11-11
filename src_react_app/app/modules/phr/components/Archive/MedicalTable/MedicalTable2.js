@@ -155,23 +155,23 @@ class MedicalTable2 extends React.Component {
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="视力 左眼">
 			        			{getFieldDecorator('grda_slzy')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
 			        			)}
 					        </FormItem>
 					        <FormItem label="右眼" >
 			        			{getFieldDecorator('grda_slyy')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
 			        			)}
 					        </FormItem>
 					        <FormItem label="矫正视力" />
 					        <FormItem label="左眼" >
 			        			{getFieldDecorator('grda_jzslzy')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
 			        			)}
 					        </FormItem>
 					        <FormItem label="右眼" >
 			        			{getFieldDecorator('grda_jzslyy')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
 			        			)}
 					        </FormItem>
 					    </Row>
@@ -290,7 +290,7 @@ class MedicalTable2 extends React.Component {
 							<FormItem label="心率" >
 						    	<div className="disline" style={{width: '44%'}}>
 			        			{getFieldDecorator('grda_xz_xl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 			        			)}
 						    	</div>
 						    	{' '}

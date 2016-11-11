@@ -125,6 +125,14 @@ export function randomUUID() {
   return s.join('');
 }
 
+// ------ 设置 Cookie ------ //
+export function setCookie(c_name, value, expiredays) {
+  var exdate = new Date()
+  exdate.setDate(exdate.getDate() + expiredays)
+  document.cookie = c_name + "=" + escape(value) +
+    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+}
+
 // ------ user regards ------ //
 export function regards() {
 
@@ -234,6 +242,7 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
         for (let arrField in arrObjFields) {
           if (arrField == field) {
             let arrFields = arrObjFields[arrField].fields
+            console.log('1111111111', arrFields, stateField)
             obj[field] = getFieldsArr(arrFields, stateField, date_format)
           }
         }
@@ -252,8 +261,15 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
 export function getFieldsArr(fields, fields_state, date_format) {
 
   let arr = []
+  let length = 0
+  try {
+    length = fields_state['objSize'].length
+  } catch (e) {
+    console.error(e, 'getFieldsArr[objSize] exception')
+  }
   if (!!fields_state) {
-    for (let i in fields) {
+    //for (let i in fields) {
+    for (let i = 0; i < length; i++) {
       let obj = {}
       fields.forEach((field, j) => {
 
@@ -264,12 +280,12 @@ export function getFieldsArr(fields, fields_state, date_format) {
             obj[field] = value
           } else if (typeof value == 'number') {
             obj[field] = value + ''
+          } else if (isArray(value)) {
+            obj[field] = value.join(',')
+          } else if (typeof value == 'object') {
+            !!value ? obj[field] = value.format(date_format) : ''
           } else {
-            if (!!value) {
-              obj[field] = value.format(date_format)
-            } else {
-              obj[field] = '0000-00-00 00:00:00'
-            }
+            obj[field] = value
           }
         }
       })
@@ -279,7 +295,7 @@ export function getFieldsArr(fields, fields_state, date_format) {
     }
   }
 
-  console.debug('getFieldsArr', '=>', arr)
+  console.debug('getFieldsArr', '=>', arr, fields, fields_state, fields_state['objSize'].length)
   return arr
 }
 
@@ -436,6 +452,8 @@ export function getFieldsValueArrObj(doutArr, fields) {
         if (dout[attr] != '') {
           fieldObjs[`${attr}_${i}`].value = moment(dout[attr], DATE_FORMAT_STRING)
         }
+        /*} else if (dout[attr] == '0000-00-00 00:00:00') {
+          fieldObjs[`${attr}_${i}`].value = ''*/
       } else {
         fieldObjs[`${attr}_${i}`].value = dout[attr]
       }

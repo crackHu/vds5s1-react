@@ -137,13 +137,13 @@ class MedicalTable1 extends React.Component {
 				        	<InputGroup size="large" className="disline">
 	    						<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyzc1')(
-						        		<InputNumber />
+						        		<InputNumber step={0.1}/>
 	    							)}
 						      	</div>
 						      	{' / '}
 					    		<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyzc2')(
-						        		<InputNumber />
+						        		<InputNumber step={0.1}/>
 	    							)}
 						      	</div>
 					    		<div className="disline" style={{width: '10%'}}>
@@ -155,13 +155,13 @@ class MedicalTable1 extends React.Component {
 				        	<InputGroup size="large" className="disline">
 					    		<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyyc1')(
-						        		<InputNumber />
+						        		<InputNumber step={0.1}/>
 	    							)}
 						      	</div>
 						      	{' / '}
 					    		<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyyc2')(
-						        		<InputNumber />
+						        		<InputNumber step={0.1}/>
 	    							)}
 						      	</div>
 					    		<div className="disline" style={{width: '10%'}}>
@@ -175,7 +175,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="体温">
 					    	<div className="disline" style={{width: '51%'}}>
     							{getFieldDecorator('grda_tw')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -187,7 +187,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="脉率">
 					    	<div className="disline" style={{width: '44%'}}>
     							{getFieldDecorator('grda_ml')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -198,7 +198,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="呼吸频率">
 					    	<div className="disline" style={{width: '49%'}}>
     							{getFieldDecorator('grda_hxpl')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -212,7 +212,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="身高">
 					    	<div className="disline" style={{width: '50%'}}>
     							{getFieldDecorator('grda_sg')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -223,7 +223,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="体重">
 					    	<div className="disline" style={{width: '50%'}}>
     							{getFieldDecorator('grda_tz')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -234,7 +234,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="体质指数(BMI)">
 					    	<div className="disline" style={{width: '50%'}}>
     							{getFieldDecorator('grda_tzzs')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -245,7 +245,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="腰围">
 					    	<div className="disline" style={{width: '29%'}}>
     							{getFieldDecorator('grda_yw')(
-					        		<InputNumber />
+					        		<InputNumber step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -292,7 +292,7 @@ class MedicalTable1 extends React.Component {
 				        </FormItem>
 				        <FormItem label="简易智力状态检查，总分">
 				        	{getFieldDecorator('grda_jyzljczf')(
-								<InputNumber style={{ width: 60 }}/>
+								<InputNumber step={0.1} style={{ width: 60 }}/>
 				        	)}
 				        </FormItem>
 				        <FormItem label="老年人情感状态" required>
@@ -307,7 +307,7 @@ class MedicalTable1 extends React.Component {
 				        </FormItem>
 				        <FormItem label="抑郁评分检查，总分">
 				        	{getFieldDecorator('grda_lnryyjczf')(
-								<InputNumber style={{ width: 80 }}/>
+								<InputNumber step={0.1} style={{ width: 80 }}/>
 				        	)}
 				        </FormItem>
 			        </Row>
@@ -333,7 +333,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="每次锻炼时间">
 							<div className="disline" style={{width: '50%'}}>
 				        	{getFieldDecorator('grda_mcdlsj')(
-					        	<InputNumber/>
+					        	<InputNumber step={0.1}/>
 				        	)}
 					    	</div>
 					    	{' '}
@@ -344,7 +344,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="坚持锻炼时间">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_jcdlsj')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -385,7 +385,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="日吸烟量 平均">
 					    	<div className="disline" style={{width: '50%'}}>
 				        	{getFieldDecorator('grda_mtxyl')(
-					        	<InputNumber />
+					        	<InputNumber step={0.1}/>
 				        	)}
 					    	</div>
 					    	{' '}
@@ -397,7 +397,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="开始吸烟年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_ksxynl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -409,7 +409,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="戒烟年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_mcjynl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -434,7 +434,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="日饮酒量 平均">
 							<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_meyjl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -457,7 +457,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="戒酒年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_mcjjnl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -469,7 +469,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="开始饮酒年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_ksyjnl')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -524,7 +524,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="从业时间">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_cysj')(
-						        	<InputNumber />
+						        	<InputNumber step={0.1}/>
 					        	)}
 					    	</div>
 					    	{' '}

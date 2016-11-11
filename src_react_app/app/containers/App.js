@@ -107,9 +107,9 @@ export default class App extends React.Component {
 	}
 
 	handleUnload = () => {
-		localStorage.removeItem(LOGGEDIN)
+		/*localStorage.removeItem(LOGGEDIN)
 		localStorage.removeItem(USR)
-		localStorage.removeItem(UID)
+		localStorage.removeItem(UID)*/
 	}
 
 	render() {

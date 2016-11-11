@@ -30,7 +30,8 @@ import {
 } from 'login_conf'
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
+	FROM_INITIAL_VALUE_CONFIG as INIT,
 } from 'phr_conf'
 
 import MedicalRecordsTable from './MedicalRecordsTable'
@@ -105,7 +106,15 @@ class GeneralSituationForm extends React.Component {
 
 	componentWillMount = () => {}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+
+
+	}
+
+	//初始化
+	initialValue = () => {
+		INIT.forEach((item, index) => console.log('initialValue', item, index))
+	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
