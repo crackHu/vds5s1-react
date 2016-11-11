@@ -167,3 +167,31 @@ export function API_getJqjds() {
 
 	return getReqUrl + JSON.stringify(query)
 }
+
+/*首页最近一周新增*/
+export function API_queryForAdd(page, rows) {
+	const query = {
+		din: {
+			page,
+			rows
+		},
+		fid: 'queryForAdd',
+		pid: 'boHomePage'
+	}
+
+	return getReqUrl + JSON.stringify(query)
+}
+
+/*首页最近一周修改*/
+export function API_queryForUpdate(page, rows) {
+	const query = {
+		din: {
+			page,
+			rows
+		},
+		fid: 'queryForUpdate',
+		pid: 'boHomePage'
+	}
+
+	return getReqUrl + JSON.stringify(query)
+}

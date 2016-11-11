@@ -47,7 +47,7 @@ class PersonalDetailForm extends React.Component {
 		const grda_xm = getFieldDecorator('grda_xm', {
 			rules: [{
 				required: true,
-				// message: '请输入姓名',
+				message: '请输入姓名',
 				// pattern: /^[\u4e00-\u9fa5]{0,}$/,
 			}],
 		})(

@@ -245,7 +245,7 @@ class ArchiveCollection extends React.Component {
 
 		if (activeKey != 'PersonalDetail') {
 			if (!exist) {
-				notify('warn', '警告', '请先新建保存个人基本信息表');
+				notify('warn', '警告', '请先填写并保存个人基本信息表');
 				if (boolean) {
 					this.props.changeSubmitLoad(false)
 				}

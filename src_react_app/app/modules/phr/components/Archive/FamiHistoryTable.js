@@ -30,12 +30,14 @@ import {
 } from 'config'
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG,
+	FROM_INITIAL_VALUE_CONFIG as INIT,
 } from 'phr_conf'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
+const ARC_TAB = 'grdaJzs'
 
 /*const data = [];
 for (let i = 0; i < 1; i++) {
@@ -83,6 +85,16 @@ class FamiHistoryTable extends React.Component {
 			this.setState({
 				data: fields.objSize
 			})
+		this.initialValue(ARC_TAB)
+	}
+
+	//初始化表单数据
+	initialValue = (key) => {
+		try {
+			this.props.form.setFieldsValue(INIT[key])
+		} catch (e) {
+			throw Error(`initialValue => ${e.message}`)
+		}
 	}
 
 	componentWillReceiveProps = (nextProps) => {

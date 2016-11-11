@@ -271,7 +271,7 @@ class AgedForm extends React.Component {
 							 type="info"
 							 showIcon />*/}
 
-							 <Table columns={columns} dataSource={data} />
+							 <Table columns={columns} dataSource={data} pagination={false}/>
 
 						  	{/*<Row>
 						  		<span>进餐：</span>

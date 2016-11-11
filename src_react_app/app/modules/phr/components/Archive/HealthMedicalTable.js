@@ -27,7 +27,8 @@ import {
 } from 'config'
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS_CONFIG,
+	FROM_INITIAL_VALUE_CONFIG as INIT,
 } from 'phr_conf'
 import {
 	msg,
@@ -89,6 +90,16 @@ class HealthMedicalTable extends React.Component {
 		} else {
 			this.props.addItem(RECORD_TAB)
 			this.props.addObjItem(ARC_TAB, RECORD_KEY)
+			this.initialValue(ARC_TAB)
+		}
+	}
+
+	//初始化表单数据
+	initialValue = (key) => {
+		try {
+			this.props.form.setFieldsValue(INIT[key])
+		} catch (e) {
+			throw Error(`initialValue => ${e.message}`)
 		}
 	}
 

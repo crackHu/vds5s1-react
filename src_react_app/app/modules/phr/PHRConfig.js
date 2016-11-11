@@ -103,7 +103,7 @@ export const ARC_TYPE_CONFIG = {
 		key: "DDMedical",
 		containKey: "ddmedical",
 		disabled: true,
-	}]
+	}, ],
 }
 
 /**************表单控件配置**************/
@@ -1836,7 +1836,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		],
 		scoKey: 'lnr_jcpf',
 	}, {
-		explain: '梳洗：',
+		explain: '梳洗：梳头、洗脸、刷牙、剃须洗澡等活动',
 		levKey: 'lnr_sx',
 		level: [
 			'可自理：独立完成 0分',
@@ -1846,7 +1846,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		],
 		scoKey: 'lnr_sxpf',
 	}, {
-		explain: '穿衣：',
+		explain: '穿衣：洗衣裤、袜子、鞋子等活动',
 		levKey: 'lnr_cy',
 		level: [
 			'可自理：独立完成 0分',
@@ -1856,7 +1856,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		],
 		scoKey: 'lnr_cypf',
 	}, {
-		explain: '如厕：',
+		explain: '如厕：小便、大便等活动及自控',
 		levKey: 'lnr_rc',
 		level: [
 			'可自理：不需协助，可自控 0分',
@@ -1866,7 +1866,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		],
 		scoKey: 'lnr_rcpf',
 	}, {
-		explain: '活动：',
+		explain: '活动：站立、室内行走、上下楼梯、户外活动',
 		levKey: 'lnr_hd',
 		level: [
 			'可自理：独立完成所有活动 0分',
@@ -1877,6 +1877,7 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 		scoKey: 'lnr_hdpf',
 	}, ],
 
+	/*deprecated 老年人评分配置用 rateExplains*/
 	rateOptions: {
 		/*老年人自评表*/
 		/*进餐*/
@@ -2013,6 +2014,74 @@ export const AS_FORM_WIDGET_CONFIG = {
 		}, {
 			key: "ddmedical",
 			value: "钉钉医疗档案",
+		}],
+		/*所属居委类型*/
+		jwcmcType: [{
+			key: "shuqian",
+			value: "署前",
+		}, {
+			key: "qiming",
+			value: "启明",
+		}, {
+			key: "donghuashichang",
+			value: "东华市场",
+		}, {
+			key: "xinnan",
+			value: "新南",
+		}, {
+			key: "caiyuandong",
+			value: "菜园东",
+		}, {
+			key: "changgengmen",
+			value: "长庚门",
+		}, {
+			key: "dongchuan",
+			value: "东川",
+		}, {
+			key: "dongyuan",
+			value: "东源",
+		}, {
+			key: "qinglongli",
+			value: "青龙里",
+		}, {
+			key: "donghuaxixinjie",
+			value: "东华西新街",
+		}, {
+			key: "yuanyunjie",
+			value: "元运街",
+		}, {
+			key: "xingrenli",
+			value: "兴仁里",
+		}, {
+			key: "renxiuxin",
+			value: "仁秀新",
+		}, {
+			key: "renxiuli",
+			value: "仁秀里",
+		}, {
+			key: "sanjiaoshi",
+			value: "三角市",
+		}, {
+			key: "qizheng",
+			value: "启正",
+		}, {
+			key: "dongli",
+			value: "东里",
+		}, {
+			key: "dongxianli",
+			value: "东贤里",
+		}, {
+			key: "ronghuanan",
+			value: "荣华南",
+		}, {
+			key: "zhongshansan",
+			value: "中山三",
+		}],
+
+		/*所属街道*/
+		streetType: [{
+			key: "dadongstreet",
+			value: "大东街",
 		}]
 	}
 }
@@ -2488,7 +2557,7 @@ const TODAY = moment(new Date())
 const DEFAULT_USR = getLoginUser().userName || LOGIN_CONFIG.DEFAULT.USERNAME
 
 /**************表单默认值配置**************/
-export const FROM_INITIALVALUE_VALUE_CONFIG = {
+export const FROM_INITIAL_VALUE_CONFIG = {
 	grdaJbzl: {
 		grda_csrq: moment('1950-1-1'),
 		grda_jdrq: TODAY,
@@ -2518,5 +2587,67 @@ export const FROM_INITIALVALUE_VALUE_CONFIG = {
 		cylb_3: '子女',
 		jbmc_3: '无',
 	},
+	grdaJkzk: {
+		grda_zz: '无症状',
+		grda_ysxg: '荤素均衡',
+		grda_xyqk: '从不吸烟',
+		grda_yjpl: '从不',
+		grda_zybwhys: '无',
+
+		grda_kq_kc: '红润',
+		grda_kq_cl: '正常',
+		grda_kq_yb: '无充血',
+		grda_tl: '听见',
+		grda_ydgn: '可顺利完成',
+		grda_pf: '正常',
+		grda_gm: '正常',
+		grda_lbj: '未触及',
+		grda_f_tzx: '否',
+		grda_f_hxy: '正常',
+		grda_f_ly: '无',
+		grda_xz_xinlv: '齐',
+		grda_xz_zy: '无',
+		grda_fb_yt: '无',
+		grda_fb_bk: '无',
+		grda_fb_gd: '无',
+		grda_fb_pd: '无',
+		grda_fb_ydxzy: '无',
+		grda_xzsz: '无',
+		grda_zbdmbd: '触及双侧对称',
+
+		grda_nxgjb: '未发现',
+		grda_szjb: '未发现',
+		grda_xzjb: '未发现',
+		grda_sjxtjb: '未发现',
+		grda_ybjb: '未发现',
+		grda_xgjb: '未发现',
+		grda_qtxtjb: '未发现',
+		grda_qtxtjb: '未发现',
+
+		grda_jkpj: '体检无异常',
+	},
+	gxyJxb: {
+		gxy_sffs: '门诊',
+		gxy_sfys2: DEFAULT_USR,
+	},
+	tnbSfjl: {
+		tnb_sffs: '门诊',
+		tnb_sfys2: DEFAULT_USR
+	},
+	lnrSfb: {
+		lnr_sffs: '门诊',
+		lnr_sfys: DEFAULT_USR,
+		lnr_jc: '可自理：独立完成 0分',
+		lnr_jcpf: '0',
+		lnr_sx: '可自理：独立完成 0分',
+		lnr_sxpf: '0',
+		lnr_cy: '可自理：独立完成 0分',
+		lnr_cypf: '0',
+		lnr_rc: '可自理：不需协助，可自控 0分',
+		lnr_rcpf: '0',
+		lnr_hd: '可自理：独立完成所有活动 0分',
+		lnr_hdpf: '0',
+		lnr_zpf: '0'
+	}
 
 }

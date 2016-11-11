@@ -29,6 +29,7 @@ import {
 } from 'phr_conf'
 import {
 	getMomentObj as moment,
+	getMomentFormat as momentFormat,
 	getFieldsValueObj,
 	getFieldsValueArrObj,
 	getArrFieldsValueObj,
@@ -39,6 +40,7 @@ import {
 } from 'utils'
 
 const today = moment(new Date())
+console.log('heheheheheheh', today)
 const todayStr = today.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName
 const FIELDSN = FIELDS.name
@@ -410,13 +412,20 @@ const phr = function(state = initialState, action) {
 		case ADD_OBJ_ITEM:
 			var stateFlag = stateFields[flag]
 			var selectKey
-			if (!!stateFlag.selectKey) {
-				selectKey = moment(stateFlag.selectKey, DATE_FORMAT_STRING).add(1, 'days')
+			var selectKey_ = stateFlag.selectKey
+			if (!!selectKey_) {
+				selectKey = moment(selectKey_).add(1, 'days')
+					/*selectKey = moment(Date.now())
+					console.log('111111111111111', selectKey)*/
 			} else {
 				selectKey = today.subtract(7, 'days')
+					/*selectKey = moment(Date.now())
+					console.log('2222222222222222', selectKey, moment(Date.now()).format(DATE_FORMAT_STRING))*/
 			}
 			var selectDay = selectKey.format(DATE_FORMAT_STRING)
+				//selectDay = Date.now()
 			var grbh = stateFields['grdaJbzl']['grbh'] || null
+			console.log(ADD_OBJ_ITEM, selectKey, selectKey.format(DATE_FORMAT_STRING), today.format(DATE_FORMAT_STRING))
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,

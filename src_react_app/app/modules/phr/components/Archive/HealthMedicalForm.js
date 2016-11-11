@@ -13,7 +13,7 @@ import {
 } from 'react-redux';
 import {
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
-	ARC_TYPE_CONFIG
+	ARC_TYPE_CONFIG,
 } from 'phr_conf'
 
 import * as AppActions from 'AppActions'
@@ -23,7 +23,6 @@ import HealthMedicalTable from './HealthMedicalTable'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
-
 const FNAME = FIELDS.name
 
 /*健康体检表*/

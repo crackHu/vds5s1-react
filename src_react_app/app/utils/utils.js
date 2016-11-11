@@ -505,7 +505,7 @@ export function getMomentObj(date, dateFormat) {
 
 // ------ 获取 moment format 对象 ------ //
 export function getMomentFormat(moment, dateFormat) {
-  return moment.format(date_format)
+  return moment.format(date_format || DATE_FORMAT_STRING)
 }
 
 // ------ 获取登陆用户对象 ------ //

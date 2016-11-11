@@ -24,7 +24,7 @@ import FamiHistoryTable from './FamiHistoryTable'
 
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
 
 const FormItem = Form.Item;

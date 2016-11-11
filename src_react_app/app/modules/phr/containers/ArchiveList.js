@@ -28,7 +28,8 @@ import {
 	setCookie,
 } from 'utils'
 import {
-	ARCHIVE_LIST_PAGESIZE as PAGESIZE
+	ARCHIVE_LIST_PAGESIZE as PAGESIZE,
+	AS_FORM_WIDGET_CONFIG as WIDGET_CONFIG
 } from 'phr_conf'
 
 import * as PHRAction from 'phr/PHRAction'
@@ -69,6 +70,62 @@ class ArchiveList extends React.Component {
 
 	sendSearchCondition = (param) => {
 		console.log("收到表单值：" + JSON.stringify(param))
+		let postDataStr = ' and '
+		Reflect.ownKeys(param).map((key, i) => {
+			if (param[key]) {
+				if (key == 'grda_csrq' || key == 'grda_jdrq' || key == 'grda_lrrq') {
+					if (param[key].length > 0) {
+						const startDate = JSON.stringify(param[key][0]).split('T')[0]
+						const endDate = JSON.stringify(param[key][1]).split('T')[0]
+						postDataStr += " j." + key + " between '" + startDate.substring(1, startDate.length) + "' and '" + endDate.substring(1, endDate.length) + "' and "
+					}
+				} else if (key == 'grda_xb') {
+					postDataStr += " j." + key + " like '%" + WIDGET_CONFIG.selectOption.sex[parseInt(param[key])].value + "%' and "
+				} else if (key == 'grda_hklx') {
+					postDataStr += " j." + key + " like '%" + WIDGET_CONFIG.selectOption.permanentType[parseInt(param[key])].value + "%' and "
+				} else if (key == 'grda_dazt') {
+					postDataStr += " j." + key + " like '%" + WIDGET_CONFIG.selectOption.archiveStatus[parseInt(param[key])].value + "%' and "
+				} else if (key == 'grda_jwcmc') {
+					if (param[key].length > 0) {
+						let sqlStr = " ( "
+						param[key].map((dataVar) => {
+							sqlStr += " j.grda_hkdz_jwcmc like '%" + WIDGET_CONFIG.selectOption.jwcmcType[parseInt(dataVar)].value + "%' or j.grda_xzz_jwcmc like '%" + WIDGET_CONFIG.selectOption.jwcmcType[parseInt(dataVar)].value + "%' or "
+						})
+						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
+						postDataStr += sqlStr + " and "
+					}
+				} else if (key == 'grda_jdzmc') {
+					if (param[key].value)
+						postDataStr += " (j.grda_hkdz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%' or j.grda_xzz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%') and "
+				} else if (key == 'grda_sszd' || key == 'grda_cfda') {
+					if (param[key].length > 0) {
+						let sqlStr = " ( "
+						param[key].map((dataVar) => {
+							sqlStr += " l.label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
+						})
+						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
+						postDataStr += sqlStr + " and "
+					}
+				} else if (key == 'grda_pczd') {
+					if (param[key].length > 0) {
+						let sqlStr = " l.label not in ( "
+						param[key].map((dataVar) => {
+							sqlStr += " l.label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
+						})
+						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
+						postDataStr += sqlStr + " and "
+					}
+				} else {
+					postDataStr += " j." + key + " like '%" + param[key] + "%' and "
+				}
+			}
+		})
+
+		postDataStr = postDataStr.substring(0, postDataStr.length - 4)
+
+		console.log("check post data: ", postDataStr)
+			/*查询接口*/
+		this.props.searchPHR(1, 45, postDataStr)
 	}
 
 	onFieldsChange = ({
@@ -86,6 +143,7 @@ class ArchiveList extends React.Component {
 	}
 
 	searchPHR = (keyword) => {
+		console.log("season check: ", keyword)
 		let page = 1
 		let rows = 10
 		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
@@ -158,6 +216,7 @@ class ArchiveList extends React.Component {
 
 		const archiveProps = this.props.phr
 		const data = archiveProps.data ? archiveProps.data.dout : null;
+		console.log('datadatadatadfasdfasdf', archiveProps)
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {

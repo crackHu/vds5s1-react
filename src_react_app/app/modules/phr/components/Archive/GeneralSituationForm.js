@@ -49,6 +49,7 @@ const userName = user ? user.userName : DEFAULT_USERNAME
 const DEFAULT = LCONFIG.DEFAULT
 const DEFAULT_USERNAME = DEFAULT.USERNAME
 const DEFAULT_DATE = '1950-1-1'
+const ARC_TAB = 'grdaJbzl'
 
 /*一般情况*/
 class GeneralSituationForm extends React.Component {
@@ -107,13 +108,16 @@ class GeneralSituationForm extends React.Component {
 	componentWillMount = () => {}
 
 	componentDidMount = () => {
-
-
+		this.initialValue(ARC_TAB)
 	}
 
-	//初始化
-	initialValue = () => {
-		INIT.forEach((item, index) => console.log('initialValue', item, index))
+	//初始化表单数据
+	initialValue = (key) => {
+		try {
+			this.props.form.setFieldsValue(INIT[key])
+		} catch (e) {
+			throw Error(`initialValue => ${e.message}`)
+		}
 	}
 
 	handleSubmit = (e) => {
