@@ -242,8 +242,10 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
         for (let arrField in arrObjFields) {
           if (arrField == field) {
             let arrFields = arrObjFields[arrField].fields
-            console.log('1111111111', arrFields, stateField)
+            let delField = arrObjFields[arrField].delField
+            console.log('getFieldsArr', arrFields, delField, stateField)
             obj[field] = getFieldsArr(arrFields, stateField, date_format)
+            obj[delField] = stateField[delField]
           }
         }
       } else {
@@ -300,23 +302,32 @@ export function getFieldsArr(fields, fields_state, date_format) {
 }
 
 // ------ 获取表单数组字段与值的封装数组(TODO 时间关系 没有传入字段配置) 装箱 ------ //
-export function getFieldsObjArr(fields_state, arrObjFields, date_format) {
+export function getFieldsObjArr(fields_state, arrObjFields, date_format, key) {
 
   let arr = []
   let obj = {}
+  let del = {}
 
   if (!!fields_state) {
     for (let selectKey in fields_state) {
       if (selectKey != 'selectKey') {
         let selectValObj = fields_state[selectKey]
-        obj = getFieldsObjWithout(selectValObj, arrObjFields, date_format)
-        arr.push(obj)
+
+        if (selectKey.indexOf('del') > -1) {
+          del[selectKey] = selectValObj
+        } else {
+          obj = getFieldsObjWithout(selectValObj, arrObjFields, date_format)
+          arr.push(obj)
+        }
       }
     }
   }
 
   console.debug('getFieldsObjArr', '=>', arr)
-  return arr
+  return {
+    [key]: arr,
+    ...del
+  }
 }
 
 // ------ 获取表单字段与值对象的封装对象 拆箱 ------ //
@@ -499,13 +510,13 @@ function isNoValueAttrObj(obj) {
 }
 
 // ------ 获取 moment 对象 ------ //
-export function getMomentObj(date, dateFormat) {
-  return moment(date, dateFormat || DATE_FORMAT_STRING)
+export function getMomentObj(date, dateFormat = DATE_FORMAT_STRING) {
+  return moment(date, dateFormat)
 }
 
 // ------ 获取 moment format 对象 ------ //
-export function getMomentFormat(moment, dateFormat) {
-  return moment.format(date_format || DATE_FORMAT_STRING)
+export function getMomentFormat(moment, dateFormat = DATE_FORMAT_STRING) {
+  return moment.format(dateFormat)
 }
 
 // ------ 获取登陆用户对象 ------ //
@@ -588,32 +599,38 @@ function unique(arr) {
 }
 
 // ------ 移除子表（既往史、家族史...）记录通过选中的key ------ //
-export function removeChildTRBySelKey(fields, stateField, selectedRowKeys) {
+export function removeChildTRBySelKey(fields, stateField, selectedRowKeys, delField) {
 
   let obj = {
     objSize: [],
     selectedRowKeys: []
   }
+  let idSet = new Set()
   let objSize = stateField.objSize || undefined
   if (!!objSize) {
     objSize = objSize.filter((item, index) => selectedRowKeys.indexOf(index) == -1)
     for (let i = 0; i < objSize.length; i++) {
+      let indexSet = new Set()
       for (let key in stateField) {
         let stateFieldValue = stateField[key]
         if (!isArray(stateFieldValue)) {
-          let indexof = key.indexOf('_')
-          let keysub = key.substring(0, indexof)
-          let keyindex = key.substring(indexof + 1)
-          let keyint
           try {
-            keyint = parseInt(keyindex)
-          } catch (err) {
-            console.error('转换错误', err)
-          }
-          if (selectedRowKeys.indexOf(keyint) == -1) {
-            //obj[`${keysub}_${i}`] = stateFieldValue TODO
-            obj[`${keysub}_${i}`] = stateField[`${keysub}_${keyint}`]
-            console.log('stateFieldValue', stateField[`${keysub}_${keyint}`], keysub, keyint, i)
+            let indexof = key.lastIndexOf('_')
+            let keysub = key.substring(0, indexof)
+            let keyindex = key.substring(indexof + 1)
+            let keyint = parseInt(keyindex)
+            if (selectedRowKeys.indexOf(keyint) == -1) {
+              indexSet.add(keyint)
+              let indexArr = Array.from(indexSet)
+              obj[`${keysub}_${i}`] = stateField[`${keysub}_${indexArr[i]}`]
+              console.log('stateFieldValue', stateField[key], keysub, keyint, i)
+            } else {
+              if (key.indexOf('id_') > -1) {
+                idSet.add(stateField[key].value)
+              }
+            }
+          } catch (e) {
+            throw Error(`removeChildTRBySelKey => ${e.message}`)
           }
         } else {
           if (i == 0) {
@@ -621,6 +638,8 @@ export function removeChildTRBySelKey(fields, stateField, selectedRowKeys) {
               obj[key] = objSize
             } else if (key == 'selectedRowKeys') {
               obj['selectedRowKeys'] = []
+            } else if (key == delField) {
+              obj[delField] = stateFieldValue
             }
           }
         }
@@ -630,8 +649,64 @@ export function removeChildTRBySelKey(fields, stateField, selectedRowKeys) {
     console.error('removeChildTRBySelKey[stateField.objSize] param error')
   }
 
-  console.debug('removeChildTRBySelKey', '=>', obj)
-  return obj
+  console.debug('removeChildTRBySelKey', '=>', obj, idSet)
+  if (!!delField && !obj[delField]) {
+    return {
+      ...obj,
+      [delField]: Array.from(idSet)
+    }
+  } else {
+    return obj
+  }
+}
+
+// ------ 移除体检表 体检记录、高血压 高血压记录……通过选中的key ------ //
+export function removeTRBySelKey(stateField, selectedRowKeys, delField) {
+
+  let obj = {}
+  let selectKeyObj = {}
+  let delIds = []
+  if (!isObject(stateField) || !isArray(selectedRowKeys)) {
+    throw Error('removeTRBySelKey param is error')
+  }
+  //第一次排除selectKey属性
+  Object.keys(stateField).map((key, index) => {
+    let valueObj = stateField[key]
+    if (isObject(valueObj)) {
+      obj[key] = valueObj
+    } else {
+      key == 'selectKey'
+      selectKeyObj[key] = valueObj
+    }
+  })
+
+  //第二次根据selectedRowKeys删除
+  Object.keys(obj).map((key, index) => {
+    let valueObj = obj[key]
+    if (selectedRowKeys.indexOf(index) > -1) {
+      console.log('o(^▽^)o')
+      delete obj[key]
+      let selectKey = selectKeyObj['selectKey']
+      if (key == selectKey) {
+        selectKeyObj['selectKey'] = null
+      }
+      let id = valueObj['id']
+      if (!!id && !!id.value) {
+        delIds.push(id.value)
+      }
+    }
+  })
+  if (selectKeyObj['selectKey'] == null) {
+    selectKeyObj['selectKey'] = Object.keys(obj)[0]
+  }
+
+  console.log('removeTRBySelKey', '=>', obj, selectKeyObj)
+  return {
+    [delField]: delIds.length == 0 ? undefined : delIds,
+    ...obj,
+    ...selectKeyObj,
+  }
+
 }
 
 // ------ 通过字段数组获取字段值数组 e.g. JKJL ------ //

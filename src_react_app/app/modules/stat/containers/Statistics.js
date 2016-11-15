@@ -8,9 +8,6 @@ import {
 import {
   connect
 } from 'react-redux';
-import {
-  Table,
-} from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import * as STATAction from '../STATAction'
 import {
@@ -40,8 +37,6 @@ class Statistics extends React.Component {
   componentWillMount() {
     this.props.getAgePercent()
     this.props.getJqjds()
-    this.props.queryForAdd(1, 10)
-    this.props.queryForUpdate(1, 10)
   }
 
   componentDidMount() {
@@ -49,11 +44,9 @@ class Statistics extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.stat.per != this.props.stat.per || prevProps.stat.jqj != this.props.stat.jqj) {
-
+    if (prevProps.stat.per != this.props.stat.per) {
       const {
-        per,
-        jqj
+        per
       } = this.props.stat
       if (per) {
         const myChart = echarts.init(document.getElementById('pieChart'))
@@ -71,7 +64,12 @@ class Statistics extends React.Component {
         const options = pieOptions('档案年龄百分比', xData)
         myChart.setOption(options)
       }
+    }
 
+    if (prevProps.stat.jqj != this.props.stat.jqj) {
+      const {
+        jqj
+      } = this.props.stat
       if (jqj) {
         const myChart1 = echarts.init(document.getElementById('lineChart'))
         const seriesNames = ['']
@@ -92,121 +90,41 @@ class Statistics extends React.Component {
   render() {
 
     const columns = [{
-      title: 'Full Name',
+      title: '个人编号',
       width: 100,
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left'
+      dataIndex: 'grbh',
+      key: 'grbh'
     }, {
-      title: 'Age',
+      title: '性别',
+      dataIndex: 'grda_xb',
+      key: 'grda_xb',
+      width: 100
+    }, {
+      title: '地址',
       width: 100,
-      dataIndex: 'age',
-      key: 'age',
-      fixed: 'left'
-    }, {
-      title: 'Column 1',
       dataIndex: 'address',
-      key: '1',
-      width: 150
+      key: 'address'
     }, {
-      title: 'Column 2',
-      dataIndex: 'address',
-      key: '2',
-      width: 150
+      title: '本人电话',
+      dataIndex: 'grda_brdh',
+      key: 'grda_brdh',
+      width: 100
     }, {
-      title: 'Column 3',
-      dataIndex: 'address',
-      key: '3',
-      width: 150
+      title: '联系人电话',
+      dataIndex: 'grda_lxrdh',
+      key: 'grda_lxrdh',
+      width: 100
     }, {
-      title: 'Column 4',
-      dataIndex: 'address',
-      key: '4',
-      width: 150
-    }, {
-      title: 'Column 5',
-      dataIndex: 'address',
-      key: '5',
-      width: 150
-    }, {
-      title: 'Column 6',
-      dataIndex: 'address',
-      key: '6',
-      width: 150
-    }, {
-      title: 'Column 7',
-      dataIndex: 'address',
-      key: '7',
-      width: 150
-    }, {
-      title: 'Column 8',
-      dataIndex: 'address',
-      key: '8'
-    }, {
-      title: 'Action',
-      key: 'operation',
-      fixed: 'right',
-      width: 100,
-      render: () => <a href="#">action</a>,
+      title: '疾病标签',
+      dataIndex: 'label',
+      key: 'label',
+      width: 100
     }, ];
 
-    const xzdata = [];
-    for (let i = 0; i < 100; i++) {
-      xzdata.push({
-        key: i,
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-      });
-    }
-
-    const xgdata = [];
-    for (let i = 0; i < 100; i++) {
-      xgdata.push({
-        key: i,
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-      });
-    }
-
-    let zjxzTable, zjxgTable
-    if (this.props.stat.zjxz && this.props.stat.zjxg) {
-      if (this.props.stat.zjxz.length > 0) {
-        zjxzTable = (
-          <Table
-           columns={this.props.stat.zjxz}
-           dataSource={xzdata}
-           size="small"
-           scroll={{ x: 1800 }}
-           pagination={{pageSize: 5}}
-          />
-        )
-      } else {
-        zjxzTable = (<div>暂无数据</div>)
-      }
-
-      if (this.props.stat.zjxg.length > 0) {
-        zjxgTable = (
-          <Table
-           columns={this.props.stat.zjxg}
-           dataSource={xzdata}
-           size="small"
-           scroll={{ x: 1800 }}
-           pagination={{pageSize: 5}}
-          />
-        )
-      } else {
-        zjxgTable = (<div>暂无数据</div>)
-      }
-    } else {
-      zjxzTable = (<div>Loading</div>)
-      zjxgTable = (<div>Loading</div>)
-    }
 
     return (
-      <QueueAnim delay={10}>
-        <div className='survey' key='statistics'>
+      //<QueueAnim delay={10}>
+      <div className='survey' key='statistics'>
           <Card>
             <div id="pieChart" style={{width: 550, height: 340}}></div>
           </Card>
@@ -214,13 +132,7 @@ class Statistics extends React.Component {
             <div id="lineChart" style={{width: 600, height: 400}}></div>
           </Card>
         </div>
-          <Card title="最近一周新增">
-            {zjxzTable}
-          </Card>
-          <Card title="最近一周修改">
-            {zjxgTable}
-          </Card>
-      </QueueAnim>
+      //</QueueAnim>
       /*<QueueAnim>
         <div className='survey' key="survey">
           <Card title='每日新增用户' style={{ width: 440 }}>
@@ -261,8 +173,6 @@ class Statistics extends React.Component {
 Statistics.propTypes = {
   getAgePercent: PropTypes.func.isRequired,
   getJqjds: PropTypes.func.isRequired,
-  queryForAdd: PropTypes.func.isRequired,
-  queryForUpdate: PropTypes.func.isRequired,
   stat: PropTypes.object.isRequired
 }
 

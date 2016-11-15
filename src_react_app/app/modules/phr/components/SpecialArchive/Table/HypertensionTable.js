@@ -62,7 +62,8 @@ class HypertensionTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: true,
-			data: [{}]
+			data: [{}],
+			selectIndex: 0
 		}
 	}
 
@@ -76,7 +77,7 @@ class HypertensionTable extends React.Component {
 
 	deleteCancel = () => {}
 
-	addRow = (key, record_key) => {
+	addRow = (key, record_key, objSize) => {
 		let date = this.getSelectKeyDate(key, record_key)
 		if (!date && typeof date === 'undefined') {
 			notify('warn', '警告', '随访日期不能为空');
@@ -85,6 +86,9 @@ class HypertensionTable extends React.Component {
 			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 			this.initialValue(ARC_TAB)
 		}
+		this.setState({
+			selectIndex: objSize.length
+		})
 	}
 
 	//初始化表单数据
@@ -97,8 +101,11 @@ class HypertensionTable extends React.Component {
 	}
 
 	/*改变选中的记录表 根据时间*/
-	changeSelectDate = (key, selectDate) => {
+	changeSelectDate = (key, selectDate, selectIndex) => {
 		this.props.changeArrTableSelectKey(key, selectDate)
+		this.setState({
+			selectIndex
+		})
 	}
 
 	/*检查各个档案是不是处于updatestate @return boolean*/
@@ -141,7 +148,9 @@ class HypertensionTable extends React.Component {
 	}
 
 	render() {
-
+		const {
+			selectIndex
+		} = this.state
 		const {
 			getFieldDecorator
 		} = this.props.form
@@ -264,7 +273,7 @@ class HypertensionTable extends React.Component {
 				key: 'operation',
 				width: '10%',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, gxySfrq2[index])}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, gxySfrq2[index], index)}>查看</a>
 				}
 			})
 		}
@@ -291,7 +300,7 @@ class HypertensionTable extends React.Component {
 	        	
 				<Popconfirm
 				 title={`确定要删除所选${selectedLength}条高血压记录吗？`}
-				 onConfirm={this.deleteConfirm}
+				 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
@@ -301,13 +310,13 @@ class HypertensionTable extends React.Component {
 					 icon="delete"
 					 style={{ marginLeft: 10 }}>删除</Button>
 			    </Popconfirm>
-				{objSize.length > 0 ? [
+				{false > 0 ? [
 			    	<Popconfirm
 				    	key="addItem"
 						title = {
 							`是否保存日期为 ${this.getSelectKey(ARC_TAB)} 的高血压记录？`
 						}
-						onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY)}
+						onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY, objSize)}
 						onCancel={this.deleteCancel}
 					>
 						<Button
@@ -325,7 +334,7 @@ class HypertensionTable extends React.Component {
 							 type="primary"
 							 icon="plus"
 							 style={{ marginLeft: 10 }}
-							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY)}
+							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY, objSize)}
 						>新增</Button>
 				   ]}
 				<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
@@ -343,6 +352,7 @@ class HypertensionTable extends React.Component {
    				title={title}
     			pagination={false}
     			scroll={{ y: 200 }}
+    			rowClassName={(record, index) => index == selectIndex ? "record_selected" : ''}
     			bordered
 			>
 			</Table>

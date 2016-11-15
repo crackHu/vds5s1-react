@@ -81,7 +81,7 @@ class MedicalTable4 extends React.Component {
 					        	<Select
 					        		tags
 								    style={{ width: 200 }}
-									placeholder="请选择"
+									placeholder="未发现"
 								  >	
 								  {getSelectOptions(this.cbDisOptions)}
 								</Select>

@@ -14,11 +14,14 @@ import {
 	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
+	CHANGE_SPIN,
 	ADD_ITEM,
 	ADD_SON_ITEM,
 	ADD_OBJ_ITEM,
 	REMOVE_ITEM,
+	REMOVE_SON_ITEM,
 	SELECT_ROW_KEY,
+	SELECT_SON_ROW_KEY,
 } from 'ActionTypes';
 
 import {
@@ -35,6 +38,7 @@ import {
 	getArrFieldsValueObj,
 	getArrFieldsValueArrObj,
 	getArrFieldsObjByObj,
+	removeTRBySelKey,
 	removeChildTRBySelKey,
 	getLoginUser
 } from 'utils'
@@ -351,6 +355,10 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, state, {
 				submitloading: flag
 			})
+		case CHANGE_SPIN:
+			return Object.assign({}, state, {
+				spin: flag
+			})
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
 			return state
@@ -415,12 +423,10 @@ const phr = function(state = initialState, action) {
 			var selectKey_ = stateFlag.selectKey
 			if (!!selectKey_) {
 				selectKey = moment(selectKey_).add(1, 'days')
-					/*selectKey = moment(Date.now())
-					console.log('111111111111111', selectKey)*/
+					//selectKey = moment(new Date())
 			} else {
 				selectKey = today.subtract(7, 'days')
-					/*selectKey = moment(Date.now())
-					console.log('2222222222222222', selectKey, moment(Date.now()).format(DATE_FORMAT_STRING))*/
+					//selectKey = moment(new Date())
 			}
 			var selectDay = selectKey.format(DATE_FORMAT_STRING)
 				//selectDay = Date.now()
@@ -442,17 +448,75 @@ const phr = function(state = initialState, action) {
 				}
 			})
 		case REMOVE_ITEM:
-			console.log(REMOVE_ITEM, selectedRowKeys)
-			var grdaJwsFields = FIELDS['grdaJws'].fields
-			var stateField = stateFields[flag]
-			var childTRArr = removeChildTRBySelKey(grdaJwsFields, stateField, selectedRowKeys)
-			console.log('childTRArr', childTRArr)
-			return Object.assign({}, state, {
-				[FIELDSN]: {
-					...stateFields,
-					[flag]: childTRArr
+			try {
+				console.log(REMOVE_ITEM, selectedRowKeys, flag)
+				var stateField = stateFields[flag]
+				if (FIELDS.fieldsKey.isArr.hasOwnProperty(flag)) {
+					//体检表记录表、高血压记录表、糖尿病记录表、老年人记录表……
+					var delField = FIELDS[flag].delField
+					var trArr = removeTRBySelKey(stateField, selectedRowKeys, delField)
+					var trArrLen = Object.keys(trArr).length
+					var recordField = FIELDS[flag].recordField
+					var recordObjSize = trArrLen == 0 ? trArrLen : trArrLen - 2
+					return Object.assign({}, state, {
+						[FIELDSN]: {
+							...stateFields,
+							[flag]: trArr,
+							[recordField]: {
+								...stateFields[recordField],
+								objSize: new Array(recordObjSize).fill({}),
+								selectedRowKeys: []
+							}
+						}
+					})
+				} else {
+					//既往史、家族史、体检表的住院治疗情况……
+					var fields = FIELDS[flag].fields
+					var stateField = stateFields[flag]
+					var childTRArr = removeChildTRBySelKey(fields, stateField, selectedRowKeys)
+					console.log('childTRArr', childTRArr)
+					return Object.assign({}, state, {
+						[FIELDSN]: {
+							...stateFields,
+							[flag]: childTRArr
+						}
+					})
 				}
-			})
+			} catch (e) {
+				throw Error(`${REMOVE_ITEM} reducer error ${e.message}`)
+			}
+		case REMOVE_SON_ITEM:
+			try {
+				var sonKey = action.sonKey
+				var parentKey = action.parentKey
+				var parents = stateFields[parentKey]
+				var selectKey = parents.selectKey
+				var parentRecord = parents[selectKey]
+				var sonRecord = parentRecord[sonKey]
+
+				var fieldConf = FIELDS[parentKey].arrFields[sonKey]
+				var fields = fieldConf.fields
+				var delField = fieldConf.delField
+
+				if (!delField || !fields) throw Error(`${REMOVE_SON_ITEM} ${parentKey} ${sonKey} delField or fields error`)
+
+				var trArr = removeChildTRBySelKey(fields, sonRecord, selectedRowKeys, delField)
+				console.log('trArr', trArr)
+				return Object.assign({}, state, {
+					[FIELDSN]: {
+						...stateFields,
+						[parentKey]: {
+							...parents,
+							[selectKey]: {
+								...parentRecord,
+								[sonKey]: trArr
+							}
+						}
+					}
+				})
+			} catch (e) {
+				throw Error(`${REMOVE_SON_ITEM} reducer error ${e.message}`)
+			}
 		case SELECT_ROW_KEY:
 			var stateField = stateFields[flag]
 			return Object.assign({}, state, {
@@ -464,6 +528,33 @@ const phr = function(state = initialState, action) {
 					}
 				}
 			})
+		case SELECT_SON_ROW_KEY:
+			try {
+				var sonKey = action.sonKey
+				var parentKey = action.parentKey
+				var parents = stateFields[parentKey]
+				var selectKey = parents.selectKey
+				var parentRecord = parents[selectKey]
+				var sonRecord = parentRecord[sonKey]
+
+				return Object.assign({}, state, {
+					[FIELDSN]: {
+						...stateFields,
+						[parentKey]: {
+							...parents,
+							[selectKey]: {
+								...parentRecord,
+								[sonKey]: {
+									...sonRecord,
+									selectedRowKeys
+								}
+							}
+						}
+					}
+				})
+			} catch (e) {
+				throw Error(`${SELECT_SON_ROW_KEY} reducer error ${e.message}`)
+			}
 		default:
 			return state
 	}

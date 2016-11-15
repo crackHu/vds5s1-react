@@ -88,19 +88,15 @@ const stat = function(state = initialState, action) {
 			return updatedState
 
 		case QUERY_ADD:
-			let xzColumns
-			if (action.res.zjxz.length > 0) {
-				xzColumns = action.res.zjxz.map((xzObj, i) => {
-						const colData = Reflect.ownKeys(xzObj).map((key) => {
-							if (key == 'grda_xm') {}
-						})
-						return colData
-					})
-					//updatedState = { ...updatedState, zjxz:}
+			updatedState = {...updatedState,
+				zjxz: action.res.zjxz
 			}
 			return updatedState
 
 		case QUERY_UPDATE:
+			updatedState = {...updatedState,
+				zjxg: action.res.zjxg
+			}
 			return updatedState
 		default:
 			return state

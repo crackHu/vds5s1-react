@@ -146,7 +146,7 @@ class ArchiveList extends React.Component {
 		console.log("season check: ", keyword)
 		let page = 1
 		let rows = 10
-		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
+		let condition = `and (j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%')`
 		this.props.searchPHR(page, rows, condition)
 	}
 

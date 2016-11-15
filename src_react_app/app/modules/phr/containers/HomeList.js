@@ -4,89 +4,118 @@ import React, {
 
 import {
 	Table,
+	Card
 } from 'antd';
 
-export default class HomeList extends React.Component {
+import {
+	connect
+} from 'react-redux';
+import * as STATAction from '../../stat/STATAction'
+
+class HomeList extends React.Component {
+
+	constructor(props) {
+		super(props)
+	}
+
+	componentWillMount() {
+		this.props.queryForAdd(1, 10)
+		this.props.queryForUpdate(1, 10)
+	}
 
 	render() {
 
 		const columns = [{
-			title: 'Full Name',
-			width: 100,
-			dataIndex: 'name',
-			key: 'name',
-			fixed: 'left'
+			title: '个人编号',
+			width: 50,
+			dataIndex: 'grbh',
+			key: 'grbh'
 		}, {
-			title: 'Age',
-			width: 100,
-			dataIndex: 'age',
-			key: 'age',
-			fixed: 'left'
+			title: '性别',
+			dataIndex: 'grda_xb',
+			key: 'grda_xb',
+			width: 50
 		}, {
-			title: 'Column 1',
+			title: '地址',
+			width: 50,
 			dataIndex: 'address',
-			key: '1',
-			width: 150
+			key: 'address'
 		}, {
-			title: 'Column 2',
-			dataIndex: 'address',
-			key: '2',
-			width: 150
+			title: '本人电话',
+			dataIndex: 'grda_brdh',
+			key: 'grda_brdh',
+			width: 50
 		}, {
-			title: 'Column 3',
-			dataIndex: 'address',
-			key: '3',
-			width: 150
+			title: '联系人电话',
+			dataIndex: 'grda_lxrdh',
+			key: 'grda_lxrdh',
+			width: 50
 		}, {
-			title: 'Column 4',
-			dataIndex: 'address',
-			key: '4',
-			width: 150
-		}, {
-			title: 'Column 5',
-			dataIndex: 'address',
-			key: '5',
-			width: 150
-		}, {
-			title: 'Column 6',
-			dataIndex: 'address',
-			key: '6',
-			width: 150
-		}, {
-			title: 'Column 7',
-			dataIndex: 'address',
-			key: '7',
-			width: 150
-		}, {
-			title: 'Column 8',
-			dataIndex: 'address',
-			key: '8'
-		}, {
-			title: 'Action',
-			key: 'operation',
-			fixed: 'right',
-			width: 100,
-			render: () => <a href="#">action</a>,
+			title: '疾病标签',
+			dataIndex: 'label',
+			key: 'label',
+			width: 50
 		}, ];
 
-		const data = [];
-		for (let i = 0; i < 100; i++) {
-			data.push({
-				key: i,
-				name: `Edrward ${i}`,
-				age: 32,
-				address: `London Park no. ${i}`,
-			});
+		let zjxzTable, zjxgTable
+		if (this.props.stat.zjxz && this.props.stat.zjxg) {
+			if (this.props.stat.zjxz.length > 0) {
+				zjxzTable = (
+					<Table
+           columns={columns}
+           dataSource={this.props.stat.zjxz}
+           size="small"
+           scroll={{ x: 1200 }}
+           pagination={{pageSize: 5}}
+          />
+				)
+			} else {
+				zjxzTable = (<div>暂无数据</div>)
+			}
+
+			if (this.props.stat.zjxg.length > 0) {
+				zjxgTable = (
+					<div>
+	          <Table
+	           columns={columns}
+	           dataSource={this.props.stat.zjxg}
+	           size="small"
+	           scroll={{ x: 1200 }}
+	           pagination={{pageSize: 5}}
+	          />
+          </div>
+				)
+			} else {
+				zjxgTable = (<div>暂无数据</div>)
+			}
+		} else {
+			zjxzTable = (<div>Loading</div>)
+			zjxgTable = (<div>Loading</div>)
 		}
 
 		return (
-			<Table
-			 columns={columns}
-			 dataSource={data}
-			 size="small"
-			 scroll={{ x: 1800 }}
-			 pagination={{pageSize: 5}}
-			/>
+			<div>
+				<Card title="一周新增数据">
+					{zjxzTable}
+				</Card>
+				<Card title="一周修改数据">
+					{zjxgTable}
+				</Card>
+			</div>
 		)
 	}
 }
+
+HomeList.propTypes = {
+	queryForAdd: PropTypes.func.isRequired,
+	queryForUpdate: PropTypes.func.isRequired,
+	stat: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	return {
+		stat: state.stat
+	}
+}
+
+export default connect(mapStateToProps, STATAction)(HomeList)

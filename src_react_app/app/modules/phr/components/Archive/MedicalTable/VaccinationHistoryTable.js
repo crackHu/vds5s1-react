@@ -163,7 +163,7 @@ class MainMedicationsTable extends React.Component {
 		const selectedRowKeys = !!fields ? fields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectSonChange(selectedRowKeys, selectedRows, SON_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -178,7 +178,6 @@ class MainMedicationsTable extends React.Component {
 				 onCancel={this.deleteCancel}
 				>
 					<Button
-					 disabled={true}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -230,6 +229,7 @@ MainMedicationsTable.propTypes = {
 	addSonItem: PropTypes.func.isRequired,
 	removeItem: PropTypes.func.isRequired,
 	onSelectChange: PropTypes.func.isRequired,
+	onSelectSonChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

@@ -2113,7 +2113,6 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			],
 			'lnrSfb': [],
 		},
-
 	},
 	grdaJbzl: {
 		name: 'grdaJbzl',
@@ -2335,6 +2334,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 	/*健康体检表*/
 	grdaJkzk: {
+		recordField: 'grdaJkjl',
+		delField: 'delJkzk',
 		dateFields: [
 			'grda_tjrq'
 		],
@@ -2388,7 +2389,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'yysj',
 					'fyycx',
 					'bz',
-				]
+				],
+				delField: 'delZyyyqk',
 			},
 			//健康体检表-非免疫规划预防接种史
 			'grdaFmyjzs': {
@@ -2398,7 +2400,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'jzrq',
 					'jzjg',
 					'bz',
-				]
+				],
+				delField: 'delFmyjzs',
 			},
 			//健康体检表-住院治疗情况
 			'grdaZyzlqk': {
@@ -2409,11 +2412,13 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'yljgmc',
 					'bah',
 					'bz',
-				]
+				],
+				delField: 'delZyzlqk',
 			},
 			//健康状况记录_异常情况
 			grdaWtml: {
-				fields: []
+				fields: [],
+				delField: 'delWtml',
 			}
 		}
 
@@ -2429,6 +2434,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 	/*高血压*/
 	gxyJxb: {
+		recordField: 'gxyjl',
+		delField: 'delJxb',
 		dateFields: [
 			'gxy_sfrq2',
 			'gxy_xcsfrq2',
@@ -2442,7 +2449,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'ywmc',
 					'mrcs',
 					'mcyl',
-				]
+				],
+				delField: 'delYyqk',
 			},
 		}
 	},
@@ -2466,6 +2474,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 	/*糖尿病*/
 	tnbSfjl: {
+		recordField: 'tnbjl',
+		delField: 'delSfjl',
 		dateFields: [
 			'tnb_sfrq2',
 			'tnb_jzjc_jcrq',
@@ -2480,7 +2490,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 					'ywmc',
 					'mrcs',
 					'mcyl',
-				]
+				],
+				delField: 'delYyqk',
 			},
 		}
 	},
@@ -2504,6 +2515,8 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 	/*老年人*/
 	lnrSfb: {
+		recordField: 'lnrjl',
+		delField: 'delSfb',
 		dateFields: [
 			'lnr_sfrq',
 			'lnr_xcsfrq',
@@ -2588,6 +2601,7 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 		jbmc_3: '无',
 	},
 	grdaJkzk: {
+		grda_tjzrys: DEFAULT_USR,
 		grda_zz: '无症状',
 		grda_ysxg: '荤素均衡',
 		grda_xyqk: '从不吸烟',

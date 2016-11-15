@@ -85,7 +85,6 @@ class ArchiveCollection extends React.Component {
 
 		//定死this.state.arcType数组长度为2才更新，可完善
 		if (!!fields && usersArc.length == 2) {
-			console.log('asdfasdfasdfasdfasdf')
 			for (let field in fields) {
 				let fieldObj = fields[field]
 				if (specArcKey.indexOf(field) > -1) {
@@ -151,52 +150,47 @@ class ArchiveCollection extends React.Component {
 					})
 					break
 				case 'HealthMedical':
+					var key = 'grdaJkzk'
 					var grdaJkzkState = phr[FIELDSN].grdaJkzk
 					var arrObjFields = FIELDS.grdaJkzk.arrFields
-					var grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING)
-
-					flag = this.isArchiveUpdateState('grdaJkzk')
+					var grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING, key)
+					flag = this.isArchiveUpdateState(key)
 
 					// save|update HealthMedical 健康体检表
-					this.props[`${flag}${activeKey}`]({
-						grdaJkzk
-					})
+					this.props[`${flag}${activeKey}`](grdaJkzk)
 					break
 				case 'Hypertension':
+					var key = 'gxyJxb'
 					var gxyJxbState = phr[FIELDSN].gxyJxb
 					var arrObjFields = FIELDS.gxyJxb.arrFields
-					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING)
+					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING, key)
 
-					flag = this.isArchiveUpdateState('gxyJxb')
+					flag = this.isArchiveUpdateState(key)
 
 					// save|update Hypertension 高血压
-					this.props[`${flag}${activeKey}`]({
-						gxyJxb
-					})
+					this.props[`${flag}${activeKey}`](gxyJxb)
 					break
 				case 'Diabetes':
+					var key = 'tnbSfjl'
 					var tnbSfjlState = phr[FIELDSN].tnbSfjl
 					var arrObjFields = FIELDS.tnbSfjl.arrFields
-					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING)
+					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING, key)
 
-					flag = this.isArchiveUpdateState('tnbSfjl')
+					flag = this.isArchiveUpdateState(key)
 
 					// save|update Diabetes 糖尿病
-					this.props[`${flag}${activeKey}`]({
-						tnbSfjl
-					})
+					this.props[`${flag}${activeKey}`](tnbSfjl)
 					break
 				case 'Aged':
+					var key = 'lnrSfb'
 					var lnrSfbState = phr[FIELDSN].lnrSfb
 					var arrObjFields = FIELDS.lnrSfb.arrFields
-					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING)
+					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING, key)
 
-					flag = this.isArchiveUpdateState('lnrSfb')
+					flag = this.isArchiveUpdateState(key)
 
 					// save|update HealthMedical 老年人
-					this.props[`${flag}${activeKey}`]({
-						lnrSfb
-					})
+					this.props[`${flag}${activeKey}`](lnrSfb)
 					break
 				default:
 					console.log(`${flag}${activeKey}`, 'dev...')
@@ -267,6 +261,11 @@ class ArchiveCollection extends React.Component {
 		let flag = 'save'
 		try {
 			for (let key1 in keyState) {
+				//判断有没有del开头的属性
+				if (key1.indexOf('del') > -1) {
+					flag = 'update'
+					break
+				}
 				let selectValue = keyState[key1]
 				let id = selectValue['id'] || null
 				if (!!id && !!id.value) {

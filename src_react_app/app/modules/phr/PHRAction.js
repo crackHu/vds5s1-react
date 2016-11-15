@@ -15,9 +15,11 @@ import {
 	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
+	CHANGE_SPIN,
 	ADD_ITEM,
 	ADD_SON_ITEM,
 	REMOVE_ITEM,
+	REMOVE_SON_ITEM,
 	SELECT_ROW_KEY,
 	SELECT_SON_ROW_KEY,
 	IS_UPDATE,
@@ -269,6 +271,14 @@ export function changeSubmitLoad(flag) {
 	};
 }
 
+/*切换加载状态*/
+export function changeSpin(flag) {
+	return {
+		type: CHANGE_SPIN,
+		flag
+	};
+}
+
 // ------ 子表组件状态的一些操作 ------ //
 export function addItem(flag) {
 	return {
@@ -299,6 +309,15 @@ export function removeItem(selectedRowKeys, flag) {
 	};
 }
 
+export function removeSonItem(selectedRowKeys, sonKey, parentKey) {
+	return {
+		type: REMOVE_SON_ITEM,
+		selectedRowKeys,
+		sonKey,
+		parentKey
+	};
+}
+
 export function onSelectChange(selectedRowKeys, selectedRows, flag) {
 	return {
 		type: SELECT_ROW_KEY,
@@ -307,10 +326,11 @@ export function onSelectChange(selectedRowKeys, selectedRows, flag) {
 	};
 }
 
-export function onSelectSonChange(selectedRowKeys, selectedRows, flag) {
+export function onSelectSonChange(selectedRowKeys, selectedRows, sonKey, parentKey) {
 	return {
 		type: SELECT_SON_ROW_KEY,
 		selectedRowKeys,
-		flag
+		sonKey,
+		parentKey
 	};
 }

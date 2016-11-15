@@ -6,7 +6,8 @@ import {
 	Form,
 	Input,
 	Tabs,
-	DatePicker
+	DatePicker,
+	Spin
 } from 'antd'
 import {
 	connect
@@ -45,7 +46,7 @@ class HealthMedicalForm extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			updatestate
+			updatestate,
 		} = this.props.phr
 		const {
 			grdaJkzk,

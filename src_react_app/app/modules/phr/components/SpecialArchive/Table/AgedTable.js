@@ -63,7 +63,8 @@ class AgedTable extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			editSwitch: true,
-			data: [{}]
+			data: [{}],
+			selectIndex: 0
 		}
 
 		/*每日次数*/
@@ -82,7 +83,7 @@ class AgedTable extends React.Component {
 
 	deleteCancel = () => {}
 
-	addRow = (key, record_key) => {
+	addRow = (key, record_key, objSize) => {
 		let date = this.getSelectKeyDate(key, record_key)
 		if (!date && typeof date === 'undefined') {
 			notify('warn', '警告', '随访日期不能为空');
@@ -91,6 +92,9 @@ class AgedTable extends React.Component {
 			this.props.addObjItem(ARC_TAB, RECORD_KEY)
 			this.initialValue(ARC_TAB)
 		}
+		this.setState({
+			selectIndex: objSize.length
+		})
 	}
 
 	//初始化表单数据
@@ -103,8 +107,11 @@ class AgedTable extends React.Component {
 	}
 
 	/*改变选中的体检表 根据时间*/
-	changeSelectDate = (key, selectDate) => {
+	changeSelectDate = (key, selectDate, selectIndex) => {
 		this.props.changeArrTableSelectKey(key, selectDate)
+		this.setState({
+			selectIndex
+		})
 	}
 
 	/*检查各个档案是不是处于updatestate @return boolean*/
@@ -147,6 +154,9 @@ class AgedTable extends React.Component {
 	}
 
 	render() {
+		const {
+			selectIndex
+		} = this.state
 		const {
 			getFieldDecorator
 		} = this.props.form
@@ -248,7 +258,7 @@ class AgedTable extends React.Component {
 				fixed: 'right',
 				width: '5vw',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, lnr_sfrq[index])}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, lnr_sfrq[index], index)}>查看</a>
 				}
 			})
 		}
@@ -279,7 +289,7 @@ class AgedTable extends React.Component {
 	        	<div>
 					<Popconfirm
 					 title={`确定要删除所选${selectedLength}条用药情况吗？`}
-					 onConfirm={this.deleteConfirm}
+					 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 					 onCancel={this.deleteCancel}
 					>
 						<Button
@@ -289,13 +299,13 @@ class AgedTable extends React.Component {
 						 icon="delete"
 						 style={{ marginLeft: 20 }}>删除</Button>
 				    </Popconfirm>
-					{objSize.length > 0 ? [
+					{false > 0 ? [
 				    	<Popconfirm
 					    	key="addItem"
 							title = {
 								`是否保存日期为 ${this.getSelectKey(ARC_TAB)} 的老年人记录？`
 							}
-							onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY)}
+							onConfirm={() => this.addRow(ARC_TAB, RECORD_KEY, objSize)}
 							onCancel={this.deleteCancel}
 						>
 							<Button
@@ -313,7 +323,7 @@ class AgedTable extends React.Component {
 							 type="primary"
 							 icon="plus"
 							 style={{ marginLeft: 10 }}
-							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY)}
+							 onClick={() => this.addRow(ARC_TAB, RECORD_KEY, objSize)}
 						>新增</Button>
 				    ]}
 					<span style={{ marginLeft: 8 }}>{hasSelected ? `选中 ${selectedLength} 条记录` : ''}</span>
@@ -331,6 +341,7 @@ class AgedTable extends React.Component {
    				title={title}
     			pagination={false}
     			scroll={{ x: 1650, y: 200 }}
+    			rowClassName={(record, index) => index == selectIndex ? "record_selected" : ''}
     			bordered
 			>
 			</Table>
