@@ -34,6 +34,8 @@ class AdvancedSearch extends Component {
 		this.arcStatusOptions = WIDGET_CONFIG.selectOption.archiveStatus;
 		/*档案类型（所属专档、排除专档）*/
 		this.specArcTypeOptions = WIDGET_CONFIG.selectOption.specArcType;
+		/*重复档案类型 */
+		this.repeatFileTypeOptions = WIDGET_CONFIG.selectOption.repeatFileType;
 		/*所属居委类型*/
 		this.jwcmcTypeOptions = WIDGET_CONFIG.selectOption.jwcmcType;
 		/*所属街道*/
@@ -313,7 +315,7 @@ class AdvancedSearch extends Component {
 					          	<Select
 					          	 multiple
 					          	 placeholder="请选择" >
-											  {this.getSelectOptions(this.specArcTypeOptions)}
+											  {this.getSelectOptions(this.repeatFileTypeOptions)}
 											</Select>
 										)}
 						        </FormItem>

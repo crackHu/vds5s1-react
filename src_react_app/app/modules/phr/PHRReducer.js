@@ -22,6 +22,8 @@ import {
 	REMOVE_SON_ITEM,
 	SELECT_ROW_KEY,
 	SELECT_SON_ROW_KEY,
+	ADD_LABEL,
+	DEL_LABEL,
 } from 'ActionTypes';
 
 import {
@@ -177,11 +179,6 @@ const phr = function(state = initialState, action) {
 	switch (action.type) {
 		case GET_ARCHIVES:
 			console.log('initialState =>', initialState)
-			console.log(GET_ARCHIVES, Object.assign({}, initialState, {
-				archiveListloading: false,
-				data
-			}))
-			console.log('222222222222222', initialState)
 			return Object.assign({}, initialState, {
 				archiveListloading: false,
 				data
@@ -258,6 +255,8 @@ const phr = function(state = initialState, action) {
 				}
 			}
 		case QUERY_PHR:
+			let labels = dout.labels
+
 			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
@@ -282,6 +281,8 @@ const phr = function(state = initialState, action) {
 				submitloading: false,
 				updatestate: true,
 				[FIELDSN]: {
+					labels,
+
 					grdaJbzl,
 					grdaJws,
 					grdaJzs,
@@ -361,7 +362,9 @@ const phr = function(state = initialState, action) {
 			})
 		case FETCH_ERROR:
 			console.error('FETCH_ERROR')
-			return state
+			return Object.assign({}, state, {
+				submitloading: false
+			})
 
 			// ------ 子表组件状态的一些操作 ------ //
 		case ADD_ITEM:
@@ -455,9 +458,10 @@ const phr = function(state = initialState, action) {
 					//体检表记录表、高血压记录表、糖尿病记录表、老年人记录表……
 					var delField = FIELDS[flag].delField
 					var trArr = removeTRBySelKey(stateField, selectedRowKeys, delField)
-					var trArrLen = Object.keys(trArr).length
 					var recordField = FIELDS[flag].recordField
-					var recordObjSize = trArrLen == 0 ? trArrLen : trArrLen - 2
+					var recordObjSize = Object.keys(trArr).filter(key => {
+						return key.indexOf('del') == -1 && key.indexOf('selectKey') == -1
+					}).length
 					return Object.assign({}, state, {
 						[FIELDSN]: {
 							...stateFields,
@@ -501,12 +505,14 @@ const phr = function(state = initialState, action) {
 				if (!delField || !fields) throw Error(`${REMOVE_SON_ITEM} ${parentKey} ${sonKey} delField or fields error`)
 
 				var trArr = removeChildTRBySelKey(fields, sonRecord, selectedRowKeys, delField)
-				console.log('trArr', trArr)
+				console.log('trArr', trArr, trArr[delField])
+				var delIds = trArr[delField]
 				return Object.assign({}, state, {
 					[FIELDSN]: {
 						...stateFields,
 						[parentKey]: {
 							...parents,
+							[delField]: delIds,
 							[selectKey]: {
 								...parentRecord,
 								[sonKey]: trArr
@@ -555,6 +561,14 @@ const phr = function(state = initialState, action) {
 			} catch (e) {
 				throw Error(`${SELECT_SON_ROW_KEY} reducer error ${e.message}`)
 			}
+		case ADD_LABEL:
+			return Object.assign({}, state, {
+				submitloading: false
+			})
+		case DEL_LABEL:
+			return Object.assign({}, state, {
+				submitloading: false
+			})
 		default:
 			return state
 	}

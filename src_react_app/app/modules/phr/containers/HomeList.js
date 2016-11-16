@@ -6,7 +6,9 @@ import {
 	Table,
 	Card
 } from 'antd';
-
+import {
+	Link
+} from 'react-router';
 import {
 	connect
 } from 'react-redux';
@@ -29,7 +31,8 @@ class HomeList extends React.Component {
 			title: '个人编号',
 			width: 50,
 			dataIndex: 'grbh',
-			key: 'grbh'
+			key: 'grbh',
+			render: (text, recode) => <Link to={`/phr/u/${recode.id}`}>{text}</Link>,
 		}, {
 			title: '性别',
 			dataIndex: 'grda_xb',

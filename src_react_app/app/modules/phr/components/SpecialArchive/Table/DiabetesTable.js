@@ -160,18 +160,18 @@ class DiabetesTable extends React.Component {
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
 		console.log('jlRecord', jlRecord)
-		const tnb_sfrq2 = !empty ? !!jlRecord.tnb_sfrq2 ? jlRecord.tnb_sfrq2 : [] : []
-		const tnb_sffs = !empty ? !!jlRecord.tnb_sffs ? jlRecord.tnb_sffs : [] : []
-		const tnb_zz = !empty ? !!jlRecord.tnb_zz ? jlRecord.tnb_zz : [] : []
-		const tnb_tz_xy1 = !empty ? !!jlRecord.tnb_tz_xy1 ? jlRecord.tnb_tz_xy1 : [] : []
-		const tnb_tz_xy2 = !empty ? !!jlRecord.tnb_tz_xy2 ? jlRecord.tnb_tz_xy2 : [] : []
-		const tnb_tz_sg = !empty ? !!jlRecord.tnb_tz_sg ? jlRecord.tnb_tz_sg : [] : []
-		const tnb_tz_tz = !empty ? !!jlRecord.tnb_tz_tz ? jlRecord.tnb_tz_tz : [] : []
-		const tnb_tz_tzzs = !empty ? !!jlRecord.tnb_tz_tzzs ? jlRecord.tnb_tz_tzzs : [] : []
-		const tnb_tz_zbdmbd = !empty ? !!jlRecord.tnb_tz_zbdmbd ? jlRecord.tnb_tz_zbdmbd : [] : []
-		const tnb_tz_qt = !empty ? !!jlRecord.tnb_tz_qt ? jlRecord.tnb_tz_qt : [] : []
-		const tnb_ccsffl = !empty ? !!jlRecord.tnb_ccsffl ? jlRecord.tnb_ccsffl : [] : []
-		const tnb_xcsfrq2 = !empty ? !!jlRecord.tnb_xcsfrq2 ? jlRecord.tnb_xcsfrq2 : [] : []
+		const tnb_sfrq2 = !empty ? jlRecord.tnb_sfrq2 || [] : []
+		const tnb_sffs = !empty ? jlRecord.tnb_sffs || [] : []
+		const tnb_zz = !empty ? jlRecord.tnb_zz || [] : []
+		const tnb_tz_xy1 = !empty ? jlRecord.tnb_tz_xy1 || [] : []
+		const tnb_tz_xy2 = !empty ? jlRecord.tnb_tz_xy2 || [] : []
+		const tnb_tz_sg = !empty ? jlRecord.tnb_tz_sg || [] : []
+		const tnb_tz_tz = !empty ? jlRecord.tnb_tz_tz || [] : []
+		const tnb_tz_tzzs = !empty ? jlRecord.tnb_tz_tzzs || [] : []
+		const tnb_tz_zbdmbd = !empty ? jlRecord.tnb_tz_zbdmbd || [] : []
+		const tnb_tz_qt = !empty ? jlRecord.tnb_tz_qt || [] : []
+		const tnb_ccsffl = !empty ? jlRecord.tnb_ccsffl || [] : []
+		const tnb_xcsfrq2 = !empty ? jlRecord.tnb_xcsfrq2 || [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -274,7 +274,7 @@ class DiabetesTable extends React.Component {
 		const selectedRowKeys = RECORD_TABLE.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, RECORD_TAB),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;

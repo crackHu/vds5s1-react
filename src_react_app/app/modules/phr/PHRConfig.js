@@ -78,31 +78,37 @@ export const ARC_TYPE_CONFIG = {
 		content: 'SpecialArchive/OncosisForm',
 		key: "Oncosis",
 		containKey: "oncosis",
-		disabled: true,
+		labelTag: true,
+		disabled: false,
 	}, {
 		name: "残疾人",
 		content: 'SpecialArchive/HandicappedForm',
 		key: "Handicapped",
 		containKey: "handicapped",
-		disabled: true,
+		labelTag: true,
+		disabled: false,
 	}, {
 		name: "女性保健专档",
 		content: 'SpecialArchive/FemalecareForm',
 		key: "Femalecare",
 		containKey: "femalecare",
-		disabled: true,
+		labelTag: true,
+		disabled: false,
 	}, {
 		name: "孕产妇专档",
 		content: 'SpecialArchive/MaternalForm',
 		key: "Maternal",
 		containKey: "maternal",
-		disabled: true,
+		labelTag: true,
+		disabled: false,
 	}, {
 		name: "钉钉医疗档案",
 		content: 'SpecialArchive/DDMedicalForm',
 		key: "DDMedical",
 		containKey: "ddmedical",
+		labelTag: true,
 		disabled: true,
+		hidden: true,
 	}, ],
 }
 
@@ -2015,6 +2021,29 @@ export const AS_FORM_WIDGET_CONFIG = {
 			key: "ddmedical",
 			value: "钉钉医疗档案",
 		}],
+		/*重复档案类型*/
+		repeatFileType: [{
+			key: "grda_xm",
+			value: "姓名",
+		}, {
+			key: "grda_csrq",
+			value: "出生日期",
+		}, {
+			key: "grda_sfzhm",
+			value: "身份证号码",
+		}, {
+			key: "grda_xzz",
+			value: "现在住址",
+		}, {
+			key: "grda_hkdz",
+			value: "户籍地址",
+		}, {
+			key: "grda_brdh",
+			value: "本人电话",
+		}, {
+			key: "grda_jtdh",
+			value: "家庭电话",
+		}],
 		/*所属居委类型*/
 		jwcmcType: [{
 			key: "shuqian",
@@ -2440,7 +2469,9 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'gxy_sfrq2',
 			'gxy_xcsfrq2',
 		],
-		multiFields: [],
+		multiFields: [
+			'gxy_zz'
+		],
 		arrFields: {
 			//高血压-用药情况
 			gxyYyqk: {
@@ -2481,7 +2512,9 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'tnb_jzjc_jcrq',
 			'tnb_xcsfrq2',
 		],
-		multiFields: [],
+		multiFields: [
+			'tnb_zz'
+		],
 		arrFields: {
 			//糖尿病-用药情况
 			tnbYyqk: {

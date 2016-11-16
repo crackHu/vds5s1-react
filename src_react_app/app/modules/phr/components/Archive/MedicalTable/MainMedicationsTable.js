@@ -67,7 +67,7 @@ class MainMedicationsTable extends React.Component {
 	componentDidMount = () => {}
 
 	deleteConfirm = (selectedRowKeys) => {
-		this.props.removeItem(selectedRowKeys, SON_KEY)
+		this.props.removeSonItem(selectedRowKeys, SON_KEY, PARENT_KEY)
 	}
 
 	deleteCancel = () => {}
@@ -186,7 +186,7 @@ class MainMedicationsTable extends React.Component {
 		const selectedRowKeys = !!fields ? fields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectSonChange(selectedRowKeys, selectedRows, SON_KEY),
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectSonChange(selectedRowKeys, selectedRows, SON_KEY, PARENT_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -202,6 +202,7 @@ class MainMedicationsTable extends React.Component {
 				 onCancel={this.deleteCancel}
 				>
 					<Button
+					 disabled={!hasSelected}
 					 size="large"
 					 type="ghost"
 					 icon="delete"
@@ -249,8 +250,7 @@ function mapPropsToFields(props) {
 MainMedicationsTable.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	addSonItem: PropTypes.func.isRequired,
-	removeItem: PropTypes.func.isRequired,
-	onSelectChange: PropTypes.func.isRequired,
+	removeSonItem: PropTypes.func.isRequired,
 	onSelectSonChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }

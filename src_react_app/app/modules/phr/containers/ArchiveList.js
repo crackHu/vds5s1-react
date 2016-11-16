@@ -97,7 +97,7 @@ class ArchiveList extends React.Component {
 				} else if (key == 'grda_jdzmc') {
 					if (param[key].value)
 						postDataStr += " (j.grda_hkdz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%' or j.grda_xzz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%') and "
-				} else if (key == 'grda_sszd' || key == 'grda_cfda') {
+				} else if (key == 'grda_sszd') {
 					if (param[key].length > 0) {
 						let sqlStr = " ( "
 						param[key].map((dataVar) => {
@@ -106,9 +106,32 @@ class ArchiveList extends React.Component {
 						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
 						postDataStr += sqlStr + " and "
 					}
+				} else if (key == 'grda_cfda') {
+					if (param[key].length > 0) {
+						let leftSqlStr = " j.grbh in (select distinct a.grbh from( select b.grbh "
+						let rightSqlStr = " from ?table1Name? b group by b.grbh having ("
+						param[key].map((dataVar) => {
+							if (dataVar == '3') {
+								//sqlStr += " j.grda_xzz_jwcmc in (select grda_xzz_jwcmc from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) and j.grda_xzz_ljmc in (select grda_xzz_ljmc from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) and j.grda_xzz_qt in (select grda_xzz_qt from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) or "
+								leftSqlStr += ",count(concat(b.grda_xzz_smc,b.grda_xzz_qxmc,b.grda_xzz_jdzmc,b.grda_xzz_jwcmc,b.grda_xzz_ljmc,b.grda_xzz_qt))"
+								rightSqlStr += " count(concat(b.grda_xzz_smc,b.grda_xzz_qxmc,b.grda_xzz_jdzmc,b.grda_xzz_jwcmc,b.grda_xzz_ljmc,b.grda_xzz_qt))>1 and "
+							} else if (dataVar == '4') {
+								//sqlStr += " j.grda_hkdz_jwcmc in (select grda_hkdz_jwcmc from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) and j.grda_hkdz_ljmc in (select grda_hkdz_ljmc from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) and j.grda_hkdz_qt in (select grda_hkdz_qt from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) or "
+								leftSqlStr += ",count(concat(b.grda_hkdz_smc,b.grda_hkdz_qxmc,b.grda_hkdz_jdzmc,b.grda_hkdz_jwcmc,b.grda_hkdz_ljmc,b.grda_hkdz_qt))"
+								rightSqlStr += " count(concat(b.grda_hkdz_smc,b.grda_hkdz_qxmc,b.grda_hkdz_jdzmc,b.grda_hkdz_jwcmc,b.grda_hkdz_ljmc,b.grda_hkdz_qt))>1 and "
+							} else {
+								//sqlStr += " j."+ WIDGET_CONFIG.selectOption.repeatFileType[parseInt(dataVar)].key + " in (select " + WIDGET_CONFIG.selectOption.repeatFileType[parseInt(dataVar)].key + " from phr_grda_jbzl where (zfbj = 0 or zfbj is null) GROUP BY %s HAVING count(*)>1) or "
+								leftSqlStr += ",count(b." + WIDGET_CONFIG.selectOption.repeatFileType[parseInt(dataVar)].key + ")"
+								rightSqlStr += " count(b." + WIDGET_CONFIG.selectOption.repeatFileType[parseInt(dataVar)].key + ")>1 and "
+							}
+
+						})
+						rightSqlStr = rightSqlStr.substring(0, rightSqlStr.length - 4) + " )) a ) "
+						postDataStr += leftSqlStr + rightSqlStr + " and "
+					}
 				} else if (key == 'grda_pczd') {
 					if (param[key].length > 0) {
-						let sqlStr = " l.label not in ( "
+						let sqlStr = " l.label not in ( select la.label from ?table2Name? la where "
 						param[key].map((dataVar) => {
 							sqlStr += " l.label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
 						})
@@ -146,7 +169,7 @@ class ArchiveList extends React.Component {
 		console.log("season check: ", keyword)
 		let page = 1
 		let rows = 10
-		let condition = `and (j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%')`
+		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
 		this.props.searchPHR(page, rows, condition)
 	}
 
@@ -216,7 +239,6 @@ class ArchiveList extends React.Component {
 
 		const archiveProps = this.props.phr
 		const data = archiveProps.data ? archiveProps.data.dout : null;
-		console.log('datadatadatadfasdfasdf', archiveProps)
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {

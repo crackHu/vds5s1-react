@@ -95,6 +95,26 @@ export function updateAged(data) {
 	return postQuery.serialize('updateAged');
 }
 
+/*添加档案标签*/
+export function addLabel(grbh, labels) {
+
+	let postQuery = new PostQuery({
+		grbh,
+		labels
+	}, 'addLabel', 'boPersonDoc')
+	return postQuery.serialize('addLabel');
+}
+/*删除档案标签*/
+export function delLabel(grbh, labels) {
+
+	let postQuery = new PostQuery({
+		grbh,
+		labels
+	}, 'deleteLabel', 'boPersonDoc')
+	return postQuery.serialize('delLabel');
+}
+
+
 /*登陆*/
 export function login(data) {
 

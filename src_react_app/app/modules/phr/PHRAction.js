@@ -24,6 +24,8 @@ import {
 	SELECT_SON_ROW_KEY,
 	IS_UPDATE,
 	ADD_OBJ_ITEM,
+	ADD_LABEL,
+	DEL_LABEL,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -195,6 +197,22 @@ export function saveAged(data) {
 	const hide = msg('loading', '正在保存中...', 30);
 
 	return dispatch => dispatchMethod('saveAged', query, dispatch, true, SAVE_ARCHIVES, hide)
+}
+
+/*添加档案标签*/
+export function addLabel(grbh, labels) {
+
+	let query = api.addLabel(grbh, labels)
+	const hide = msg('loading', '正在保存中...', 30);
+
+	return dispatch => dispatchMethod('addLabel', query, dispatch, true, ADD_LABEL, hide)
+}
+/*删除档案标签*/
+export function delLabel(grbh, labels) {
+
+	let query = api.delLabel(grbh, labels)
+
+	return dispatch => dispatchMethod('delLabel', query, dispatch, true, DEL_LABEL, null)
 }
 
 /*查询个人详细档案资料*/

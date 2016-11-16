@@ -65,7 +65,7 @@ class HMedicationsTable extends React.Component {
 	componentDidMount = () => {}
 
 	deleteConfirm = (selectedRowKeys) => {
-		this.props.removeItem(selectedRowKeys, SON_KEY)
+		this.props.removeSonItem(selectedRowKeys, SON_KEY, PARENT_KEY)
 	}
 
 	deleteCancel = () => {}
@@ -149,7 +149,7 @@ class HMedicationsTable extends React.Component {
 		const selectedRowKeys = !!gxyYyqkFields ? gxyYyqkFields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectSonChange(selectedRowKeys, selectedRows, SON_KEY, PARENT_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -173,7 +173,7 @@ class HMedicationsTable extends React.Component {
 					 onCancel={this.deleteCancel}
 					>
 						<Button
-				 		 disabled={true}
+				 		 disabled={!hasSelected}
 						 size="large"
 						 type="ghost"
 						 icon="delete"
@@ -221,8 +221,8 @@ function mapPropsToFields(props) {
 HMedicationsTable.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	addSonItem: PropTypes.func.isRequired,
-	removeItem: PropTypes.func.isRequired,
-	onSelectChange: PropTypes.func.isRequired,
+	removeSonItem: PropTypes.func.isRequired,
+	onSelectSonChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

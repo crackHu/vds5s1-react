@@ -137,7 +137,6 @@ export function setCookie(c_name, value, expiredays) {
 export function regards() {
 
   const hour = new Date().getHours()
-
   if (hour < 6) {
     return ("凌晨好！")
   } else if (hour < 9) {
@@ -207,7 +206,7 @@ export function getFieldsObj(fields, fields_state, date_format) {
       } else if (isArray(value)) {
         obj[field] = value.join(',')
       } else if (typeof value == 'object') {
-        obj[field] = !!value ? value.format(date_format) : ''
+        obj[field] = !!value ? value.format(date_format) : '0000-00-00 00:00:00'
       } else {
         obj[field] = value
       }
@@ -243,9 +242,9 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
           if (arrField == field) {
             let arrFields = arrObjFields[arrField].fields
             let delField = arrObjFields[arrField].delField
-            console.log('getFieldsArr', arrFields, delField, stateField)
+            let delState = stateField[delField]
             obj[field] = getFieldsArr(arrFields, stateField, date_format)
-            obj[delField] = stateField[delField]
+              //obj[delField] = !!delState && delState.length > 0 ? delState.concat(delState) : []
           }
         }
       } else {
@@ -323,7 +322,7 @@ export function getFieldsObjArr(fields_state, arrObjFields, date_format, key) {
     }
   }
 
-  console.debug('getFieldsObjArr', '=>', arr)
+  console.debug('getFieldsObjArr', '=>', arr, del)
   return {
     [key]: arr,
     ...del
@@ -605,11 +604,12 @@ export function removeChildTRBySelKey(fields, stateField, selectedRowKeys, delFi
     objSize: [],
     selectedRowKeys: []
   }
-  let idSet = new Set()
+  let idSet = new Set(stateField[delField])
   let objSize = stateField.objSize || undefined
   if (!!objSize) {
     objSize = objSize.filter((item, index) => selectedRowKeys.indexOf(index) == -1)
-    for (let i = 0; i < objSize.length; i++) {
+    let objLen = objSize.length
+    for (let i = 0; i < objLen; i++) {
       let indexSet = new Set()
       for (let key in stateField) {
         let stateFieldValue = stateField[key]
@@ -626,7 +626,7 @@ export function removeChildTRBySelKey(fields, stateField, selectedRowKeys, delFi
               console.log('stateFieldValue', stateField[key], keysub, keyint, i)
             } else {
               if (key.indexOf('id_') > -1) {
-                idSet.add(stateField[key].value)
+                idSet.add(stateFieldValue.value)
               }
             }
           } catch (e) {
@@ -645,12 +645,21 @@ export function removeChildTRBySelKey(fields, stateField, selectedRowKeys, delFi
         }
       }
     }
+    // 当全部删除的时候，需要找出他们的id
+    if (objLen == 0) {
+      Object.keys(stateField).map((key, index) => {
+        if (key.indexOf('id_') > -1) {
+          let stateFieldValue = stateField[key]
+          idSet.add(stateFieldValue.value)
+        }
+      })
+    }
   } else {
     console.error('removeChildTRBySelKey[stateField.objSize] param error')
   }
 
   console.debug('removeChildTRBySelKey', '=>', obj, idSet)
-  if (!!delField && !obj[delField]) {
+  if (!!delField) {
     return {
       ...obj,
       [delField]: Array.from(idSet)
@@ -665,7 +674,7 @@ export function removeTRBySelKey(stateField, selectedRowKeys, delField) {
 
   let obj = {}
   let selectKeyObj = {}
-  let delIds = []
+  let delIds = stateField[delField] || []
   if (!isObject(stateField) || !isArray(selectedRowKeys)) {
     throw Error('removeTRBySelKey param is error')
   }

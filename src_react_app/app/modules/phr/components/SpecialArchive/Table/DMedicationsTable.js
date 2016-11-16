@@ -65,7 +65,7 @@ class DMedicationsTable extends React.Component {
 	componentDidMount = () => {}
 
 	deleteConfirm = (selectedRowKeys) => {
-		this.props.removeItem(selectedRowKeys, SON_KEY)
+		this.props.removeSonItem(selectedRowKeys, SON_KEY, PARENT_KEY)
 	}
 
 	deleteCancel = () => {}
@@ -149,7 +149,7 @@ class DMedicationsTable extends React.Component {
 		const selectedRowKeys = !!tnbYyqkFields ? tnbYyqkFields.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, SON_KEY),
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectSonChange(selectedRowKeys, selectedRows, SON_KEY, PARENT_KEY),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -166,7 +166,6 @@ class DMedicationsTable extends React.Component {
 	        	 	</Tooltip>
 	        	 </span>}
 	        	/>
-	        	
 	        	<div>
 					<Popconfirm
 					 title={`确定要删除所选${selectedLength}条用药情况吗？`}
@@ -174,7 +173,7 @@ class DMedicationsTable extends React.Component {
 					 onCancel={this.deleteCancel}
 					>
 						<Button
-				 		 disabled={true}
+				 		 disabled={!hasSelected}
 						 size="large"
 						 type="ghost"
 						 icon="delete"
@@ -223,8 +222,8 @@ function mapPropsToFields(props) {
 DMedicationsTable.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	addSonItem: PropTypes.func.isRequired,
-	removeItem: PropTypes.func.isRequired,
-	onSelectChange: PropTypes.func.isRequired,
+	removeSonItem: PropTypes.func.isRequired,
+	onSelectSonChange: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

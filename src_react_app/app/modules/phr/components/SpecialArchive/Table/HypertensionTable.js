@@ -159,18 +159,18 @@ class HypertensionTable extends React.Component {
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
 		console.log('jlRecord', jlRecord)
-		const gxySfrq2 = !empty ? !!jlRecord.gxy_sfrq2 ? jlRecord.gxy_sfrq2 : [] : []
-		const gxySffs = !empty ? !!jlRecord.gxy_sffs ? jlRecord.gxy_sffs : [] : []
-		const gxyZz = !empty ? !!jlRecord.gxy_zz ? jlRecord.gxy_zz : [] : []
-		const gxyTzXy1 = !empty ? !!jlRecord.gxy_tz_xy1 ? jlRecord.gxy_tz_xy1 : [] : []
-		const gxyTzXy2 = !empty ? !!jlRecord.gxy_tz_xy2 ? jlRecord.gxy_tz_xy2 : [] : []
-		const gxyTzSg = !empty ? !!jlRecord.gxy_tz_sg ? jlRecord.gxy_tz_sg : [] : []
-		const gxyTzTz = !empty ? !!jlRecord.gxy_tz_tz ? jlRecord.gxy_tz_tz : [] : []
-		const gxyTzTzzs = !empty ? !!jlRecord.gxy_tz_tzzs ? jlRecord.gxy_tz_tzzs : [] : []
-		const gxyTzXl = !empty ? !!jlRecord.gxy_tz_xl ? jlRecord.gxy_tz_xl : [] : []
-		const gxyTzQt = !empty ? !!jlRecord.gxy_tz_qt ? jlRecord.gxy_tz_qt : [] : []
-		const gxyCcsffl = !empty ? !!jlRecord.gxy_ccsffl ? jlRecord.gxy_ccsffl : [] : []
-		const gxyXcsfrq2 = !empty ? !!jlRecord.gxy_xcsfrq2 ? jlRecord.gxy_xcsfrq2 : [] : []
+		const gxySfrq2 = !empty ? jlRecord.gxy_sfrq2 || [] : []
+		const gxySffs = !empty ? jlRecord.gxy_sffs || [] : []
+		const gxyZz = !empty ? jlRecord.gxy_zz || [] : []
+		const gxyTzXy1 = !empty ? jlRecord.gxy_tz_xy1 || [] : []
+		const gxyTzXy2 = !empty ? jlRecord.gxy_tz_xy2 || [] : []
+		const gxyTzSg = !empty ? jlRecord.gxy_tz_sg || [] : []
+		const gxyTzTz = !empty ? jlRecord.gxy_tz_tz || [] : []
+		const gxyTzTzzs = !empty ? jlRecord.gxy_tz_tzzs || [] : []
+		const gxyTzXl = !empty ? jlRecord.gxy_tz_xl || [] : []
+		const gxyTzQt = !empty ? jlRecord.gxy_tz_qt || [] : []
+		const gxyCcsffl = !empty ? jlRecord.gxy_ccsffl || [] : []
+		const gxyXcsfrq2 = !empty ? jlRecord.gxy_xcsfrq2 || [] : []
 
 		const columns = [{
 			title: '随访日期',

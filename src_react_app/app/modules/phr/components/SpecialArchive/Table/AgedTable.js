@@ -165,7 +165,7 @@ class AgedTable extends React.Component {
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
 
-		const lnr_sfrq = !empty ? !!jlRecord.lnr_sfrq ? jlRecord.lnr_sfrq : [] : []
+		const lnr_sfrq = !empty ? jlRecord.lnr_sfrq || [] : []
 		const lnr_jc = !empty ? jlRecord.lnr_jc || [] : []
 		const lnr_jcpf = !empty ? jlRecord.lnr_jcpf || [] : []
 		const lnr_sx = !empty ? jlRecord.lnr_sx || [] : []
@@ -176,9 +176,9 @@ class AgedTable extends React.Component {
 		const lnr_rcpf = !empty ? jlRecord.lnr_rcpf || [] : []
 		const lnr_hd = !empty ? jlRecord.lnr_hd || [] : []
 		const lnr_hdpf = !empty ? jlRecord.lnr_hdpf || [] : []
-		const lnr_xcsfrq = !empty ? !!jlRecord.lnr_xcsfrq ? jlRecord.lnr_xcsfrq : [] : []
-		const lnr_sfys = !empty ? !!jlRecord.lnr_sfys ? jlRecord.lnr_sfys : [] : []
-		const lnr_zpf = !empty ? !!jlRecord.lnr_zpf ? jlRecord.lnr_zpf : [] : []
+		const lnr_xcsfrq = !empty ? jlRecord.lnr_xcsfrq || [] : []
+		const lnr_sfys = !empty ? jlRecord.lnr_sfys || [] : []
+		const lnr_zpf = !empty ? jlRecord.lnr_zpf || [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -268,7 +268,7 @@ class AgedTable extends React.Component {
 		const selectedRowKeys = RECORD_TABLE.selectedRowKeys
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, RECORD_TAB),
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -337,6 +337,7 @@ class AgedTable extends React.Component {
 				key="table"
 				columns={columns}
 				dataSource={objSize} 
+				rowSelection={rowSelection}
 				size="middle"
    				title={title}
     			pagination={false}
