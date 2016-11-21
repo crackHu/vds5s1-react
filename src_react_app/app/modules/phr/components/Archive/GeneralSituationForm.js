@@ -178,7 +178,7 @@ class GeneralSituationForm extends React.Component {
 					this.hkdz_qt = hkdzQtValue
 				}
 				//}
-			} else if (flag == 'xzz' && !!grda_xzz_qt) {
+			} else if (flag == 'xzz' && !!grda_xzz_qt && !grda_hkdz && !grda_hkdz_qt) {
 				let xzzQtValue = grda_xzz_qt.value
 				if (value + '' != this.xzz + '') {
 					this.props.getCurrentAddress(value, xzzQtValue, flag)

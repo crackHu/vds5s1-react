@@ -533,9 +533,9 @@ class ArchiveCollection extends React.Component {
 								    <Menu.Item key={index} disabled={arc.disabled}>
 							    		<a onClick = {() =>this.addSpecArcTab(arc.key)} >
 									    	{!!arc.labelTag ? 
-									    		<Badge dot>
-													{arc.name}
-										  		</Badge>
+									    		<span>
+													{arc.name} <Badge status="success" />
+										  		</span>
 									    	: arc.name}
 										</a>
 								    </Menu.Item>
