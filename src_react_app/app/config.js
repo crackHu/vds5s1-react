@@ -22,7 +22,6 @@ export const DATE_FORMAT_STRING = 'YYYY-MM-DD'
 /************** Tabs是否使用动画切换 **************/
 export const TAB_ANIMATED = true
 
-
 /************** 菜单配置 **************/
 export const MENU_CONFIG = {
   menuSidebarStyle: {
