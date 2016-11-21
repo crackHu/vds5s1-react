@@ -11,6 +11,7 @@ import {
 	Menu,
 	Dropdown,
 	Affix,
+	Badge,
 	Icon
 } from 'antd';
 import Tags from 'app_base/components/Tags'
@@ -22,6 +23,8 @@ import * as PHRAction from '../PHRAction'
 import {
 	msg,
 	notify,
+	notifyClsBtn,
+	showConfirm,
 	getDate,
 	getFieldsObj,
 	getFieldsArr,
@@ -30,7 +33,8 @@ import {
 	getFieldsObjArr,
 } from 'utils'
 import {
-	DATE_FORMAT_STRING
+	DATE_FORMAT_STRING,
+	TAB_ANIMATED
 } from 'config'
 import {
 	ARC_TYPE_CONFIG,
@@ -76,8 +80,6 @@ class ArchiveCollection extends React.Component {
 		console.log('ArchiveCollection.state', this.state, this.props)
 	}
 
-	componentWillUnmount = () => {}
-
 	componentWillReceiveProps = (nextProps) => {
 		console.log("ArchiveCollection.componentWillReceiveProps", nextProps.phr, this.props.phr)
 		this.setState({
@@ -107,7 +109,6 @@ class ArchiveCollection extends React.Component {
 					usersArc.push(tagArc)
 				}
 			})
-			console.log('adfas', usersArc)
 			this.setState({
 				arcType: usersArc
 			})
@@ -122,6 +123,11 @@ class ArchiveCollection extends React.Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log("ArchiveCollection.componentDidUpdate", this.props, prevProps, prevState)
+	}
+
+	componentWillUnmount = () => {
+		/*离开这个页面时 修改主表保存状态*/
+		this.props.changeMasterSaved(false)
 	}
 
 	/*save archiv*/
@@ -235,20 +241,32 @@ class ArchiveCollection extends React.Component {
 		this.props.saveFieldsChange(fields, flag)
 	};
 
-	getIndividualNumbe = (addressArr, grda_xzz_qt) => {
+	getIndividualNumbe = (addressArr, addrOther, flag) => {
 
-		let grda_xzz = addressArr.slice(0)
-		grda_xzz.push(grda_xzz_qt)
-		let grda_xzz_fields = FIELDS.grdaJbzl.addressFields.grda_xzz.slice(0)
-		grda_xzz_fields.push('grda_xzz_qt')
-		this.props.getIndividualNumbe(grda_xzz, grda_xzz_fields)
+		let addrArr = addressArr.slice(0)
+		addrArr.push(addrOther)
+
+		let addressFields = FIELDS.grdaJbzl.addressFields
+		let xzz_fields = addressFields.grda_xzz.slice(0)
+		let hkdz_fields = addressFields.grda_hkdz.slice(0)
+
+		if (flag == 'hkdz') {
+			hkdz_fields.push('grda_hkdz_qt')
+			this.props.getIndividualNumbe(addrArr, hkdz_fields)
+		} else if (flag == 'xzz') {
+			xzz_fields.push('grda_xzz_qt')
+			this.props.getIndividualNumbe(addrArr, xzz_fields)
+		} else {
+			notify('warn', '警告', '您输入的现住址或户籍地址格式错误');
+		}
+		console.log('getIndividualNumbe', addressArr, addrOther, flag)
 	}
 
 	//检查基本档是否已经建立和提醒，按需关闭提交按钮加载状态
 	judgeBAExistAndNotify = (activeKey, boolean) => {
 
 		let grbh = this.getArchiveGrbh()
-		let exist = !!grbh && !!grbh.value
+		let exist = !!grbh && !!grbh.value && !!this.props.phr.mastersaved
 		if (activeKey != 'PersonalDetail') {
 			if (!exist) {
 				notify('warn', '警告', '请先填写并保存个人基本信息表');
@@ -323,24 +341,47 @@ class ArchiveCollection extends React.Component {
 		}
 		/*})*/
 
-		if (deleteAbled) {
-			let activeKey = this.state.activeKey;
-			let lastIndex;
-			this.state.arcType.forEach((pane, i) => {
-				if (pane.key === targetKey) {
-					lastIndex = i - 1;
-				}
-			});
-			const arcType = this.state.arcType.filter(pane => pane.key !== targetKey);
-			if (lastIndex >= 0 && activeKey === targetKey) {
-				activeKey = arcType[lastIndex].key;
+		let tagArc = this.isLabelTagArc(targetKey, true)
+		if (!!tagArc && !!tagArc['labelTag'] && this.props.phr.updatestate) {
+			const name = tagArc.name
+			const grbhObj = this.getArchiveGrbh()
+			const onOk = () => {
+				this.props.delLabel(grbhObj.value, [tagArc.name])
+				this.removeTarget(targetKey)
 			}
-			console.log('this.state.arcType', this.state.arcType, arcType)
-			this.setState({
-				arcType,
-				activeKey,
-			});
+			const onCancel = () => {}
+			showConfirm(`是否移除 ${name} 标签？`, null, onOk, onCancel)
+		} else {
+			if (deleteAbled) {
+
+				const name = this.getActiveName(targetKey)
+				const grbhObj = this.getArchiveGrbh()
+				const onOk = () => {
+					this.props[`delete${targetKey}`]({})
+				}
+				const onCancel = () => {}
+				showConfirm(`是否移除 ${name} 专档？`, null, onOk, onCancel)
+			}
 		}
+	}
+
+	/*Tab remove target*/
+	removeTarget = (targetKey) => {
+		let activeKey = this.state.activeKey;
+		let lastIndex;
+		this.state.arcType.forEach((pane, i) => {
+			if (pane.key === targetKey) {
+				lastIndex = i - 1;
+			}
+		});
+		const arcType = this.state.arcType.filter(pane => pane.key !== targetKey);
+		if (lastIndex >= 0 && activeKey === targetKey) {
+			activeKey = arcType[lastIndex].key;
+		}
+		this.setState({
+			arcType,
+			activeKey,
+		});
 	}
 
 	/*Tab switch*/
@@ -358,29 +399,50 @@ class ArchiveCollection extends React.Component {
 		this.state.arcType.forEach((arcType, index) => {
 			if (arcType.key == tabKey) return hasNotExist = false
 		})
+		let tagArc = this.isLabelTagArc(tabKey, true)
+		let isTagArc = !!tagArc && !!tagArc['labelTag']
+
 		if (hasNotExist) {
-			this.specArcType.forEach((specArc, index) => {
-				if (specArc.key == tabKey) {
-					arcType.push({
-						name: specArc.name,
-						content: specArc.content,
-						key: tabKey
-					});
-					this.setState({
-						activeKey: tabKey,
-						arcType: arcType
-					});
-					this.updateUStateText(this.props.phr.updatestate, tabKey)
-				}
-			})
+			if (isTagArc) {
+				//标签档案
+				if (this.judgeBAExistAndNotify(tabKey, true)) {
+					const grbhObj = this.getArchiveGrbh()
+					this.props.addLabel(grbhObj.value, [tagArc.name])
+					this.addTab(tabKey)
+				} else return
+			} else {
+				this.addTab(tabKey)
+			}
 		} else {
-			msg('warn', '专档已存在', 3)
+			if (isTagArc) {
+				msg('warn', '标签已存在', 3)
+			} else {
+				msg('warn', '专档已存在', 3)
+			}
 		}
+	}
+
+	addTab = (tabKey) => {
+		const arcType = this.state.arcType.slice(0);
+		this.specArcType.forEach((specArc, index) => {
+			if (specArc.key == tabKey) {
+				arcType.push({
+					name: specArc.name,
+					content: specArc.content,
+					key: tabKey
+				});
+				this.setState({
+					activeKey: tabKey,
+					arcType
+				}, () => this.updateUStateText(this.props.phr.updatestate, tabKey));
+			}
+		})
 	}
 
 	/*获取激活档案名字*/
 	getActiveName = (activeKey) => {
 		const arc = this.state.arcType.filter(arc => arc.key == activeKey);
+		console.log('getActiveName', arc, activeKey)
 		return arc[0].name
 	}
 
@@ -396,9 +458,12 @@ class ArchiveCollection extends React.Component {
 		return spec
 	}
 
-	/*判断是否标签档案*/
-	isLabelTagArc = (key) => {
+	/*判断是否标签档案 boolean是否返回对象*/
+	isLabelTagArc = (key, boolean = false) => {
 		const spec = this.getSpecArcTypeByKey(key)[0]
+		if (boolean) {
+			return spec
+		}
 		return !!spec && !!spec.labelTag
 	}
 
@@ -461,9 +526,18 @@ class ArchiveCollection extends React.Component {
 			    {
 			    	this.specArcType.map((arc, index) => {
 						if (!arc.hidden) {
+							let link = (<a onClick = {() =>this.addSpecArcTab(arc.key)} >
+											{arc.name}
+										</a>)
 							return (
 								    <Menu.Item key={index} disabled={arc.disabled}>
-										<a onClick = {() =>this.addSpecArcTab(arc.key)} >{arc.name}</a>
+							    		<a onClick = {() =>this.addSpecArcTab(arc.key)} >
+									    	{!!arc.labelTag ? 
+									    		<Badge dot>
+													{arc.name}
+										  		</Badge>
+									    	: arc.name}
+										</a>
 								    </Menu.Item>
 							)
 						}
@@ -518,6 +592,7 @@ class ArchiveCollection extends React.Component {
 				<div className='module' key="tabs">
 					<Card title={title} extra={moreSpecArcDd}>
 						<Tabs
+							animated={TAB_ANIMATED}
 							hideAdd
 							onChange={this.changeTab}
 							activeKey={this.state.activeKey}
@@ -544,12 +619,15 @@ ArchiveCollection.propTypes = {
 
 	saveHypertension: PropTypes.func.isRequired,
 	updateHypertension: PropTypes.func.isRequired,
+	deleteHypertension: PropTypes.func.isRequired,
 
 	saveDiabetes: PropTypes.func.isRequired,
 	updateDiabetes: PropTypes.func.isRequired,
+	deleteDiabetes: PropTypes.func.isRequired,
 
 	saveAged: PropTypes.func.isRequired,
 	updateAged: PropTypes.func.isRequired,
+	deleteAged: PropTypes.func.isRequired,
 
 	addLabel: PropTypes.func.isRequired,
 	delLabel: PropTypes.func.isRequired,
@@ -560,6 +638,7 @@ ArchiveCollection.propTypes = {
 	queryPHR: PropTypes.func.isRequired,
 	getIndividualNumbe: PropTypes.func.isRequired,
 	changeSubmitLoad: PropTypes.func.isRequired,
+	changeMasterSaved: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

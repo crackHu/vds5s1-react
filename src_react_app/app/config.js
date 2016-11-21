@@ -1,4 +1,4 @@
-//*************全局配置*************//
+//************* 全局配置 *************//
 let baseUrl, projectPath
 if (process.env.NODE_ENV === 'production') {
   baseUrl = ''
@@ -16,10 +16,14 @@ export const CONFIG = {
   needDevTool: true,
 }
 
-/**************时间格式配置**************/
+/************** 时间格式配置 **************/
 export const DATE_FORMAT_STRING = 'YYYY-MM-DD'
 
-/**************菜单配置**************/
+/************** Tabs是否使用动画切换 **************/
+export const TAB_ANIMATED = true
+
+
+/************** 菜单配置 **************/
 export const MENU_CONFIG = {
   menuSidebarStyle: {
     width: 224
@@ -69,7 +73,7 @@ export const MENU_CONFIG = {
   }]
 }
 
-/**************独立路由配置**************/
+/************** 独立路由配置 **************/
 export const INDEPENDENCE_ROUTE_CONFIG = [{
   path: "./modules/phr/containers/ArchiveCollection",
   route: "/phr/u/:id",

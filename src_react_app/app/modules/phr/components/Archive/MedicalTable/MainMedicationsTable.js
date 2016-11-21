@@ -87,6 +87,11 @@ class MainMedicationsTable extends React.Component {
 		} = this.props
 
 		const renderContent = {
+			drugName(value, option) {
+				return (
+					<Input style={{width: '10vw'}}/>
+				)
+			},
 			usage(value, option) {
 				return (
 					<Input style={{width: '10vw'}}/>
@@ -126,6 +131,17 @@ class MainMedicationsTable extends React.Component {
 		}
 
 		const columns = [{
+			title: '药物名称',
+			dataIndex: 'drugName',
+			key: 'drugName',
+			width: '15%',
+			render: (value, row, index) =>
+				<FormItem>
+					{getFieldDecorator('ywmc_' + index)(
+						renderContent.drugName(value, this.memberOptions)
+					)}
+				</FormItem>,
+		}, {
 			title: '用法',
 			dataIndex: 'usage',
 			key: 'usage',

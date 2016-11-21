@@ -25,6 +25,9 @@ import {
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
 } from 'phr_conf'
+import {
+	getMomentObj as moment
+} from 'utils'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -84,10 +87,42 @@ class MedicalTable1 extends React.Component {
 
 	componentDidMount = () => {}
 
-	render() {
-
+	//BMI自动生成
+	changeBMIValue = (value, key) => {
 		const {
-			getFieldDecorator
+			getFieldsValue,
+			getFieldValue,
+			setFieldsValue
+		} = this.props.form
+
+		const bmi = 'grda_tzzs'
+		const index = key.indexOf('sg')
+		const underline = key.lastIndexOf('_')
+		const prefix = key.substring(0, underline + 1)
+
+		let weight, height, wValue, hValue
+		if (index > -1) {
+			weight = prefix.concat('tz')
+			wValue = getFieldValue(weight)
+			hValue = value
+		} else {
+			height = prefix.concat('sg')
+			hValue = getFieldValue(height)
+			wValue = value
+		}
+
+		//体质指数（BMI）= 体重（kg）÷ 身高²（m）
+		if (!!wValue && !!hValue) {
+			setFieldsValue({
+				[bmi]: (wValue / Math.pow(hValue * 0.01, 2)).toFixed(1)
+			})
+		}
+	}
+
+	render() {
+		const {
+			getFieldDecorator,
+			setFieldsValue
 		} = this.props.form
 
 		const grda_tjrq = getFieldDecorator('grda_tjrq')(
@@ -212,7 +247,9 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="身高">
 					    	<div className="disline" style={{width: '50%'}}>
     							{getFieldDecorator('grda_sg')(
-					        		<InputNumber step={0.1}/>
+					        		<InputNumber
+					        		 onChange={(value) => this.changeBMIValue(value, 'grda_sg')}
+					        		 step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}
@@ -223,7 +260,9 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="体重">
 					    	<div className="disline" style={{width: '50%'}}>
     							{getFieldDecorator('grda_tz')(
-					        		<InputNumber step={0.1}/>
+					        		<InputNumber
+					        		 onChange={(value) => this.changeBMIValue(value, 'grda_tz')}
+					        		 step={0.1}/>
     							)}
 					    	</div>
 					    	{' '}

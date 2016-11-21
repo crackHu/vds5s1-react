@@ -43,12 +43,16 @@ class ArchiveList extends React.Component {
 
 	state = {
 		modalVisible: false,
+		curPage: 1,
+		curPageSize: PAGESIZE,
+		isSearch: false,
+		postData: ''
 	}
 
 	componentWillMount = () => {}
 
 	componentDidMount() {
-		this.props.getArchiveList(1, 45);
+		this.props.getArchiveList(this.state.curPage, this.state.curPageSize);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -71,6 +75,8 @@ class ArchiveList extends React.Component {
 	sendSearchCondition = (param) => {
 		console.log("收到表单值：" + JSON.stringify(param))
 		let postDataStr = ' and '
+		let paichuStr = '',
+			suoshuStr = ''
 		Reflect.ownKeys(param).map((key, i) => {
 			if (param[key]) {
 				if (key == 'grda_csrq' || key == 'grda_jdrq' || key == 'grda_lrrq') {
@@ -99,12 +105,11 @@ class ArchiveList extends React.Component {
 						postDataStr += " (j.grda_hkdz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%' or j.grda_xzz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%') and "
 				} else if (key == 'grda_sszd') {
 					if (param[key].length > 0) {
-						let sqlStr = " ( "
 						param[key].map((dataVar) => {
-							sqlStr += " l.label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
+							suoshuStr += " label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' and "
 						})
-						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
-						postDataStr += sqlStr + " and "
+						suoshuStr = suoshuStr.substring(0, suoshuStr.length - 4)
+							//postDataStr += sqlStr + " and "
 					}
 				} else if (key == 'grda_cfda') {
 					if (param[key].length > 0) {
@@ -131,12 +136,12 @@ class ArchiveList extends React.Component {
 					}
 				} else if (key == 'grda_pczd') {
 					if (param[key].length > 0) {
-						let sqlStr = " l.label not in ( select la.label from ?table2Name? la where "
+						paichuStr = " ( "
 						param[key].map((dataVar) => {
-							sqlStr += " l.label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
+							paichuStr += " label not like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' and "
 						})
-						sqlStr = sqlStr.substring(0, sqlStr.length - 3) + " ) "
-						postDataStr += sqlStr + " and "
+						paichuStr = paichuStr.substring(0, paichuStr.length - 4) + " ) and "
+							//postDataStr += sqlStr + " and "
 					}
 				} else {
 					postDataStr += " j." + key + " like '%" + param[key] + "%' and "
@@ -144,11 +149,18 @@ class ArchiveList extends React.Component {
 			}
 		})
 
-		postDataStr = postDataStr.substring(0, postDataStr.length - 4)
+		postDataStr += " grbh in (select  grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
+
+		//postDataStr = postDataStr.substring(0, postDataStr.length - 4)
 
 		console.log("check post data: ", postDataStr)
 			/*查询接口*/
-		this.props.searchPHR(1, 45, postDataStr)
+		this.props.searchPHR(1, this.state.curPageSize, postDataStr)
+		this.setState({
+			curPage: 1,
+			isSearch: true,
+			postData: postDataStr
+		})
 	}
 
 	onFieldsChange = ({
@@ -166,11 +178,24 @@ class ArchiveList extends React.Component {
 	}
 
 	searchPHR = (keyword) => {
-		console.log("season check: ", keyword)
 		let page = 1
-		let rows = 10
+			//let rows = 10
 		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
-		this.props.searchPHR(page, rows, condition)
+		if (keyword == '') {
+			this.props.getArchiveList(page, this.state.curPageSize)
+			this.setState({
+				curPage: 1,
+				isSearch: false,
+				postData: keyword
+			})
+		} else {
+			this.props.searchPHR(page, this.state.curPageSize, condition)
+			this.setState({
+				curPage: 1,
+				isSearch: true,
+				postData: condition
+			})
+		}
 	}
 
 	render() {
@@ -242,16 +267,31 @@ class ArchiveList extends React.Component {
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {
-			total: this.props.phr.total,
+			total: this.props.phr.data.total,
 			showSizeChanger: true,
-			onShowSizeChange(current, pageSize) {
-				console.log('Current: ', current, '; PageSize: ', pageSize);
+			onShowSizeChange: (current, pageSize) => {
+				console.log('Current: ', current, '; PageSize: ', pageSize)
+				this.setState({
+					curPage: current,
+					curPageSize: pageSize
+				})
+				if (this.state.isSearch)
+					this.props.searchPHR(current, pageSize, this.state.postData)
+				else
+					this.props.getArchiveList(current, pageSize)
 			},
-			onChange(current) {
+			onChange: (current) => {
 				console.log('Current: ', current);
+				this.setState({
+					curPage: current
+				})
+				if (this.state.isSearch)
+					this.props.searchPHR(current, this.state.curPageSize, this.state.postData)
+				else
+					this.props.getArchiveList(current, this.state.curPageSize)
 			},
 			showQuickJumper: true,
-			pageSize: PAGESIZE,
+			pageSize: this.state.curPageSize,
 			showTotal: (total) => `共 ${total} 条`,
 		} : null;
 

@@ -149,6 +149,7 @@ class Login extends React.Component {
 			        <FormItem
 			          {...formItemLayout}
 			          label="密&nbsp;&nbsp;码"
+  					  help="一周之内自动登陆"
 			        >
 			          {getFieldDecorator('pwd', { initialValue: '123456' })(
 			            <Input type="password" placeholder="请输入密码" />

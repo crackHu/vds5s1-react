@@ -1,7 +1,10 @@
 import {
 	GET_ARCHIVES,
 	SAVE_ARCHIVES,
+	SAVE_MASTER_ARCHIVES,
+	CHANGE_MASTERSAVED,
 	UPDATE_ARCHIVES,
+	DELETE_ARCHIVES,
 	QUERY_PHR,
 	DELETE_PHR,
 	FIELDS_CHANGE,
@@ -51,9 +54,14 @@ const todayStr = today.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName
 const FIELDSN = FIELDS.name
 let initialState = {
+	/*档案列表加载状态*/
 	archiveListloading: true,
+	/*档案提交中状态*/
 	submitloading: false,
+	/*档案是否为更新（编辑）状态*/
 	updatestate: false,
+	/*档案的基本表是否保存状态*/
+	mastersaved: false,
 	[FIELDSN]: {
 		grdaJbzl: {
 			/*grda_csrq: {
@@ -255,7 +263,7 @@ const phr = function(state = initialState, action) {
 				}
 			}
 		case QUERY_PHR:
-			let labels = dout.labels
+			let labels = dout.labels || []
 
 			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
 			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
@@ -280,6 +288,7 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, initialState, {
 				submitloading: false,
 				updatestate: true,
+				mastersaved: true,
 				[FIELDSN]: {
 					labels,
 
@@ -306,9 +315,19 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
 			})
+		case SAVE_MASTER_ARCHIVES:
+			//基本表（主表） 的保存标示
+			return Object.assign({}, initialState, state, {
+				updatestate: resultCode > 0,
+				mastersaved: resultCode > 0
+			})
 		case UPDATE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: true,
+			})
+		case CHANGE_MASTERSAVED:
+			return Object.assign({}, initialState, state, {
+				mastersaved: flag,
 			})
 		case SEARCH_PHR:
 			return Object.assign({}, initialState, {

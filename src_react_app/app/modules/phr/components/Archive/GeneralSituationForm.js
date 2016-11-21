@@ -97,6 +97,8 @@ class GeneralSituationForm extends React.Component {
 
 		this.xzz = ''
 		this.xzz_qt = ''
+		this.hkdz = ''
+		this.hkdz_qt = ''
 	}
 
 	getSelectOptions = (data) => {
@@ -105,9 +107,12 @@ class GeneralSituationForm extends React.Component {
 		})
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		console.log('GeneralSituationForm componentWillMount')
+	}
 
 	componentDidMount = () => {
+		console.log('GeneralSituationForm componentDidMount')
 		this.initialValue(ARC_TAB)
 	}
 
@@ -125,18 +130,30 @@ class GeneralSituationForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
-	/*现住址事件 用于获取个人编号*/
-	onXzzQtBlur = () => {
+	/*现住址或户籍地址事件 用于获取个人编号*/
+	onAddrOtherBlur = (flag) => {
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
 			let grda_xzz_qt = fields.grda_xzz_qt
-			if (!!grda_xzz && !!grda_xzz_qt) {
+			let grda_hkdz = fields.grda_hkdz
+			let grda_hkdz_qt = fields.grda_hkdz_qt
+
+			if (!!grda_hkdz && !!grda_hkdz_qt) {
+				//if (!grda_xzz && !grda_xzz_qt) {
+				let hkdzValue = grda_hkdz.value
+				let hkdzQtValue = grda_hkdz_qt.value
+				if (hkdzQtValue != this.hkdz_qt) {
+					this.props.getCurrentAddress(hkdzValue, hkdzQtValue, flag)
+					this.hkdz = hkdzValue
+					this.hkdz_qt = hkdzQtValue
+				}
+				//}
+			} else if (!!grda_xzz && !!grda_xzz_qt) {
 				let xzzValue = grda_xzz.value
 				let xzzQtValue = grda_xzz_qt.value
-				console.log('onXzzQtBlur', xzzValue, xzzQtValue)
 				if (xzzQtValue != this.xzz_qt) {
-					this.props.getCurrentAddress(xzzValue, xzzQtValue)
+					this.props.getCurrentAddress(xzzValue, xzzQtValue, flag)
 					this.xzz = xzzValue
 					this.xzz_qt = xzzQtValue
 				}
@@ -144,15 +161,27 @@ class GeneralSituationForm extends React.Component {
 		}
 	}
 
-	onXzzChange = (value) => {
+	onAddrChange = (value, flag) => {
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
 			let grda_xzz_qt = fields.grda_xzz_qt
-			if (!!grda_xzz && !!grda_xzz_qt) {
+			let grda_hkdz = fields.grda_hkdz
+			let grda_hkdz_qt = fields.grda_hkdz_qt
+
+			if (flag == 'hkdz' && !!grda_hkdz_qt) {
+				//if (!grda_xzz && !grda_xzz_qt) {
+				let hkdzQtValue = grda_hkdz_qt.value
+				if (value + '' != this.hkdz + '') {
+					this.props.getCurrentAddress(value, hkdzQtValue, flag)
+					this.hkdz = value
+					this.hkdz_qt = hkdzQtValue
+				}
+				//}
+			} else if (flag == 'xzz' && !!grda_xzz_qt) {
 				let xzzQtValue = grda_xzz_qt.value
 				if (value + '' != this.xzz + '') {
-					this.props.getCurrentAddress(value, xzzQtValue)
+					this.props.getCurrentAddress(value, xzzQtValue, flag)
 					this.xzz = value
 					this.xzz_qt = xzzQtValue
 				}
@@ -213,7 +242,7 @@ class GeneralSituationForm extends React.Component {
 		        	 options={this.curAddressOptions}
 		        	 placeholder="请选择现住址"
 		        	 style={{ width: 322 }}
-		        	 onChange={this.onXzzChange}
+		        	 onChange={(value) => this.onAddrChange(value, 'xzz')}
 		        	 showSearch
 	        	/>
 			)
@@ -224,7 +253,7 @@ class GeneralSituationForm extends React.Component {
 				<Input
 				 placeholder="路（街）"
 				 style={{ width: 150 }}
-				 onBlur={this.onXzzQtBlur}
+				 onBlur={() => this.onAddrOtherBlur('xzz')}
 				/>
 			)
 
@@ -243,6 +272,7 @@ class GeneralSituationForm extends React.Component {
 		        	options={this.censusRegisterOptions}
 		        	placeholder="请选择户籍地址"
 		        	style={{ width: 322 }} 
+		        	onChange={(value) => this.onAddrChange(value, 'hkdz')}
 		        	showSearch
 		       	/>
 			)
@@ -250,7 +280,11 @@ class GeneralSituationForm extends React.Component {
 		/*户口地址 其它*/
 		const grda_hkdz_qt =
 			getFieldDecorator('grda_hkdz_qt')(
-				<Input placeholder="路（街）" style={{ width: 150 }}/>
+				<Input
+				 placeholder="路（街）"
+				 style={{ width: 150 }}
+				 onBlur={() => this.onAddrOtherBlur('hkdz')}
+				/>
 			)
 
 		/*婚姻状况*/

@@ -42,6 +42,12 @@ export function updatePersonalDetail(data) {
 	let postQuery = new PostQuery(data, 'updatePdData', 'boPersonDoc')
 	return postQuery.serialize('updatePersonalDetail');
 }
+/*删除个人基本信息表 @deprecated*/
+export function deletePersonalDetail(data) {
+
+	let postQuery = new PostQuery(data, 'deletePdData', 'boPersonDoc')
+	return postQuery.serialize('deletePersonalDetail');
+}
 
 /*保存健康体检表*/
 export function saveHealthMedical(data) {
@@ -54,6 +60,12 @@ export function updateHealthMedical(data) {
 
 	let postQuery = new PostQuery(data, 'heathUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateHealthMedical');
+}
+/*删除健康体检表 @deprecated*/
+export function deleteHealthMedical(data) {
+
+	let postQuery = new PostQuery(data, 'heathDeleteData', 'boPersonDoc')
+	return postQuery.serialize('deleteHealthMedical');
 }
 
 /*保存高血压专档*/
@@ -68,6 +80,12 @@ export function updateHypertension(data) {
 	let postQuery = new PostQuery(data, 'gxyUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateHypertension');
 }
+/*删除高血压专档*/
+export function deleteHypertension(data) {
+
+	let postQuery = new PostQuery(data, 'gxyDeteleData', 'boPersonDoc')
+	return postQuery.serialize('deleteHypertension');
+}
 
 /*保存糖尿病专档*/
 export function saveDiabetes(data) {
@@ -81,6 +99,12 @@ export function updateDiabetes(data) {
 	let postQuery = new PostQuery(data, 'updateTnbData', 'boPersonDoc')
 	return postQuery.serialize('updateDiabetes');
 }
+/*删除糖尿病专档*/
+export function deleteDiabetes(data) {
+
+	let postQuery = new PostQuery(data, 'tnbDeleteData', 'boPersonDoc')
+	return postQuery.serialize('deleteDiabetes');
+}
 
 /*保存老年人专档*/
 export function saveAged(data) {
@@ -93,6 +117,12 @@ export function updateAged(data) {
 
 	let postQuery = new PostQuery(data, 'lnrUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateAged');
+}
+/*删除老年人专档*/
+export function deleteAged(data) {
+
+	let postQuery = new PostQuery(data, 'lnrDeleteData', 'boPersonDoc')
+	return postQuery.serialize('deleteAged');
 }
 
 /*添加档案标签*/

@@ -126,11 +126,16 @@ export function randomUUID() {
 }
 
 // ------ 设置 Cookie ------ //
-export function setCookie(c_name, value, expiredays) {
+export function setCookie(c_name, value, expiredays = 7) {
   var exdate = new Date()
   exdate.setDate(exdate.getDate() + expiredays)
-  document.cookie = c_name + "=" + escape(value) +
-    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+  document.cookie = c_name + "=" + escape(value) + ";expires=" + exdate.toGMTString()
+}
+
+// ------ 获取 Cookie ------ //
+export function getCookie(name) {
+  var reg = eval("/(?:^|;\\s*)" + name + "=([^=]+)(?:;|$)/");
+  return reg.test(document.cookie) ? RegExp.$1 : "";
 }
 
 // ------ user regards ------ //
@@ -159,15 +164,39 @@ export function regards() {
 // ------ custom private util ------ //
 import {
   message,
-  notification
+  notification,
+  Modal
 } from 'antd'
 
 //http://ant.design/components/message/
-export function notify(type, msg, desc, duration) {
+export function notify(type, msg, desc, duration = 4.5) {
   notification[type]({
     message: msg,
     description: desc,
     duration: duration
+  });
+}
+
+//http://ant.design/components/message/
+export function notifyClsBtn(type, msg, desc, duration, btn, close) {
+  notification[type]({
+    message: msg,
+    description: desc,
+    duration: duration,
+    key: `open${Date.now()}`,
+    btn,
+    onClose: close
+  });
+}
+
+//https://ant.design/components/modal/
+export function showConfirm(title, content, onOk, onCancel) {
+  const confirm = Modal.confirm;
+  confirm({
+    title,
+    content,
+    onOk,
+    onCancel,
   });
 }
 

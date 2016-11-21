@@ -1998,13 +1998,13 @@ export const AS_FORM_WIDGET_CONFIG = {
 		/*档案类型（所属专档、排除专档）*/
 		specArcType: [{
 			key: "hypertension",
-			value: "高血压专档",
+			value: "高血压",
 		}, {
 			key: "diabetes",
-			value: "糖尿病专档",
+			value: "糖尿病",
 		}, {
 			key: "aged",
-			value: "老年人专档",
+			value: "老年人",
 		}, {
 			key: "oncosis",
 			value: "肿瘤病",
@@ -2013,13 +2013,13 @@ export const AS_FORM_WIDGET_CONFIG = {
 			value: "残疾人",
 		}, {
 			key: "femalecare",
-			value: "女性保健专档",
+			value: "女性保健",
 		}, {
 			key: "maternal",
-			value: "孕产妇专档",
+			value: "孕产妇",
 		}, {
 			key: "ddmedical",
-			value: "钉钉医疗档案",
+			value: "钉钉医疗",
 		}],
 		/*重复档案类型*/
 		repeatFileType: [{
@@ -2413,6 +2413,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grdaZyyyqk': {
 				fields: [
 					'id',
+					'ywmc',
 					'yf',
 					'yl',
 					'yysj',

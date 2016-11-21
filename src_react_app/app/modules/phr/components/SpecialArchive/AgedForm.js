@@ -32,6 +32,9 @@ import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
+import {
+	getMomentObj as moment
+} from 'utils'
 
 import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
@@ -140,6 +143,14 @@ class AgedForm extends React.Component {
 		}
 	}
 
+	//下次随访日期自动生成
+	changeFollowUpVisit = (value) => {
+		const fuVisit = 'lnr_xcsfrq'
+		this.props.form.setFieldsValue({
+			[fuVisit]: moment(value).add(3, 'months')
+		})
+	}
+
 	render() {
 		const {
 			onFieldsChange,
@@ -242,7 +253,9 @@ class AgedForm extends React.Component {
 						<Row className="item_inline_spacing">
 							<FormItem label="随访日期" >
 							{getFieldDecorator('lnr_sfrq')(
-								<DatePicker />
+								<DatePicker
+									onChange={this.changeFollowUpVisit}
+								/>
 							)}
 					        </FormItem>
 							<FormItem label="随访方式" >

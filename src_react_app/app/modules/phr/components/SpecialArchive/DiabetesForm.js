@@ -31,6 +31,9 @@ import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 } from 'phr_conf'
+import {
+	getMomentObj as moment
+} from 'utils'
 
 import * as AppActions from 'AppActions'
 import * as PHRAction from 'phr/PHRAction'
@@ -80,6 +83,46 @@ class DiabetesForm extends React.Component {
 
 	componentDidMount = () => {}
 
+	//BMI自动生成
+	changeBMIValue = (value, key) => {
+		const {
+			getFieldsValue,
+			getFieldValue,
+			setFieldsValue
+		} = this.props.form
+
+		const bmi = 'tnb_tz_tzzs'
+		const index = key.indexOf('sg')
+		const underline = key.lastIndexOf('_')
+		const prefix = key.substring(0, underline + 1)
+
+		let weight, height, wValue, hValue
+		if (index > -1) {
+			weight = prefix.concat('tz')
+			wValue = getFieldValue(weight)
+			hValue = value
+		} else {
+			height = prefix.concat('sg')
+			hValue = getFieldValue(height)
+			wValue = value
+		}
+
+		//体质指数（BMI）= 体重（kg）÷ 身高²（m）
+		if (!!wValue && !!hValue) {
+			setFieldsValue({
+				[bmi]: (wValue / Math.pow(hValue * 0.01, 2)).toFixed(1)
+			})
+		}
+	}
+
+	//下次随访日期自动生成
+	changeFollowUpVisit = (value) => {
+		const fuVisit = 'tnb_xcsfrq2'
+		this.props.form.setFieldsValue({
+			[fuVisit]: moment(value).add(3, 'months')
+		})
+	}
+
 	render() {
 		const {
 			onFieldsChange,
@@ -127,7 +170,9 @@ class DiabetesForm extends React.Component {
 							<Row className="item_inline_spacing">
 								<FormItem label="随访日期" >
 					       			{getFieldDecorator('tnb_sfrq2')(
-										<DatePicker />
+										<DatePicker 
+											onChange={this.changeFollowUpVisit}
+										/>
 					       			)}
 						        </FormItem>
 								<FormItem label="随访方式" >
@@ -175,12 +220,20 @@ class DiabetesForm extends React.Component {
 						        </div>
 						        <FormItem label="身高(cm)">
 					       			{getFieldDecorator('tnb_tz_sg')(
-							        	<InputNumber step={0.1} style={{width: 60}}/>
+							        	<InputNumber
+							        	 step={0.1}
+							        	 style={{width: 60}}
+					        		 	 onChange={(value) => this.changeBMIValue(value, 'tnb_tz_sg')}
+							        	/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="体重(kg)">
 					       			{getFieldDecorator('tnb_tz_tz')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber
+						        		 step={0.1}
+						        		 style={{width: 60}}
+					        		 	 onChange={(value) => this.changeBMIValue(value, 'tnb_tz_tz')}
+						        		/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="体质指数(Kg/m²)">

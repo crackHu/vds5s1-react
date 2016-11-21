@@ -35,8 +35,8 @@ class PersonalDetailForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
-	getCurrentAddress = (addressArr, grda_xzz_qt) => {
-		this.props.getIndividualNumbe(addressArr, grda_xzz_qt)
+	getCurrentAddress = (addressArr, addrOther, flag) => {
+		this.props.getIndividualNumbe(addressArr, addrOther, flag)
 	}
 
 	render() {
