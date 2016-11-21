@@ -102,6 +102,7 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, type, func) =
 		})
 		.catch(e => {
 			notify('error', fetchCatchMsg, e.stack.toString());
+			typeof func == 'function' ? func() : null
 			console.error("Oops, error", e)
 			dispatch({
 				type: FETCH_ERROR
