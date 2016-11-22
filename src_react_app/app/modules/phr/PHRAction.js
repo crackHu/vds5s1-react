@@ -18,6 +18,7 @@ import {
 	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
+	CHANGE_LIST_LOAD,
 	CHANGE_SPIN,
 	ADD_ITEM,
 	ADD_SON_ITEM,
@@ -29,6 +30,7 @@ import {
 	ADD_OBJ_ITEM,
 	ADD_LABEL,
 	DEL_LABEL,
+	DEL_STORE_FD,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -193,7 +195,7 @@ export function updateHypertension(data) {
 
 	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
 }
-/*删除高血压专档*/
+/*删除高血压专档 @deprecated*/
 export function deleteHypertension(data) {
 
 	let query = api.deleteHypertension(data)
@@ -215,7 +217,7 @@ export function updateDiabetes(data) {
 
 	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
 }
-/*删除糖尿病专档*/
+/*删除糖尿病专档 @deprecated*/
 export function deleteDiabetes(data) {
 
 	let query = api.deleteDiabetes(data)
@@ -237,7 +239,7 @@ export function updateAged(data) {
 
 	return dispatch => dispatchMethod('updateAged', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
 }
-/*删除老年人专档*/
+/*删除老年人专档 @deprecated*/
 export function deleteAged(data) {
 
 	let query = api.deleteAged(data)
@@ -258,6 +260,13 @@ export function delLabel(grbh, labels) {
 	let query = api.delLabel(grbh, labels)
 
 	return dispatch => dispatchMethod('delLabel', query, dispatch, true, DEL_LABEL, deleteLabel())
+}
+/*删除档案*/
+export function deleteRecode(grbh, labels) {
+
+	let query = api.deleteRecode(grbh, labels)
+
+	return dispatch => dispatchMethod('deleteRecode', query, dispatch, true, DEL_LABEL, delMsg())
 }
 
 /*查询个人详细档案资料*/
@@ -280,7 +289,7 @@ export function searchPHR(pageNo, pageSize, condition) {
 
 	let query = api.searchPHR(pageNo, pageSize, condition)
 
-	return dispatch => dispatchMethod('searchPHR', query, dispatch, true, SEARCH_PHR, null)
+	return dispatch => dispatchMethod('searchPHR', query, dispatch, false, SEARCH_PHR, null)
 }
 
 /*获取个人编号*/
@@ -324,6 +333,14 @@ export function changeArrTableSelectKey(flag, selectKey) {
 export function changeSubmitLoad(flag) {
 	return {
 		type: CHANGE_SUBMIT_LOAD,
+		flag
+	};
+}
+
+/*关闭列表查询状态*/
+export function changeListLoad(flag) {
+	return {
+		type: CHANGE_LIST_LOAD,
 		flag
 	};
 }
@@ -398,4 +415,12 @@ export function onSelectSonChange(selectedRowKeys, selectedRows, sonKey, parentK
 		sonKey,
 		parentKey
 	};
+}
+
+/*删除store记录 key: gxyJxb|tnbSfjl|lnrSfb*/
+export function deleteRecodeStore(key) {
+	return {
+		type: DEL_STORE_FD,
+		key
+	}
 }

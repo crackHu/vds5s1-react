@@ -7,6 +7,7 @@ import {
 	DELETE_ARCHIVES,
 	QUERY_PHR,
 	DELETE_PHR,
+	DEL_STORE_FD,
 	FIELDS_CHANGE,
 	SEARCH_PHR,
 	INDIVIDUAL_NUMBER,
@@ -17,6 +18,7 @@ import {
 	CHANGE_ARRTABLE_SELKEY,
 	FETCH_ERROR,
 	CHANGE_SUBMIT_LOAD,
+	CHANGE_LIST_LOAD,
 	CHANGE_SPIN,
 	ADD_ITEM,
 	ADD_SON_ITEM,
@@ -375,6 +377,10 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, state, {
 				submitloading: flag
 			})
+		case CHANGE_LIST_LOAD:
+			return Object.assign({}, state, {
+				archiveListloading: flag
+			})
 		case CHANGE_SPIN:
 			return Object.assign({}, state, {
 				spin: flag
@@ -587,6 +593,15 @@ const phr = function(state = initialState, action) {
 		case DEL_LABEL:
 			return Object.assign({}, state, {
 				submitloading: false
+			})
+		case DEL_STORE_FD:
+			var key = action.key
+			return Object.assign({}, state, {
+				[FIELDSN]: Object.assign({}, {
+					...stateFields
+				}, {
+					[key]: {}
+				})
 			})
 		default:
 			return state

@@ -262,7 +262,7 @@ class HypertensionTable extends React.Component {
 			key: 'nextFUDate',
 			width: '6%',
 			render: (value, row, index) => {
-				return <span>{gxyCcsffl[index]}</span>
+				return <span>{gxyXcsfrq2[index]}</span>
 			}
 		}];
 

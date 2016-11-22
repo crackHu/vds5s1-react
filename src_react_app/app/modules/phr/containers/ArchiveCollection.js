@@ -356,8 +356,15 @@ class ArchiveCollection extends React.Component {
 
 				const name = this.getActiveName(targetKey)
 				const grbhObj = this.getArchiveGrbh()
+				const grbh = grbhObj.value
+				const spec = this.getSpecArcTypeByCName(name)
 				const onOk = () => {
-					this.props[`delete${targetKey}`]({})
+					if (spec.length == 1) {
+						const containKey = spec[0].containKey
+						this.props.deleteRecode(grbh, name)
+						this.props.deleteRecodeStore(containKey)
+						this.removeTarget(targetKey)
+					} else throw Error('用户专档数量异常')
 				}
 				const onCancel = () => {}
 				showConfirm(`是否移除 ${name} 专档？`, null, onOk, onCancel)
@@ -446,9 +453,15 @@ class ArchiveCollection extends React.Component {
 		return arc[0].name
 	}
 
-	/*获取专档*/
+	/*获取专档 通过containKey(json key)*/
 	getSpecArcTypeByCKey = (ckey) => {
 		const spec = this.specArcType.filter(specArc => specArc.containKey == ckey);
+		return spec
+	}
+
+	/*获取专档 通过专档名字name*/
+	getSpecArcTypeByCName = (cname) => {
+		const spec = this.specArcType.filter(specArc => specArc.name == cname);
 		return spec
 	}
 
@@ -619,18 +632,17 @@ ArchiveCollection.propTypes = {
 
 	saveHypertension: PropTypes.func.isRequired,
 	updateHypertension: PropTypes.func.isRequired,
-	deleteHypertension: PropTypes.func.isRequired,
 
 	saveDiabetes: PropTypes.func.isRequired,
 	updateDiabetes: PropTypes.func.isRequired,
-	deleteDiabetes: PropTypes.func.isRequired,
 
 	saveAged: PropTypes.func.isRequired,
 	updateAged: PropTypes.func.isRequired,
-	deleteAged: PropTypes.func.isRequired,
 
 	addLabel: PropTypes.func.isRequired,
 	delLabel: PropTypes.func.isRequired,
+	deleteRecode: PropTypes.func.isRequired,
+	deleteRecodeStore: PropTypes.func.isRequired,
 
 	changeState: PropTypes.func.isRequired,
 	clearStore: PropTypes.func.isRequired,

@@ -46,7 +46,8 @@ class ArchiveList extends React.Component {
 		curPage: 1,
 		curPageSize: PAGESIZE,
 		isSearch: false,
-		postData: ''
+		postData: '',
+		fieldData: undefined
 	}
 
 	componentWillMount = () => {}
@@ -57,6 +58,10 @@ class ArchiveList extends React.Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log("ArchiveList.componentDidUpdate", prevProps, prevState)
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+		console.log('ArchiveList.componentWillReceiveProps', this.props, nextProps)
 	}
 
 	/*modal event*/
@@ -148,13 +153,15 @@ class ArchiveList extends React.Component {
 				}
 			}
 		})
-
-		postDataStr += " grbh in (select  grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
-
-		//postDataStr = postDataStr.substring(0, postDataStr.length - 4)
+		if (paichuStr || suoshuStr)
+			postDataStr += " j.grbh in (select j.grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
+		else
+			postDataStr = postDataStr.substring(0, postDataStr.length - 4)
 
 		console.log("check post data: ", postDataStr)
-			/*查询接口*/
+
+		/*查询接口*/
+		this.props.changeListLoad(true)
 		this.props.searchPHR(1, this.state.curPageSize, postDataStr)
 		this.setState({
 			curPage: 1,
@@ -166,9 +173,13 @@ class ArchiveList extends React.Component {
 	onFieldsChange = ({
 		fields
 	}) => {
+		const fieldData = this.state.fieldData
 		this.setState({
-			...fields,
-		});
+			fieldData: {
+				...fieldData,
+				...fields
+			},
+		}, console.log('archivelist state', this.state));
 	};
 
 	deleteConfirm = (record) => {
@@ -181,6 +192,7 @@ class ArchiveList extends React.Component {
 		let page = 1
 			//let rows = 10
 		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
+		this.props.changeListLoad(true)
 		if (keyword == '') {
 			this.props.getArchiveList(page, this.state.curPageSize)
 			this.setState({
@@ -300,7 +312,7 @@ class ArchiveList extends React.Component {
 			 modalVisible={this.state.modalVisible}
 			 switchModalVisible={this.switchModalVisible}
 			 sendSearchCondition={this.sendSearchCondition}
-			 fields={this.state}
+			 fields={this.state.fieldData}
 			 onFieldsChange={this.onFieldsChange}
 			/>
 		] : null;
@@ -315,6 +327,7 @@ class ArchiveList extends React.Component {
 					      	{advancedSearch}
 					    </ButtonGroup>
 					    <div style={{float: 'right', margin: "1em"}}>
+					    	请输入条件查询：
 						    <SearchInput placeholder="搜索：编号、姓名"
 							    onSearch={this.searchPHR} style={{ width: 200 }}
 							/>
@@ -339,6 +352,7 @@ ArchiveList.propTypes = {
 	getArchiveList: PropTypes.func.isRequired,
 	deletePHR: PropTypes.func.isRequired,
 	searchPHR: PropTypes.func.isRequired,
+	changeListLoad: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
 }
 

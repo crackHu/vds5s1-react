@@ -59,12 +59,12 @@ class AdvancedSearch extends Component {
 		this.setState({
 			modalLoading: true,
 		});
-		setTimeout(() => {
-			this.setState({
-				modalLoading: false,
-			});
-			this.props.switchModalVisible(false)
-		}, 1500);
+		this.props.switchModalVisible(false)
+			/*setTimeout(() => {
+				this.setState({
+					modalLoading: false,
+				});
+			}, 1500);*/
 	}
 
 	handleCancel = (e) => {
@@ -78,11 +78,22 @@ class AdvancedSearch extends Component {
 		console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		console.log('AdvancedSearch componentWillMount')
+		this.props.form.resetFields([])
+	}
 
-	componentDidMount = () => {}
+	componentDidMount = () => {
+		console.log('AdvancedSearch componentDidMount', this.props)
+	}
 
-	componentDidUpdate = () => {}
+	componentDidUpdate = () => {
+		console.log('AdvancedSearch componentDidUpdate')
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+		console.log('AdvancedSearch componentWillReceiveProps', this.props, nextProps)
+	}
 
 	render() {
 		const FormItem = Form.Item;

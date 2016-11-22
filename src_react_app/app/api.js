@@ -80,7 +80,7 @@ export function updateHypertension(data) {
 	let postQuery = new PostQuery(data, 'gxyUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateHypertension');
 }
-/*删除高血压专档*/
+/*删除高血压专档 @deprecated*/
 export function deleteHypertension(data) {
 
 	let postQuery = new PostQuery(data, 'gxyDeteleData', 'boPersonDoc')
@@ -99,7 +99,7 @@ export function updateDiabetes(data) {
 	let postQuery = new PostQuery(data, 'updateTnbData', 'boPersonDoc')
 	return postQuery.serialize('updateDiabetes');
 }
-/*删除糖尿病专档*/
+/*删除糖尿病专档 @deprecated*/
 export function deleteDiabetes(data) {
 
 	let postQuery = new PostQuery(data, 'tnbDeleteData', 'boPersonDoc')
@@ -118,7 +118,7 @@ export function updateAged(data) {
 	let postQuery = new PostQuery(data, 'lnrUpdateData', 'boPersonDoc')
 	return postQuery.serialize('updateAged');
 }
-/*删除老年人专档*/
+/*删除老年人专档 @deprecated*/
 export function deleteAged(data) {
 
 	let postQuery = new PostQuery(data, 'lnrDeleteData', 'boPersonDoc')
@@ -142,6 +142,15 @@ export function delLabel(grbh, labels) {
 		labels
 	}, 'deleteLabel', 'boPersonDoc')
 	return postQuery.serialize('delLabel');
+}
+/*删除档案*/
+export function deleteRecode(grbh, labels) {
+
+	let postQuery = new PostQuery({
+		grbh,
+		labels
+	}, 'deleteRecode', 'boPersonDoc')
+	return postQuery.serialize('deleteRecode');
 }
 
 

@@ -50,6 +50,9 @@ class MedicalTable6 extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			exception: false
+		}
 
 		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
 
@@ -71,6 +74,21 @@ class MedicalTable6 extends React.Component {
 
 	onAbnormalChange = (e) => {
 		console.log(`radio checked:${e.target.value}`);
+
+		if (e.target.value == '体检无异常') {
+			const grda_ycqk = []
+			for (let i = 1; i < 8; i++) {
+				grda_ycqk.push(`grda_ycqk${i}`)
+			}
+			this.props.form.resetFields(grda_ycqk)
+			this.setState({
+				exception: false
+			})
+		} else {
+			this.setState({
+				exception: true
+			})
+		}
 	}
 
 	onAbnormalAdd = () => {
@@ -147,7 +165,7 @@ class MedicalTable6 extends React.Component {
 				        	<Button onClick={() => this.onAbnormalRemove()}>移除</Button>
 				        </FormItem>			        
 				    </Row>*/}
-					{formItems}	
+					{this.state.exception ? formItems : null}	
 				    {/*<Button
 				     type="primary"
 				     style={{ marginLeft: '75px' }}
