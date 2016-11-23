@@ -15,6 +15,7 @@ import {
 	Card,
 	Popconfirm,
 	Tooltip,
+	Upload,
 } from 'antd';
 import {
 	Link
@@ -31,6 +32,11 @@ import {
 	ARCHIVE_LIST_PAGESIZE as PAGESIZE,
 	AS_FORM_WIDGET_CONFIG as WIDGET_CONFIG
 } from 'phr_conf'
+import {
+	getReqUrl,
+	importPHR,
+	exportPHR,
+} from 'api'
 
 import * as PHRAction from 'phr/PHRAction'
 
@@ -62,6 +68,9 @@ class ArchiveList extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log('ArchiveList.componentWillReceiveProps', this.props, nextProps)
+		if (!!nextProps.phr.delSuc) {
+			this.reflashDataSource()
+		}
 	}
 
 	/*modal event*/
@@ -110,10 +119,11 @@ class ArchiveList extends React.Component {
 						postDataStr += " (j.grda_hkdz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%' or j.grda_xzz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%') and "
 				} else if (key == 'grda_sszd') {
 					if (param[key].length > 0) {
+						suoshuStr = " ( "
 						param[key].map((dataVar) => {
-							suoshuStr += " label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' and "
+							suoshuStr += " label like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' or "
 						})
-						suoshuStr = suoshuStr.substring(0, suoshuStr.length - 4)
+						suoshuStr = suoshuStr.substring(0, suoshuStr.length - 3) + ' ) '
 							//postDataStr += sqlStr + " and "
 					}
 				} else if (key == 'grda_cfda') {
@@ -154,7 +164,7 @@ class ArchiveList extends React.Component {
 			}
 		})
 		if (paichuStr || suoshuStr)
-			postDataStr += " j.grbh in (select j.grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
+			postDataStr += " j.grbh in (select grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
 		else
 			postDataStr = postDataStr.substring(0, postDataStr.length - 4)
 
@@ -188,10 +198,26 @@ class ArchiveList extends React.Component {
 		this.props.deletePHR(ids)
 	}
 
+	reflashDataSource = () => {
+		console.log('reflashDataSource', this.state)
+		const {
+			curPage,
+			curPageSize,
+			isSearch,
+			postData,
+		} = this.state
+
+		this.props.changeListLoad(true)
+		if (isSearch)
+			this.props.searchPHR(curPage, curPageSize, postData)
+		else
+			this.props.getArchiveList(curPage, curPageSize)
+	}
+
 	searchPHR = (keyword) => {
 		let page = 1
 			//let rows = 10
-		let condition = `and j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%'`
+		let condition = `and (j.grbh like '%${keyword}%' or j.grda_xm like '%${keyword}%')`
 		this.props.changeListLoad(true)
 		if (keyword == '') {
 			this.props.getArchiveList(page, this.state.curPageSize)
@@ -279,6 +305,7 @@ class ArchiveList extends React.Component {
 		const loading = archiveProps.archiveListloading
 		console.log('loading', loading)
 		const pagination = data ? {
+			current: this.state.curPage,
 			total: this.props.phr.data.total,
 			showSizeChanger: true,
 			onShowSizeChange: (current, pageSize) => {
@@ -287,6 +314,7 @@ class ArchiveList extends React.Component {
 					curPage: current,
 					curPageSize: pageSize
 				})
+				this.props.changeListLoad(true)
 				if (this.state.isSearch)
 					this.props.searchPHR(current, pageSize, this.state.postData)
 				else
@@ -297,6 +325,7 @@ class ArchiveList extends React.Component {
 				this.setState({
 					curPage: current
 				})
+				this.props.changeListLoad(true)
 				if (this.state.isSearch)
 					this.props.searchPHR(current, this.state.curPageSize, this.state.postData)
 				else
@@ -317,12 +346,36 @@ class ArchiveList extends React.Component {
 			/>
 		] : null;
 
+		const uploadProps = {
+			name: 'file',
+			action: getReqUrl + importPHR({}),
+			headers: {
+				authorization: 'authorization-text',
+			},
+			onChange(info) {
+				console.log('uploadProps', info)
+				if (info.file.status !== 'uploading') {
+					console.log(info.file, info.fileList);
+				}
+				if (info.file.status === 'done') {
+					msg('success', `${info.file.name} file uploaded successfully.`)
+				} else if (info.file.status === 'error') {
+					msg('error', `${info.file.name} file upload failed.`)
+				}
+			},
+		};
+
 		return (
 			<QueueAnim delay={10}>
 				<div className='module' key="buttonGroup">
 					<Card title="档案列表">
+						<Upload {...uploadProps}>
+				      		<Button type="ghost" icon="upload">导入</Button>
+						</Upload>
+						<Upload {...uploadProps} style={{background: '#fff'}}>
+					      	<Button type="ghost" icon="download">导出</Button>
+						</Upload>
 						<ButtonGroup style={{margin: "1em auto"}}>
-					      	<Button icon="download">导入</Button>
 					      	<Button type="primary" icon="search" onClick={this.showModal}>档案查询</Button>
 					      	{advancedSearch}
 					    </ButtonGroup>

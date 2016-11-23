@@ -82,6 +82,11 @@ class HypertensionForm extends React.Component {
 
 	componentDidMount = () => {}
 
+	componentWillReceiveProps = (nextProps) => {
+		console.log('HypertensionForm componentWillReceiveProps', nextProps, this.props)
+		this.genFollowUpVisit()
+	}
+
 	//BMI自动生成
 	changeBMIValue = (value, key) => {
 		const {
@@ -121,6 +126,18 @@ class HypertensionForm extends React.Component {
 			[fuVisit]: moment(value).add(3, 'months')
 		})
 	}
+
+	//下次随访日期自动生成
+	genFollowUpVisit = () => {
+		const gxy_sfrq2 = this.props.form.getFieldValue('gxy_sfrq2')
+		const gxy_xcsfrq2 = this.props.form.getFieldValue('gxy_xcsfrq2')
+		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
+			this.changeFollowUpVisit(gxy_sfrq2)
+		}
+	}
+
+	//检测输入血压数值情况
+	detectHypertensionlv = (value, key) => {}
 
 	render() {
 		const {
@@ -206,13 +223,19 @@ class HypertensionForm extends React.Component {
 										<span>{'血压:'}</span>&nbsp;
 			    						<div className="disline" style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy1')(
-									        	<InputNumber step={0.1} size="large"/>
+									        	<InputNumber
+									        	 onChange={(value) => this.detectHypertensionlv(value, 'gxy_tz_xy1')}
+									        	 step={0.1}
+									        	 size="large"/>
 							       			)}
 								      	</div>
 								      	&nbsp;{' / '}&nbsp;
 							    		<div className="disline" style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy2')(
-								        		<InputNumber step={0.1} size="large"/>
+								        		<InputNumber
+								        		 onChange={(value) => this.detectHypertensionlv(value, 'gxy_tz_xy2')}
+								        		 step={0.1}
+								        		 size="large"/>
 							       			)}
 								      	</div>
 								      	&nbsp;{'mmhg'}
@@ -379,6 +402,24 @@ class HypertensionForm extends React.Component {
 	}
 }
 
+function getFieldsData(fdStore) {
+	let fields = {}
+	try {
+		let selectKey = fdStore['selectKey']
+		for (let key in fdStore) {
+			let value = fdStore[key]
+			if (selectKey == key && value.constructor == Object) {
+				fields = value
+				break
+			}
+		}
+	} catch (e) {
+		throw Error(`getFieldsData => ${e.message}`)
+	}
+	console.log('getFieldsData', fields)
+	return fields
+}
+
 function onFieldsChange(props, fields) {
 	console.log("HypertensionForm onFieldsChange", props, fields)
 	props.onFieldsChange({
@@ -387,22 +428,11 @@ function onFieldsChange(props, fields) {
 }
 
 function mapPropsToFields(props) {
-	console.log("HypertensionForm mapPropsToFields", props)
-
 	const {
 		gxyJxb,
 	} = props.phr[FNAME]
-
-	let fields = {}
-	let selectKey = gxyJxb['selectKey']
-	for (let key in gxyJxb) {
-		let gxyJxb_value = gxyJxb[key]
-		if (selectKey == key && gxyJxb_value.constructor == Object) {
-			fields = gxyJxb_value
-			break
-		}
-	}
-	console.log('HypertensionForm mapPropsToFields fields', fields, selectKey)
+	const fields = getFieldsData(gxyJxb)
+	console.log("HypertensionForm mapPropsToFields", props, fields)
 	return fields
 }
 

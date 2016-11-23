@@ -83,6 +83,11 @@ class DiabetesForm extends React.Component {
 
 	componentDidMount = () => {}
 
+	componentWillReceiveProps = (nextProps) => {
+		console.log('DiabetesForm componentWillReceiveProps', nextProps, this.props)
+		this.genFollowUpVisit()
+	}
+
 	//BMI自动生成
 	changeBMIValue = (value, key) => {
 		const {
@@ -121,6 +126,15 @@ class DiabetesForm extends React.Component {
 		this.props.form.setFieldsValue({
 			[fuVisit]: moment(value).add(3, 'months')
 		})
+	}
+
+	//下次随访日期自动生成
+	genFollowUpVisit = () => {
+		const gxy_sfrq2 = this.props.form.getFieldValue('tnb_sfrq2')
+		const gxy_xcsfrq2 = this.props.form.getFieldValue('tnb_xcsfrq2')
+		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
+			this.changeFollowUpVisit(gxy_sfrq2)
+		}
 	}
 
 	render() {
@@ -403,6 +417,24 @@ class DiabetesForm extends React.Component {
 	}
 }
 
+function getFieldsData(fdStore) {
+	let fields = {}
+	try {
+		let selectKey = fdStore['selectKey']
+		for (let key in fdStore) {
+			let value = fdStore[key]
+			if (selectKey == key && value.constructor == Object) {
+				fields = value
+				break
+			}
+		}
+	} catch (e) {
+		throw Error(`getFieldsData => ${e.message}`)
+	}
+	console.log('getFieldsData', fields)
+	return fields
+}
+
 function onFieldsChange(props, fields) {
 	console.log("DiabetesForm onFieldsChange", props, fields)
 	props.onFieldsChange({
@@ -411,21 +443,11 @@ function onFieldsChange(props, fields) {
 }
 
 function mapPropsToFields(props) {
-	console.log("DiabetesForm mapPropsToFields", props)
-
 	const {
 		tnbSfjl,
 	} = props.phr[FNAME]
-
-	let fields = {}
-	let selectKey = tnbSfjl['selectKey']
-	for (let key in tnbSfjl) {
-		let tnbSfjl_value = tnbSfjl[key]
-		if (selectKey == key && tnbSfjl_value.constructor == Object) {
-			fields = tnbSfjl_value
-			break
-		}
-	}
+	const fields = getFieldsData(tnbSfjl)
+	console.log("DiabetesForm mapPropsToFields", props, fields)
 	return fields
 }
 

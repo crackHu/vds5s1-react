@@ -2311,6 +2311,9 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			/*录入日期*/
 			'grda_lrrq',
 
+			/*责任医生*/
+			'grda_zrys',
+
 			/*家族史选项卡*/
 			/*残疾情况*/
 			'grda_cjqk',

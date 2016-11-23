@@ -432,6 +432,12 @@ class GeneralSituationForm extends React.Component {
 	          	/>
 			)
 
+		/*责任医生*/
+		const grda_zrys =
+			getFieldDecorator('grda_zrys')(
+				<Input style={{ width: 120 }}/>
+			)
+
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
 				
@@ -557,6 +563,11 @@ class GeneralSituationForm extends React.Component {
 		        </FormItem>				
 		        <FormItem label="录入日期">
 		        	{grda_lrrq}
+		        </FormItem>
+		        <br />
+		        <br />
+		        <FormItem label="&nbsp;&nbsp;&nbsp;责任医生">
+		        	{grda_zrys}
 		        </FormItem>
 		        <br />
 		        <br />

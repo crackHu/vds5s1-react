@@ -312,7 +312,9 @@ const phr = function(state = initialState, action) {
 				}
 			})
 		case DELETE_PHR:
-			return data
+			return Object.assign({}, initialState, state, {
+				delSuc: resultCode > 0,
+			})
 		case SAVE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
@@ -379,7 +381,8 @@ const phr = function(state = initialState, action) {
 			})
 		case CHANGE_LIST_LOAD:
 			return Object.assign({}, state, {
-				archiveListloading: flag
+				archiveListloading: flag,
+				delSuc: undefined
 			})
 		case CHANGE_SPIN:
 			return Object.assign({}, state, {

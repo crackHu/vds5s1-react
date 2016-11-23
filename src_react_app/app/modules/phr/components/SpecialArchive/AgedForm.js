@@ -99,6 +99,11 @@ class AgedForm extends React.Component {
 
 	componentDidMount = () => {}
 
+	componentWillReceiveProps = (nextProps) => {
+		console.log('AgedForm componentWillReceiveProps', nextProps, this.props)
+		this.genFollowUpVisit()
+	}
+
 	/*handleRateChange = (rateValue, key) => {
 		this.setState({
 			[key]: rateValue
@@ -149,6 +154,15 @@ class AgedForm extends React.Component {
 		this.props.form.setFieldsValue({
 			[fuVisit]: moment(value).add(3, 'months')
 		})
+	}
+
+	//下次随访日期自动生成
+	genFollowUpVisit = () => {
+		const gxy_sfrq2 = this.props.form.getFieldValue('lnr_sfrq')
+		const gxy_xcsfrq2 = this.props.form.getFieldValue('lnr_xcsfrq')
+		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
+			this.changeFollowUpVisit(gxy_sfrq2)
+		}
 	}
 
 	render() {
@@ -334,6 +348,24 @@ class AgedForm extends React.Component {
 	}
 }
 
+function getFieldsData(fdStore) {
+	let fields = {}
+	try {
+		let selectKey = fdStore['selectKey']
+		for (let key in fdStore) {
+			let value = fdStore[key]
+			if (selectKey == key && value.constructor == Object) {
+				fields = value
+				break
+			}
+		}
+	} catch (e) {
+		throw Error(`getFieldsData => ${e.message}`)
+	}
+	console.log('getFieldsData', fields)
+	return fields
+}
+
 function onFieldsChange(props, fields) {
 	console.log("AgedForm onFieldsChange", props, fields)
 	props.onFieldsChange({
@@ -342,21 +374,11 @@ function onFieldsChange(props, fields) {
 }
 
 function mapPropsToFields(props) {
-	console.log("AgedForm mapPropsToFields", props)
-
 	const {
 		lnrSfb,
 	} = props.phr[FNAME]
-
-	let fields = {}
-	let selectKey = lnrSfb['selectKey']
-	for (let key in lnrSfb) {
-		let lnrSfb_value = lnrSfb[key]
-		if (selectKey == key && lnrSfb_value.constructor == Object) {
-			fields = lnrSfb_value
-			break
-		}
-	}
+	const fields = getFieldsData(lnrSfb)
+	console.log("AgedForm mapPropsToFields", props, fields)
 	return fields
 }
 

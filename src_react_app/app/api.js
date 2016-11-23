@@ -205,6 +205,22 @@ export function getIndividualNumbe(data) {
 	return postQuery.serialize('getIndividualNumbe');
 }
 
+/*导入*/
+export function importPHR(data) {
+
+	let postQuery = new PostQuery(data, 'importAllExcel', 'boExport')
+
+	return postQuery.serialize('import');
+}
+
+/*导出*/
+export function exportPHR(data) {
+
+	let postQuery = new PostQuery(data, 'exportAllExcel', 'boExport')
+
+	return postQuery.serialize('export');
+}
+
 /*获取档案年龄百分比*/
 export function API_getAgePercent() {
 	const query = {
