@@ -266,15 +266,20 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
         //日期
         obj[field] = !!value ? value.format(date_format) : '0000-00-00 00:00:00'
       } else if (isNoValueAttrObj(value)) {
-        //嵌套的子表 e.g.体检表的自由用药表
-        for (let arrField in arrObjFields) {
-          if (arrField == field) {
-            let arrFields = arrObjFields[arrField].fields
-            let delField = arrObjFields[arrField].delField
-            let delState = stateField[delField]
-            obj[field] = getFieldsArr(arrFields, stateField, date_format)
-              //obj[delField] = !!delState && delState.length > 0 ? delState.concat(delState) : []
+        let type = typeof value
+        if (type == 'undefined') {
+          //嵌套的子表 e.g.体检表的自由用药表
+          for (let arrField in arrObjFields) {
+            if (arrField == field) {
+              let arrFields = arrObjFields[arrField].fields
+              let delField = arrObjFields[arrField].delField
+              let delState = stateField[delField]
+              obj[field] = getFieldsArr(arrFields, stateField, date_format)
+                //obj[delField] = !!delState && delState.length > 0 ? delState.concat(delState) : []
+            }
           }
+        } else if (type == 'string') {
+          //value为空字符串不作处理
         }
       } else {
         obj[field] = value
@@ -414,9 +419,13 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
   if (!!doutArrObj && doutArrObj.length > 0)
     doutArrObj.forEach((fieldsObj, index) => {
       let fieldKey
+
+      /*用作唯一标识*/
+      let timestamp_ = Date.now()
       for (let field in fieldsObj) {
         if (field == fieldFlag) {
           fieldKey = fieldsObj[fieldFlag]
+          fieldKey = timestamp_
         }
       }
       let valueObj = getFieldsValueObj(fieldsObj, fields)
@@ -425,6 +434,7 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
         for (let arr in arrFields) {
           obj[fieldKey][arr] = getFieldsValueArrObj(valueObj[arr].value, arrFields[arr].fields)
         }
+        obj[fieldKey]['timestamp_'] = timestamp_
       }
     })
   for (let date in obj) {
@@ -771,6 +781,11 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
         } else if (typeof value == 'object') {
           //日期
           !!value ? obj[field].push(value.format(date_format)) : ''
+        } else if (typeof value == 'undefined') {
+          //自定义的属性
+          if (field == 'timestamp_') {
+            obj[field].push(fieldArrObj[field])
+          }
         } else {
           obj[field].push(value)
         }

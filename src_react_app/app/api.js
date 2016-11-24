@@ -144,13 +144,13 @@ export function delLabel(grbh, labels) {
 	return postQuery.serialize('delLabel');
 }
 /*删除档案*/
-export function deleteRecode(grbh, labels) {
+export function delRecord(grbh, labels) {
 
 	let postQuery = new PostQuery({
 		grbh,
 		labels
 	}, 'deleteRecode', 'boPersonDoc')
-	return postQuery.serialize('deleteRecode');
+	return postQuery.serialize('delRecord');
 }
 
 

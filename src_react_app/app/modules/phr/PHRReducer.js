@@ -7,6 +7,7 @@ import {
 	DELETE_ARCHIVES,
 	QUERY_PHR,
 	DELETE_PHR,
+	DEL_STORE_LABELS,
 	DEL_STORE_FD,
 	FIELDS_CHANGE,
 	SEARCH_PHR,
@@ -50,9 +51,9 @@ import {
 	getLoginUser
 } from 'utils'
 
-const today = moment(new Date())
-console.log('heheheheheheh', today)
-const todayStr = today.format(DATE_FORMAT_STRING)
+const today_ts = Date.now()
+const today_obj = moment(new Date())
+const today_str = today_obj.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName
 const FIELDSN = FIELDS.name
 let initialState = {
@@ -70,10 +71,10 @@ let initialState = {
 				value: moment('1950-1-1')
 			},
 			grda_jdrq: {
-				value: today
+				value: today_obj
 			},
 			grda_lrrq: {
-				value: today
+				value: today_obj
 			},
 			grda_jdys: {
 				value: username || 'admin'
@@ -272,7 +273,8 @@ const phr = function(state = initialState, action) {
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
 			let grdaJkzkFields = FIELDS['grdaJkzk']
-			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
+				//grda_tjrq
+			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'id', grdaJkzkFields['arrFields'])
 			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
 
 			let gxyJxbFields = FIELDS['gxyJxb']
@@ -449,20 +451,22 @@ const phr = function(state = initialState, action) {
 				}
 			})
 		case ADD_OBJ_ITEM:
+			const today_ts = Date.now()
+			const today_obj = moment(new Date())
 			var stateFlag = stateFields[flag]
 			var selectKey
 			var selectKey_ = stateFlag.selectKey
 			if (!!selectKey_) {
-				selectKey = moment(selectKey_).add(1, 'days')
-					//selectKey = moment(new Date())
+				//selectKey = moment(selectKey_).add(1, 'days')
+				selectKey = today_obj
 			} else {
-				selectKey = today.subtract(7, 'days')
-					//selectKey = moment(new Date())
+				//selectKey = today_obj.subtract(7, 'days')
+				selectKey = today_obj
 			}
-			var selectDay = selectKey.format(DATE_FORMAT_STRING)
-				//selectDay = Date.now()
+			//var selectDay = selectKey.format(DATE_FORMAT_STRING)
+			var selectDay = today_ts
 			var grbh = stateFields['grdaJbzl']['grbh'] || null
-			console.log(ADD_OBJ_ITEM, selectKey, selectKey.format(DATE_FORMAT_STRING), today.format(DATE_FORMAT_STRING))
+			console.log(ADD_OBJ_ITEM, selectKey, selectKey.format(DATE_FORMAT_STRING), today_obj.format(DATE_FORMAT_STRING))
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,
@@ -472,6 +476,7 @@ const phr = function(state = initialState, action) {
 							[action.recordKey]: {
 								value: selectKey
 							},
+							timestamp_: today_ts,
 							grbh,
 						},
 						selectKey: selectDay,
@@ -597,13 +602,30 @@ const phr = function(state = initialState, action) {
 			return Object.assign({}, state, {
 				submitloading: false
 			})
-		case DEL_STORE_FD:
-			var key = action.key
+		case DEL_STORE_LABELS:
+			var del_labels = action.labels
+			var labels = stateFields.labels
+			console.log(DEL_STORE_LABELS, labels.filter(label => !del_labels.includes(label)))
 			return Object.assign({}, state, {
 				[FIELDSN]: Object.assign({}, {
 					...stateFields
 				}, {
-					[key]: {}
+					labels: labels.filter(label => !del_labels.includes(label))
+				})
+			})
+		case DEL_STORE_FD:
+			var containKey = action.containKey
+			var recordKey = action.recordKey
+
+			return Object.assign({}, state, {
+				[FIELDSN]: Object.assign({}, {
+					...stateFields
+				}, {
+					[containKey]: {},
+					[recordKey]: {
+						selectedRowKeys: [],
+						objSize: []
+					},
 				})
 			})
 		default:

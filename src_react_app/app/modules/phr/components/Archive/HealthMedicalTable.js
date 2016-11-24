@@ -166,13 +166,17 @@ class HealthMedicalTable extends React.Component {
 		const {
 			updatestate
 		} = this.props.phr
+
 		const RECORD_TABLE = this.props.phr[FIELDSN][RECORD_TAB]
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
 		const grdaTjrq = !empty ? !!jlRecord.grda_tjrq ? jlRecord.grda_tjrq : [] : []
 		const grdaJkpj = !empty ? !!jlRecord.grda_jkpj ? jlRecord.grda_jkpj : [] : []
 		const grdaJkzd = !empty ? !!jlRecord.grda_jkzd ? jlRecord.grda_jkzd : [] : []
-
+		const timestamp_ = !empty ? !!jlRecord.timestamp_ ? jlRecord.timestamp_ : [] : []
+		console.log('asdfasdfasdf', timestamp_, timestamp_[0])
+		console.log('asdfasdfasdf', grdaTjrq, grdaTjrq[0])
+		console.log('asdfasdfasdf', grdaJkzd, grdaJkzd[0])
 		const columns = [{
 			title: '体检日期',
 			dataIndex: 'medicalDate',
@@ -205,7 +209,7 @@ class HealthMedicalTable extends React.Component {
 				width: '10%',
 				render: (value, row, index) => {
 					return (<div>
-								<a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, grdaTjrq[index], index)}>查看</a>
+								<a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}>查看</a>
 							</div>)
 				}
 			})

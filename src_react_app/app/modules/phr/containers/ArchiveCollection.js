@@ -21,6 +21,7 @@ import * as AppActions from 'AppActions'
 import * as PHRAction from '../PHRAction'
 
 import {
+	__DEBUG__,
 	msg,
 	notify,
 	notifyClsBtn,
@@ -97,9 +98,7 @@ class ArchiveCollection extends React.Component {
 					//专档对象且属性不止selectKey一个
 					if (Object.getOwnPropertyNames(fieldObj).length > 1) {
 						let spec = this.getSpecArcTypeByCKey(field)
-						if (spec.length == 1) {
-							usersArc.push(spec[0])
-						} else throw Error('用户专档数量异常')
+						usersArc.push(spec)
 					}
 				}
 			}
@@ -341,12 +340,22 @@ class ArchiveCollection extends React.Component {
 		}
 		/*})*/
 
-		let tagArc = this.isLabelTagArc(targetKey, true)
-		if (!!tagArc && !!tagArc['labelTag'] && this.props.phr.updatestate) {
+		let grbh
+		let isTag = this.isLabelTagArc(targetKey)
+		try {
+			grbh = this.getArchiveGrbh().value
+		} catch (e) {
+			console.warn('没有找到该用户个人编号，直接删除选项卡了哦')
+			this.removeTarget(targetKey)
+			return
+		}
+
+		if (isTag && this.props.phr.updatestate) {
+			let tagArc = this.isLabelTagArc(targetKey, true)
 			const name = tagArc.name
-			const grbhObj = this.getArchiveGrbh()
 			const onOk = () => {
-				this.props.delLabel(grbhObj.value, [tagArc.name])
+				this.props.delLabel(grbh, [tagArc.name])
+				this.props.delLabelStore([tagArc.name])
 				this.removeTarget(targetKey)
 			}
 			const onCancel = () => {}
@@ -355,16 +364,15 @@ class ArchiveCollection extends React.Component {
 			if (deleteAbled) {
 
 				const name = this.getActiveName(targetKey)
-				const grbhObj = this.getArchiveGrbh()
-				const grbh = grbhObj.value
 				const spec = this.getSpecArcTypeByCName(name)
 				const onOk = () => {
-					if (spec.length == 1) {
-						const containKey = spec[0].containKey
-						this.props.deleteRecode(grbh, name)
-						this.props.deleteRecodeStore(containKey)
-						this.removeTarget(targetKey)
-					} else throw Error('用户专档数量异常')
+					const containKey = spec.containKey
+					const recordKey = spec.recordKey
+
+					//huyg todo
+					this.props.delRecord(grbh, name)
+					this.props.delRecordStore(containKey, recordKey)
+					this.removeTarget(targetKey)
 				}
 				const onCancel = () => {}
 				showConfirm(`是否移除 ${name} 专档？`, null, onOk, onCancel)
@@ -410,16 +418,16 @@ class ArchiveCollection extends React.Component {
 		let isTagArc = !!tagArc && !!tagArc['labelTag']
 
 		if (hasNotExist) {
-			if (isTagArc) {
-				//标签档案
-				if (this.judgeBAExistAndNotify(tabKey, true)) {
+			if (this.judgeBAExistAndNotify(tabKey, true)) {
+				if (isTagArc) {
+					//标签档案
 					const grbhObj = this.getArchiveGrbh()
 					this.props.addLabel(grbhObj.value, [tagArc.name])
 					this.addTab(tabKey)
-				} else return
-			} else {
-				this.addTab(tabKey)
-			}
+				} else {
+					this.addTab(tabKey)
+				}
+			} else return
 		} else {
 			if (isTagArc) {
 				msg('warn', '标签已存在', 3)
@@ -448,32 +456,50 @@ class ArchiveCollection extends React.Component {
 
 	/*获取激活档案名字*/
 	getActiveName = (activeKey) => {
-		const arc = this.state.arcType.filter(arc => arc.key == activeKey);
-		console.log('getActiveName', arc, activeKey)
-		return arc[0].name
+		const arcArr = this.state.arcType.filter(arc => arc.key == activeKey);
+		const arc = this.getArcObj(arcArr)
+		return arc.name
 	}
 
 	/*获取专档 通过containKey(json key)*/
 	getSpecArcTypeByCKey = (ckey) => {
-		const spec = this.specArcType.filter(specArc => specArc.containKey == ckey);
+		const specArr = this.specArcType.filter(specArc => specArc.containKey == ckey);
+		const spec = this.getArcObj(specArr)
 		return spec
 	}
 
 	/*获取专档 通过专档名字name*/
 	getSpecArcTypeByCName = (cname) => {
-		const spec = this.specArcType.filter(specArc => specArc.name == cname);
+		const specArr = this.specArcType.filter(specArc => specArc.name == cname);
+		const spec = this.getArcObj(specArr)
 		return spec
 	}
 
-	/*获取专档*/
-	getSpecArcTypeByKey = (key) => {
-		const spec = this.specArcType.filter(specArc => specArc.key == key);
+	/*获取专档 通过key*/
+	getSpecArcTypeByKey = (key, boolean = true) => {
+		const specArr = this.specArcType.filter(specArc => specArc.key == key);
+		const spec = this.getArcObj(specArr, boolean)
 		return spec
+	}
+
+	/*获取配置的档案对象 @boolean 是否校验*/
+	getArcObj = (arcArr, boolean = true) => {
+		if (boolean) {
+			if (!arcArr || arcArr.length == 0) {
+				throw Error('查询不到用户档案')
+			} else if (arcArr.length != 1) {
+				throw Error('用户档案数量异常')
+			} else {
+				return arcArr[0]
+			}
+		} else {
+			return arcArr[0]
+		}
 	}
 
 	/*判断是否标签档案 boolean是否返回对象*/
 	isLabelTagArc = (key, boolean = false) => {
-		const spec = this.getSpecArcTypeByKey(key)[0]
+		const spec = this.getSpecArcTypeByKey(key, false)
 		if (boolean) {
 			return spec
 		}
@@ -641,8 +667,9 @@ ArchiveCollection.propTypes = {
 
 	addLabel: PropTypes.func.isRequired,
 	delLabel: PropTypes.func.isRequired,
-	deleteRecode: PropTypes.func.isRequired,
-	deleteRecodeStore: PropTypes.func.isRequired,
+	delRecord: PropTypes.func.isRequired,
+	delRecordStore: PropTypes.func.isRequired,
+	delLabelStore: PropTypes.func.isRequired,
 
 	changeState: PropTypes.func.isRequired,
 	clearStore: PropTypes.func.isRequired,

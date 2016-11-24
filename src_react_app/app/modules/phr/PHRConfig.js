@@ -60,18 +60,21 @@ export const ARC_TYPE_CONFIG = {
 		content: 'SpecialArchive/HypertensionForm',
 		key: "Hypertension",
 		containKey: 'gxyJxb',
+		recordKey: 'gxyjl',
 		disabled: false,
 	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
 		key: "Diabetes",
 		containKey: 'tnbSfjl',
+		recordKey: 'tnbjl',
 		disabled: false,
 	}, {
 		name: "老年人专档",
 		content: 'SpecialArchive/AgedForm',
 		key: "Aged",
 		containKey: 'lnrSfb',
+		recordKey: 'lnrjl',
 		disabled: false,
 	}, {
 		name: "肿瘤病",
@@ -2459,6 +2462,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	//健康体检表-健康记录表(自定义，非服务端返回)
 	grdaJkjl: {
 		fields: [
+			'timestamp_',
 			'grda_tjrq',
 			'grda_jkpj',
 			'grda_jkzd',
@@ -2492,6 +2496,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	//高血压-记录表(自定义，非服务端返回)
 	gxyjl: {
 		fields: [
+			'timestamp_',
 			'gxy_sfrq2',
 			'gxy_sffs',
 			'gxy_zz',
@@ -2535,6 +2540,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	//糖尿病-记录表(自定义，非服务端返回)
 	tnbjl: {
 		fields: [
+			'timestamp_',
 			'tnb_sfrq2',
 			'tnb_sffs',
 			'tnb_zz',
@@ -2564,6 +2570,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 	//老年人-记录表(自定义，非服务端返回)
 	lnrjl: {
 		fields: [
+			'timestamp_',
 			'lnr_sfrq',
 			'lnr_jc',
 			'lnr_jcpf',

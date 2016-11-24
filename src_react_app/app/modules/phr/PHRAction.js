@@ -30,6 +30,7 @@ import {
 	ADD_OBJ_ITEM,
 	ADD_LABEL,
 	DEL_LABEL,
+	DEL_STORE_LABELS,
 	DEL_STORE_FD,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
@@ -262,11 +263,11 @@ export function delLabel(grbh, labels) {
 	return dispatch => dispatchMethod('delLabel', query, dispatch, true, DEL_LABEL, deleteLabel())
 }
 /*删除档案*/
-export function deleteRecode(grbh, labels) {
+export function delRecord(grbh, labels) {
 
-	let query = api.deleteRecode(grbh, labels)
+	let query = api.delRecord(grbh, labels)
 
-	return dispatch => dispatchMethod('deleteRecode', query, dispatch, true, DEL_LABEL, delMsg())
+	return dispatch => dispatchMethod('delRecord', query, dispatch, true, DEL_LABEL, delMsg())
 }
 
 /*查询个人详细档案资料*/
@@ -417,10 +418,19 @@ export function onSelectSonChange(selectedRowKeys, selectedRows, sonKey, parentK
 	};
 }
 
+/*删除store记录 key: 肿瘤病|残疾人|女性保健专档|孕产妇专档*/
+export function delLabelStore(labels) {
+	return {
+		type: DEL_STORE_LABELS,
+		labels
+	}
+}
+
 /*删除store记录 key: gxyJxb|tnbSfjl|lnrSfb*/
-export function deleteRecodeStore(key) {
+export function delRecordStore(containKey, recordKey) {
 	return {
 		type: DEL_STORE_FD,
-		key
+		containKey,
+		recordKey
 	}
 }
