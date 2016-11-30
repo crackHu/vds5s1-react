@@ -35,7 +35,8 @@ import {
 } from 'utils'
 import {
 	DATE_FORMAT_STRING,
-	TAB_ANIMATED
+	TAB_ANIMATED,
+	UUID_ENABLE
 } from 'config'
 import {
 	ARC_TYPE_CONFIG,
@@ -63,6 +64,7 @@ class ArchiveCollection extends React.Component {
 		submitloading: false,
 		title: undefined,
 		operatText: undefined,
+		showFixSaveBtn: false
 	}
 
 	componentWillMount = () => {
@@ -79,6 +81,14 @@ class ArchiveCollection extends React.Component {
 
 	componentDidMount = () => {
 		console.log('ArchiveCollection.state', this.state, this.props)
+
+		window.onscroll = () => {
+			let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			let showFixSaveBtn = scrollTop != 0 ? true : false
+			this.setState({
+				showFixSaveBtn
+			})
+		}
 	}
 
 	componentWillReceiveProps = (nextProps) => {
@@ -125,6 +135,9 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentWillUnmount = () => {
+
+		window.onscroll = null
+
 		/*离开这个页面时 修改主表保存状态*/
 		this.props.changeMasterSaved(false)
 	}
@@ -145,8 +158,9 @@ class ArchiveCollection extends React.Component {
 		let grbhObj = this.getArchiveGrbh()
 		let grbh = !!grbhObj ? grbhObj.value : null
 		let flag = updatestate ? 'update' : 'save'
+		let ids
 
-		if (this.judgeBAExistAndNotify(activeKey, true)) {
+		if (__DEBUG__ || this.judgeBAExistAndNotify(activeKey, true)) {
 			switch (activeKey) {
 				case 'PersonalDetail':
 					let grdaJbzlFields = FIELDS.grdaJbzl.fields
@@ -157,57 +171,97 @@ class ArchiveCollection extends React.Component {
 					let grdaJwsState = phr[FIELDSN].grdaJws
 					let grdaJzsState = phr[FIELDSN].grdaJzs
 
-					let grdaJbzl = getFieldsObj(grdaJbzlFields, grdaJbzlState, DATE_FORMAT_STRING)
+					let grdaJbzl = getFieldsObj(grdaJbzlFields, grdaJbzlState, DATE_FORMAT_STRING, flag)
 					adjustGrdaJbzlField(grdaJbzl)
-					let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING)
-					let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING)
+					let grdaJws = getFieldsArr(grdaJwsFields, grdaJwsState, DATE_FORMAT_STRING, flag, true)
+					let grdaJzs = getFieldsArr(grdaJzsFields, grdaJzsState, DATE_FORMAT_STRING, flag, true)
+
+					//2016年11月28日 添加uuid
+					ids = this.getMasterIds(flag, grdaJbzl, grdaJws, grdaJzs)
+
+					console.info('submit ids', '=>', ids)
+					console.info('submit grdaJbzl', '=>', grdaJbzl)
+					console.info('submit grdaJws', '=>', grdaJws)
+					console.info('submit grdaJzs', '=>', grdaJzs)
 
 					// save|update PersonalDetail 基本档
 					this.props[`${flag}${activeKey}`]({
 						grdaJbzl,
 						grdaJws,
 						grdaJzs
-					})
+					}, ids)
 					break
 				case 'HealthMedical':
 					var key = 'grdaJkzk'
-					var grdaJkzkState = phr[FIELDSN].grdaJkzk
-					var arrObjFields = FIELDS.grdaJkzk.arrFields
-					var grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING, key)
 					flag = this.isArchiveUpdateState(key)
+					var grdaJkzkState = phr[FIELDSN].grdaJkzk
+					var arrObjFields = FIELDS[key].arrFields
+					var arrFields = Object.keys(arrObjFields || {})
+					var grdaJkzk = getFieldsObjArr(grdaJkzkState, arrObjFields, DATE_FORMAT_STRING, key, flag)
+
+					//2016年11月28日 添加uuid
+					ids = this.getIds(flag, grdaJkzk, key, arrFields)
+
+					console.info('submit ids', '=>', ids)
+					console.info('submit arrFields', '=>', arrFields)
+					console.info('submit grdaJkzk', '=>', grdaJkzk)
 
 					// save|update HealthMedical 健康体检表
-					this.props[`${flag}${activeKey}`](grdaJkzk)
+					this.props[`${flag}${activeKey}`](key, grdaJkzk, ids)
 					break
 				case 'Hypertension':
 					var key = 'gxyJxb'
-					var gxyJxbState = phr[FIELDSN].gxyJxb
-					var arrObjFields = FIELDS.gxyJxb.arrFields
-					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING, key)
 					flag = this.isArchiveUpdateState(key)
+					var gxyJxbState = phr[FIELDSN].gxyJxb
+					var arrObjFields = FIELDS[key].arrFields
+					var arrFields = Object.keys(arrObjFields || {})
+					var gxyJxb = getFieldsObjArr(gxyJxbState, arrObjFields, DATE_FORMAT_STRING, key, flag)
+
+					//2016年11月28日 添加uuid
+					ids = this.getIds(flag, gxyJxb, key, arrFields)
+
+					console.info('submit ids', '=>', ids)
+					console.info('submit arrFields', '=>', arrFields)
+					console.info('submit gxyJxb', '=>', gxyJxb)
 
 					// save|update Hypertension 高血压
-					this.props[`${flag}${activeKey}`](gxyJxb)
+					this.props[`${flag}${activeKey}`](key, gxyJxb, ids)
 					break
 				case 'Diabetes':
 					var key = 'tnbSfjl'
-					var tnbSfjlState = phr[FIELDSN].tnbSfjl
-					var arrObjFields = FIELDS.tnbSfjl.arrFields
-					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING, key)
 					flag = this.isArchiveUpdateState(key)
+					var tnbSfjlState = phr[FIELDSN].tnbSfjl
+					var arrObjFields = FIELDS[key].arrFields
+					var arrFields = Object.keys(arrObjFields || {})
+					var tnbSfjl = getFieldsObjArr(tnbSfjlState, arrObjFields, DATE_FORMAT_STRING, key, flag)
+
+					//2016年11月28日 添加uuid
+					ids = this.getIds(flag, tnbSfjl, key, arrFields)
+
+					console.info('submit ids', '=>', ids)
+					console.info('submit arrFields', '=>', arrFields)
+					console.info('submit tnbSfjl', '=>', tnbSfjl)
 
 					// save|update Diabetes 糖尿病
-					this.props[`${flag}${activeKey}`](tnbSfjl)
+					this.props[`${flag}${activeKey}`](key, tnbSfjl, ids)
 					break
 				case 'Aged':
 					var key = 'lnrSfb'
-					var lnrSfbState = phr[FIELDSN].lnrSfb
-					var arrObjFields = FIELDS.lnrSfb.arrFields
-					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING, key)
 					flag = this.isArchiveUpdateState(key)
+					var lnrSfbState = phr[FIELDSN].lnrSfb
+					var arrObjFields = FIELDS[key].arrFields
+					var arrFields = Object.keys(arrObjFields || {})
+					var lnrSfb = getFieldsObjArr(lnrSfbState, arrObjFields, DATE_FORMAT_STRING, key, flag)
+
+					//2016年11月28日 添加uuid
+					ids = this.getIds(flag, lnrSfb, key, arrFields)
+
+					console.info('submit ids', '=>', ids)
+					console.info('submit arrFields', '=>', arrFields)
+					console.info('submit lnrSfb', '=>', lnrSfb)
 
 					// save|update HealthMedical 老年人
-					this.props[`${flag}${activeKey}`](lnrSfb)
+					this.props[`${flag}${activeKey}`](key, lnrSfb, ids)
 					break
 				case 'Oncosis':
 					//肿瘤病
@@ -239,6 +293,98 @@ class ArchiveCollection extends React.Component {
 		console.log('onFieldsChange', fields, flag)
 		this.props.saveFieldsChange(fields, flag)
 	};
+
+	//2016年11月28日 提取uuid
+	getIds = (flag, target, key, arrFields) => {
+
+		let ids = undefined
+		if (flag == 'save' && UUID_ENABLE) {
+			ids = []
+			let targetObj = target[key]
+			if (!!targetObj)
+				for (let obj of targetObj) {
+					let idsObj = {}
+
+					//idsObj[key] = obj['id']
+					idsObj[key] = {
+						id: {
+							value: obj['id']
+						}
+					}
+					if (!!arrFields && arrFields.constructor == Array)
+						for (let field of arrFields) {
+							let objField = obj[field]
+							if (!!objField) {
+								idsObj[key][field] = {}
+								objField.map((item, i) => {
+										idsObj[key][field][`id_${i}`] = {
+											value: item['id']
+										}
+									})
+									/*for (let i = 0; i < objField.length; i++) {
+										idsObj[key][field][`id_${i}`] = {
+											value: objField[i]['id']
+										}
+									}*/
+							}
+						}
+						/*for (let field of arrFields) {
+							if (!!obj[field]) {
+								idsObj[field] = []
+								idsObj[key][field] = {}
+								for (let arrObj of obj[field]) {
+									idsObj[field].push(arrObj['id'])
+								}
+							}
+						}*/
+					ids.push(idsObj)
+				}
+		}
+		return ids
+	}
+
+	getMasterIds = (flag, grdaJbzl, grdaJws, grdaJzs) => {
+
+		let ids = undefined
+		if (flag == 'save' && UUID_ENABLE) {
+			let grdaJwsIds = [],
+				grdaJzsIds = []
+			if (!!grdaJws && !!grdaJwsIds)
+				for (let obj of grdaJws) {
+					grdaJwsIds.push(obj['id'])
+				}
+			if (!!grdaJzs && !!grdaJzsIds)
+				for (let obj of grdaJzs) {
+					grdaJzsIds.push(obj['id'])
+				}
+
+			let jwsLen = grdaJwsIds.length
+			let jzsLen = grdaJzsIds.length
+			let jwsIdsObj = {},
+				jzsIdsObj = {}
+
+			for (let i = 0; i < jwsLen; i++) {
+				jwsIdsObj[`id_${i}`] = {
+					value: grdaJwsIds[i]
+				}
+			}
+			for (let i = 0; i < jzsLen; i++) {
+				jzsIdsObj[`id_${i}`] = {
+					value: grdaJzsIds[i]
+				}
+			}
+			ids = {
+				grdaJbzl: {
+					id: {
+						value: grdaJbzl['id'],
+					}
+				},
+				grdaJws: jwsIdsObj,
+				grdaJzs: jzsIdsObj,
+			}
+		}
+		return ids
+	}
 
 	getIndividualNumbe = (addressArr, addrOther, flag) => {
 
@@ -340,44 +486,44 @@ class ArchiveCollection extends React.Component {
 		}
 		/*})*/
 
-		let grbh
-		let isTag = this.isLabelTagArc(targetKey)
-		try {
-			grbh = this.getArchiveGrbh().value
-		} catch (e) {
-			console.warn('没有找到该用户个人编号，直接删除选项卡了哦')
-			this.removeTarget(targetKey)
-			return
-		}
+		let grbhObj = this.getArchiveGrbh()
+		if (!!grbhObj && !!grbhObj.value && !!this.props.phr.mastersaved) {
 
-		if (isTag && this.props.phr.updatestate) {
-			let tagArc = this.isLabelTagArc(targetKey, true)
-			const name = tagArc.name
-			const onOk = () => {
-				this.props.delLabel(grbh, [tagArc.name])
-				this.props.delLabelStore([tagArc.name])
-				this.removeTarget(targetKey)
-			}
-			const onCancel = () => {}
-			showConfirm(`是否移除 ${name} 标签？`, null, onOk, onCancel)
-		} else {
-			if (deleteAbled) {
-
-				const name = this.getActiveName(targetKey)
-				const spec = this.getSpecArcTypeByCName(name)
+			let grbh = grbhObj.value
+			let isTag = this.isLabelTagArc(targetKey)
+			if (isTag) {
+				let tagArc = this.isLabelTagArc(targetKey, true)
+				const name = tagArc.name
 				const onOk = () => {
-					const containKey = spec.containKey
-					const recordKey = spec.recordKey
-
-					//huyg todo
-					this.props.delRecord(grbh, name)
-					this.props.delRecordStore(containKey, recordKey)
+					this.props.delLabel(grbh, [tagArc.name])
+					this.props.delLabelStore([tagArc.name])
 					this.removeTarget(targetKey)
 				}
 				const onCancel = () => {}
-				showConfirm(`是否移除 ${name} 专档？`, null, onOk, onCancel)
+				showConfirm(`是否移除 ${name} 标签？`, null, onOk, onCancel)
+			} else {
+				if (deleteAbled) {
+					const name = this.getActiveName(targetKey)
+					const spec = this.getSpecArcTypeByCName(name)
+					const onOk = () => {
+						const containKey = spec.containKey
+						const recordKey = spec.recordKey
+
+						const labels = this.props.phr[FIELDSN].labels
+						if (!!labels && labels.constructor == Array && labels.includes(name.replace('专档', ''))) {
+							this.props.delRecord(grbh, name)
+							this.props.delRecordStore(containKey, recordKey)
+						}
+						this.removeTarget(targetKey)
+					}
+					const onCancel = () => {}
+					showConfirm(`是否移除 ${name} 专档？`, null, onOk, onCancel)
+				}
 			}
+		} else {
+			this.removeTarget(targetKey)
 		}
+
 	}
 
 	/*Tab remove target*/
@@ -418,7 +564,7 @@ class ArchiveCollection extends React.Component {
 		let isTagArc = !!tagArc && !!tagArc['labelTag']
 
 		if (hasNotExist) {
-			if (this.judgeBAExistAndNotify(tabKey, true)) {
+			if (__DEBUG__ || this.judgeBAExistAndNotify(tabKey, true)) {
 				if (isTagArc) {
 					//标签档案
 					const grbhObj = this.getArchiveGrbh()
@@ -544,22 +690,29 @@ class ArchiveCollection extends React.Component {
 
 		const {
 			title,
-			operatText
+			operatText,
+			showFixSaveBtn
 		} = this.state
 
-		const operations = (
-			true ? (
-				<div style={{display: 'inline-flex'}}>
-					{/*<Tags />*/}
-					<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
-				</div>
-			) : (
-				<Affix>
-					{/*<Tags />*/}
-					<Button type="primary" onClick={this.saveForm} loading={this.state.submitloading}>{operatText}</Button>
-				</Affix>
-			)
+		const sbComponent = (
+			<Button
+				type="primary"
+				onClick={this.saveForm}
+				loading={this.state.submitloading}
+			>
+				{operatText}
+			</Button>
 		)
+		const saveBtn = showFixSaveBtn ? null : sbComponent
+		const fixSaveBtn = (
+			<Affix offsetTop={141}>
+				<div style={{float: 'right', marginRight: 25, display: showFixSaveBtn ? 'block' : 'none'}}>
+    				<Badge status="processing" />
+				    {sbComponent}
+		 		</div>
+		 	</Affix>
+		)
+
 		const moreSpecArc = (
 			<Menu>
 			    {
@@ -628,6 +781,7 @@ class ArchiveCollection extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
+				{fixSaveBtn}
 				<div className='module' key="tabs">
 					<Card title={title} extra={moreSpecArcDd}>
 						<Tabs
@@ -638,7 +792,7 @@ class ArchiveCollection extends React.Component {
 							type="editable-card"
 							onEdit={this.onTabEdit}
 							defaultActiveKey="1"
-							tabBarExtraContent={operations}
+							tabBarExtraContent={saveBtn}
 						>
 							{tabpane}
 						</Tabs>

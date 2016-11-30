@@ -172,6 +172,7 @@ class DiabetesTable extends React.Component {
 		const tnb_tz_qt = !empty ? jlRecord.tnb_tz_qt || [] : []
 		const tnb_ccsffl = !empty ? jlRecord.tnb_ccsffl || [] : []
 		const tnb_xcsfrq2 = !empty ? jlRecord.tnb_xcsfrq2 || [] : []
+		const timestamp_ = !empty ? !!jlRecord.timestamp_ ? jlRecord.timestamp_ : [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -264,7 +265,7 @@ class DiabetesTable extends React.Component {
 				key: 'operation',
 				width: '10%',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, tnb_sfrq2[index], index)}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}>查看</a>
 				}
 			})
 		}
@@ -294,7 +295,7 @@ class DiabetesTable extends React.Component {
 
 	        	<div>
 					<Popconfirm
-					 title={`确定要删除所选${selectedLength}条糖尿病记录吗？`}
+					 title={`确定要删除所选${selectedLength}条糖尿病记录吗？(点击更新才会提交删除数据)`}
 					 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 					 onCancel={this.deleteCancel}
 					>

@@ -91,6 +91,13 @@ export const ARC_TYPE_CONFIG = {
 		labelTag: true,
 		disabled: false,
 	}, {
+		name: "健康人",
+		content: 'SpecialArchive/HealthyPerForm',
+		key: "HealthyPer",
+		containKey: "healthyper",
+		labelTag: true,
+		disabled: false,
+	}, {
 		name: "女性保健专档",
 		content: 'SpecialArchive/FemalecareForm',
 		key: "Femalecare",

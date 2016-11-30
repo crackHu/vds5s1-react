@@ -155,7 +155,7 @@ class ArchiveList extends React.Component {
 						param[key].map((dataVar) => {
 							paichuStr += " label not like '%" + WIDGET_CONFIG.selectOption.specArcType[parseInt(dataVar)].value + "%' and "
 						})
-						paichuStr = paichuStr.substring(0, paichuStr.length - 4) + " ) and "
+						paichuStr = paichuStr.substring(0, paichuStr.length - 4) + " ) "
 							//postDataStr += sqlStr + " and "
 					}
 				} else {
@@ -163,10 +163,14 @@ class ArchiveList extends React.Component {
 				}
 			}
 		})
+		let isAnd = ''
+		if (paichuStr && suoshuStr)
+			isAnd = ' and '
 		if (paichuStr || suoshuStr)
-			postDataStr += " j.grbh in (select grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + suoshuStr + ' ) '
+			postDataStr += " j.grbh in (select grbh from ?table2Name? where ifnull(zfbj , 0 ) = 0 and grbh is not null   and grbh != '' and label != '' and " + paichuStr + isAnd + suoshuStr + " ) "
 		else
 			postDataStr = postDataStr.substring(0, postDataStr.length - 4)
+
 
 		console.log("check post data: ", postDataStr)
 
@@ -333,7 +337,7 @@ class ArchiveList extends React.Component {
 			},
 			showQuickJumper: true,
 			pageSize: this.state.curPageSize,
-			showTotal: (total) => `共 ${total} 条`,
+			showTotal: (total, range) => `共 ${total} 条 （${range[0]}-${range[1]}）`
 		} : null;
 
 		const advancedSearch = this.state.modalVisible ? [

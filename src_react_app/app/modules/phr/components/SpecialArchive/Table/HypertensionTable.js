@@ -171,6 +171,7 @@ class HypertensionTable extends React.Component {
 		const gxyTzQt = !empty ? jlRecord.gxy_tz_qt || [] : []
 		const gxyCcsffl = !empty ? jlRecord.gxy_ccsffl || [] : []
 		const gxyXcsfrq2 = !empty ? jlRecord.gxy_xcsfrq2 || [] : []
+		const timestamp_ = !empty ? !!jlRecord.timestamp_ ? jlRecord.timestamp_ : [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -273,7 +274,7 @@ class HypertensionTable extends React.Component {
 				key: 'operation',
 				width: '10%',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, gxySfrq2[index], index)}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}>查看</a>
 				}
 			})
 		}
@@ -299,7 +300,7 @@ class HypertensionTable extends React.Component {
 	        	/>
 	        	
 				<Popconfirm
-				 title={`确定要删除所选${selectedLength}条高血压记录吗？`}
+				 title={`确定要删除所选${selectedLength}条高血压记录吗？(点击更新才会提交删除数据)`}
 				 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 				 onCancel={this.deleteCancel}
 				>

@@ -179,6 +179,7 @@ class AgedTable extends React.Component {
 		const lnr_xcsfrq = !empty ? jlRecord.lnr_xcsfrq || [] : []
 		const lnr_sfys = !empty ? jlRecord.lnr_sfys || [] : []
 		const lnr_zpf = !empty ? jlRecord.lnr_zpf || [] : []
+		const timestamp_ = !empty ? !!jlRecord.timestamp_ ? jlRecord.timestamp_ : [] : []
 
 		const columns = [{
 			title: '随访日期',
@@ -258,7 +259,7 @@ class AgedTable extends React.Component {
 				fixed: 'right',
 				width: '5vw',
 				render: (value, row, index) => {
-					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, lnr_sfrq[index], index)}>查看</a>
+					return <a href="javascript:void(0);" onClick={() => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}>查看</a>
 				}
 			})
 		}
@@ -288,7 +289,7 @@ class AgedTable extends React.Component {
 	        	
 	        	<div>
 					<Popconfirm
-					 title={`确定要删除所选${selectedLength}条用药情况吗？`}
+					 title={`确定要删除所选${selectedLength}条用药情况吗？(点击更新才会提交删除数据)`}
 					 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 					 onCancel={this.deleteCancel}
 					>

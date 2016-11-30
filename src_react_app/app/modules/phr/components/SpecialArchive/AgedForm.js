@@ -232,18 +232,25 @@ class AgedForm extends React.Component {
 			dataIndex: 'score',
 		}];
 
+		/*level:
+			(getFieldDecorator(rate.levKey)(
+				<Select onChange={(value) => this.handleRateChange(value, scoKey)}>
+					{getSelectOptions(rate.level)}
+				</Select>*/
 		const data = [];
+		const letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 		this.rateExplains.forEach((rate, index) => {
 			let scoKey = rate.scoKey
+			let level = rate.level
+			let lvStr = []
+			for (let i = 0, len = level.length; i < len; i++) {
+				lvStr.push(<p>{`${letter[i]}. ${level[i]}`}</p>)
+			}
+			console.log('rateExplains', lvStr)
 			data.push({
 				key: index,
 				explain: `(${index + 1}) ${rate.explain}`,
-				level:
-					(getFieldDecorator(rate.levKey)(
-						<Select onChange={(value) => this.handleRateChange(value, scoKey)}>
-							{getSelectOptions(rate.level)}
-						</Select>
-					)),
+				level: <div>{lvStr}</div>,
 				score:
 					(getFieldDecorator(scoKey)(
 						<InputNumber onChange={(value) => this.calScore(value, scoKey)}/>

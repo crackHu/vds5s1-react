@@ -19,6 +19,9 @@ export const CONFIG = {
 /************** 时间格式配置 **************/
 export const DATE_FORMAT_STRING = 'YYYY-MM-DD'
 
+/************** 保存数据提交客户端生成的UUID配置 **************/
+export const UUID_ENABLE = true
+
 /************** Tabs是否使用动画切换 **************/
 export const TAB_ANIMATED = true
 

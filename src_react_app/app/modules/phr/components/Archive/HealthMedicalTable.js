@@ -174,9 +174,7 @@ class HealthMedicalTable extends React.Component {
 		const grdaJkpj = !empty ? !!jlRecord.grda_jkpj ? jlRecord.grda_jkpj : [] : []
 		const grdaJkzd = !empty ? !!jlRecord.grda_jkzd ? jlRecord.grda_jkzd : [] : []
 		const timestamp_ = !empty ? !!jlRecord.timestamp_ ? jlRecord.timestamp_ : [] : []
-		console.log('asdfasdfasdf', timestamp_, timestamp_[0])
-		console.log('asdfasdfasdf', grdaTjrq, grdaTjrq[0])
-		console.log('asdfasdfasdf', grdaJkzd, grdaJkzd[0])
+
 		const columns = [{
 			title: '体检日期',
 			dataIndex: 'medicalDate',
@@ -238,7 +236,7 @@ class HealthMedicalTable extends React.Component {
 	        	<div>
 					<Popconfirm
 						title = {
-							`确定要删除所选${selectedLength}条体检记录吗？`
+							`确定要删除所选${selectedLength}条体检记录吗？(点击更新才会提交删除数据)`
 						}
 					 onConfirm={() => this.deleteConfirm(selectedRowKeys, ARC_TAB)}
 					 onCancel={this.deleteCancel}

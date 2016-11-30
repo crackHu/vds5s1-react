@@ -41,7 +41,7 @@ import {
 	getDate,
 	getFieldsObj,
 	getDateTimestamp,
-	__DEBUG__,
+	randomUUID,
 } from 'utils'
 
 const fetchCatchMsg = '内部错误'
@@ -68,12 +68,12 @@ const fetchInit = {
  *		  {string} query api接口地址
  *		  {function} dispatch redux action dispatch
  *		  {boolean} isSuccessMsg 服务端正常响应是否提示消息
- *		  {string} type redux action dispatch type
+ *		  {obj} dispatchObj redux action dispatch object
  *		  {function} func 服务端响应后执行的方法
  *
  * @return {function} redux action dispatch function
  */
-const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, type, func) => {
+const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, func) => {
 
 	fetchInit.body = encodeURI(query)
 		//fetchInit.body = query
@@ -98,10 +98,9 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, type, func) =
 				if (isSuccessMsg)
 					msg('success', resMsg)
 			}
-			dispatch({
-				type,
+			dispatch(Object.assign(dispatchObj, {
 				data
-			})
+			}))
 		})
 		.catch(e => {
 			notify('error', fetchCatchMsg, e.stack.toString());
@@ -134,163 +133,220 @@ const deleteLabel = function() {
 export function getArchiveList(pageNo, pageSize) {
 
 	let query = api.getArchiveList(pageNo, pageSize)
-
-	return dispatch => dispatchMethod('getArchiveList', query, dispatch, false, GET_ARCHIVES, null)
+	let dispatchObj = {
+		type: GET_ARCHIVES
+	}
+	return dispatch => dispatchMethod('getArchiveList', query, dispatch, false, dispatchObj, null)
 }
 
 /*保存个人基本信息档案*/
-export function savePersonalDetail(data) {
+export function savePersonalDetail(data, ids) {
 
 	let query = api.savePersonalDetail(data)
+	let dispatchObj = {
+		type: SAVE_MASTER_ARCHIVES,
+		ids,
+	}
 
-	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, SAVE_MASTER_ARCHIVES, saveMsg())
+	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新个人基本信息档案*/
 export function updatePersonalDetail(data) {
 
 	let query = api.updatePersonalDetail(data)
+	let dispatchObj = {
+		type: UPDATE_ARCHIVES
+	}
 
-	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
+	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, dispatchObj, updateMsg())
 }
 /*删除个人基本信息档案 @deprecated*/
 export function deletePersonalDetail(data) {
 
 	let query = api.deletePersonalDetail(data)
-
-	return dispatch => dispatchMethod('deletePersonalDetail', query, dispatch, true, DELETE_ARCHIVES, delMsg())
+	let dispatchObj = {
+		type: DELETE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('deletePersonalDetail', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*保存健康体检表*/
-export function saveHealthMedical(data) {
+export function saveHealthMedical(key = 'grdaJkzk', data, ids) {
 
 	let query = api.saveHealthMedical(data)
+	let dispatchObj = {
+		type: SAVE_ARCHIVES,
+		key,
+		ids,
+	}
 
-	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, SAVE_ARCHIVES, saveMsg())
+	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新健康体检表*/
-export function updateHealthMedical(data) {
+export function updateHealthMedical(key = 'grdaJkzk', data) {
 
 	let query = api.updateHealthMedical(data)
+	let dispatchObj = {
+		type: UPDATE_ARCHIVES
+	}
 
-	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
+	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, dispatchObj, updateMsg())
 }
 /*删除健康体检表 @deprecated*/
 export function deleteHealthMedical(data) {
 
 	let query = api.deleteHealthMedical(data)
-
-	return dispatch => dispatchMethod('deleteHealthMedical', query, dispatch, true, DELETE_ARCHIVES, delMsg())
+	let dispatchObj = {
+		type: DELETE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('deleteHealthMedical', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*保存高血压专档*/
-export function saveHypertension(data) {
+export function saveHypertension(key = 'gxyJxb', data, ids) {
 
 	let query = api.saveHypertension(data)
+	let dispatchObj = {
+		type: SAVE_ARCHIVES,
+		ids,
+	}
 
-	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, SAVE_ARCHIVES, saveMsg())
+	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新高血压专档*/
-export function updateHypertension(data) {
+export function updateHypertension(key = 'gxyJxb', data) {
 
 	let query = api.updateHypertension(data)
-
-	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
+	let dispatchObj = {
+		type: UPDATE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, dispatchObj, updateMsg())
 }
 /*删除高血压专档 @deprecated*/
 export function deleteHypertension(data) {
 
 	let query = api.deleteHypertension(data)
-
-	return dispatch => dispatchMethod('deleteHypertension', query, dispatch, true, DELETE_ARCHIVES, delMsg())
+	let dispatchObj = {
+		type: DELETE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('deleteHypertension', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*保存糖尿病专档*/
-export function saveDiabetes(data) {
+export function saveDiabetes(key = 'tnbSfjl', data, ids) {
 
 	let query = api.saveDiabetes(data)
+	let dispatchObj = {
+		type: SAVE_ARCHIVES,
+		ids,
+	}
 
-	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, SAVE_ARCHIVES, saveMsg())
+	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新糖尿病专档*/
-export function updateDiabetes(data) {
+export function updateDiabetes(key = 'tnbSfjl', data) {
 
 	let query = api.updateDiabetes(data)
-
-	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
+	let dispatchObj = {
+		type: UPDATE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, dispatchObj, updateMsg())
 }
 /*删除糖尿病专档 @deprecated*/
 export function deleteDiabetes(data) {
 
 	let query = api.deleteDiabetes(data)
-
-	return dispatch => dispatchMethod('deleteDiabetes', query, dispatch, true, DELETE_ARCHIVES, delMsg())
+	let dispatchObj = {
+		type: DELETE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('deleteDiabetes', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*保存老年人专档*/
-export function saveAged(data) {
+export function saveAged(key = 'lnrSfb', data, ids) {
 
 	let query = api.saveAged(data)
+	let dispatchObj = {
+		type: SAVE_ARCHIVES,
+		ids,
+	}
 
-	return dispatch => dispatchMethod('saveAged', query, dispatch, true, SAVE_ARCHIVES, saveMsg())
+	return dispatch => dispatchMethod('saveAged', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新老年人专档*/
-export function updateAged(data) {
+export function updateAged(key = 'lnrSfb', data) {
 
 	let query = api.updateAged(data)
-
-	return dispatch => dispatchMethod('updateAged', query, dispatch, true, UPDATE_ARCHIVES, updateMsg())
+	let dispatchObj = {
+		type: UPDATE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('updateAged', query, dispatch, true, dispatchObj, updateMsg())
 }
 /*删除老年人专档 @deprecated*/
 export function deleteAged(data) {
 
 	let query = api.deleteAged(data)
-
-	return dispatch => dispatchMethod('deleteAged', query, dispatch, true, DELETE_ARCHIVES, delMsg())
+	let dispatchObj = {
+		type: DELETE_ARCHIVES
+	}
+	return dispatch => dispatchMethod('deleteAged', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*添加档案标签*/
 export function addLabel(grbh, labels) {
 
 	let query = api.addLabel(grbh, labels)
-
-	return dispatch => dispatchMethod('addLabel', query, dispatch, true, ADD_LABEL, saveLabel())
+	let dispatchObj = {
+		type: ADD_LABEL
+	}
+	return dispatch => dispatchMethod('addLabel', query, dispatch, true, dispatchObj, saveLabel())
 }
 /*删除档案标签*/
 export function delLabel(grbh, labels) {
 
 	let query = api.delLabel(grbh, labels)
-
-	return dispatch => dispatchMethod('delLabel', query, dispatch, true, DEL_LABEL, deleteLabel())
+	let dispatchObj = {
+		type: DEL_LABEL
+	}
+	return dispatch => dispatchMethod('delLabel', query, dispatch, true, dispatchObj, deleteLabel())
 }
 /*删除档案*/
 export function delRecord(grbh, labels) {
 
 	let query = api.delRecord(grbh, labels)
-
-	return dispatch => dispatchMethod('delRecord', query, dispatch, true, DEL_LABEL, delMsg())
+	let dispatchObj = {
+		type: DEL_LABEL
+	}
+	return dispatch => dispatchMethod('delRecord', query, dispatch, true, dispatchObj, delMsg())
 }
 
 /*查询个人详细档案资料*/
 export function queryPHR(id) {
 
 	let query = api.queryPHR(id)
-
-	return dispatch => dispatchMethod('queryPHR', query, dispatch, true, QUERY_PHR, null)
+	let dispatchObj = {
+		type: QUERY_PHR
+	}
+	return dispatch => dispatchMethod('queryPHR', query, dispatch, true, dispatchObj, null)
 }
 /*删除个人档案*/
 export function deletePHR(ids) {
 
 	let query = api.deletePHR(ids)
-
-	return dispatch => dispatchMethod('deletePHR', query, dispatch, true, DELETE_PHR, null)
+	let dispatchObj = {
+		type: DELETE_PHR
+	}
+	return dispatch => dispatchMethod('deletePHR', query, dispatch, true, dispatchObj, null)
 }
 
 /*搜索档案*/
 export function searchPHR(pageNo, pageSize, condition) {
 
 	let query = api.searchPHR(pageNo, pageSize, condition)
-
-	return dispatch => dispatchMethod('searchPHR', query, dispatch, false, SEARCH_PHR, null)
+	let dispatchObj = {
+		type: SEARCH_PHR
+	}
+	return dispatch => dispatchMethod('searchPHR', query, dispatch, false, dispatchObj, null)
 }
 
 /*获取个人编号*/
@@ -302,8 +358,10 @@ export function getIndividualNumbe(addr_arr, addr_fields) {
 		obj[field] = addr_arr[index]
 	}
 	let query = api.getIndividualNumbe(obj)
-
-	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, true, INDIVIDUAL_NUMBER, null)
+	let dispatchObj = {
+		type: INDIVIDUAL_NUMBER
+	}
+	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, true, dispatchObj, null)
 }
 
 /*改变新增/编辑状态*/

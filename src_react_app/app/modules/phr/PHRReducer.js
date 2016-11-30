@@ -186,6 +186,8 @@ const phr = function(state = initialState, action) {
 	let resultMesg = !!status ? status.resultMesg : undefined
 	let stateFields = state[FIELDSN]
 	let selectedRowKeys = action.selectedRowKeys || undefined
+	let ids = action.ids
+	let targetKey = action.key
 
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -273,19 +275,22 @@ const phr = function(state = initialState, action) {
 			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
 			let grdaJkzkFields = FIELDS['grdaJkzk']
-				//grda_tjrq
-			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'id', grdaJkzkFields['arrFields'])
+				//grda_tjrq key @deprecated
+			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
 			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
 
 			let gxyJxbFields = FIELDS['gxyJxb']
+				//gxy_sfrq2 key @deprecated
 			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, gxyJxbFields, 'gxy_sfrq2', gxyJxbFields['arrFields'])
 			let gxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['gxyjl'].fields)
 
 			let tnbSfjlFields = FIELDS['tnbSfjl']
+				//tnb_sfrq2 key @deprecated
 			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, tnbSfjlFields, 'tnb_sfrq2', tnbSfjlFields['arrFields'])
 			let tnbjl = getArrFieldsObjByObj(tnbSfjl, FIELDS['tnbjl'].fields)
 
 			let lnrSfbFields = FIELDS['lnrSfb']
+				//lnr_sfrq key @deprecated
 			let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, lnrSfbFields, 'lnr_sfrq', lnrSfbFields['arrFields'])
 			let lnrjl = getArrFieldsObjByObj(lnrSfb, FIELDS['lnrjl'].fields)
 
@@ -318,15 +323,71 @@ const phr = function(state = initialState, action) {
 				delSuc: resultCode > 0,
 			})
 		case SAVE_ARCHIVES:
+			//体检表、专档的保存
+			var targetObj = Object.assign({}, stateFields[targetKey]),
+				diff = 0
+			console.log(SAVE_ARCHIVES, stateFields[targetKey])
+			Object.keys(targetObj).map((key, index) => {
+				if (key != 'selectKey') {
+					console.log('asdfasdfasd', targetObj[key], ids[index - diff][targetKey])
+
+					//不明白这里的拷贝为什么会影响到state 暂时不理
+					let deep = ids[index - diff][targetKey]
+					Object.assign(targetObj[key], {
+						id: deep['id']
+					})
+					Object.keys(deep).map((key_, index_) => {
+						if (key_ != 'id') {
+							Object.assign(targetObj[key][key_], deep[key_])
+						}
+					})
+				} else {
+					diff += 1
+				}
+			})
+
+			console.log(SAVE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
+			}, {
+				[FIELDSN]: {
+					...stateFields,
+					[targetKey]: targetObj
+				}
 			})
 		case SAVE_MASTER_ARCHIVES:
 			//基本表（主表） 的保存标示
+			var obj = {}
+			if (!!ids) {
+				var {
+					grdaJbzl,
+					grdaJws,
+					grdaJzs
+				} = ids
+
+				obj = {
+					[FIELDSN]: {
+						...stateFields,
+						['grdaJbzl']: {
+							...stateFields['grdaJbzl'],
+							...grdaJbzl
+						},
+						['grdaJws']: {
+							...stateFields['grdaJws'],
+							...grdaJws
+						},
+						['grdaJzs']: {
+							...stateFields['grdaJzs'],
+							...grdaJzs
+						},
+					}
+				}
+			}
+			var success = resultCode > 0
 			return Object.assign({}, initialState, state, {
-				updatestate: resultCode > 0,
-				mastersaved: resultCode > 0
-			})
+				updatestate: success,
+				mastersaved: success
+			}, obj)
 		case UPDATE_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: true,
@@ -341,19 +402,27 @@ const phr = function(state = initialState, action) {
 				data,
 			})
 		case INDIVIDUAL_NUMBER:
+
 			if (resultCode > 0) {
 				let grbh = {
 					grbh: {
 						value: dout.grbh
 					}
 				}
+				var grdaJkzk = Object.assign({}, stateFields['grdaJkzk'])
+				Object.keys(grdaJkzk).map((key, index) => {
+					if (key != 'selectKey') {
+						Object.assign(grdaJkzk[key], grbh)
+					}
+				})
 				return Object.assign({}, state, {
 					[FIELDSN]: {
 						...stateFields,
 						grdaJbzl: {
 							...stateFields['grdaJbzl'],
 							...grbh
-						}
+						},
+						grdaJkzk
 					}
 				})
 			} else {

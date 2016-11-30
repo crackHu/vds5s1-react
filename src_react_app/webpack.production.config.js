@@ -23,7 +23,9 @@ const config = {
 			'redux-thunk',
 			'babel-polyfill',
 			'isomorphic-fetch',
-			'echarts'
+			'echarts',
+			'antd',
+			'moment'
 		]
 	},
 	output: {

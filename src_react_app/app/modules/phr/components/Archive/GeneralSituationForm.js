@@ -56,7 +56,9 @@ class GeneralSituationForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {
+			age: '未知'
+		}
 
 		this.cascadeOptions = WIDGET_CONFIG.cascadeOptions
 		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
@@ -114,6 +116,35 @@ class GeneralSituationForm extends React.Component {
 	componentDidMount = () => {
 		console.log('GeneralSituationForm componentDidMount')
 		this.initialValue(ARC_TAB)
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+		console.log('GeneralSituationForm.componentWillReceiveProps', nextProps)
+		this.generateAge()
+	}
+
+	componentWillUpdate = (nextProps, nextState) => {
+		console.log('GeneralSituationForm.componentWillUpdate', nextProps, nextState)
+	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log("GeneralSituationForm.componentDidUpdate", this.props, prevProps, prevState)
+	}
+
+	//生成年龄
+	generateAge = () => {
+		const grda_csrq = this.props.form.getFieldValue('grda_csrq')
+		console.log('年龄', grda_csrq)
+		if (!!grda_csrq) {
+			const fromNow = grda_csrq.fromNow()
+			const age = fromNow.replace(' 年前', '岁').replace(' years ago', '岁')
+			if (!!fromNow) {
+				this.setState({
+					age
+				})
+			}
+			console.log('年龄', fromNow)
+		}
 	}
 
 	//初始化表单数据
@@ -206,9 +237,7 @@ class GeneralSituationForm extends React.Component {
 
 		/*出生日期*/
 		const grda_csrq =
-			getFieldDecorator('grda_csrq', {
-				//initialValue: moment(DEFAULT_DATE, DATE_FORMAT_STRING)
-			})(
+			getFieldDecorator('grda_csrq', {})(
 				<DatePicker required
 		          format={DATE_FORMAT_STRING}
 		          style={{ width: 120 }}
@@ -219,7 +248,7 @@ class GeneralSituationForm extends React.Component {
 		/*身份证号码*/
 		const grda_sfzhm =
 			getFieldDecorator('grda_sfzhm')(
-				<Input style={{ width: 160 }}/>
+				<Input style={{ width: 140 }}/>
 			)
 
 		/*民族名称*/
@@ -229,7 +258,7 @@ class GeneralSituationForm extends React.Component {
 		           showSearch
 		           optionFilterProp="children"
 				   notFoundContent="没有该民族"
-		           style={{ width: 111 }}
+		           style={{ width: 73 }}
 		          >
 			       {this.getSelectOptions(this.nationalityOptions)}
 		        </Select>
@@ -447,7 +476,7 @@ class GeneralSituationForm extends React.Component {
 		            {grda_xb}
 		        </FormItem>
 		        <FormItem label="出生日期" required>
-			        {grda_csrq}
+			        {grda_csrq}{' '}年龄：{this.state.age}
 		        </FormItem>
 		        <FormItem label="身份证号" >
 	        		{grda_sfzhm}

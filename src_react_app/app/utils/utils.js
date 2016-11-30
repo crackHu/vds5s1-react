@@ -1,6 +1,7 @@
 import moment from 'moment'
 import {
-  DATE_FORMAT_STRING
+  DATE_FORMAT_STRING,
+  UUID_ENABLE
 } from 'config'
 import {
   CONFIG
@@ -98,6 +99,10 @@ export function emptyObject(obj) {
 
 //============================== 生成uuid ==============================
 export function randomUUID() {
+
+  if (!UUID_ENABLE) {
+    return null
+  }
   var s = [],
     itoh = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -221,7 +226,7 @@ export function msg(type, content, duration) {
 }
 
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
-export function getFieldsObj(fields, fields_state, date_format) {
+export function getFieldsObj(fields, fields_state, date_format, flag = 'save') {
 
   let obj = {}
   fields.forEach((field, i) => {
@@ -242,12 +247,29 @@ export function getFieldsObj(fields, fields_state, date_format) {
     }
   })
 
+  //2016年11月28日 添加uuid
+  let uuid = randomUUID()
+  if (!!uuid && !obj['id']) {
+    Object.assign(obj, {
+      id: uuid
+    })
+
+    //2016年11月30日 添加addFlag bitch
+    /*if (flag == 'update') {
+      Object.assign(obj, {
+        addFlag: uuid
+      })
+    }*/
+  }
+
+
+
   console.debug('getFieldsObj', '=>', obj)
   return obj
 }
 
 // ------ 获取表单字段与值的封装对象 装箱 ------ // 
-export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
+export function getFieldsObjWithout(fields_state, arrObjFields, date_format, flag = 'save') {
 
   let obj = {}
   for (let field in fields_state) {
@@ -274,7 +296,7 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
               let arrFields = arrObjFields[arrField].fields
               let delField = arrObjFields[arrField].delField
               let delState = stateField[delField]
-              obj[field] = getFieldsArr(arrFields, stateField, date_format)
+              obj[field] = getFieldsArr(arrFields, stateField, date_format, flag)
                 //obj[delField] = !!delState && delState.length > 0 ? delState.concat(delState) : []
             }
           }
@@ -287,13 +309,33 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format) {
     }
   }
 
-  console.debug('getFieldsObjWithout', '=>', obj)
+  //2016年11月30日 添加addFlag bitch
+  if (flag == 'update') {
+    let addFlag
+    if (!obj['id']) {
+      addFlag = '1'
+    } else {
+      addFlag = '0'
+    }
+    Object.assign(obj, {
+      addFlag
+    })
+  }
+  //2016年11月28日 添加uuid
+  let uuid = randomUUID()
+  if (!!uuid && !obj['id']) {
+    Object.assign(obj, {
+      id: uuid
+    })
+  }
+
+  console.debug('getFieldsObjWithout', '=>', obj, flag)
   return obj
 }
 
 
 // ------ 获取表单字段与值的封装数组 装箱 ------ //
-export function getFieldsArr(fields, fields_state, date_format) {
+export function getFieldsArr(fields, fields_state, date_format, flag = 'save', ignore = false) {
 
   let arr = []
   let length = 0
@@ -325,17 +367,38 @@ export function getFieldsArr(fields, fields_state, date_format) {
         }
       })
       if (!emptyObject(obj)) {
+
+        //2016年11月30日 添加addFlag bitch
+        if (flag == 'update' && !ignore) {
+          let addFlag
+          if (!obj['id']) {
+            addFlag = '1'
+          } else {
+            addFlag = '0'
+          }
+          Object.assign(obj, {
+            addFlag
+          })
+        }
+        //2016年11月28日 添加uuid
+        let uuid = randomUUID()
+        if (!!uuid && !obj['id']) {
+          Object.assign(obj, {
+            id: uuid
+          })
+        }
+
         arr.push(obj)
       }
     }
   }
 
-  console.debug('getFieldsArr', '=>', arr, fields, fields_state, fields_state['objSize'].length)
+  console.debug('getFieldsArr', '=>', arr, ignore, flag)
   return arr
 }
 
 // ------ 获取表单数组字段与值的封装数组(TODO 时间关系 没有传入字段配置) 装箱 ------ //
-export function getFieldsObjArr(fields_state, arrObjFields, date_format, key) {
+export function getFieldsObjArr(fields_state, arrObjFields, date_format, key, flag = 'save') {
 
   let arr = []
   let obj = {}
@@ -349,7 +412,7 @@ export function getFieldsObjArr(fields_state, arrObjFields, date_format, key) {
         if (selectKey.indexOf('del') > -1) {
           del[selectKey] = selectValObj
         } else {
-          obj = getFieldsObjWithout(selectValObj, arrObjFields, date_format)
+          obj = getFieldsObjWithout(selectValObj, arrObjFields, date_format, flag)
           arr.push(obj)
         }
       }
@@ -411,7 +474,7 @@ export function getFieldsValueObj(dout, fields) {
   return obj
 }
 
-// ------ 获取表单字段与值对象数组的封装对象 拆箱 ------ //
+// ------ 获取表单字段与值对象数组的封装对象 拆箱 2016-11-25 @fieldFlag deprecated 统一用timestamp_作为唯一标识 ------ //
 export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
 
   let obj = {}
@@ -424,7 +487,7 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
       let timestamp_ = Date.now()
       for (let field in fieldsObj) {
         if (field == fieldFlag) {
-          fieldKey = fieldsObj[fieldFlag]
+          //fieldKey = fieldsObj[fieldFlag]
           fieldKey = timestamp_
         }
       }
