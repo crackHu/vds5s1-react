@@ -3,8 +3,9 @@ import {
 	SUBMIT_ARCHIVES,
 	SAVE_ARCHIVES,
 	SAVE_MASTER_ARCHIVES,
-	CHANGE_MASTERSAVED,
 	UPDATE_ARCHIVES,
+	UPDATE_MASTER_ARCHIVES,
+	CHANGE_MASTERSAVED,
 	DELETE_ARCHIVES,
 	LOGIN,
 	QUERY_PHR,
@@ -155,7 +156,7 @@ export function updatePersonalDetail(data) {
 
 	let query = api.updatePersonalDetail(data)
 	let dispatchObj = {
-		type: UPDATE_ARCHIVES
+		type: UPDATE_MASTER_ARCHIVES
 	}
 
 	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, dispatchObj, updateMsg())
@@ -187,7 +188,9 @@ export function updateHealthMedical(key = 'grdaJkzk', data) {
 
 	let query = api.updateHealthMedical(data)
 	let dispatchObj = {
-		type: UPDATE_ARCHIVES
+		type: UPDATE_ARCHIVES,
+		key,
+		ids,
 	}
 
 	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, dispatchObj, updateMsg())
@@ -208,17 +211,20 @@ export function saveHypertension(key = 'gxyJxb', data, ids) {
 	let query = api.saveHypertension(data)
 	let dispatchObj = {
 		type: SAVE_ARCHIVES,
+		key,
 		ids,
 	}
 
 	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新高血压专档*/
-export function updateHypertension(key = 'gxyJxb', data) {
+export function updateHypertension(key = 'gxyJxb', data, ids) {
 
 	let query = api.updateHypertension(data)
 	let dispatchObj = {
-		type: UPDATE_ARCHIVES
+		type: UPDATE_ARCHIVES,
+		key,
+		ids,
 	}
 	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, dispatchObj, updateMsg())
 }
@@ -238,17 +244,20 @@ export function saveDiabetes(key = 'tnbSfjl', data, ids) {
 	let query = api.saveDiabetes(data)
 	let dispatchObj = {
 		type: SAVE_ARCHIVES,
+		key,
 		ids,
 	}
 
 	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新糖尿病专档*/
-export function updateDiabetes(key = 'tnbSfjl', data) {
+export function updateDiabetes(key = 'tnbSfjl', data, ids) {
 
 	let query = api.updateDiabetes(data)
 	let dispatchObj = {
-		type: UPDATE_ARCHIVES
+		type: UPDATE_ARCHIVES,
+		key,
+		ids,
 	}
 	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, dispatchObj, updateMsg())
 }
@@ -268,17 +277,20 @@ export function saveAged(key = 'lnrSfb', data, ids) {
 	let query = api.saveAged(data)
 	let dispatchObj = {
 		type: SAVE_ARCHIVES,
+		key,
 		ids,
 	}
 
 	return dispatch => dispatchMethod('saveAged', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新老年人专档*/
-export function updateAged(key = 'lnrSfb', data) {
+export function updateAged(key = 'lnrSfb', data, ids) {
 
 	let query = api.updateAged(data)
 	let dispatchObj = {
-		type: UPDATE_ARCHIVES
+		type: UPDATE_ARCHIVES,
+		key,
+		ids,
 	}
 	return dispatch => dispatchMethod('updateAged', query, dispatch, true, dispatchObj, updateMsg())
 }

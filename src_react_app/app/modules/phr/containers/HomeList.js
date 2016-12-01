@@ -18,11 +18,19 @@ class HomeList extends React.Component {
 
 	constructor(props) {
 		super(props)
+
+		this.state = {
+			addCurPage: 1,
+			addCurPageSize: 10,
+			updCurPage: 1,
+			updCurPageSize: 10,
+			isSearch: false
+		}
 	}
 
 	componentWillMount() {
-		this.props.queryForAdd(1, 10)
-		this.props.queryForUpdate(1, 10)
+		this.props.queryForAdd(this.state.addCurPage, this.state.addCurPageSize)
+		this.props.queryForUpdate(this.state.updCurPage, this.state.updCurPageSize)
 	}
 
 	render() {
@@ -63,13 +71,36 @@ class HomeList extends React.Component {
 		let zjxzTable, zjxgTable
 		if (this.props.stat.zjxz && this.props.stat.zjxg) {
 			if (this.props.stat.zjxz.length > 0) {
+				const xzPagination = {
+					current: this.state.addCurPage,
+					total: this.props.stat.total,
+					showSizeChanger: false,
+					onShowSizeChange: (current, pageSize) => {
+						console.log('Current: ', current, '; PageSize: ', pageSize)
+						this.setState({
+							addCurPage: current,
+							addCurPageSize: pageSize
+						})
+						this.props.queryForAdd(current, pageSize)
+					},
+					onChange: (current) => {
+						console.log('Current: ', current);
+						this.setState({
+							addCurPage: current
+						})
+						this.props.queryForAdd(current, this.state.addCurPageSize)
+					},
+					showQuickJumper: true,
+					pageSize: this.state.curPageSize,
+					showTotal: (total) => `共 ${total} 条`,
+				}
 				zjxzTable = (
 					<Table
            columns={columns}
            dataSource={this.props.stat.zjxz}
            size="small"
            scroll={{ x: 1200 }}
-           pagination={{pageSize: 5}}
+           pagination={xzPagination}
           />
 				)
 			} else {
@@ -77,6 +108,29 @@ class HomeList extends React.Component {
 			}
 
 			if (this.props.stat.zjxg.length > 0) {
+				const xgPagination = {
+					current: this.state.updCurPage,
+					total: this.props.stat.total,
+					showSizeChanger: false,
+					onShowSizeChange: (current, pageSize) => {
+						console.log('Current: ', current, '; PageSize: ', pageSize)
+						this.setState({
+							updCurPage: current,
+							updCurPageSize: pageSize
+						})
+						this.props.queryForUpdate(current, pageSize)
+					},
+					onChange: (current) => {
+						console.log('Current: ', current);
+						this.setState({
+							updCurPage: current
+						})
+						this.props.queryForUpdate(current, this.state.updCurPageSize)
+					},
+					showQuickJumper: true,
+					pageSize: this.state.curPageSize,
+					showTotal: (total) => `共 ${total} 条`,
+				}
 				zjxgTable = (
 					<div>
 	          <Table
@@ -84,7 +138,7 @@ class HomeList extends React.Component {
 	           dataSource={this.props.stat.zjxg}
 	           size="small"
 	           scroll={{ x: 1200 }}
-	           pagination={{pageSize: 5}}
+	           pagination={xgPagination}
 	          />
           </div>
 				)

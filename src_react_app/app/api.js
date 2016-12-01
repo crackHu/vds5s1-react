@@ -154,7 +154,7 @@ export function delRecord(grbh, labels) {
 }
 
 
-/*登陆*/
+/*登录*/
 export function login(data) {
 
 	let postQuery = new PostQuery({

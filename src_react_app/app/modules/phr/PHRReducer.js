@@ -2,8 +2,9 @@ import {
 	GET_ARCHIVES,
 	SAVE_ARCHIVES,
 	SAVE_MASTER_ARCHIVES,
-	CHANGE_MASTERSAVED,
 	UPDATE_ARCHIVES,
+	UPDATE_MASTER_ARCHIVES,
+	CHANGE_MASTERSAVED,
 	DELETE_ARCHIVES,
 	QUERY_PHR,
 	DELETE_PHR,
@@ -323,7 +324,7 @@ const phr = function(state = initialState, action) {
 				delSuc: resultCode > 0,
 			})
 		case SAVE_ARCHIVES:
-			//体检表、专档的保存
+			//体检表、专档（从表）的保存
 			var targetObj = Object.assign({}, stateFields[targetKey]),
 				diff = 0
 			console.log(SAVE_ARCHIVES, stateFields[targetKey])
@@ -389,6 +390,43 @@ const phr = function(state = initialState, action) {
 				mastersaved: success
 			}, obj)
 		case UPDATE_ARCHIVES:
+			var targetObj = Object.assign({}, stateFields[targetKey]),
+				diff = 0
+			console.log(UPDATE_ARCHIVES, stateFields[targetKey])
+			Object.keys(targetObj).map((key, index) => {
+
+				let indexDel = key.indexOf('del')
+				if (key != 'selectKey' && indexDel == -1) {
+					console.log('asdfasdfasd', targetObj[key], ids[index - diff][targetKey])
+
+					//不明白这里的拷贝为什么会影响到state 暂时不理
+					let deep = ids[index - diff][targetKey]
+					Object.assign(targetObj[key], {
+						id: deep['id']
+					})
+					Object.keys(deep).map((key_, index_) => {
+						if (key_ != 'id') {
+							Object.assign(targetObj[key][key_], deep[key_])
+						}
+					})
+				} else {
+					if (indexDel > -1) {
+						delete targetObj[key]
+					}
+					diff += 1
+				}
+			})
+
+			console.log(UPDATE_ARCHIVES, targetKey, targetObj, ids, state)
+			return Object.assign({}, initialState, state, {
+				updatestate: resultCode > 0,
+			}, {
+				[FIELDSN]: {
+					...stateFields,
+					[targetKey]: targetObj
+				}
+			})
+		case UPDATE_MASTER_ARCHIVES:
 			return Object.assign({}, initialState, state, {
 				updatestate: true,
 			})

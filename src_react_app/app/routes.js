@@ -53,7 +53,7 @@ const routes = (loggedIn) => {
 		})
 
 		return (
-			/*已登陆使用的路由组件*/
+			/*已登录使用的路由组件*/
 			<Route path="/" component={App}>
 			    <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
 			    {/*
@@ -68,7 +68,7 @@ const routes = (loggedIn) => {
 		    </Route>
 		);
 	} else {
-		/*未登陆使用的路由组件*/
+		/*未登录使用的路由组件*/
 		return (
 			<Route path="/" component={Login}/>
 		)

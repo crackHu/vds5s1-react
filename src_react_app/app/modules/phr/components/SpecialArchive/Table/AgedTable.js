@@ -344,6 +344,7 @@ class AgedTable extends React.Component {
     			pagination={false}
     			scroll={{ x: 1650, y: 200 }}
     			rowClassName={(record, index) => index == selectIndex ? "record_selected" : ''}
+    			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered
 			>
 			</Table>

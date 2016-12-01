@@ -2716,3 +2716,6 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 	}
 
 }
+
+/**************快捷键配置**************/
+export const SHORTCUT_SUBMIT_ARCHIVES = 'ctrl+z'

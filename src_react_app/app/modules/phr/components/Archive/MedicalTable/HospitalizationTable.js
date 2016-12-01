@@ -103,7 +103,7 @@ class MedicalRecordsTable extends React.Component {
 			remark(value) {
 				return (
 					<Input
-						style={{width: '70vh'}}
+						style={{width: '30vw'}}
 						type="textarea"
 						autosize={{ minRows: 1, maxRows: 2 }}
 					/>

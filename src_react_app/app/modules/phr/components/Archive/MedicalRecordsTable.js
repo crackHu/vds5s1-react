@@ -147,7 +147,7 @@ class MedicalRecordsTable extends React.Component {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select style={{width: '40vh'}}>
+						<Select style={{width: '150px'}}>
 							{option}
 						</Select>
 					)
@@ -158,7 +158,7 @@ class MedicalRecordsTable extends React.Component {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select style={{width: '40vh'}}>
+						<Select style={{width: '250px'}}>
 							{option}
 						</Select>
 					)
@@ -170,7 +170,7 @@ class MedicalRecordsTable extends React.Component {
 				} else {
 					return (
 						<DatePicker
-						 	style={{width: '30vh'}}
+						 	style={{width: '150px'}}
 							disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
 						/>
 					)
@@ -182,7 +182,7 @@ class MedicalRecordsTable extends React.Component {
 				} else {
 					return (
 						<Input
-							style={{width: '70vh'}}
+							style={{width: '46vw'}}
 							type="textarea"
 							autosize={{ minRows: 1, maxRows: 2 }}
 						/>
@@ -196,7 +196,7 @@ class MedicalRecordsTable extends React.Component {
 			title: '类别',
 			dataIndex: 'diseaseType',
 			key: 'diseaseType',
-			width: '20%',
+			width: '100px',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('lb_' + index)(
@@ -207,7 +207,7 @@ class MedicalRecordsTable extends React.Component {
 			title: '疾病名称',
 			dataIndex: 'diseaseName',
 			key: 'diseaseName',
-			width: '20%',
+			width: '200px',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('jbmc_' + index)(
@@ -218,7 +218,7 @@ class MedicalRecordsTable extends React.Component {
 			title: '确诊时间',
 			dataIndex: 'confirmTime',
 			key: 'confirmTime',
-			width: '15%',
+			width: '100px',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('qzne_' + index)(
@@ -229,7 +229,7 @@ class MedicalRecordsTable extends React.Component {
 			title: '备注',
 			dataIndex: 'remark',
 			key: 'remark',
-			width: '40%',
+			width: '400px',
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('bz_' + index)(

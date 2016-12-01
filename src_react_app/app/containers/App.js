@@ -15,13 +15,11 @@ import {
 	Dropdown,
 	Popover,
 	Breadcrumb,
-	message,
 	Alert,
 	Affix,
 	BackTop
 } from 'antd';
 
-import fetch from 'isomorphic-fetch'
 import HeaderNav from './layouts/HeaderNav'
 import Sidebar from './layouts/Sidebar'
 import UserProfile from './UserProfile'
@@ -29,9 +27,6 @@ import UserProfile from './UserProfile'
 import {
 	CONFIG
 } from 'login_conf'
-import {
-	shortcut
-} from '../utils/shortcut'
 import moment from 'moment-timezone/moment-timezone';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -62,32 +57,6 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		console.log("App.componentDidMount")
-
-		shortcut.add("ctrl+z", function() {
-			const hide = message.loading('正在保存中...', 110);
-
-			const url = "https://api.github.com/search/users?q=a"
-			const init = {
-				cache: 'no-cache'
-			}
-			fetch(url)
-				.then(response => response.json())
-				.then((data) => {
-					hide()
-					message.success('保存成功')
-				})
-				.catch((e) => {
-					console.error("Oops, error", e)
-					hide()
-					message.warn('保存失败 ' + '[' + e + ']');
-				})
-		}, {
-			'type': 'keydown',
-			'propagate': true,
-			'target': document
-		});
-
-		window.addEventListener('unload', this.handleUnload);
 	}
 
 	componentWillUpdate() {
@@ -104,6 +73,8 @@ export default class App extends React.Component {
 
 	componentWillUnmount() {
 		console.log("App.componentWillUnmount")
+
+		this.handleUnload()
 	}
 
 	handleUnload = () => {

@@ -66,7 +66,8 @@ export function queryForAdd(page, size) {
         }
         dispatch({
           type: QUERY_ADD,
-          res: json.dout
+          res: json.dout,
+          total: json.total
         })
       }
     )
@@ -86,7 +87,8 @@ export function queryForUpdate(page, size) {
         }
         dispatch({
           type: QUERY_UPDATE,
-          res: json.dout
+          res: json.dout,
+          total: json.total
         })
       }
     )

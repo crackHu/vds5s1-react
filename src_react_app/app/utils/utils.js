@@ -620,7 +620,7 @@ export function getMomentFormat(moment, dateFormat = DATE_FORMAT_STRING) {
   return moment.format(dateFormat)
 }
 
-// ------ 获取登陆用户对象 ------ //
+// ------ 获取登录用户对象 ------ //
 export function getLoginUser() {
 
   const USR = CONFIG.LS.USR

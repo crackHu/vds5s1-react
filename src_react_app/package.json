@@ -1,6 +1,6 @@
 {
     "name": "medicPHR",
-    "version": "1.2.5-alpha",
+    "version": "1.25.1201-alpha",
     "description": "medicPHR for web with react",
     "main": "index.js",
     "scripts": {

@@ -89,13 +89,15 @@ const stat = function(state = initialState, action) {
 
 		case QUERY_ADD:
 			updatedState = {...updatedState,
-				zjxz: action.res.zjxz
+				zjxz: action.res.zjxz,
+				total: action.total
 			}
 			return updatedState
 
 		case QUERY_UPDATE:
 			updatedState = {...updatedState,
-				zjxg: action.res.zjxg
+				zjxg: action.res.zjxg,
+				total: action.total
 			}
 			return updatedState
 		default:

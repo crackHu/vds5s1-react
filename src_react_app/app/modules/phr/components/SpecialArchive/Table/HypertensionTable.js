@@ -354,6 +354,7 @@ class HypertensionTable extends React.Component {
     			pagination={false}
     			scroll={{ y: 200 }}
     			rowClassName={(record, index) => index == selectIndex ? "record_selected" : ''}
+    			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered
 			>
 			</Table>

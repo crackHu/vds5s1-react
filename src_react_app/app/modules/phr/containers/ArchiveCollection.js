@@ -12,6 +12,7 @@ import {
 	Dropdown,
 	Affix,
 	Badge,
+	Alert,
 	Icon
 } from 'antd';
 import Tags from 'app_base/components/Tags'
@@ -20,6 +21,9 @@ import QueueAnim from 'rc-queue-anim';
 import * as AppActions from 'AppActions'
 import * as PHRAction from '../PHRAction'
 
+import {
+	shortcut
+} from 'app_base/utils/shortcut'
 import {
 	__DEBUG__,
 	msg,
@@ -33,6 +37,7 @@ import {
 	adjustGrdaJbzlField,
 	getFieldsObjArr,
 } from 'utils'
+
 import {
 	DATE_FORMAT_STRING,
 	TAB_ANIMATED,
@@ -40,7 +45,8 @@ import {
 } from 'config'
 import {
 	ARC_TYPE_CONFIG,
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
+	SHORTCUT_SUBMIT_ARCHIVES
 } from 'phr_conf'
 import {
 	CONFIG as LCONFIG
@@ -82,13 +88,19 @@ class ArchiveCollection extends React.Component {
 	componentDidMount = () => {
 		console.log('ArchiveCollection.state', this.state, this.props)
 
-		window.onscroll = () => {
+		document.onscroll = () => {
 			let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 			let showFixSaveBtn = scrollTop != 0 ? true : false
 			this.setState({
 				showFixSaveBtn
 			})
 		}
+
+		shortcut.add(SHORTCUT_SUBMIT_ARCHIVES, () => this.saveForm(), {
+			'type': 'keydown',
+			'propagate': true,
+			'target': document
+		});
 	}
 
 	componentWillReceiveProps = (nextProps) => {
@@ -136,7 +148,8 @@ class ArchiveCollection extends React.Component {
 
 	componentWillUnmount = () => {
 
-		window.onscroll = null
+		document.onscroll = null
+		shortcut.remove(SHORTCUT_SUBMIT_ARCHIVES)
 
 		/*离开这个页面时 修改主表保存状态*/
 		this.props.changeMasterSaved(false)
@@ -298,7 +311,7 @@ class ArchiveCollection extends React.Component {
 	getIds = (flag, target, key, arrFields) => {
 
 		let ids = undefined
-		if (flag == 'save' && UUID_ENABLE) {
+		if ( /*flag == 'save' &&*/ UUID_ENABLE) {
 			ids = []
 			let targetObj = target[key]
 			if (!!targetObj)
@@ -778,11 +791,18 @@ class ArchiveCollection extends React.Component {
 			)
 		})
 
-
 		return (
 			<QueueAnim delay={10}>
 				{fixSaveBtn}
 				<div className='module' key="tabs">
+					<Alert
+						message={
+							`${SHORTCUT_SUBMIT_ARCHIVES} 快速 ${operatText}`
+						}
+						type="info"
+						closeText="不再提醒"
+						showIcon
+					/>
 					<Card title={title} extra={moreSpecArcDd}>
 						<Tabs
 							animated={TAB_ANIMATED}

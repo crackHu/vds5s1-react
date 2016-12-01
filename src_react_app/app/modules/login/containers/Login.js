@@ -149,7 +149,7 @@ class Login extends React.Component {
 			        <FormItem
 			          {...formItemLayout}
 			          label="密&nbsp;&nbsp;码"
-  					  help="一周之内自动登陆"
+					  help = "一周之内自动登录"
 			        >
 			          {getFieldDecorator('pwd', { initialValue: '123456' })(
 			            <Input type="password" placeholder="请输入密码" />
@@ -162,7 +162,7 @@ class Login extends React.Component {
 			          <Button
 			           loading={this.state.loading}
 			           type="primary"
-			           htmlType="submit">登陆</Button>
+			           htmlType="submit">登录</Button>
 			        </FormItem>
 			    </Form>
 		    </div>
