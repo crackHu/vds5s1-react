@@ -13,10 +13,9 @@ export const __DEBUG__ = !(process.env.NODE_ENV === 'production')
 // 对URL地址进行拆分，返回其中附带的值
 // a返回对象,b值得字符串集合,c子值（即类似于"XX=XX"）
 // 当没有附带值是返回false
-export function getUrlVal(url) {
+export function getUrlVal(url = window.location.href) {
   let a = {},
     b, c, u
-  url = !url ? window.location.href : url
   u = url.split('?')
   if (u.length === 1) {
     return false
@@ -24,9 +23,10 @@ export function getUrlVal(url) {
     b = u[1].split('&')
     for (var i = 0; i < b.length; i++) {
       c = b[i].split('=')
-      a[c[0]] = c[1]
+      a[c[0]] = decodeURIComponent(c[1]).replace(/\+/g, " ")
     }
   }
+  console.log('getUrlVal', url, a)
   return a
 }
 
@@ -485,6 +485,10 @@ export function getArrFieldsValueObj(doutArrObj, fields, fieldFlag, arrFields) {
 
       /*用作唯一标识*/
       let timestamp_ = Date.now()
+
+      /*2016年12月2日 修复用时间戳仍会产生重复的唯一标识*/
+      timestamp_ = randomUUID()
+
       for (let field in fieldsObj) {
         if (field == fieldFlag) {
           //fieldKey = fieldsObj[fieldFlag]

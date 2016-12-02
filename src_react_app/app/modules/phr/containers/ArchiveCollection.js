@@ -36,6 +36,7 @@ import {
 	emptyObject,
 	adjustGrdaJbzlField,
 	getFieldsObjArr,
+	getUrlVal,
 } from 'utils'
 
 import {
@@ -58,6 +59,7 @@ const specArcKey = []
 for (let field of ARC_TYPE_CONFIG.specArcType) {
 	specArcKey.push(field.containKey)
 }
+const LOGINTIME = LCONFIG.LS.LOGINTIME
 
 class ArchiveCollection extends React.Component {
 
@@ -74,7 +76,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentWillMount = () => {
-		console.log('ArchiveCollection.componentWillMount', this.props.params.id)
+		console.log('ArchiveCollection.componentWillMount', this.props.params, this.props.query, this.props)
 		let id = this.props.params.id
 		if (!!id) {
 			this.props.queryPHR(id)
@@ -695,6 +697,14 @@ class ArchiveCollection extends React.Component {
 		})
 	}
 
+	routerPush = (pathname, query) => {
+		console.log('ArchiveCollection routerPush', query)
+		return this.context.router.push({
+			pathname,
+			query
+		})
+	}
+
 	render() {
 
 		const {
@@ -751,11 +761,23 @@ class ArchiveCollection extends React.Component {
 		  	</Menu>
 		);
 		/*trigger={['click']}*/
-		const moreSpecArcDd = <Dropdown overlay={moreSpecArc}>
-							    <a className="ant-dropdown-link">
-							      添加专档 <Icon type="down" />
-							    </a>
-							  </Dropdown>
+		const moreSpecArcDd = (
+			<div>
+				<Dropdown overlay={moreSpecArc}>
+				    <a className="ant-dropdown-link">
+				      添加专档 <Icon type="down" />
+				    </a>
+		  		</Dropdown>
+		  		{this.props.phr.updatestate ? (
+		  			<div className="operate">
+		  			 	<Button type="primary" onClick={() => this.routerPush('/phrs', getUrlVal())}>
+				        	<Icon type="left" />返回
+				      	</Button>
+			  		</div>
+		  		) : null}
+		  		
+	  		</div>
+		)
 
 		{ /*动态加载档案组件*/ }
 		/*{React.createElement(require(`../modules/phr/components/${arc.content}`).default,{
@@ -791,18 +813,34 @@ class ArchiveCollection extends React.Component {
 			)
 		})
 
+		const shortcut_tips = () => {
+			let logintime = localStorage.getItem(LOGINTIME)
+			let shortcut_tips_cs = localStorage.getItem('shortcut_tips_cs')
+
+			return (__DEBUG__ || !shortcut_tips_cs || logintime != shortcut_tips_cs) ?
+				< Alert
+			key = {
+				Date.now()
+			}
+			message = {
+				`${SHORTCUT_SUBMIT_ARCHIVES} 快速 ${operatText}`
+			}
+			type = "info"
+			closeText = "不再提醒"
+			onClose = {
+				() => {
+					//set shortcut tip close timestamp
+					localStorage.setItem('shortcut_tips_cs', logintime)
+				}
+			}
+			showIcon / > : null
+		}
+
 		return (
 			<QueueAnim delay={10}>
 				{fixSaveBtn}
 				<div className='module' key="tabs">
-					<Alert
-						message={
-							`${SHORTCUT_SUBMIT_ARCHIVES} 快速 ${operatText}`
-						}
-						type="info"
-						closeText="不再提醒"
-						showIcon
-					/>
+					{shortcut_tips()}
 					<Card title={title} extra={moreSpecArcDd}>
 						<Tabs
 							animated={TAB_ANIMATED}
@@ -853,6 +891,10 @@ ArchiveCollection.propTypes = {
 	changeSubmitLoad: PropTypes.func.isRequired,
 	changeMasterSaved: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
+}
+
+ArchiveCollection.contextTypes = {
+	router: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

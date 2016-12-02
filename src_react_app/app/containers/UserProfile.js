@@ -39,11 +39,12 @@ export default class UserProfile extends React.Component {
 
 	Logout = () => {
 		location.href = CONFIG.projectPath
+		localStorage.clear()
 
-		localStorage.removeItem(LOGGEDIN)
-		localStorage.removeItem(USR)
-		localStorage.removeItem(UID)
-			//this.context.router.replace('/');
+		// localStorage.removeItem(LOGGEDIN)
+		// localStorage.removeItem(USR)
+		// localStorage.removeItem(UID)
+		// this.context.router.replace('/');
 	}
 
 	render() {

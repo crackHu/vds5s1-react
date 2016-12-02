@@ -27,6 +27,7 @@ import {
 	msg,
 	notify,
 	setCookie,
+	getUrlVal,
 } from 'utils'
 import {
 	ARCHIVE_LIST_PAGESIZE as PAGESIZE,
@@ -56,11 +57,22 @@ class ArchiveList extends React.Component {
 		fieldData: undefined
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		let {
+			query
+		} = getUrlVal()
 
-	componentDidMount() {
-		this.props.getArchiveList(this.state.curPage, this.state.curPageSize);
+		if (!!query) {
+			this.setState({
+				postData: query
+			})
+			this.props.searchPHR(1, this.state.curPageSize, query)
+		} else {
+			this.props.getArchiveList(this.state.curPage, this.state.curPageSize);
+		}
 	}
+
+	componentDidMount() {}
 
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log("ArchiveList.componentDidUpdate", prevProps, prevState)
@@ -71,6 +83,7 @@ class ArchiveList extends React.Component {
 		if (!!nextProps.phr.delSuc) {
 			this.reflashDataSource()
 		}
+
 	}
 
 	/*modal event*/
@@ -240,6 +253,16 @@ class ArchiveList extends React.Component {
 		}
 	}
 
+	routerPush = (pathname, query = {
+		query: this.state.postData
+	}) => {
+		console.log('ArchiveList routerPush', query)
+		return this.context.router.push({
+			pathname,
+			query
+		})
+	}
+
 	render() {
 		const columns = [{
 			title: <span>个人编号 <Tooltip title={`点击个人编号查看/编辑档案`}><Icon type="question-circle-o" /></Tooltip></span>,
@@ -247,7 +270,7 @@ class ArchiveList extends React.Component {
 			key: 'grbh',
 			fixed: 'left',
 			width: 150,
-			render: (text, recode) => <Link to={`/phr/u/${recode.id}`}>{text}</Link>,
+			render: (text, record) => <a onClick={() => this.routerPush(`/phr/u/${record.id}`)}>{text}</a>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
@@ -342,11 +365,11 @@ class ArchiveList extends React.Component {
 
 		const advancedSearch = this.state.modalVisible ? [
 			<AdvancedSearch key="advancedSearch"
-			 modalVisible={this.state.modalVisible}
-			 switchModalVisible={this.switchModalVisible}
-			 sendSearchCondition={this.sendSearchCondition}
-			 fields={this.state.fieldData}
-			 onFieldsChange={this.onFieldsChange}
+			 	modalVisible={this.state.modalVisible}
+			 	switchModalVisible={this.switchModalVisible}
+			 	sendSearchCondition={this.sendSearchCondition}
+			 	fields={this.state.fieldData}
+			 	onFieldsChange={this.onFieldsChange}
 			/>
 		] : null;
 
@@ -390,13 +413,13 @@ class ArchiveList extends React.Component {
 							/>
 						</div>
 						<Table
-						 key="table"
-						 columns={columns}
-						 dataSource={data}
-						 pagination={pagination}
-						 loading={loading}
-						 scroll={{x:1100}}
-						 bordered
+						 	key="table"
+						 	columns={columns}
+						 	dataSource={data}
+					 		pagination={pagination}
+							loading={loading}
+							scroll={{x:1100}}
+				 			onRowClick={(record, index) => this.routerPush(`/phr/u/${record.id}`, {query: this.state.postData})}
 						/>
 				    </Card>
 				</div>
@@ -411,6 +434,10 @@ ArchiveList.propTypes = {
 	searchPHR: PropTypes.func.isRequired,
 	changeListLoad: PropTypes.func.isRequired,
 	phr: PropTypes.object.isRequired
+}
+
+ArchiveList.contextTypes = {
+	router: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

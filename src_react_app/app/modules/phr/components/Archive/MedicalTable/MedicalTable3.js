@@ -125,27 +125,32 @@ class MedicalTable3 extends React.Component {
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
-		<FormItem label="尿潜血">
+							<FormItem label="尿潜血">
 					        	{getFieldDecorator('grda_ncg_nqx')(
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
-					        </FormItem> < FormItem label = "其他" > {
-			getFieldDecorator('grda_ncg_qt')(
-				<Input />
-			)
-		}
+					        </FormItem>
+					        <FormItem label = "其他">
+					        	{getFieldDecorator('grda_ncg_qt')(
+									<Input />
+								)}
 					        </FormItem>
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
 					        <FormItem label="空腹血糖" required>
-					        	{getFieldDecorator('grda_kfxt1')(//grda_kfxt1/2
+					        	{getFieldDecorator('grda_kfxt1')(
 				        			<InputNumber step={0.1} style={{width: 100}}/>
 					        	)}
-					        	<RadioGroup>
+					        	mmol/L或{' '}
+					        	{getFieldDecorator('grda_kfxt2')(
+				        			<InputNumber step={0.1} style={{width: 100}}/>
+					        	)}
+					        	mg/dL
+					        	{/*<RadioGroup>
 					              <RadioButton value="mmol/L">mmol/L</RadioButton>
 					              <RadioButton value="mg/dL">mg/dL</RadioButton>
-					            </RadioGroup>
+					            </RadioGroup>*/}
 					        </FormItem>
 							<FormItem label="心电图" required>
 					        	{getFieldDecorator('grda_xdt')(

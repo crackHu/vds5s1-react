@@ -18,7 +18,8 @@ export const CONFIG = {
 	LS: {
 		LOGGEDIN: 'TE9HR0VESU4=',
 		USR: 'VVNS',
-		UID: 'dWlk'
+		UID: 'dWlk',
+		LOGINTIME: 'TE9HSU5USU1F',
 	},
 
 }

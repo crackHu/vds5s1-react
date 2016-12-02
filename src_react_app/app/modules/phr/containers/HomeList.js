@@ -12,7 +12,7 @@ import {
 import {
 	connect
 } from 'react-redux';
-import * as STATAction from '../../stat/STATAction'
+import * as STATAction from 'stat/STATAction'
 
 class HomeList extends React.Component {
 
@@ -91,17 +91,17 @@ class HomeList extends React.Component {
 						this.props.queryForAdd(current, this.state.addCurPageSize)
 					},
 					showQuickJumper: true,
-					pageSize: this.state.curPageSize,
+					pageSize: this.state.addCurPageSize,
 					showTotal: (total) => `共 ${total} 条`,
 				}
 				zjxzTable = (
 					<Table
-           columns={columns}
-           dataSource={this.props.stat.zjxz}
-           size="small"
-           scroll={{ x: 1200 }}
-           pagination={xzPagination}
-          />
+			           columns={columns}
+			           dataSource={this.props.stat.zjxz}
+			           size="small"
+			           scroll={{ x: 1200 }}
+			           pagination={xzPagination}
+			          />
 				)
 			} else {
 				zjxzTable = (<div>暂无数据</div>)
@@ -128,19 +128,17 @@ class HomeList extends React.Component {
 						this.props.queryForUpdate(current, this.state.updCurPageSize)
 					},
 					showQuickJumper: true,
-					pageSize: this.state.curPageSize,
+					pageSize: this.state.updCurPageSize,
 					showTotal: (total) => `共 ${total} 条`,
 				}
 				zjxgTable = (
-					<div>
-	          <Table
-	           columns={columns}
-	           dataSource={this.props.stat.zjxg}
-	           size="small"
-	           scroll={{ x: 1200 }}
-	           pagination={xgPagination}
-	          />
-          </div>
+					<Table
+			           columns={columns}
+			           dataSource={this.props.stat.zjxg}
+			           size="small"
+			           scroll={{ x: 1200 }}
+			           pagination={xgPagination}
+		         	/>
 				)
 			} else {
 				zjxgTable = (<div>暂无数据</div>)

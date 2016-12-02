@@ -101,6 +101,12 @@ body,html{
     top: 18px;
 }
 
+.module .ant-card-extra .operate{
+    float: right;
+    position: relative;
+    top: -8px;
+}
+
 .module .field{
     height: 50px;
     @extend .flex;

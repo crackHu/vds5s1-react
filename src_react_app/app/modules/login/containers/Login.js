@@ -32,6 +32,7 @@ const RadioGroup = Radio.Group;
 
 const USR = CONFIG.LS.USR
 const UID = CONFIG.LS.UID
+const LOGINTIME = CONFIG.LS.LOGINTIME
 const LOGGEDIN = CONFIG.LS.LOGGEDIN
 
 class Login extends React.Component {
@@ -76,7 +77,7 @@ class Login extends React.Component {
 					localStorage.setItem(LOGGEDIN, 1)
 					localStorage.setItem(UID, dout.uid ? dout.uid : '')
 					setCookie('uid', dout.uid ? dout.uid : '')
-					setCookie('LoginTime', Date.now())
+					localStorage.setItem(LOGINTIME, JSON.stringify(Date.now()))
 					delete dout.uid
 					localStorage.setItem(USR, JSON.stringify(dout))
 					location.reload()
