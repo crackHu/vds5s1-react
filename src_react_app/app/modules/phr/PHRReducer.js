@@ -68,7 +68,7 @@ let initialState = {
 	mastersaved: false,
 	[FIELDSN]: {
 		grdaJbzl: {
-			/*grda_csrq: {
+			grda_csrq: {
 				value: moment('1950-1-1')
 			},
 			grda_jdrq: {
@@ -118,14 +118,14 @@ let initialState = {
 			},
 			grda_csl: {
 				value: '无'
-			},*/
+			},
 		},
 		grdaJws: {
 			selectedRowKeys: [],
 			objSize: []
 		},
 		grdaJzs: {
-			/*cylb_0: {
+			cylb_0: {
 				value: '父亲'
 			},
 			jbmc_0: {
@@ -148,7 +148,7 @@ let initialState = {
 			},
 			jbmc_3: {
 				value: '无'
-			},*/
+			},
 			selectedRowKeys: [],
 			objSize: [{}, {}, {}, {}]
 		},
@@ -472,8 +472,17 @@ const phr = function(state = initialState, action) {
 			})
 		case CLEAR_STORE:
 			console.log('CLEAR_STORE initialState =>', initialState)
+
+			//todo 2016年12月5日10:01:19 deep copy !!!!!!! copy initialState don't work
 			console.log('CLEAR_STORE =>', Object.assign({}, initialState, flag))
-			return Object.assign({}, initialState, flag)
+			return Object.assign({}, {
+				[FIELDSN]: {
+					...initialState[FIELDSN],
+					['grdaJbzl']: {
+						...initialState[FIELDSN]['grdaJbzl'],
+					}
+				},
+			}, flag)
 		case CHANGE_ARRTABLE_SELKEY:
 			return Object.assign({}, state, {
 				[FIELDSN]: {

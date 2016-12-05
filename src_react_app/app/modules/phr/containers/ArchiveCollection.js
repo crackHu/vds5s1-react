@@ -770,9 +770,26 @@ class ArchiveCollection extends React.Component {
 		  		</Dropdown>
 		  		{this.props.phr.updatestate ? (
 		  			<div className="operate">
-		  			 	<Button type="primary" onClick={() => this.routerPush('/phrs', getUrlVal())}>
-				        	<Icon type="left" />返回
-				      	</Button>
+				      	<Button.Group>
+			  			 	<Button type="ghost" onClick={() => this.routerPush('/phrs', getUrlVal())}>
+					        	<Icon type="left" />返回
+					      	</Button>	
+			  			 	<Button type="primary" onClick={() => {
+			  			 		this.props.clearStore({
+				  			 		updatestate: false,
+				  			 	})
+				  			 	this.setState({
+									activeKey: this.arcType[0].key,
+									arcType: this.arcType,
+									submitloading: false,
+									title: undefined,
+									operatText: undefined,
+									showFixSaveBtn: false
+				  			 	})
+			  			 	}}>
+					        	录入下一条
+					      	</Button>
+				        </Button.Group>
 			  		</div>
 		  		) : null}
 		  		

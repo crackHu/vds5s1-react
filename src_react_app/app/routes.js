@@ -19,9 +19,48 @@ import ArchiveList from './modules/phr/containers/ArchiveCollection';
 import Statistics from './modules/stat/containers/Statistics';
 */
 
+const onEnterHandler = (nextState, replace, callback) => {
+	//获取传输过来的数据
+	/*if (query.qsparam) {
+	  serverAuth(query.qsparam)
+	  .then(
+	    () => next(),//成功,通过next()成功跳转
+	    () => {
+	      replace('/error')//重定向
+	      callback()
+	    }
+	  )
+	} else {
+	  replace('/error')
+	  callback()
+	}*/
+	callback()
+}
+
+const onChangeHandler = (prevState, nextState, replace, callback) => {
+
+	let prevPathname = prevState.location.pathname
+	let nextPathname = nextState.location.pathname
+	let now = Date.now()
+	console.log('onChangeHandler', prevState, nextState, prevPathname, nextPathname)
+	let phr_refresh = localStorage.getItem('phr_refresh')
+	console.log('aaaaaaaaaaaa', now, phr_refresh, now - parseInt(phr_refresh || 0))
+	if ((!phr_refresh || now - parseInt(phr_refresh) > 1000) && !!prevState.params.id && prevPathname.indexOf(nextPathname) > -1) {
+		localStorage.setItem('phr_refresh', now)
+		replace({
+			pathname: '/phr',
+			state: {
+				nextPathname: nextState.location.pathname
+			}
+		})
+		console.log('ssssssssssssssssssssssssssss', now, phr_refresh, now - parseInt(phr_refresh))
+	}
+	callback()
+}
+
 const routes = (loggedIn) => {
 
-	if (eval(loggedIn)) {
+	if (eval(loggedIn)) {　
 
 		const dynamicRoute = MENU_CONFIG.menuItem.map((item, i) => {
 
@@ -43,26 +82,25 @@ const routes = (loggedIn) => {
 		const independenceRoute = INDEPENDENCE_ROUTE_CONFIG.map((item, i) => {
 			return (
 				<Route
-				 key={Date.now()}
-				 path={item.route}
-				 component={require(`${item.path}.js`).default}
-				 sidebarKey={item.sidebarKey}
-				 headerNavKey={item.headerNavKey}
+				 	key={Date.now()}
+				 	path={item.route}
+				 	component={require(`${item.path}.js`).default}
+				 	sidebarKey={item.sidebarKey}
+				 	headerNavKey={item.headerNavKey}
 				/>
 			)
 		})
 
 		return (
 			/*已登录使用的路由组件*/
-			<Route path="/" component={App}>
+			<Route path="/" component={App} onChange={onChangeHandler}>
 			    <IndexRoute component={Home} sidebarKey="Home" headerNavKey="Home"/>
 			    {/*
 				    <Route path="/home" component={Home} sidebarKey="Home" headerNavKey="Home"/>
 				    <Route path="ArchiveCollection" component={ArchiveCollection} sidebarKey="ArchiveCollection" headerNavKey="ArchiveCollection"/>
 				    <Route path="ArchiveList" component={ArchiveList} sidebarKey="ArchiveList" headerNavKey="ArchiveList"/>
 					<Route path="Statistics" component={Statistics} sidebarKey="Statistics" headerNavKey="Statistics"/>
-					
-				*/} 
+				*/}
 				{dynamicRoute}
 				{independenceRoute}
 		    </Route>

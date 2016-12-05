@@ -349,7 +349,7 @@ class DiabetesTable extends React.Component {
    				title={title}
     			pagination={false}
     			scroll={{ y: 200 }}
-    			rowClassName={(record, index) => index == selectIndex ? "record_selected" : ''}
+    			rowClassName={(record, index) => index == selectIndex ? "record selected" : 'record'}
     			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered
 			>

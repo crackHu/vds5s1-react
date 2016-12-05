@@ -184,7 +184,7 @@ export function saveHealthMedical(key = 'grdaJkzk', data, ids) {
 	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, dispatchObj, saveMsg())
 }
 /*更新健康体检表*/
-export function updateHealthMedical(key = 'grdaJkzk', data) {
+export function updateHealthMedical(key = 'grdaJkzk', data, ids) {
 
 	let query = api.updateHealthMedical(data)
 	let dispatchObj = {

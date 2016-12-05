@@ -58,6 +58,10 @@ legend {
     line-height: 3;
 }
 
-.record_selected {
+.record {
+	cursor: pointer;
+}
+
+.selected {
 	background: #E7F4FD;
 }

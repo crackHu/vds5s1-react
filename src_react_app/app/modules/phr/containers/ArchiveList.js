@@ -420,6 +420,7 @@ class ArchiveList extends React.Component {
 							loading={loading}
 							scroll={{x:1100}}
 				 			onRowClick={(record, index) => this.routerPush(`/phr/u/${record.id}`, {query: this.state.postData})}
+    						rowClassName={(record, index) => 'record'}
 						/>
 				    </Card>
 				</div>
