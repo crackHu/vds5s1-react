@@ -2,6 +2,7 @@ import React, {
 	Component,
 	PropTypes
 } from 'react'
+import classNames from 'classnames';
 import {
 	Form,
 	Input,
@@ -122,7 +123,8 @@ class MedicalTable1 extends React.Component {
 	render() {
 		const {
 			getFieldDecorator,
-			setFieldsValue
+			setFieldsValue,
+			getFieldValue
 		} = this.props.form
 
 		const grda_tjrq = getFieldDecorator('grda_tjrq')(
@@ -133,6 +135,24 @@ class MedicalTable1 extends React.Component {
 		const grda_zrys = getFieldDecorator('grda_tjzrys')(
 			<Input />
 		)
+
+		//收缩压 Systolic blood pressure
+		const systolicBlood = getFieldValue('grda_xyzc1')
+		const sblClass = classNames({
+			'disline': true,
+			'bp-yellow': 140 <= systolicBlood && systolicBlood < 160,
+			'bp-purple': 160 <= systolicBlood && systolicBlood < 180,
+			'bp-red': systolicBlood >= 180,
+		})
+
+		//舒张压 Diastolic blood pressure
+		const diastolicBlood = getFieldValue('grda_xyzc2')
+		const dblClass = classNames({
+			'disline': true,
+			'bp-yellow': 90 <= diastolicBlood && diastolicBlood < 100,
+			'bp-purple': 100 <= diastolicBlood && diastolicBlood < 110,
+			'bp-red': diastolicBlood >= 110,
+		})
 
 		return (
 			<Form
@@ -170,15 +190,15 @@ class MedicalTable1 extends React.Component {
 			        <Row className="item_inline_spacing">
 				        <FormItem label="血压左侧">
 				        	<InputGroup size="large" className="disline">
-	    						<div className="disline" style={{width: '15%'}}>
+	    						<div className={sblClass} style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyzc1')(
-						        		<InputNumber step={0.1}/>
+						        		<InputNumber step={1}/>
 	    							)}
 						      	</div>
 						      	{' / '}
-					    		<div className="disline" style={{width: '15%'}}>
+					    		<div className={dblClass} style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyzc2')(
-						        		<InputNumber step={0.1}/>
+						        		<InputNumber step={1}/>
 	    							)}
 						      	</div>
 					    		<div className="disline" style={{width: '10%'}}>
@@ -190,13 +210,13 @@ class MedicalTable1 extends React.Component {
 				        	<InputGroup size="large" className="disline">
 					    		<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyyc1')(
-						        		<InputNumber step={0.1}/>
+						        		<InputNumber step={1}/>
 	    							)}
 						      	</div>
 						      	{' / '}
 					    		<div className="disline" style={{width: '15%'}}>
 	    							{getFieldDecorator('grda_xyyc2')(
-						        		<InputNumber step={0.1}/>
+						        		<InputNumber step={1}/>
 	    							)}
 						      	</div>
 					    		<div className="disline" style={{width: '10%'}}>
@@ -222,22 +242,22 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="脉率">
 					    	<div className="disline" style={{width: '44%'}}>
     							{getFieldDecorator('grda_ml')(
-					        		<InputNumber step={0.1}/>
+					        		<InputNumber step={1}/>
     							)}
 					    	</div>
 					    	{' '}
-					    	<div className="disline middle" style={{width: '20%'}}>
+					    	<div className="disline middle" style={{width: '30%'}}>
 					      		{'次/分钟'}
 					    	</div>
 				        </FormItem>
 				        <FormItem label="呼吸频率">
 					    	<div className="disline" style={{width: '49%'}}>
     							{getFieldDecorator('grda_hxpl')(
-					        		<InputNumber step={0.1}/>
+					        		<InputNumber step={1}/>
     							)}
 					    	</div>
 					    	{' '}
-					    	<div className="disline middle" style={{width: '20%'}}>
+					    	<div className="disline middle" style={{width: '30%'}}>
 					      		{'次/分钟'}
 					    	</div>
 				        </FormItem>
@@ -298,6 +318,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="老年人健康状态自我评估" required>
 				        	{getFieldDecorator('grda_lrjkzt')(
 								<Select
+					        		combobox
 								    style={{ width: 266 }}
 									placeholder="请选择"
 								  >
@@ -309,6 +330,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="老年人生活自理能力自我评估" required>
 				        	{getFieldDecorator('grda_lrshzlnl')(
 								<Select
+					        		combobox
 								    style={{ width: 237 }}
 									placeholder="请选择"
 								  >
@@ -322,6 +344,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="老年人认识能力" required>
 				        	{getFieldDecorator('grda_lrrzgn')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >
@@ -337,6 +360,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="老年人情感状态" required>
 				        	{getFieldDecorator('grda_lrqgzt')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >
@@ -362,6 +386,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="锻炼频率">
 				        	{getFieldDecorator('grda_dlpl')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -372,7 +397,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="每次锻炼时间">
 							<div className="disline" style={{width: '50%'}}>
 				        	{getFieldDecorator('grda_mcdlsj')(
-					        	<InputNumber step={0.1}/>
+					        	<InputNumber step={1}/>
 				        	)}
 					    	</div>
 					    	{' '}
@@ -383,7 +408,7 @@ class MedicalTable1 extends React.Component {
 				        <FormItem label="坚持锻炼时间">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_jcdlsj')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -402,6 +427,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="饮食习惯">
 				        	{getFieldDecorator('grda_ysxg')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -413,6 +439,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="吸烟情况 吸烟状况">
 				        	{getFieldDecorator('grda_xyqk')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -424,7 +451,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="日吸烟量 平均">
 					    	<div className="disline" style={{width: '50%'}}>
 				        	{getFieldDecorator('grda_mtxyl')(
-					        	<InputNumber step={0.1}/>
+					        	<InputNumber step={1}/>
 				        	)}
 					    	</div>
 					    	{' '}
@@ -436,7 +463,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="开始吸烟年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_ksxynl')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -448,7 +475,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="戒烟年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_mcjynl')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -462,6 +489,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="饮酒习惯 饮酒频率">
 				        	{getFieldDecorator('grda_yjpl')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -473,7 +501,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="日饮酒量 平均">
 							<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_meyjl')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -485,6 +513,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="是否戒酒">
 				        	{getFieldDecorator('grda_sfjj')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -496,7 +525,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="戒酒年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_mcjjnl')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -508,7 +537,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="开始饮酒年龄">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_ksyjnl')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}
@@ -522,6 +551,7 @@ class MedicalTable1 extends React.Component {
 			        <FormItem label="近一年内是否曾醉酒">
 				        	{getFieldDecorator('grda_jynsfczj')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -546,6 +576,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="职业病危害因素接触史">
 				        	{getFieldDecorator('grda_zybwhys')(
 								<Select
+					        		combobox
 								    style={{ width: 100 }}
 									placeholder="请选择"
 								  >	
@@ -563,7 +594,7 @@ class MedicalTable1 extends React.Component {
 			        	<FormItem label="从业时间">
 					    	<div className="disline" style={{width: '50%'}}>
 					        	{getFieldDecorator('grda_cysj')(
-						        	<InputNumber step={0.1}/>
+						        	<InputNumber step={1}/>
 					        	)}
 					    	</div>
 					    	{' '}

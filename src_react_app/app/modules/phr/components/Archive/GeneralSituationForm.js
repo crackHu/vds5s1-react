@@ -189,10 +189,22 @@ class GeneralSituationForm extends React.Component {
 					this.xzz_qt = xzzQtValue
 				}
 			}
+
+			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
+			const {
+				getFieldsValue,
+				setFieldsValue
+			} = this.props.form
+
+			if (flag == 'xzz') {
+				setFieldsValue({
+					grda_hkdz_qt: fields.grda_xzz_qt.value || ''
+				})
+			}
 		}
 	}
 
-	onAddrChange = (value, flag) => {
+	onAddrChange = (value, flag = 'hkdz') => {
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
@@ -217,6 +229,20 @@ class GeneralSituationForm extends React.Component {
 					this.xzz_qt = xzzQtValue
 				}
 			}
+
+			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
+			const {
+				getFieldsValue,
+				setFieldsValue
+			} = this.props.form
+
+			if (flag == 'xzz') {
+				if (!!value && value.constructor == Array && value.length > 0) {
+					setFieldsValue({
+						grda_hkdz: ['广东省'].concat(value)
+					})
+				}
+			}
 		}
 	}
 
@@ -225,11 +251,11 @@ class GeneralSituationForm extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 
-		/*姓名*/
+		/*性别*/
 		const grda_xb =
 			getFieldDecorator('grda_xb')(
 				<Select
-		           style={{ width: 120 }}
+					style={{ width: 120 }}
 		          >
 		           {this.getSelectOptions(this.sexOptions)}
 		      	</Select>

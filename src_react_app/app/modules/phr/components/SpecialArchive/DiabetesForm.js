@@ -71,6 +71,8 @@ class DiabetesForm extends React.Component {
 		this.admOptions = this.selectOption.adherenceMed;
 		/*药物不良反应*/
 		this.drugReactOptions = this.selectOption.drugReactions;
+		/*低血糖反应*/
+		this.hypogOptions = this.selectOption.hypoglycemia;
 		/*此次随访分类*/
 		this.fucOptions = this.selectOption.followUpClass;
 		/*足背动脉搏动*/
@@ -85,7 +87,7 @@ class DiabetesForm extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log('DiabetesForm componentWillReceiveProps', nextProps, this.props)
-		this.genFollowUpVisit()
+			//this.genFollowUpVisit()
 	}
 
 	//BMI自动生成
@@ -132,8 +134,12 @@ class DiabetesForm extends React.Component {
 	genFollowUpVisit = () => {
 		const gxy_sfrq2 = this.props.form.getFieldValue('tnb_sfrq2')
 		const gxy_xcsfrq2 = this.props.form.getFieldValue('tnb_xcsfrq2')
-		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
-			this.changeFollowUpVisit(gxy_sfrq2)
+
+		if (!!gxy_sfrq2) {
+			let sfrq
+			if (!gxy_xcsfrq2 || (sfrq = gxy_xcsfrq2.clone().subtract(3, 'months'), !gxy_sfrq2.isSame(sfrq))) {
+				this.changeFollowUpVisit(gxy_sfrq2)
+			}
 		}
 	}
 
@@ -221,13 +227,13 @@ class DiabetesForm extends React.Component {
 									<span>{'血压:'}</span>&nbsp;
 		    						<div className="disline" style={{width: '30%'}}>
 						       			{getFieldDecorator('tnb_tz_xy1')(
-								        	<InputNumber step={0.1} size="large"/>
+								        	<InputNumber step={1} size="large"/>
 						       			)}
 							      	</div>
 							      	&nbsp;{' / '}&nbsp;
 						    		<div className="disline" style={{width: '30%'}}>
 						       			{getFieldDecorator('tnb_tz_xy2')(
-								        	<InputNumber step={0.1} size="large"/>
+								        	<InputNumber step={1} size="large"/>
 						       			)}
 							      	</div>
 							      	&nbsp;{'mmhg'}
@@ -276,27 +282,27 @@ class DiabetesForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('tnb_shfs_rxyl')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('tnb_shfs_ryjl')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="运动">
 					       			{getFieldDecorator('tnb_shfs_mzydcs')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/周'}&nbsp;</span>
 					       			{getFieldDecorator('tnb_shfs_mcydsj')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>
 								<FormItem label="主食(克/天)">
 					       			{getFieldDecorator('tnb_shfs_zs')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="心理调整">
@@ -350,6 +356,7 @@ class DiabetesForm extends React.Component {
 								<FormItem label="药物依从性">
 					       			{getFieldDecorator('tnb_fyycx')(
 										<Select
+											combobox
 										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
@@ -360,10 +367,21 @@ class DiabetesForm extends React.Component {
 								<FormItem label="药物不良反应">
 					       			{getFieldDecorator('tnb_ywblfy')(
 										<Select
+											combobox
 										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.drugReactOptions)}
+										</Select>
+					       			)}
+								</FormItem>
+								<FormItem label="低血糖反应">
+					       			{getFieldDecorator('tnb_dxtfy')(
+							        	<Select
+										    style={{ width: 150 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.hypogOptions)}
 										</Select>
 					       			)}
 								</FormItem>

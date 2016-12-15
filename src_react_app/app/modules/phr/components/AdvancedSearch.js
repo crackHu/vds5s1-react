@@ -137,8 +137,8 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 20 }}
 						        >
 					        	{getFieldDecorator('grbh')(
-											<Input />
-										)}
+									<Input />
+								)}
 						        </FormItem>
 					        </Col>
 					        <Col sm={8}>
@@ -146,8 +146,8 @@ class AdvancedSearch extends Component {
 						          {...formItemLayout}
 						        >
 						        {getFieldDecorator('grda_xm')(
-											<Input />
-										)}
+									<Input />
+								)}
 						        </FormItem>
 					        </Col>
 				        </Row>
@@ -157,11 +157,10 @@ class AdvancedSearch extends Component {
 				        		  {...formDatePeriodLayout}
 						        >
 						        {getFieldDecorator('grda_csrq')(
-									    <RangePicker
-									     showTime
-									     format="YYYY/MM/DD HH:mm:ss"
-									     onChange={this.onChange} />
-								     )}
+								    <RangePicker
+								     format="YYYY-MM-DD"
+								     onChange={this.onChange} />
+							     )}
 						        </FormItem>
 				        	</Col>
 				        	<Col sm={8}>
@@ -169,10 +168,10 @@ class AdvancedSearch extends Component {
 						          {...formItemLayout}
 				        		>
 				        		{getFieldDecorator('grda_xb')(
-									    <Select>
-							       		{this.getSelectOptions(this.sexOptions)}
-										  </Select>
-								     )}
+								    <Select>
+						       			{this.getSelectOptions(this.sexOptions)}
+								  	</Select>
+							     )}
 						        </FormItem>
 				        	</Col>
 				        </Row>
@@ -183,19 +182,18 @@ class AdvancedSearch extends Component {
 				        		>
 				        		{getFieldDecorator('grda_jdrq')(
 						          	<RangePicker
-								     showTime
-								     format="YYYY-MM-DD HH:mm:ss"
+								     format="YYYY-MM-DD"
 								     onChange={this.onChange} />
-								     )}
+							     )}
 						        </FormItem>
 				        	</Col>
 				        	<Col sm={8}>
 								<FormItem label="建档人"
 				        		  {...formItemLayout}
 				        		>
-						         {getFieldDecorator('grda_jdys')(
-											<Input />
-										)}
+					         	{getFieldDecorator('grda_jdys')(
+									<Input />
+								)}
 						        </FormItem>
 				        	</Col>
 				        </Row>
@@ -206,19 +204,18 @@ class AdvancedSearch extends Component {
 				        		>
 				        		{getFieldDecorator('grda_lrrq')(
 						          	<RangePicker
-								     showTime
-								     format="YYYY-MM-DD HH:mm:ss"
+								     format="YYYY-MM-DD"
 								     onChange={this.onChange} />
-								     )}
+							     )}
 						        </FormItem>
 				        	</Col>
 				        	<Col sm={8}>
 				        		<FormItem label="录入人"
 				        		  {...formItemLayout}
 				        		>
-					          {getFieldDecorator('grda_lrr')(
-											<Input />
-										)}
+					          	{getFieldDecorator('grda_lrr')(
+									<Input />
+								)}
 						        </FormItem>
 				        	</Col>
 				        </Row>
@@ -229,10 +226,10 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 17 }}
 						        >
 						        {getFieldDecorator('grda_hklx')(
-						          <Select>
+						          	<Select>
 						       			{this.getSelectOptions(this.perTypeOptions)}
-									  	</Select>
-								  	)}
+								  	</Select>
+							  	)}
 						        </FormItem>
 				        	</Col>
 							<Col sm={8}>
@@ -241,10 +238,10 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 17 }}
 						        >
 						        {getFieldDecorator('grda_dazt')(
-						          <Select>
+						          	<Select>
 					      				{this.getSelectOptions(this.arcStatusOptions)}
-								  		</Select>
-								  	)}
+							  		</Select>
+							  	)}
 						        </FormItem>
 				        	</Col>
 				        	<Col sm={8}>
@@ -253,8 +250,8 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 19 }}
 						         >
 					        	{getFieldDecorator('grda_sfzhm')(
-											<Input />
-										)}
+									<Input />
+								)}
 						        </FormItem>
 				        	</Col>
 				        </Row>
@@ -268,9 +265,9 @@ class AdvancedSearch extends Component {
 					          	<Select
 					          	 multiple
 					          	 placeholder="请选择" >
-									  		{this.getSelectOptions(this.streetTypeOptions)}
-											</Select>
-										)}
+							  		{this.getSelectOptions(this.streetTypeOptions)}
+									</Select>
+								)}
 						        </FormItem>
 							</Col>
 				        	<Col sm={12}>
@@ -279,12 +276,12 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 18 }}
 						        >
 						        {getFieldDecorator('grda_jwcmc')(
-					          	<Select
-					          	 multiple
-					          	 placeholder="请选择" >
-											  {this.getSelectOptions(this.jwcmcTypeOptions)}
-											</Select>
-										)}
+						          	<Select
+						          	 multiple
+						          	 placeholder="请选择" >
+									  {this.getSelectOptions(this.jwcmcTypeOptions)}
+									</Select>
+								)}
 						        </FormItem>
 							</Col>
 				        </Row>
@@ -295,12 +292,12 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 20 }}
 						        >
 						        {getFieldDecorator('grda_sszd')(
-					          	<Select
-					          	 multiple
-					          	 placeholder="请选择" >
-											  {this.getSelectOptions(this.specArcTypeOptions)}
-											</Select>
-										)}
+						          	<Select
+						          	 multiple
+						          	 placeholder="请选择" >
+										  {this.getSelectOptions(this.specArcTypeOptions)}
+										</Select>
+									)}
 						        </FormItem>
 				        	</Col>
 				        	<Col sm={12}>
@@ -309,10 +306,10 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 18 }}
 						        >
 						        {getFieldDecorator('grda_pczd')(
-						          <Select multiple placeholder="请选择" >
-										  	{this.getSelectOptions(this.specArcTypeOptions)}
-											</Select>
-										)}
+						          	<Select multiple placeholder="请选择" >
+									  	{this.getSelectOptions(this.specArcTypeOptions)}
+										</Select>
+									)}
 						        </FormItem>
 							</Col>
 				        </Row>
@@ -323,12 +320,12 @@ class AdvancedSearch extends Component {
 						          wrapperCol={{ sm: 22 }}
 						        >
 						        {getFieldDecorator('grda_cfda')(
-					          	<Select
-					          	 multiple
-					          	 placeholder="请选择" >
-											  {this.getSelectOptions(this.repeatFileTypeOptions)}
-											</Select>
-										)}
+						          	<Select
+						          	 multiple
+						          	 placeholder="请选择" >
+								  		{this.getSelectOptions(this.repeatFileTypeOptions)}
+									</Select>
+								)}
 						        </FormItem>
 							</Col>
 				        </Row>

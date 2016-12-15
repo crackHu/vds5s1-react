@@ -16,6 +16,10 @@ import {
 	Popconfirm,
 	Tooltip,
 	Upload,
+	Progress,
+	Badge,
+	Menu,
+	Dropdown,
 } from 'antd';
 import {
 	Link
@@ -28,15 +32,16 @@ import {
 	notify,
 	setCookie,
 	getUrlVal,
+	getLoginUser,
+	randomUUID,
+	openWindow,
 } from 'utils'
 import {
 	ARCHIVE_LIST_PAGESIZE as PAGESIZE,
 	AS_FORM_WIDGET_CONFIG as WIDGET_CONFIG
 } from 'phr_conf'
 import {
-	getReqUrl,
-	importPHR,
-	exportPHR,
+	upload,
 } from 'api'
 
 import * as PHRAction from 'phr/PHRAction'
@@ -54,7 +59,13 @@ class ArchiveList extends React.Component {
 		curPageSize: PAGESIZE,
 		isSearch: false,
 		postData: '',
-		fieldData: undefined
+		fieldData: undefined,
+		export: {
+			id: undefined,
+			progressPercent: undefined,
+			polling: 3000,
+			intervalId: undefined
+		}
 	}
 
 	componentWillMount = () => {
@@ -84,6 +95,39 @@ class ArchiveList extends React.Component {
 			this.reflashDataSource()
 		}
 
+		const phrExport = nextProps.phrExport
+		const target = phrExport.target || null
+		let {
+			id,
+			polling,
+			progressPercent
+		} = this.state.export
+
+		if (progressPercent != undefined && !!phrExport && !!target && !!id) {
+			const percent = target.bar || '0'
+			progressPercent = parseFloat(percent)
+			this.setState({
+				export: {
+					...this.state.export,
+					progressPercent: progressPercent == 100 ? undefined : progressPercent,
+				},
+			}, () => {
+				console.log('hahahahah', this.state.export, target)
+				if (progressPercent != 100) {
+					setTimeout(() => {
+						this.props.progress({
+							"conditions": this.state.postData,
+							id
+						})
+					}, polling)
+				} else {
+					msg('success', "导出成功，正在下载……")
+					this.props.download({
+						filePath: target.url,
+					})
+				}
+			})
+		}
 	}
 
 	/*modal event*/
@@ -128,7 +172,7 @@ class ArchiveList extends React.Component {
 						postDataStr += sqlStr + " and "
 					}
 				} else if (key == 'grda_jdzmc') {
-					if (param[key].value)
+					if (param[key].length)
 						postDataStr += " (j.grda_hkdz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%' or j.grda_xzz_jdzmc like '%" + WIDGET_CONFIG.selectOption.streetType[parseInt(param[key])].value + "%') and "
 				} else if (key == 'grda_sszd') {
 					if (param[key].length > 0) {
@@ -263,14 +307,86 @@ class ArchiveList extends React.Component {
 		})
 	}
 
+	exportResult = (condition = this.state.postData) => {
+
+		const id = randomUUID()
+		this.props.exportPHR({
+			condition,
+			id
+		})
+
+		const polling = this.state.export.polling
+		setTimeout(() => {
+			this.props.progress({
+				"conditions": condition,
+				id
+			})
+		}, polling / 2)
+
+		this.setState({
+			export: {
+				...this.state.export,
+				progressPercent: 0,
+				id
+			},
+		}, () => console.log('exportResult', this.state.export))
+	}
+
+	exportRecord = (condition = this.state.postData) => {
+		/*this.props.download({
+			filePath: 'D:\\Export\\20161212231339\\1.xls',
+		})*/
+		alert('开发中')
+	}
+
+	openWay = (text, record) => {
+
+		let {
+			id,
+			grda_xm,
+			grbh,
+			grda_csrq,
+			grda_brdh
+		} = record
+
+		let age
+		try {
+			age = new Date().getFullYear() - parseInt(grda_csrq.substr(0, 4))
+		} catch (e) {
+			age = ''
+		}
+		let open = {
+			url: `phr/user/${id}`,
+			title: `${grda_xm}个人档案（个人编号：${grbh}，年龄：${age}，电话号码：${grda_brdh || ''}）`
+		}
+		return (
+			<Menu>
+			    <Menu.Item key="0">
+			      <a onClick={() => this.routerPush(`/phr/u/${id}`)}>当前页打开</a>
+			    </Menu.Item>
+			    <Menu.Item key="1">
+			      <a onClick={() => openWindow(open.url, open.title)}>新窗口打开</a>
+			    </Menu.Item>
+		  	</Menu>
+		)
+	}
+
 	render() {
+
 		const columns = [{
 			title: <span>个人编号 <Tooltip title={`点击个人编号查看/编辑档案`}><Icon type="question-circle-o" /></Tooltip></span>,
 			dataIndex: 'grbh',
 			key: 'grbh',
 			fixed: 'left',
 			width: 150,
-			render: (text, record) => <a onClick={() => this.routerPush(`/phr/u/${record.id}`)}>{text}</a>,
+			render: (text, record) =>
+				<Dropdown overlay={this.openWay(text, record)} trigger={['click']}>
+				    <a className="ant-dropdown-link" href="#">
+				      {text} <Icon type="down" />
+				    </a>
+			  	</Dropdown>
+				//render: (text, record) => <a onClick={() => this.routerPush(`/phr/u/${record.id}`)}>{text}</a>,
+				//render: (text, recode) => <a href={`/phr/user/${record.id}`} title="查看/编辑 " target="_blank">{text}</a>,
 		}, {
 			title: '姓名',
 			dataIndex: 'grda_xm',
@@ -375,36 +491,69 @@ class ArchiveList extends React.Component {
 
 		const uploadProps = {
 			name: 'file',
-			action: getReqUrl + importPHR({}),
+			action: `${upload()}?userId=${getLoginUser().uid}`,
+			accept: '.xls,.xlsx',
+			data: {
+				test: 12341234
+			},
 			headers: {
 				authorization: 'authorization-text',
 			},
-			onChange(info) {
-				console.log('uploadProps', info)
+			listType: 'text',
+			showUploadList: 'false',
+			onChange: (info) => {
+				console.log('uploadProps', info, Date.now())
+					//info.file.thumbUrl = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+
 				if (info.file.status !== 'uploading') {
-					console.log(info.file, info.fileList);
+					console.log('upload onChange', info.file, info.fileList);
 				}
-				if (info.file.status === 'done') {
-					msg('success', `${info.file.name} file uploaded successfully.`)
+				if (info.file.status == 'uploading') {
+					console.log('uploading')
+				} else if (info.file.status === 'done') {
+					console.log('upload done', info.file, info.fileList);
+					let res = info.file.response
+					let fullPath = res.fullPath
+
+					this.props.importPHR(fullPath[0])
+
 				} else if (info.file.status === 'error') {
-					msg('error', `${info.file.name} file upload failed.`)
+					msg('error', `${info.file.name} 上传失败.`)
 				}
 			},
 		};
+
+		const {
+			progressPercent
+		} = this.state.export
+
+		console.log('render progressPercent', progressPercent)
+		const progress = progressPercent != undefined ? (
+			<Progress
+				className='export-progress'
+		 		percent={progressPercent}
+		  		strokeWidth={5}
+		   		status="active"
+	    		format={percent => `导出进度：${percent} %`} 
+			/>) : null
 
 		return (
 			<QueueAnim delay={10}>
 				<div className='module' key="buttonGroup">
 					<Card title="档案列表">
-						<Upload {...uploadProps}>
-				      		<Button type="ghost" icon="upload">导入</Button>
-						</Upload>
-						<Upload {...uploadProps} style={{background: '#fff'}}>
-					      	<Button type="ghost" icon="download">导出</Button>
-						</Upload>
-						<ButtonGroup style={{margin: "1em auto"}}>
+						<ButtonGroup className='ad-search-bar'>
 					      	<Button type="primary" icon="search" onClick={this.showModal}>档案查询</Button>
 					      	{advancedSearch}
+					      	{' '}
+					      	<Upload {...uploadProps}>
+					      		<Button type="ghost" icon="upload">导入</Button>
+							</Upload>
+							{' '}
+							<Button type="ghost" icon="download" onClick={() => this.exportResult()}>导出</Button>
+							{' '}
+							<Badge count={0}>
+								<Button type="ghost" icon="bars" onClick={() => this.exportRecord()}>导出日志</Button>
+							</Badge>
 					    </ButtonGroup>
 					    <div style={{float: 'right', margin: "1em"}}>
 					    	请输入条件查询：
@@ -412,6 +561,7 @@ class ArchiveList extends React.Component {
 							    onSearch={this.searchPHR} style={{ width: 200 }}
 							/>
 						</div>
+						{progress}
 						<Table
 						 	key="table"
 						 	columns={columns}
@@ -419,7 +569,9 @@ class ArchiveList extends React.Component {
 					 		pagination={pagination}
 							loading={loading}
 							scroll={{x:1100}}
-				 			onRowClick={(record, index) => this.routerPush(`/phr/u/${record.id}`, {query: this.state.postData})}
+				 			onRowClick={(record, index) => {
+				 				//this.routerPush(`/phr/u/${record.id}`, {query: this.state.postData})
+				 			}}
     						rowClassName={(record, index) => 'record'}
 						/>
 				    </Card>
@@ -434,6 +586,12 @@ ArchiveList.propTypes = {
 	deletePHR: PropTypes.func.isRequired,
 	searchPHR: PropTypes.func.isRequired,
 	changeListLoad: PropTypes.func.isRequired,
+
+	importPHR: PropTypes.func.isRequired,
+	exportPHR: PropTypes.func.isRequired,
+	progress: PropTypes.func.isRequired,
+	download: PropTypes.func.isRequired,
+
 	phr: PropTypes.object.isRequired
 }
 
@@ -443,7 +601,8 @@ ArchiveList.contextTypes = {
 
 function mapStateToProps(state) {
 	return {
-		phr: state.phr
+		phr: state.phr,
+		phrExport: state.phrExport
 	}
 }
 

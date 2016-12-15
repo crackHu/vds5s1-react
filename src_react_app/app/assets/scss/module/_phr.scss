@@ -65,3 +65,36 @@ legend {
 .selected {
 	background: #E7F4FD;
 }
+
+//血压值
+.bp-yellow {
+    background-color: #FAC450;
+}
+.bp-purple {
+    background-color: #582DAA;
+}
+.bp-red {
+    background-color: #E01515;
+}
+
+//高级搜索工具条
+.ad-search-bar {
+	margin: 1em auto
+}
+.ad-search-bar > span {
+	display: inline-flex
+}
+.ad-search-bar .ant-badge {
+	vertical-align: top;
+}
+.ad-search-bar .ant-badge-count {
+	position: relative;
+}
+
+//导出进度条
+.export-progress .ant-progress-outer {
+    width: 100%;
+}
+.export-progress .ant-progress-text {
+	width: 120px;
+}

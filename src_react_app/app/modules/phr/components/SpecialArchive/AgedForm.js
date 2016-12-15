@@ -101,7 +101,7 @@ class AgedForm extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log('AgedForm componentWillReceiveProps', nextProps, this.props)
-		this.genFollowUpVisit()
+			//this.genFollowUpVisit()
 	}
 
 	/*handleRateChange = (rateValue, key) => {
@@ -160,8 +160,12 @@ class AgedForm extends React.Component {
 	genFollowUpVisit = () => {
 		const gxy_sfrq2 = this.props.form.getFieldValue('lnr_sfrq')
 		const gxy_xcsfrq2 = this.props.form.getFieldValue('lnr_xcsfrq')
-		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
-			this.changeFollowUpVisit(gxy_sfrq2)
+
+		if (!!gxy_sfrq2) {
+			let sfrq
+			if (!gxy_xcsfrq2 || (sfrq = gxy_xcsfrq2.clone().subtract(3, 'months'), !gxy_sfrq2.isSame(sfrq))) {
+				this.changeFollowUpVisit(gxy_sfrq2)
+			}
 		}
 	}
 

@@ -16,7 +16,8 @@ const config = {
 	output: {
 		path: BUILD_PATH,
 		filename: '[name].bundle.js',
-		publicPath: '/'
+		publicPath: '/',
+		chunkFilename: '[name].[chunkhash:5].chunk.js',
 	},
 	devtool: 'cheap-module-eval-source-map',
 	devServer: {

@@ -2,6 +2,7 @@ import React, {
 	Component,
 	PropTypes
 } from 'react'
+import classNames from 'classnames';
 import {
 	Form,
 	Input,
@@ -56,6 +57,7 @@ class HypertensionForm extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {}
 
 		this.selectOption = WIDGET_CONFIG.selectOption
 		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
@@ -84,7 +86,7 @@ class HypertensionForm extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log('HypertensionForm componentWillReceiveProps', nextProps, this.props)
-		this.genFollowUpVisit()
+			//this.genFollowUpVisit()
 	}
 
 	//BMI自动生成
@@ -131,20 +133,28 @@ class HypertensionForm extends React.Component {
 	genFollowUpVisit = () => {
 		const gxy_sfrq2 = this.props.form.getFieldValue('gxy_sfrq2')
 		const gxy_xcsfrq2 = this.props.form.getFieldValue('gxy_xcsfrq2')
-		if (!!gxy_sfrq2 && !gxy_xcsfrq2) {
-			this.changeFollowUpVisit(gxy_sfrq2)
+
+		if (!!gxy_sfrq2) {
+			let sfrq
+			if (!gxy_xcsfrq2 || (sfrq = gxy_xcsfrq2.clone().subtract(3, 'months'), !gxy_sfrq2.isSame(sfrq))) {
+				this.changeFollowUpVisit(gxy_sfrq2)
+			}
 		}
 	}
 
-	//检测输入血压数值情况
-	detectHypertensionlv = (value, key) => {}
+	//检测输入血压数值情况 @key Systolic blood pressure/Diastolic blood pressure
+	detectHypertensionlv = (value, key) => {
+
+
+	}
 
 	render() {
 		const {
 			onFieldsChange,
 		} = this.props
 		const {
-			getFieldDecorator
+			getFieldDecorator,
+			getFieldValue
 		} = this.props.form
 		const {
 			gxyJxb,
@@ -168,6 +178,24 @@ class HypertensionForm extends React.Component {
 		objSize = !!gxyJxb ? gxyJxb.objSize : objSize
 		gxyYyqkObjSize = !!gxyYyqk ? gxyYyqk.objSize : gxyYyqkObjSize
 		let formDisplay = !!(gxyjl.objSize) ? gxyjl.objSize.length > 0 ? 'block' : 'none' : 'none'
+
+		//收缩压 Systolic blood pressure
+		const systolicBlood = getFieldValue('gxy_tz_xy1')
+		const sblClass = classNames({
+			'disline': true,
+			'bp-yellow': 140 <= systolicBlood && systolicBlood < 160,
+			'bp-purple': 160 <= systolicBlood && systolicBlood < 180,
+			'bp-red': systolicBlood >= 180,
+		})
+
+		//舒张压 Diastolic blood pressure
+		const diastolicBlood = getFieldValue('gxy_tz_xy2')
+		const dblClass = classNames({
+			'disline': true,
+			'bp-yellow': 90 <= diastolicBlood && diastolicBlood < 100,
+			'bp-purple': 100 <= diastolicBlood && diastolicBlood < 110,
+			'bp-red': diastolicBlood >= 110,
+		})
 
 		return (
 			<div>
@@ -221,20 +249,18 @@ class HypertensionForm extends React.Component {
 								<FormItem label="体征" />
 									<div className="inputSpanGroup" style={{width: '250px'}}>
 										<span>{'血压:'}</span>&nbsp;
-			    						<div className="disline" style={{width: '30%'}}>
+			    						<div className={sblClass} style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy1')(
 									        	<InputNumber
-									        	 onChange={(value) => this.detectHypertensionlv(value, 'gxy_tz_xy1')}
-									        	 step={0.1}
+									        	 step={1}
 									        	 size="large"/>
 							       			)}
 								      	</div>
 								      	&nbsp;{' / '}&nbsp;
-							    		<div className="disline" style={{width: '30%'}}>
+							    		<div className={dblClass} style={{width: '30%'}}>
 							       			{getFieldDecorator('gxy_tz_xy2')(
 								        		<InputNumber
-								        		 onChange={(value) => this.detectHypertensionlv(value, 'gxy_tz_xy2')}
-								        		 step={0.1}
+								        		 step={1}
 								        		 size="large"/>
 							       			)}
 								      	</div>
@@ -265,7 +291,7 @@ class HypertensionForm extends React.Component {
 						        </FormItem>
 						        <FormItem label="心率(次/分钟)">
 					       			{getFieldDecorator('gxy_tz_xl')(
-										<InputNumber step={0.1} style={{width: 60}}/>
+										<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="其他">
@@ -279,21 +305,21 @@ class HypertensionForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('gxy_shfs_rxyl')(
-							        	<InputNumber step={0.1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('gxy_shfs_ryjl')(
-							        	<InputNumber step={0.1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="运动">
 					       			{getFieldDecorator('gxy_shfs_mzydcs')(
-							        	<InputNumber step={0.1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/周'}&nbsp;</span>
 					       			{getFieldDecorator('gxy_shfs_mcydsj')(
-							        	<InputNumber step={0.1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>
@@ -344,7 +370,7 @@ class HypertensionForm extends React.Component {
 								<FormItem label="药物不良反应">
 					       			{getFieldDecorator('gxy_ywblfy')(
 							        	<Select
-							        		tags
+							        		combobox
 										    style={{ width: 150 }}
 											placeholder="请选择"
 										  >	

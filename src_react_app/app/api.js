@@ -5,8 +5,9 @@ import {
 const BASE_URL = CONFIG.baseUrl
 const PROJECT_NAME = CONFIG.projectName
 
-export const getReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boVdsRequest.jsp?data=`
-export const postReqUrl = `${BASE_URL}/${PROJECT_NAME}/ba/tmpl/boCallMethod.jsp`
+export const reqUrl = `${BASE_URL}/${PROJECT_NAME}`
+export const getReqUrl = `${reqUrl}/ba/tmpl/boVdsRequest.jsp?data=`
+export const postReqUrl = `${reqUrl}/ba/tmpl/boCallMethod.jsp`
 
 function PostQuery(din, fid, pid) {
 	this.din = din
@@ -205,12 +206,22 @@ export function getIndividualNumbe(data) {
 	return postQuery.serialize('getIndividualNumbe');
 }
 
+/*上传 @servlet*/
+export function upload() {
+	return `${reqUrl}/upload.action`
+}
+
+/*下载 @servlet*/
+export function download() {
+	return `${reqUrl}/download.do`
+}
+
 /*导入*/
 export function importPHR(data) {
 
-	let postQuery = new PostQuery(data, 'importAllExcel', 'boExport')
+	let postQuery = new PostQuery(data, 'importNowExcel', 'boExport')
 
-	return postQuery.serialize('import');
+	return postQuery.serialize('importPHR');
 }
 
 /*导出*/
@@ -218,7 +229,15 @@ export function exportPHR(data) {
 
 	let postQuery = new PostQuery(data, 'exportAllExcel', 'boExport')
 
-	return postQuery.serialize('export');
+	return postQuery.serialize('exportPHR');
+}
+
+/*导出进度*/
+export function progress(data) {
+
+	let postQuery = new PostQuery(data, 'exportLog', 'boExport')
+
+	return postQuery.serialize('progress');
 }
 
 /*获取档案年龄百分比*/

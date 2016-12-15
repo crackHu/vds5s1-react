@@ -52,6 +52,7 @@ const getSelectOptions = (data) => {
 const ARC_TAB = 'tnbSfjl'
 const RECORD_TAB = 'tnbjl'
 const RECORD_KEY = 'tnb_sfrq2'
+const NEXT_VIS_KEY = 'tnb_xcsfrq2'
 const FIELDSN = FIELDS_CONFIG.name
 const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
 
@@ -84,8 +85,10 @@ class DiabetesTable extends React.Component {
 			notify('warn', '警告', '随访日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB, RECORD_KEY)
-			this.initialValue(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY, NEXT_VIS_KEY)
+			if (objSize == 0) {
+				this.initialValue(ARC_TAB)
+			}
 		}
 		this.setState({
 			selectIndex: objSize.length
@@ -348,7 +351,7 @@ class DiabetesTable extends React.Component {
 				size="middle"
    				title={title}
     			pagination={false}
-    			scroll={{ y: 200 }}
+    			scroll={{ y: 120 }}
     			rowClassName={(record, index) => index == selectIndex ? "record selected" : 'record'}
     			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered

@@ -30,6 +30,31 @@ export function getUrlVal(url = window.location.href) {
   return a
 }
 
+//对象转url参数字符串
+export function parseParam(param, key = null) {
+  var paramStr = "";
+  let type = typeof param
+  if (type == 'string' || type == 'number' || type == 'boolean') {
+    paramStr += "&" + key + "=" + encodeURIComponent(param);
+  } else if (type == 'object' && param.constructor == Object) {
+    Object.keys(param).forEach(key => {
+      paramStr += parseParam(param[key], key);
+    })
+  } else {
+    throw Error(`parseParam => [param] type error`)
+  }
+  return paramStr
+}
+
+//打开窗口
+export function openWindow(url, title, replace = false) {
+  var tmp = window.open(url, "", "fullscreen=1", replace)
+  tmp.moveTo(0, 0);
+  tmp.resizeTo(screen.width + 20, screen.height);
+  tmp.focus();
+  tmp.location = `${__DEBUG__ ? '' : '#/'}${url}?open=win&title=${title}`;
+}
+
 //检查字段是否为空或不存在  
 export function checkParams(params) {
   if (params === null || params === 'undefined' || !params)
@@ -141,6 +166,24 @@ export function setCookie(c_name, value, expiredays = 7) {
 export function getCookie(name) {
   var reg = eval("/(?:^|;\\s*)" + name + "=([^=]+)(?:;|$)/");
   return reg.test(document.cookie) ? RegExp.$1 : "";
+}
+
+// ------ 下载 blob file ------ //
+export function downFile(blob, fileName) {
+  try {
+    if (window.navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(blob, fileName);
+    } else {
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+    }
+  } catch (e) {
+    notify('error', '下载出错', e.message);
+    throw Error(`downFile => ${e.message}`)
+  }
 }
 
 // ------ user regards ------ //
@@ -631,9 +674,10 @@ export function getLoginUser() {
   const UID = CONFIG.LS.UID
   const LOGGEDIN = CONFIG.LS.LOGGEDIN
   const user = JSON.parse(localStorage.getItem(USR))
+  const uid = localStorage.getItem(UID)
   return {
     ...user,
-    UID
+    uid
   }
 }
 
@@ -829,34 +873,43 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
 
   let obj = {}
   for (let date in stateField) {
-    let fieldArrObj = stateField[date]
-    for (let field in fieldArrObj) {
-      if (fields.indexOf(field) > -1) {
-        let value = fieldArrObj[field].value
-        let objField = obj[field]
-        if (!objField) {
-          obj[field] = []
-        }
-        if (isString(value)) {
-          //普通字符串
-          obj[field].push(value)
-        } else if (typeof value == 'number') {
-          obj[field].push(value + '')
-        } else if (isArray(value)) {
-          //数组 e.g.地址，多选
-          obj[field].push(value.join(','))
-        } else if (typeof value == 'object') {
-          //日期
-          !!value ? obj[field].push(value.format(date_format)) : ''
-        } else if (typeof value == 'undefined') {
-          //自定义的属性
-          if (field == 'timestamp_') {
-            obj[field].push(fieldArrObj[field])
+    if (date != 'selectKey') {
+      let fieldArrObj = stateField[date]
+        //for (let field in fieldArrObj) {
+      fields.map((field, index) => {
+          //if (fields.indexOf(field) > -1) {
+          let objField = obj[field]
+          if (!objField) {
+            obj[field] = []
           }
-        } else {
-          obj[field].push(value)
-        }
-      }
+          let fieldObj = fieldArrObj[field]
+          if (!!fieldObj) {
+            let value = fieldObj.value
+            if (isString(value)) {
+              //普通字符串
+              obj[field].push(value)
+            } else if (typeof value == 'number') {
+              obj[field].push(value + '')
+            } else if (isArray(value)) {
+              //数组 e.g.地址，多选
+              obj[field].push(value.join(','))
+            } else if (typeof value == 'object') {
+              //日期
+              !!value ? obj[field].push(value.format(date_format)) : ''
+            } else if (typeof value == 'undefined') {
+              //自定义的属性
+              if (field == 'timestamp_') {
+                obj[field].push(fieldArrObj[field])
+              }
+            } else {
+              obj[field].push(value)
+            }
+          } else {
+            obj[field].push('')
+          }
+          //}
+        })
+        //}
     }
   }
 

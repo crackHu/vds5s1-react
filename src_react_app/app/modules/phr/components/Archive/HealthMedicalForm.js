@@ -80,8 +80,7 @@ class HealthMedicalForm extends React.Component {
 			    	this.arcType[1].sub.map((arc, index) => {
 			    		let Container = require(`../${arc.content}`).default
 						return (
-						    <TabPane
-						     tab={arc.name} key={arc.key}>
+						    <TabPane tab={arc.name} key={arc.key}>
 								<Container
 									fields={fields}
 									grdaZyyyqkFields={grdaZyyyqk}
@@ -106,9 +105,9 @@ class HealthMedicalForm extends React.Component {
 				{/*体检记录*/}
 				<div className="dashed_border form inside">
 					<HealthMedicalTable
-					 fields={grdaJkjl}
-					 onFieldsChange={onFieldsChange}
-					 objSize={objSize}
+				 		fields={grdaJkjl}
+				 		onFieldsChange={onFieldsChange}
+				 		objSize={objSize}
 					/>
 				</div>
 				<div style={{display: tabDisplay}}>

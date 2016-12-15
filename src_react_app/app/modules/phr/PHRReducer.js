@@ -31,6 +31,9 @@ import {
 	SELECT_SON_ROW_KEY,
 	ADD_LABEL,
 	DEL_LABEL,
+	IMPORT_PHR,
+	EXPORT_PHR,
+	PROGRESS,
 } from 'ActionTypes';
 
 import {
@@ -39,6 +42,10 @@ import {
 import {
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
 } from 'phr_conf'
+import {
+	CONFIG as LOGIN_CONFIG
+} from 'login_conf'
+
 import {
 	getMomentObj as moment,
 	getMomentFormat as momentFormat,
@@ -55,7 +62,7 @@ import {
 const today_ts = Date.now()
 const today_obj = moment(new Date())
 const today_str = today_obj.format(DATE_FORMAT_STRING)
-const username = getLoginUser().userName
+const username = getLoginUser().userName || LOGIN_CONFIG.DEFAULT.USERNAME
 const FIELDSN = FIELDS.name
 let initialState = {
 	/*档案列表加载状态*/
@@ -78,10 +85,10 @@ let initialState = {
 				value: today_obj
 			},
 			grda_jdys: {
-				value: username || 'admin'
+				value: username
 			},
 			grda_lrr: {
-				value: username || 'admin'
+				value: username
 			},
 			grda_hklx: {
 				value: '户籍'
@@ -269,56 +276,60 @@ const phr = function(state = initialState, action) {
 				}
 			}
 		case QUERY_PHR:
-			let labels = dout.labels || []
+			if (resultCode > 0) {
+				let labels = dout.labels || []
 
-			let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
-			let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
-			let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
+				let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
+				let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
+				let grdaJzs = getFieldsValueArrObj(dout.grdaJzs, FIELDS['grdaJzs'])
 
-			let grdaJkzkFields = FIELDS['grdaJkzk']
-				//grda_tjrq key @deprecated
-			let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
-			let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
+				let grdaJkzkFields = FIELDS['grdaJkzk']
+					//grda_tjrq key @deprecated
+				let grdaJkzk = getArrFieldsValueObj(dout.grdaJkzk, grdaJkzkFields, 'grda_tjrq', grdaJkzkFields['arrFields'])
+				let grdaJkjl = getArrFieldsObjByObj(grdaJkzk, FIELDS['grdaJkjl'].fields)
 
-			let gxyJxbFields = FIELDS['gxyJxb']
-				//gxy_sfrq2 key @deprecated
-			let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, gxyJxbFields, 'gxy_sfrq2', gxyJxbFields['arrFields'])
-			let gxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['gxyjl'].fields)
+				let gxyJxbFields = FIELDS['gxyJxb']
+					//gxy_sfrq2 key @deprecated
+				let gxyJxb = getArrFieldsValueObj(dout.gxyJxb, gxyJxbFields, 'gxy_sfrq2', gxyJxbFields['arrFields'])
+				let gxyjl = getArrFieldsObjByObj(gxyJxb, FIELDS['gxyjl'].fields)
 
-			let tnbSfjlFields = FIELDS['tnbSfjl']
-				//tnb_sfrq2 key @deprecated
-			let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, tnbSfjlFields, 'tnb_sfrq2', tnbSfjlFields['arrFields'])
-			let tnbjl = getArrFieldsObjByObj(tnbSfjl, FIELDS['tnbjl'].fields)
+				let tnbSfjlFields = FIELDS['tnbSfjl']
+					//tnb_sfrq2 key @deprecated
+				let tnbSfjl = getArrFieldsValueObj(dout.tnbSfjl, tnbSfjlFields, 'tnb_sfrq2', tnbSfjlFields['arrFields'])
+				let tnbjl = getArrFieldsObjByObj(tnbSfjl, FIELDS['tnbjl'].fields)
 
-			let lnrSfbFields = FIELDS['lnrSfb']
-				//lnr_sfrq key @deprecated
-			let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, lnrSfbFields, 'lnr_sfrq', lnrSfbFields['arrFields'])
-			let lnrjl = getArrFieldsObjByObj(lnrSfb, FIELDS['lnrjl'].fields)
+				let lnrSfbFields = FIELDS['lnrSfb']
+					//lnr_sfrq key @deprecated
+				let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, lnrSfbFields, 'lnr_sfrq', lnrSfbFields['arrFields'])
+				let lnrjl = getArrFieldsObjByObj(lnrSfb, FIELDS['lnrjl'].fields)
 
-			return Object.assign({}, initialState, {
-				submitloading: false,
-				updatestate: true,
-				mastersaved: true,
-				[FIELDSN]: {
-					labels,
+				return Object.assign({}, initialState, {
+					submitloading: false,
+					updatestate: true,
+					mastersaved: true,
+					[FIELDSN]: {
+						labels,
 
-					grdaJbzl,
-					grdaJws,
-					grdaJzs,
+						grdaJbzl,
+						grdaJws,
+						grdaJzs,
 
-					grdaJkzk,
-					grdaJkjl,
+						grdaJkzk,
+						grdaJkjl,
 
-					gxyJxb,
-					gxyjl,
+						gxyJxb,
+						gxyjl,
 
-					tnbSfjl,
-					tnbjl,
+						tnbSfjl,
+						tnbjl,
 
-					lnrSfb,
-					lnrjl,
-				}
-			})
+						lnrSfb,
+						lnrjl,
+					}
+				})
+			} else {
+				return state
+			}
 		case DELETE_PHR:
 			return Object.assign({}, initialState, state, {
 				delSuc: resultCode > 0,
@@ -570,27 +581,34 @@ const phr = function(state = initialState, action) {
 			const today_ts = Date.now()
 			const today_obj = moment(new Date())
 			var stateFlag = stateFields[flag]
-			var selectKey
-			var selectKey_ = stateFlag.selectKey
-			if (!!selectKey_) {
-				//selectKey = moment(selectKey_).add(1, 'days')
-				selectKey = today_obj
-			} else {
-				//selectKey = today_obj.subtract(7, 'days')
-				selectKey = today_obj
-			}
-			//var selectDay = selectKey.format(DATE_FORMAT_STRING)
+			var selectKey = today_obj
 			var selectDay = today_ts
 			var grbh = stateFields['grdaJbzl']['grbh'] || null
 			console.log(ADD_OBJ_ITEM, selectKey, selectKey.format(DATE_FORMAT_STRING), today_obj.format(DATE_FORMAT_STRING))
+
+			//2016年12月14日11:24:59 copy上一条数据
+			var lastKey = '',
+				lastObj = {}
+			if (!!stateFlag) {
+				Object.keys(stateFlag).forEach((key, index) => {
+					if (key != 'selectKey')
+						lastKey = key
+				})
+				lastObj = stateFlag[lastKey] || {}
+			}
+
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,
 					[flag]: {
 						...stateFlag,
 						[selectDay]: {
+							...lastObj,
 							[action.recordKey]: {
 								value: selectKey
+							},
+							[action.nextVisKey]: {
+								value: selectKey.clone().add(3, 'months')
 							},
 							timestamp_: today_ts,
 							grbh,
@@ -744,11 +762,51 @@ const phr = function(state = initialState, action) {
 					},
 				})
 			})
+		case IMPORT_PHR:
+			console.log('reducer', IMPORT_PHR)
+			return state
+		case EXPORT_PHR:
+			console.log('reducer', EXPORT_PHR)
+			return state
 		default:
 			return state
 	}
 }
 
+const phrExport = function(state = {}, action) {
+
+	console.debug('phrExport state =>', state, ' action =>', action)
+
+	let actData = action.data || {}
+	let dout = actData.dout || {}
+	let status = actData.status || {}
+	let resultCode = status.resultCode
+	let resultMsg = status.resultMsg
+
+	switch (action.type) {
+
+		case PROGRESS:
+
+			let record = dout.bars || null
+			if (resultCode >= 0) {
+				let total = 0
+				if (!!record && record.constructor == Array) {
+					total = record.length
+				}
+				return {
+					record,
+					total,
+					target: total > 0 ? record[0] : null
+				}
+			}
+			return state
+		default:
+			return state
+	}
+
+}
+
 module.exports = {
 	phr,
+	phrExport,
 }

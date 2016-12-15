@@ -7,6 +7,7 @@ import app from './app';
 import login from 'login/LoginReducer'
 import {
 	phr,
+	phrExport
 } from 'phr/PHRReducer'
 import {
 	stat,
@@ -15,7 +16,10 @@ import {
 const rootReducer = combineReducers({
 
 	login,
+
 	phr,
+	phrExport,
+
 	stat
 });
 

@@ -155,7 +155,8 @@ class MedicalTable3 extends React.Component {
 							<FormItem label="心电图" required>
 					        	{getFieldDecorator('grda_xdt')(
 						        	<Select
-									    style={{ width: 120 }}
+						        		combobox
+									    style={{ width: 313 }}
 										placeholder="请选择"
 									  >	
 									  {getSelectOptions(this.eleOptions)}
@@ -173,6 +174,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="大便潜血" required>
 					        	{getFieldDecorator('grda_dbqx')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -188,6 +190,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="乙型肝炎表面抗原" required>
 					        	{getFieldDecorator('grda_yxgybmky')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -278,7 +281,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="胸部x线片" required>
 					        	{getFieldDecorator('grda_xbxxp')(
 						        	<Select
-						        		tags
+						        		combobox
 									    style={{ width: 200 }}
 										placeholder="请选择"
 									  >	
@@ -289,7 +292,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="B超">
 					        	{getFieldDecorator('grda_bc')(
 						        	<Select
-						        		tags
+						        		combobox
 									    style={{ width: 200 }}
 										placeholder="请选择"
 									  >	
@@ -300,7 +303,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="宫颈涂片">
 					        	{getFieldDecorator('grda_gjtp')(
 						        	<Select
-						        		tags
+						        		combobox
 									    style={{ width: 200 }}
 										placeholder="请选择"
 									  >	
@@ -315,9 +318,21 @@ class MedicalTable3 extends React.Component {
 						<legend style={{width: '110px'}}>中医体质辨识</legend>
 
 			       		<Row className="item_inline_spacing">
+			       			<FormItem label="平和质">
+					        	{getFieldDecorator('grda_zybs_phz')(
+						        	<Select
+						        		combobox
+									    style={{ width: 120 }}
+										placeholder="请选择"
+									  >	
+									  {getSelectOptions(this.gtOptions)}
+									</Select>
+					        	)}
+					        </FormItem>
 					        <FormItem label="气虚质">
 					        	{getFieldDecorator('grda_zybs_qxz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -328,6 +343,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="阳虚质">
 					        	{getFieldDecorator('grda_zybs_yxz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -338,6 +354,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="阴虚质">
 					        	{getFieldDecorator('grda_zybs_yinxz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -348,6 +365,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="痰湿质">
 					        	{getFieldDecorator('grda_zybs_tsz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -361,16 +379,18 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="湿热质">
 					        	{getFieldDecorator('grda_zybs_srz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
-									  {getSelectOptions(this.csOptions)}
+									  {getSelectOptions(this.uGTOptions)}
 									</Select>
 					        	)}
 					        </FormItem>
 					        <FormItem label="血瘀质">
 					        	{getFieldDecorator('grda_zybs_xyz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -381,6 +401,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="气郁质">
 					        	{getFieldDecorator('grda_zybs_qyz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	
@@ -391,6 +412,7 @@ class MedicalTable3 extends React.Component {
 					        <FormItem label="特秉质">
 					        	{getFieldDecorator('grda_zybs_tbz')(
 						        	<Select
+						        		combobox
 									    style={{ width: 120 }}
 										placeholder="请选择"
 									  >	

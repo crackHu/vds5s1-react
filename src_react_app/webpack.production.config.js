@@ -31,7 +31,8 @@ const config = {
 	output: {
 		path: BUILD_PATH,
 		filename: 'assets/[name].bundle.js',
-		publicPath: `/${PROJECT_NAME}/app/`
+		publicPath: `/${PROJECT_NAME}/app/`,
+		chunkFilename: '[name].[chunkhash:5].chunk.js',
 	},
 	module: {
 		loaders: [{

@@ -54,12 +54,16 @@ class MainMedicationsTable extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.selectOption = WIDGET_CONFIG.selectOption
+
+		/*用法*/
+		this.usageOptions = getSelectOptions(this.selectOption.usage);
 		/*用量*/
-		this.dosageOptions = getSelectOptions(WIDGET_CONFIG.selectOption.dosage);
+		this.dosageOptions = getSelectOptions(this.selectOption.dosage);
 		/*用药时间*/
-		this.usageDateOptions = getSelectOptions(WIDGET_CONFIG.selectOption.usageDate);
+		this.usageDateOptions = getSelectOptions(this.selectOption.usageDate);
 		/*服药依从性*/
-		this.adherenceOptions = getSelectOptions(WIDGET_CONFIG.selectOption.adherence);
+		this.adherenceOptions = getSelectOptions(this.selectOption.adherence);
 	}
 
 	componentWillMount = () => {}
@@ -94,7 +98,9 @@ class MainMedicationsTable extends React.Component {
 			},
 			usage(value, option) {
 				return (
-					<Input style={{width: '10vw'}}/>
+					<Select combobox style={{width: '10vw'}}>
+						{option}
+					</Select>
 				)
 			},
 			dosage(value, option) {
@@ -138,7 +144,7 @@ class MainMedicationsTable extends React.Component {
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('ywmc_' + index)(
-						renderContent.drugName(value, this.memberOptions)
+						renderContent.drugName(value)
 					)}
 				</FormItem>,
 		}, {
@@ -149,7 +155,7 @@ class MainMedicationsTable extends React.Component {
 			render: (value, row, index) =>
 				<FormItem>
 					{getFieldDecorator('yf_' + index)(
-						renderContent.usage(value, this.memberOptions)
+						renderContent.usage(value, this.usageOptions)
 					)}
 				</FormItem>,
 		}, {

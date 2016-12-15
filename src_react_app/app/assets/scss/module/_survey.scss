@@ -15,3 +15,16 @@
 .survey .ant-card-head-title{
     font-size: 16px;
 }
+
+.home-list{
+	flex-wrap: nowrap
+}
+
+.home-list > .ant-card-body{
+    padding: 0px;
+    background: #ebecf1;
+}
+
+.home-list .ant-card{
+    margin-right: 0px;
+}

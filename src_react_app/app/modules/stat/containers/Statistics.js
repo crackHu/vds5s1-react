@@ -89,83 +89,17 @@ class Statistics extends React.Component {
 
   render() {
 
-    const columns = [{
-      title: '个人编号',
-      width: 100,
-      dataIndex: 'grbh',
-      key: 'grbh'
-    }, {
-      title: '性别',
-      dataIndex: 'grda_xb',
-      key: 'grda_xb',
-      width: 100
-    }, {
-      title: '地址',
-      width: 100,
-      dataIndex: 'address',
-      key: 'address'
-    }, {
-      title: '本人电话',
-      dataIndex: 'grda_brdh',
-      key: 'grda_brdh',
-      width: 100
-    }, {
-      title: '联系人电话',
-      dataIndex: 'grda_lxrdh',
-      key: 'grda_lxrdh',
-      width: 100
-    }, {
-      title: '疾病标签',
-      dataIndex: 'label',
-      key: 'label',
-      width: 100
-    }, ];
-
-
     return (
       <QueueAnim delay={10}>
         <div className='survey' key='statistics'>
-          <Card>
-            <div id="pieChart" style={{width: 550, height: 340}}></div>
+          <Card style={{ width: 570 }}>
+            <div id="pieChart" style={{height: 350}}></div>
           </Card>
-          <Card>
-            <div id="lineChart" style={{width: 600, height: 400}}></div>
+          <Card style={{ width: 570 }}>
+            <div id="lineChart" style={{height: 350}}></div>
           </Card>
         </div>
       </QueueAnim>
-      /*<QueueAnim>
-        <div className='survey' key="survey">
-          <Card title='每日新增用户' style={{ width: 440 }}>
-            <BarChart
-                  data={data}
-                  width={380}
-                  height={300}
-                  margin={{top: 10, bottom: 50, left: 50, right: 10}}/>
-          </Card>
-          <Card title='每日新增用户' style={{ width: 440 }}>
-            <BarChart
-                  data={data}
-                  width={380}
-                  height={300}
-                  margin={{top: 10, bottom: 50, left: 50, right: 10}}/>
-          </Card>
-          <Card title='每日新增用户' style={{ width: 440 }}>
-            <BarChart
-                  data={data}
-                  width={380}
-                  height={300}
-                  margin={{top: 10, bottom: 50, left: 50, right: 10}}/>
-          </Card>
-          <Card title='每日新增用户' style={{ width: 440 }}>
-            <BarChart
-                  data={data}
-                  width={380}
-                  height={300}
-                  margin={{top: 10, bottom: 50, left: 50, right: 10}}/>
-          </Card>
-          
-        </div>
-      </QueueAnim>*/
     )
   }
 }

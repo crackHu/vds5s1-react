@@ -64,13 +64,41 @@ class MedicalTable6 extends React.Component {
 		this.rfcOptions = this.checkboxGroupOptions.riskFactorsCon;
 	}
 
-	componentWillMount = () => {
-		/*this.props.form.setFieldsValue({
-			keys: [0],
-		});*/
+	componentWillMount = () => {}
+
+	componentDidMount = () => {
+		this.updateState(this.props)
 	}
 
-	componentDidMount = () => {}
+	componentWillUpdate = (nextProps, nextState) => {
+		console.log('MedicalTable6.componentWillUpdate', nextProps, nextState)
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+		console.log('MedicalTable6.componentWillReceiveProps', nextProps)
+		this.updateState(nextProps)
+	}
+
+	updateState = (props) => {
+		const {
+			getFieldValue,
+			setFieldsValue
+		} = props.form
+
+		const grda_jkpj = getFieldValue('grda_jkpj')
+		const grda_ycqk = getFieldValue('grda_ycqk1')
+
+		const exception = !!grda_ycqk || grda_jkpj != '体检无异常'
+		console.log('异常情况', grda_jkpj, grda_ycqk, exception)
+		if (grda_jkpj != '体检无异常' && grda_jkpj != '有异常') {
+			setFieldsValue({
+				grda_jkpj: exception ? '有异常' : '体检无异常'
+			})
+		}
+		this.setState({
+			exception
+		})
+	}
 
 	onAbnormalChange = (e) => {
 		console.log(`radio checked:${e.target.value}`);
@@ -81,9 +109,6 @@ class MedicalTable6 extends React.Component {
 				grda_ycqk.push(`grda_ycqk${i}`)
 			}
 			this.props.form.resetFields(grda_ycqk)
-			this.setState({
-				exception: false
-			})
 		} else {
 			this.setState({
 				exception: true
@@ -150,9 +175,9 @@ class MedicalTable6 extends React.Component {
 					<FormItem label="异常情况" >
 						{getFieldDecorator('grda_jkpj')(
 							<RadioGroup
-							  style={{ marginLeft: '14px' }}
-							 onChange={this.onAbnormalChange}>
-						      {getRadioOptions(this.abnormalOptions)}
+						  		style={{ marginLeft: '14px' }}
+						 		onChange={this.onAbnormalChange}>
+					      			{getRadioOptions(this.abnormalOptions)}
 						    </RadioGroup>
 					    )}
 			        </FormItem>
@@ -250,11 +275,7 @@ function onFieldsChange(props, fields) {
 
 function mapPropsToFields(props) {
 	console.log("MedicalTable6 mapPropsToFields", props)
-	return Object.assign({}, {
-		grda_Jkpj: {
-			value: '体检无异常'
-		}
-	}, props.fields || {})
+	return props.fields || {}
 }
 
 export default Form.create({

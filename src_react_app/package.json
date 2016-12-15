@@ -1,6 +1,6 @@
 {
     "name": "medicPHR",
-    "version": "1.25.1201-alpha",
+    "version": "1.25.1213-beta",
     "description": "medicPHR for web with react",
     "main": "index.js",
     "scripts": {
@@ -57,7 +57,7 @@
         "webpack-dev-server": "^1.14.1"
     },
     "dependencies": {
-        "antd": "^2.5.0",
+        "antd": "^2.5.2",
         "echarts": "^3.2.3",
         "history": "^2.1.2",
         "immutable": "^3.8.1",

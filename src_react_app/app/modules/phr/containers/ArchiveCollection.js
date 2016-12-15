@@ -77,7 +77,10 @@ class ArchiveCollection extends React.Component {
 
 	componentWillMount = () => {
 		console.log('ArchiveCollection.componentWillMount', this.props.params, this.props.query, this.props)
-		let id = this.props.params.id
+
+		let {
+			id
+		} = this.props.params
 		if (!!id) {
 			this.props.queryPHR(id)
 		} else {
@@ -85,6 +88,16 @@ class ArchiveCollection extends React.Component {
 				updatestate: false
 			})
 		}
+
+		//2016年12月14日01:43:44 新窗口设置title
+		let {
+			open,
+			title
+		} = this.props.location.query
+		if (!!open && !!title && open == 'win') {
+			document.title = title
+		}
+
 	}
 
 	componentDidMount = () => {
@@ -760,6 +773,7 @@ class ArchiveCollection extends React.Component {
 				}
 		  	</Menu>
 		);
+
 		/*trigger={['click']}*/
 		const moreSpecArcDd = (
 			<div>
@@ -768,12 +782,13 @@ class ArchiveCollection extends React.Component {
 				      添加专档 <Icon type="down" />
 				    </a>
 		  		</Dropdown>
-		  		{this.props.phr.updatestate ? (
+		  		{getUrlVal().query != undefined 
+		  			&&this.props.phr.updatestate ? (
 		  			<div className="operate">
 				      	<Button.Group>
-			  			 	<Button type="ghost" onClick={() => this.routerPush('/phrs', getUrlVal())}>
+			      			<Button type="ghost" onClick={() => this.routerPush('/phrs', getUrlVal())}>
 					        	<Icon type="left" />返回
-					      	</Button>	
+					      	</Button>
 			  			 	<Button type="primary" onClick={() => {
 			  			 		this.props.clearStore({
 				  			 		updatestate: false,

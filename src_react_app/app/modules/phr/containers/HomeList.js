@@ -33,6 +33,14 @@ class HomeList extends React.Component {
 		this.props.queryForUpdate(this.state.updCurPage, this.state.updCurPageSize)
 	}
 
+	routerPush = (pathname, query = null) => {
+		console.log('HomeList routerPush', query)
+		return this.context.router.push({
+			pathname,
+			query
+		})
+	}
+
 	render() {
 
 		const columns = [{
@@ -45,10 +53,10 @@ class HomeList extends React.Component {
 			title: '性别',
 			dataIndex: 'grda_xb',
 			key: 'grda_xb',
-			width: 50
+			width: 25
 		}, {
 			title: '地址',
-			width: 50,
+			width: 100,
 			dataIndex: 'address',
 			key: 'address'
 		}, {
@@ -65,7 +73,7 @@ class HomeList extends React.Component {
 			title: '疾病标签',
 			dataIndex: 'label',
 			key: 'label',
-			width: 50
+			width: 75
 		}, ];
 
 		let zjxzTable, zjxgTable
@@ -96,12 +104,14 @@ class HomeList extends React.Component {
 				}
 				zjxzTable = (
 					<Table
-			           columns={columns}
-			           dataSource={this.props.stat.zjxz}
-			           size="small"
-			           scroll={{ x: 1200 }}
-			           pagination={xzPagination}
-			          />
+		           		columns={columns}
+		           		dataSource={this.props.stat.zjxz}
+		           		size="small"
+		           		scroll={{ x: 1100 }}
+		           		pagination={xzPagination}
+		 				onRowClick={(record, index) => this.routerPush(`/phr/u/${record.id}`)}
+						rowClassName={(record, index) => 'record'}
+		          	/>
 				)
 			} else {
 				zjxzTable = (<div>暂无数据</div>)
@@ -133,11 +143,13 @@ class HomeList extends React.Component {
 				}
 				zjxgTable = (
 					<Table
-			           columns={columns}
-			           dataSource={this.props.stat.zjxg}
-			           size="small"
-			           scroll={{ x: 1200 }}
-			           pagination={xgPagination}
+		           		columns={columns}
+		           		dataSource={this.props.stat.zjxg}
+		           		size="small"
+	           			scroll={{ x: 1100 }}
+		           		pagination={xgPagination}
+	 					onRowClick={(record, index) => this.routerPush(`/phr/u/${record.id}`)}
+						rowClassName={(record, index) => 'record'}
 		         	/>
 				)
 			} else {
@@ -149,14 +161,14 @@ class HomeList extends React.Component {
 		}
 
 		return (
-			<div>
+			<Card className="home-list">
 				<Card title="一周新增数据">
 					{zjxzTable}
 				</Card>
 				<Card title="一周修改数据">
 					{zjxgTable}
 				</Card>
-			</div>
+			</Card>
 		)
 	}
 }
@@ -165,6 +177,10 @@ HomeList.propTypes = {
 	queryForAdd: PropTypes.func.isRequired,
 	queryForUpdate: PropTypes.func.isRequired,
 	stat: PropTypes.object.isRequired
+}
+
+HomeList.contextTypes = {
+	router: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

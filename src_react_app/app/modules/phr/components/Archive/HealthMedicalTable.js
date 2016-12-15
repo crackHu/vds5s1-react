@@ -50,6 +50,7 @@ const getSelectOptions = (data) => {
 const ARC_TAB = 'grdaJkzk'
 const RECORD_TAB = 'grdaJkjl'
 const RECORD_KEY = 'grda_tjrq'
+const NEXT_VIS_KEY = 'grda_xcsfrq'
 const FIELDSN = FIELDS_CONFIG.name
 const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
 
@@ -90,12 +91,15 @@ class HealthMedicalTable extends React.Component {
 			notify('warn', '警告', '体检日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB, RECORD_KEY)
-			this.initialValue(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY, NEXT_VIS_KEY)
+			if (objSize == 0) {
+				this.initialValue(ARC_TAB)
+			}
 		}
 		this.setState({
 			selectIndex: objSize.length
 		})
+		console.log('initabbb', this.props.form.getFieldsValue())
 	}
 
 	//初始化表单数据
@@ -290,7 +294,7 @@ class HealthMedicalTable extends React.Component {
 				size="middle"
    				title={title}
     			pagination={false}
-    			scroll={{ y: 200 }}
+    			scroll={{ y: 120 }}
     			rowClassName={(record, index) => index == selectIndex ? "record selected" : 'record'}
     			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered

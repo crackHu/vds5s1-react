@@ -52,6 +52,7 @@ const getSelectOptions = (data) => {
 const ARC_TAB = 'lnrSfb'
 const RECORD_TAB = 'lnrjl'
 const RECORD_KEY = 'lnr_sfrq'
+const NEXT_VIS_KEY = 'lnr_xcsfrq'
 const FIELDSN = FIELDS_CONFIG.name
 const JKJLFIELDS = FIELDS_CONFIG[RECORD_TAB].fields
 
@@ -89,8 +90,10 @@ class AgedTable extends React.Component {
 			notify('warn', '警告', '随访日期不能为空');
 		} else {
 			this.props.addItem(RECORD_TAB)
-			this.props.addObjItem(ARC_TAB, RECORD_KEY)
-			this.initialValue(ARC_TAB)
+			this.props.addObjItem(ARC_TAB, RECORD_KEY, NEXT_VIS_KEY)
+			if (objSize == 0) {
+				this.initialValue(ARC_TAB)
+			}
 		}
 		this.setState({
 			selectIndex: objSize.length
@@ -342,7 +345,7 @@ class AgedTable extends React.Component {
 				size="middle"
    				title={title}
     			pagination={false}
-    			scroll={{ x: 1650, y: 200 }}
+    			scroll={{ x: 1650, y: 138 }}
     			rowClassName={(record, index) => index == selectIndex ? "record selected" : 'record'}
     			onRowClick={(record, index) => this.changeSelectDate(ARC_TAB, timestamp_[index], index)}
     			bordered

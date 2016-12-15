@@ -971,6 +971,15 @@ export const ARC_FORM_WIDGET_CONFIG = {
 		}],
 
 		/*健康体检表 主要用药情况 用药用量*/
+		usage: [{
+			value: '口服'
+		}, {
+			value: '注射'
+		}, {
+			value: '贴敷'
+		}],
+
+		/*健康体检表 主要用药情况 用药用量*/
 		dosage: [{
 			value: 'tid mg'
 		}, {
@@ -2911,6 +2920,15 @@ export const SPEC_ARC_FORM_WIDGET_CONFIG = {
 			value: '无'
 		}],
 
+		/*高血压记录表 糖尿病记录表 低血糖反应*/
+		hypoglycemia: [{
+			value: '无'
+		}, {
+			value: '偶尔'
+		}, {
+			value: '频繁'
+		}],
+
 		/*高血压记录表 糖尿病记录表 此次随访分类*/
 		followUpClass: [{
 			value: '控制满意'
@@ -3891,10 +3909,16 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 	},
 	gxyJxb: {
 		gxy_sffs: '门诊',
+		gxy_zz: '无症状',
+		gxy_shfs_rxyl: 0,
+		gxy_shfs_ryjl: 0,
 		gxy_sfys2: DEFAULT_USR,
 	},
 	tnbSfjl: {
 		tnb_sffs: '门诊',
+		tnb_zz: '无症状',
+		tnb_shfs_rxyl: 0,
+		tnb_shfs_ryjl: 0,
 		tnb_sfys2: DEFAULT_USR
 	},
 	lnrSfb: {
@@ -3916,4 +3940,4 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 }
 
 /**************快捷键配置**************/
-export const SHORTCUT_SUBMIT_ARCHIVES = 'ctrl+z'
+export const SHORTCUT_SUBMIT_ARCHIVES = 'ctrl+q'

@@ -81,4 +81,13 @@ export const INDEPENDENCE_ROUTE_CONFIG = [{
   route: "/phr/u/:id",
   sidebarKey: '',
   headerNavKey: 'ArchiveCollection'
+}, {
+  path: "./containers/NotFound",
+  route: "/404",
+}, ]
+
+/************** 独立路由配置（没有IndexRoute） **************/
+export const INDEPEND_ROUTE_CONFIG = [{
+  path: "./modules/phr/containers/ArchiveCollection",
+  route: "/phr/user/:id",
 }]

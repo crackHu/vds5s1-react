@@ -33,6 +33,10 @@ import {
 	DEL_LABEL,
 	DEL_STORE_LABELS,
 	DEL_STORE_FD,
+	IMPORT_PHR,
+	EXPORT_PHR,
+	PROGRESS,
+	DOWNLOAD,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -43,6 +47,8 @@ import {
 	getFieldsObj,
 	getDateTimestamp,
 	randomUUID,
+	parseParam,
+	downFile,
 } from 'utils'
 
 const fetchCatchMsg = '内部错误'
@@ -92,12 +98,13 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, 
 			typeof func == 'function' ? func() : null
 
 			if (resCode < 0) {
-				notify('warn', '警告' + '(' + resCode + ')', resMsg);
+				notify('warn', `警告(${resCode})`, resMsg);
 				console.warn("Oops, warn", resCode, resMsg)
 			} else {
 				/*server normal response execute*/
-				if (isSuccessMsg)
+				if (isSuccessMsg) {
 					msg('success', resMsg)
+				}
 			}
 			dispatch(Object.assign(dispatchObj, {
 				data
@@ -113,21 +120,17 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, 
 		})
 }
 
-const saveMsg = function() {
-	return msg('loading', '正在保存...', 30)
-}
-const updateMsg = function() {
-	return msg('loading', '正在更新...', 30)
-}
-const delMsg = function() {
-	return msg('loading', '正在删除...', 30)
-}
+const TIPS = {
+	saveMsg: () => msg('loading', '正在保存...', 30),
+	updateMsg: () => msg('loading', '正在更新...', 30),
+	delMsg: () => msg('loading', '正在删除...', 30),
 
-const saveLabel = function() {
-	return msg('loading', '添加标签中...', 30)
-}
-const deleteLabel = function() {
-	return msg('loading', '正在移除标签...', 30)
+	saveLabel: () => msg('loading', '添加标签中...', 30),
+	deleteLabel: () => msg('loading', '正在移除标签...', 30),
+
+	import: () => msg('loading', '正在导入...', 30),
+	export: () => msg('loading', '正在导出，请稍后'),
+
 }
 
 /*查询个人档案列表*/
@@ -149,7 +152,7 @@ export function savePersonalDetail(data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, dispatchObj, saveMsg())
+	return dispatch => dispatchMethod('savePersonalDetail', query, dispatch, true, dispatchObj, TIPS.saveMsg())
 }
 /*更新个人基本信息档案*/
 export function updatePersonalDetail(data) {
@@ -159,7 +162,7 @@ export function updatePersonalDetail(data) {
 		type: UPDATE_MASTER_ARCHIVES
 	}
 
-	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, dispatchObj, updateMsg())
+	return dispatch => dispatchMethod('updatePersonalDetail', query, dispatch, true, dispatchObj, TIPS.updateMsg())
 }
 /*删除个人基本信息档案 @deprecated*/
 export function deletePersonalDetail(data) {
@@ -168,7 +171,7 @@ export function deletePersonalDetail(data) {
 	let dispatchObj = {
 		type: DELETE_ARCHIVES
 	}
-	return dispatch => dispatchMethod('deletePersonalDetail', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('deletePersonalDetail', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*保存健康体检表*/
@@ -181,7 +184,7 @@ export function saveHealthMedical(key = 'grdaJkzk', data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, dispatchObj, saveMsg())
+	return dispatch => dispatchMethod('saveHealthMedical', query, dispatch, true, dispatchObj, TIPS.saveMsg())
 }
 /*更新健康体检表*/
 export function updateHealthMedical(key = 'grdaJkzk', data, ids) {
@@ -193,7 +196,7 @@ export function updateHealthMedical(key = 'grdaJkzk', data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, dispatchObj, updateMsg())
+	return dispatch => dispatchMethod('updateHealthMedical', query, dispatch, true, dispatchObj, TIPS.updateMsg())
 }
 /*删除健康体检表 @deprecated*/
 export function deleteHealthMedical(data) {
@@ -202,7 +205,7 @@ export function deleteHealthMedical(data) {
 	let dispatchObj = {
 		type: DELETE_ARCHIVES
 	}
-	return dispatch => dispatchMethod('deleteHealthMedical', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('deleteHealthMedical', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*保存高血压专档*/
@@ -215,7 +218,7 @@ export function saveHypertension(key = 'gxyJxb', data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, dispatchObj, saveMsg())
+	return dispatch => dispatchMethod('saveHypertension', query, dispatch, true, dispatchObj, TIPS.saveMsg())
 }
 /*更新高血压专档*/
 export function updateHypertension(key = 'gxyJxb', data, ids) {
@@ -226,7 +229,7 @@ export function updateHypertension(key = 'gxyJxb', data, ids) {
 		key,
 		ids,
 	}
-	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, dispatchObj, updateMsg())
+	return dispatch => dispatchMethod('updateHypertension', query, dispatch, true, dispatchObj, TIPS.updateMsg())
 }
 /*删除高血压专档 @deprecated*/
 export function deleteHypertension(data) {
@@ -235,7 +238,7 @@ export function deleteHypertension(data) {
 	let dispatchObj = {
 		type: DELETE_ARCHIVES
 	}
-	return dispatch => dispatchMethod('deleteHypertension', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('deleteHypertension', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*保存糖尿病专档*/
@@ -248,7 +251,7 @@ export function saveDiabetes(key = 'tnbSfjl', data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, dispatchObj, saveMsg())
+	return dispatch => dispatchMethod('saveDiabetes', query, dispatch, true, dispatchObj, TIPS.saveMsg())
 }
 /*更新糖尿病专档*/
 export function updateDiabetes(key = 'tnbSfjl', data, ids) {
@@ -259,7 +262,7 @@ export function updateDiabetes(key = 'tnbSfjl', data, ids) {
 		key,
 		ids,
 	}
-	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, dispatchObj, updateMsg())
+	return dispatch => dispatchMethod('updateDiabetes', query, dispatch, true, dispatchObj, TIPS.updateMsg())
 }
 /*删除糖尿病专档 @deprecated*/
 export function deleteDiabetes(data) {
@@ -268,7 +271,7 @@ export function deleteDiabetes(data) {
 	let dispatchObj = {
 		type: DELETE_ARCHIVES
 	}
-	return dispatch => dispatchMethod('deleteDiabetes', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('deleteDiabetes', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*保存老年人专档*/
@@ -281,7 +284,7 @@ export function saveAged(key = 'lnrSfb', data, ids) {
 		ids,
 	}
 
-	return dispatch => dispatchMethod('saveAged', query, dispatch, true, dispatchObj, saveMsg())
+	return dispatch => dispatchMethod('saveAged', query, dispatch, true, dispatchObj, TIPS.saveMsg())
 }
 /*更新老年人专档*/
 export function updateAged(key = 'lnrSfb', data, ids) {
@@ -292,7 +295,7 @@ export function updateAged(key = 'lnrSfb', data, ids) {
 		key,
 		ids,
 	}
-	return dispatch => dispatchMethod('updateAged', query, dispatch, true, dispatchObj, updateMsg())
+	return dispatch => dispatchMethod('updateAged', query, dispatch, true, dispatchObj, TIPS.updateMsg())
 }
 /*删除老年人专档 @deprecated*/
 export function deleteAged(data) {
@@ -301,7 +304,7 @@ export function deleteAged(data) {
 	let dispatchObj = {
 		type: DELETE_ARCHIVES
 	}
-	return dispatch => dispatchMethod('deleteAged', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('deleteAged', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*添加档案标签*/
@@ -311,7 +314,7 @@ export function addLabel(grbh, labels) {
 	let dispatchObj = {
 		type: ADD_LABEL
 	}
-	return dispatch => dispatchMethod('addLabel', query, dispatch, true, dispatchObj, saveLabel())
+	return dispatch => dispatchMethod('addLabel', query, dispatch, true, dispatchObj, TIPS.saveLabel())
 }
 /*删除档案标签*/
 export function delLabel(grbh, labels) {
@@ -320,7 +323,7 @@ export function delLabel(grbh, labels) {
 	let dispatchObj = {
 		type: DEL_LABEL
 	}
-	return dispatch => dispatchMethod('delLabel', query, dispatch, true, dispatchObj, deleteLabel())
+	return dispatch => dispatchMethod('delLabel', query, dispatch, true, dispatchObj, TIPS.deleteLabel())
 }
 /*删除档案*/
 export function delRecord(grbh, labels) {
@@ -329,7 +332,7 @@ export function delRecord(grbh, labels) {
 	let dispatchObj = {
 		type: DEL_LABEL
 	}
-	return dispatch => dispatchMethod('delRecord', query, dispatch, true, dispatchObj, delMsg())
+	return dispatch => dispatchMethod('delRecord', query, dispatch, true, dispatchObj, TIPS.delMsg())
 }
 
 /*查询个人详细档案资料*/
@@ -339,7 +342,7 @@ export function queryPHR(id) {
 	let dispatchObj = {
 		type: QUERY_PHR
 	}
-	return dispatch => dispatchMethod('queryPHR', query, dispatch, true, dispatchObj, null)
+	return dispatch => dispatchMethod('queryPHR', query, dispatch, false, dispatchObj, null)
 }
 /*删除个人档案*/
 export function deletePHR(ids) {
@@ -375,6 +378,61 @@ export function getIndividualNumbe(addr_arr, addr_fields) {
 	}
 	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, true, dispatchObj, null)
 }
+
+/*下载 @servlet*/
+export function download(data) {
+	return dispatch =>
+		fetch(
+			`${api.download()}?${parseParam(data)}`
+		).then(response => {
+			/*@response: blob arrayBuffer formData json text*/
+			return response.blob()
+		}).then(
+			(blob) => {
+				console.log('download blob', blob)
+				if (blob) {
+					downFile(blob, `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.xls`);
+					dispatch({
+						type: DOWNLOAD,
+						res: blob.size
+					})
+				}
+			}
+		)
+}
+
+/*导入*/
+export function importPHR(path) {
+
+	let query = api.importPHR({
+		path
+	})
+	let dispatchObj = {
+		type: IMPORT_PHR
+	}
+	return dispatch => dispatchMethod('importPHR', query, dispatch, true, dispatchObj, TIPS.import())
+}
+
+/*导出*/
+export function exportPHR(data) {
+
+	let query = api.exportPHR(data)
+	let dispatchObj = {
+		type: EXPORT_PHR
+	}
+	return dispatch => dispatchMethod('exportPHR', query, dispatch, false, dispatchObj, TIPS.export())
+}
+
+/*导出进度*/
+export function progress(data) {
+
+	let query = api.progress(data)
+	let dispatchObj = {
+		type: PROGRESS
+	}
+	return dispatch => dispatchMethod('progress', query, dispatch, false, dispatchObj, null)
+}
+
 
 /*改变新增/编辑状态*/
 export function changeState() {
@@ -446,11 +504,12 @@ export function addSonItem(pFlag, sFlag) {
 		sFlag
 	};
 }
-export function addObjItem(flag, recordKey) {
+export function addObjItem(flag, recordKey, nextVisKey) {
 	return {
 		type: ADD_OBJ_ITEM,
 		flag,
-		recordKey
+		recordKey,
+		nextVisKey
 	};
 }
 
