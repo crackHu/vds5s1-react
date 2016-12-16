@@ -3949,5 +3949,92 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 
 }
 
+/**************跨档案copy字段配置**************/
+export const COPY_FIELD_DATA_CONFIG = {
+	grdaJbzl: {
+		/*症状*/
+		symptoms: 'grda_zz',
+		/*血压左侧1*/
+		bloPreLeft: 'grda_xyzc1',
+		/*血压左侧2*/
+		bloPreRight: 'grda_xyzc2',
+		/*身高*/
+		height: 'grda_sg',
+		/*体重*/
+		height: 'grda_tz',
+		/*体质指数*/
+		bmi: 'grda_tzzs',
+		/*脉率*/
+		pulseRate: 'grda_ml',
+		/*吸烟量(支/每天)*/
+		smoking: 'grda_mtxyl',
+		/*日饮酒量*/
+		drinking: 'grda_meyjl',
+		/*锻炼频率*/
+		exerciseFre: 'grda_dlpl',
+		/*每次锻炼时间*/
+		exerciseTime: 'grda_mcdlsj',
+		/*空腹血糖(mmol/L)*/
+		fbg: 'grda_kfxt1',
+		/*糖化血红蛋白*/
+		glyhemoglobin: 'grda_thxhdb',
+		/*体检日期*/
+		examineDate: 'grda_tjrq',
+
+	},
+	gxyJxb: {
+		/*症状*/
+		symptoms: 'gxy_zz',
+		/*血压*/
+		bloPreLeft: 'gxy_tz_xy1',
+		bloPreRight: 'gxy_tz_xy2',
+		/*身高*/
+		height: 'gxy_tz_sg',
+		/*体重*/
+		weight: 'gxy_tz_tz',
+		/*体质指数*/
+		bmi: 'gxy_tz_tzzs',
+		/*心率*/
+		pulseRate: 'gxy_tz_xl',
+		/*日吸烟*/
+		smoking: 'gxy_shfs_rxyl',
+		/*日饮酒*/
+		drinking: 'gxy_shfs_ryjl',
+		/*每周运动次数*/
+		exerciseFre: 'gxy_shfs_mzydcs',
+		/*每次运动时间(分钟/次)*/
+		exerciseTime: 'gxy_shfs_mcydsj',
+
+	},
+	tnbSfjl: {
+		/*症状*/
+		symptoms: 'tnb_zz',
+		/*血压*/
+		bloPreLeft: 'tnb_tz_xy1',
+		bloPreRight: 'tnb_tz_xy2',
+		/*身高*/
+		height: 'tnb_tz_sg',
+		/*体重*/
+		weight: 'tnb_tz_tz',
+		/*体质指数*/
+		bmi: 'tnb_tz_tzzs',
+		/*日吸烟量(支)*/
+		smoking: 'tnb_shfs_rxyl',
+		/*日饮酒量(两)*/
+		smoking: 'tnb_shfs_ryjl',
+		/*每周运动次数*/
+		exerciseFre: 'tnb_shfs_mzydcs',
+		/*每次运动时间(分钟/次)*/
+		exerciseTime: 'tnb_shfs_mcydsj',
+		/*空腹血糖值*/
+		fbg: 'tnb_jzjc_kfxtz',
+		/*糖化血红蛋白*/
+		glyhemoglobin: 'tnb_jzjc_thxhdb',
+		/*检查日期*/
+		examineDate: 'tnb_jzjc_jcrq',
+
+	},
+}
+
 /**************快捷键配置**************/
 export const SHORTCUT_SUBMIT_ARCHIVES = 'ctrl+q'

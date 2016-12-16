@@ -597,6 +597,15 @@ const phr = function(state = initialState, action) {
 				lastObj = stateFlag[lastKey] || {}
 			}
 
+			//2016年12月16日11:11:31 跨档案类型copy
+			if (flag == 'grdaJkzk') {
+
+			} else if (flag == 'gxyJxb') {
+
+			} else if (flag == 'tnbSfjl') {
+
+			}
+
 			return Object.assign({}, state, {
 				[FIELDSN]: {
 					...stateFields,
@@ -610,6 +619,7 @@ const phr = function(state = initialState, action) {
 							[action.nextVisKey]: {
 								value: selectKey.clone().add(3, 'months')
 							},
+							id: null,
 							timestamp_: today_ts,
 							grbh,
 						},

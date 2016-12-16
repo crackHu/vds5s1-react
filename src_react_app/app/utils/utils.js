@@ -355,10 +355,10 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format, fla
   //2016年11月30日 添加addFlag bitch
   if (flag == 'update') {
     let addFlag
-    if (!obj['id']) {
-      addFlag = '1'
-    } else {
+    if (!!obj['id'] && !!obj['id']['value']) {
       addFlag = '0'
+    } else {
+      addFlag = '1'
     }
     Object.assign(obj, {
       addFlag
@@ -414,10 +414,10 @@ export function getFieldsArr(fields, fields_state, date_format, flag = 'save', i
         //2016年11月30日 添加addFlag bitch
         if (flag == 'update' && !ignore) {
           let addFlag
-          if (!obj['id']) {
-            addFlag = '1'
-          } else {
+          if (!!obj['id'] && !!obj['id']['value']) {
             addFlag = '0'
+          } else {
+            addFlag = '1'
           }
           Object.assign(obj, {
             addFlag
@@ -859,7 +859,7 @@ export function removeTRBySelKey(stateField, selectedRowKeys, delField) {
     selectKeyObj['selectKey'] = Object.keys(obj)[0]
   }
 
-  console.log('removeTRBySelKey', '=>', obj, selectKeyObj)
+  console.log('removeTRBySelKey', '=>', obj, selectKeyObj, delIds)
   return {
     [delField]: delIds.length == 0 ? undefined : delIds,
     ...obj,
@@ -873,7 +873,7 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
 
   let obj = {}
   for (let date in stateField) {
-    if (date != 'selectKey') {
+    if (date != 'selectKey' && date.indexOf('del') == -1) {
       let fieldArrObj = stateField[date]
         //for (let field in fieldArrObj) {
       fields.map((field, index) => {
