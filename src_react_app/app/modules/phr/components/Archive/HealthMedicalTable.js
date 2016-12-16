@@ -99,7 +99,6 @@ class HealthMedicalTable extends React.Component {
 		this.setState({
 			selectIndex: objSize.length
 		})
-		console.log('initabbb', this.props.form.getFieldsValue())
 	}
 
 	//初始化表单数据

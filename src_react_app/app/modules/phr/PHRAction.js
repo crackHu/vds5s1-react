@@ -380,7 +380,7 @@ export function getIndividualNumbe(addr_arr, addr_fields) {
 }
 
 /*下载 @servlet*/
-export function download(data) {
+export function download(data, filePath) {
 	return dispatch =>
 		fetch(
 			`${api.download()}?${parseParam(data)}`
@@ -390,12 +390,15 @@ export function download(data) {
 		}).then(
 			(blob) => {
 				console.log('download blob', blob)
-				if (blob) {
-					downFile(blob, `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.xls`);
+				let blobSize
+				if (blob && (blobSize = blob.size, blobSize != 0)) {
+					downFile(blob, filePath);
 					dispatch({
 						type: DOWNLOAD,
-						res: blob.size
+						res: blobSize
 					})
+				} else {
+					console.log('error', fetchCatchMsg, `${filePath} 文件下载异常`);
 				}
 			}
 		)

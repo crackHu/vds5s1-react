@@ -64,7 +64,9 @@ class ArchiveList extends React.Component {
 			id: undefined,
 			progressPercent: undefined,
 			polling: 3000,
-			intervalId: undefined
+			intervalId: undefined,
+			filePath: undefined,
+			fileName: undefined,
 		}
 	}
 
@@ -103,30 +105,41 @@ class ArchiveList extends React.Component {
 			progressPercent
 		} = this.state.export
 
-		if (progressPercent != undefined && !!phrExport && !!target && !!id) {
-			const percent = target.bar || '0'
-			progressPercent = parseFloat(percent)
-			this.setState({
-				export: {
-					...this.state.export,
-					progressPercent: progressPercent == 100 ? undefined : progressPercent,
-				},
-			}, () => {
-				console.log('hahahahah', this.state.export, target)
-				if (progressPercent != 100) {
-					setTimeout(() => {
-						this.props.progress({
-							"conditions": this.state.postData,
-							id
-						})
-					}, polling)
-				} else {
-					msg('success', "导出成功，正在下载……")
-					this.props.download({
-						filePath: target.url,
-					})
-				}
-			})
+		if (progressPercent != undefined && !!phrExport && !!id) {
+			if (!!target) {
+				const percent = target.bar || '0'
+				progressPercent = parseFloat(percent)
+				this.setState({
+					export: {
+						...this.state.export,
+						progressPercent: progressPercent == 100 ? undefined : progressPercent,
+					},
+				}, () => {
+					console.log('hahahahah', this.state.export, target)
+					if (progressPercent != 100) {
+						setTimeout(() => {
+							this.props.progress({
+								"conditions": this.state.postData,
+								id
+							})
+						}, polling)
+					} else {
+						msg('success', "导出成功，正在下载……")
+						const filePath = `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.zip`
+						this.props.download({
+							filePath: target.url,
+						}, filePath)
+					}
+				})
+			} else {
+				notify('error', '错误', `导出文件异常`);
+				this.setState({
+					export: {
+						...this.state.export,
+						progressPercent: undefined,
+					},
+				})
+			}
 		}
 	}
 
@@ -336,6 +349,7 @@ class ArchiveList extends React.Component {
 		/*this.props.download({
 			filePath: 'D:\\Export\\20161212231339\\1.xls',
 		})*/
+
 		alert('开发中')
 	}
 

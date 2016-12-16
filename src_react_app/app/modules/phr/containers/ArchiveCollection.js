@@ -783,7 +783,7 @@ class ArchiveCollection extends React.Component {
 				    </a>
 		  		</Dropdown>
 		  		{getUrlVal().query != undefined 
-		  			&&this.props.phr.updatestate ? (
+		  			&& this.props.phr.updatestate ? (
 		  			<div className="operate">
 				      	<Button.Group>
 			      			<Button type="ghost" onClick={() => this.routerPush('/phrs', getUrlVal())}>

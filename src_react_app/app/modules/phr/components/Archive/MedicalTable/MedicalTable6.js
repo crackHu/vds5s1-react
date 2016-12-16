@@ -79,6 +79,10 @@ class MedicalTable6 extends React.Component {
 		this.updateState(nextProps)
 	}
 
+	componentDidUpdate = (prevProps, prevState) => {
+		console.log("MedicalTable6.componentDidUpdate", this.props, prevProps, prevState)
+	}
+
 	updateState = (props) => {
 		const {
 			getFieldValue,

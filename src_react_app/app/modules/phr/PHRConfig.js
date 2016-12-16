@@ -417,6 +417,11 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			value: '未说明的婚姻状况'
 		}],
 
+		/*签约来源*/
+		signSource: [{
+			value: '免费体检'
+		}],
+
 		/*既往史 类别*/
 		diseaseType: [{
 			value: '疾病'
@@ -3539,6 +3544,10 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 			/*责任医生*/
 			'grda_zrys',
+			/*签约来源*/
+			'source',
+			/*是否签约*/
+			'isSign',
 
 			/*家族史选项卡*/
 			/*残疾情况*/
@@ -3616,6 +3625,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_fb_pd',
 			'grda_fb_ydxzy',
 			'grda_gmzz',
+			'grda_rx',
 			'grda_fk_wy',
 			'grda_fk_yd',
 			'grda_fk_gj',

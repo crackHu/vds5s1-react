@@ -96,6 +96,8 @@ class GeneralSituationForm extends React.Component {
 		this.professionOptions = this.selectOption.profession;
 		/*婚姻状况*/
 		this.maritalStatusOptions = this.selectOption.maritalStatus;
+		/*签约来源*/
+		this.signSourceOptions = this.selectOption.signSource;
 
 		this.xzz = ''
 		this.xzz_qt = ''
@@ -493,6 +495,22 @@ class GeneralSituationForm extends React.Component {
 				<Input style={{ width: 120 }}/>
 			)
 
+		/*签约来源*/
+		const source =
+			getFieldDecorator('source')(
+				<Select combobox style={{ width: 120 }}>
+			       {this.getSelectOptions(this.signSourceOptions)}
+			  	</Select>
+			)
+
+		/*是否签约*/
+		const isSign =
+			getFieldDecorator('isSign')(
+				<Select style={{ width: 120 }}>
+			       {this.getSelectOptions(this.tofOptions)}
+			  	</Select>
+			)
+
 		return (
 			<Form inline onSubmit={this.handleSubmit}>
 				
@@ -623,6 +641,12 @@ class GeneralSituationForm extends React.Component {
 		        <br />
 		        <FormItem label="&nbsp;&nbsp;&nbsp;责任医生">
 		        	{grda_zrys}
+		        </FormItem>
+		        <FormItem label="&nbsp;&nbsp;&nbsp;签约来源">
+		        	{source}
+		        </FormItem>
+		        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否签约">
+		        	{isSign}
 		        </FormItem>
 		        <br />
 		        <br />
