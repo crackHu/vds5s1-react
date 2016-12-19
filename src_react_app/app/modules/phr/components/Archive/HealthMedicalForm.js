@@ -68,7 +68,6 @@ class HealthMedicalForm extends React.Component {
 				break
 			}
 		}
-		console.log('asdfasdfasdffields', fields)
 		objSize = !!grdaJkjl ? grdaJkjl.objSize : objSize
 		grdaZyyyqkObjSize = !!grdaZyyyqk ? grdaZyyyqk.objSize : grdaZyyyqkObjSize
 		grdaFmyjzsObjSize = !!grdaFmyjzs ? grdaFmyjzs.objSize : grdaFmyjzsObjSize

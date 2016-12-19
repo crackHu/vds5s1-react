@@ -99,10 +99,10 @@ class GeneralSituationForm extends React.Component {
 		/*签约来源*/
 		this.signSourceOptions = this.selectOption.signSource;
 
-		this.xzz = ''
-		this.xzz_qt = ''
-		this.hkdz = ''
-		this.hkdz_qt = ''
+		this.xzz = 'undefined'
+		this.xzz_qt = 'undefined'
+		this.hkdz = 'undefined'
+		this.hkdz_qt = 'undefined'
 	}
 
 	getSelectOptions = (data) => {
@@ -163,8 +163,8 @@ class GeneralSituationForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
-	/*现住址或户籍地址事件 用于获取个人编号*/
-	onAddrOtherBlur = (flag) => {
+	/*现住址或户籍地址事件 用于获取个人编号 bug todo*/
+	onAddrOtherBlur = (flag = 'hkdz') => {
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
@@ -172,19 +172,21 @@ class GeneralSituationForm extends React.Component {
 			let grda_hkdz = fields.grda_hkdz
 			let grda_hkdz_qt = fields.grda_hkdz_qt
 
+			let hkdzValue, hkdzQtValue, xzzValue, xzzQtValue
+
 			if (!!grda_hkdz && !!grda_hkdz_qt) {
-				//if (!grda_xzz && !grda_xzz_qt) {
-				let hkdzValue = grda_hkdz.value
-				let hkdzQtValue = grda_hkdz_qt.value
+				hkdzValue = grda_hkdz.value
+				hkdzQtValue = grda_hkdz_qt.value
+				console.log('qqq1', hkdzValue, hkdzQtValue, this.hkdz_qt)
 				if (hkdzQtValue != this.hkdz_qt) {
 					this.props.getCurrentAddress(hkdzValue, hkdzQtValue, flag)
 					this.hkdz = hkdzValue
 					this.hkdz_qt = hkdzQtValue
 				}
-				//}
 			} else if (!!grda_xzz && !!grda_xzz_qt) {
-				let xzzValue = grda_xzz.value
-				let xzzQtValue = grda_xzz_qt.value
+				xzzValue = grda_xzz.value
+				xzzQtValue = grda_xzz_qt.value
+				console.log('qqq2', xzzValue, xzzQtValue, this.xzz_qt)
 				if (xzzQtValue != this.xzz_qt) {
 					this.props.getCurrentAddress(xzzValue, xzzQtValue, flag)
 					this.xzz = xzzValue
@@ -194,19 +196,19 @@ class GeneralSituationForm extends React.Component {
 
 			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
 			const {
-				getFieldsValue,
+				getFieldValue,
 				setFieldsValue
 			} = this.props.form
-
 			if (flag == 'xzz') {
 				setFieldsValue({
-					grda_hkdz_qt: fields.grda_xzz_qt.value || ''
+					grda_hkdz_qt: xzzQtValue || ''
 				})
 			}
 		}
 	}
 
 	onAddrChange = (value, flag = 'hkdz') => {
+		console.log('qqq3', value, flag)
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz

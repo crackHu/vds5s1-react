@@ -40,7 +40,8 @@ import {
 	DATE_FORMAT_STRING
 } from 'config'
 import {
-	PERSONALDETAIL_FIELDS_CONFIG as FIELDS
+	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
+	COPY_FIELD_DATA_CONFIG as COPYF,
 } from 'phr_conf'
 import {
 	CONFIG as LOGIN_CONFIG
@@ -56,7 +57,8 @@ import {
 	getArrFieldsObjByObj,
 	removeTRBySelKey,
 	removeChildTRBySelKey,
-	getLoginUser
+	getLoginUser,
+	getCopyValueObj,
 } from 'utils'
 
 const today_ts = Date.now()
@@ -64,6 +66,7 @@ const today_obj = moment(new Date())
 const today_str = today_obj.format(DATE_FORMAT_STRING)
 const username = getLoginUser().userName || LOGIN_CONFIG.DEFAULT.USERNAME
 const FIELDSN = FIELDS.name
+const COPYFN = COPYF.name
 let initialState = {
 	/*档案列表加载状态*/
 	archiveListloading: true,
@@ -597,14 +600,26 @@ const phr = function(state = initialState, action) {
 				lastObj = stateFlag[lastKey] || {}
 			}
 
-			//2016年12月16日11:11:31 跨档案类型copy
+			//2016年12月16日11:11:31 跨档案类型copy数据 huyg todo
+			let copyObj = COPYF[flag]
+			let cFieldsObj = null
+			let copyFieldData = {}
 			if (flag == 'grdaJkzk') {
-
+				cFieldsObj = {}
+				Object.keys(copyObj).forEach((key, index) => {
+					let lastObj_, field = copyObj[key]
+					if (lastObj_ = lastObj[field], !!lastObj_) {
+						cFieldsObj[key] = {}
+						cFieldsObj[key][field] = lastObj_
+					}
+				})
 			} else if (flag == 'gxyJxb') {
-
+				copyFieldData = getCopyValueObj(state[COPYFN], copyObj)
+				console.log('copy1', state[COPYFN], obj)
 			} else if (flag == 'tnbSfjl') {
 
 			}
+			console.log('copy', cFieldsObj)
 
 			return Object.assign({}, state, {
 				[FIELDSN]: {
@@ -613,6 +628,7 @@ const phr = function(state = initialState, action) {
 						...stateFlag,
 						[selectDay]: {
 							...lastObj,
+							...copyFieldData,
 							[action.recordKey]: {
 								value: selectKey
 							},
@@ -625,7 +641,8 @@ const phr = function(state = initialState, action) {
 						},
 						selectKey: selectDay,
 					}
-				}
+				},
+				COPY_FIELD_DATA: cFieldsObj
 			})
 		case REMOVE_ITEM:
 			try {

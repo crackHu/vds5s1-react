@@ -96,5 +96,81 @@ legend {
     width: 100%;
 }
 .export-progress .ant-progress-text {
-	width: 120px;
+	width: 120px;	
+}
+
+//导出日志
+.queue-demo {
+    width: 95%;
+    margin: auto;
+    position: relative;
+}
+.buttons {
+    text-align: center;
+    margin: 0 auto;
+}
+.queue-demo .demo-content {
+    margin-top: 10px;
+}
+.queue-demo .demo-content .demo-thead {
+    height: 40px;
+    line-height: 40px;
+    background: #364768;
+    color: #eef7fe;
+    border-radius: 6px 6px 0 0;
+}
+.queue-demo .demo-content .demo-thead ul {
+    height: 100%;
+    position: relative;
+}
+.queue-demo .demo-content .demo-thead ul li {
+    display: inline-block;
+    height: 100%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(1) {
+    width: 20%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(2) {
+    width: 40%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(3) {
+    width: 35%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(4) {
+    width: 5%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-tbody {
+    border: 1px solid #e8e8e8;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+}
+.queue-demo .demo-content .demo-tbody ul {
+    height: 100%;
+    position: relative;
+}
+.queue-demo .demo-content .demo-tbody ul li {
+    display: inline-block;
+    height: 40px;
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 40px;
+}
+.queue-demo .demo-content .demo-tbody ul li:nth-child(1) {
+    width: 20%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-tbody ul li:nth-child(2) {
+    width: 40%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-tbody ul li:nth-child(3) {
+    width: 35%;
+    text-align: center;
+}
+.queue-demo .demo-content .demo-tbody ul li:nth-child(4) {
+    width: 5%;
+    text-align: center;
 }

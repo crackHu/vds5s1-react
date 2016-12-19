@@ -73,7 +73,7 @@ class MedicalTable4 extends React.Component {
 		return (
 			<Form inline>
 				<fieldset>
-					<legend style={{width: '70px'}}>辅助检查</legend>
+					<legend style={{width: '130px'}}>现存主要健康问题</legend>
 		       		<Row className="item_inline_spacing">
 		       			&nbsp;&nbsp;&nbsp;&nbsp;
 		       			<FormItem label="脑血管疾病" >

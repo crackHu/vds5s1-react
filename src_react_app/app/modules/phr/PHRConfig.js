@@ -3951,7 +3951,8 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 
 /**************跨档案copy字段配置**************/
 export const COPY_FIELD_DATA_CONFIG = {
-	grdaJbzl: {
+	name: 'COPY_FIELD_DATA',
+	grdaJkzk: {
 		/*症状*/
 		symptoms: 'grda_zz',
 		/*血压左侧1*/
@@ -3961,7 +3962,7 @@ export const COPY_FIELD_DATA_CONFIG = {
 		/*身高*/
 		height: 'grda_sg',
 		/*体重*/
-		height: 'grda_tz',
+		weight: 'grda_tz',
 		/*体质指数*/
 		bmi: 'grda_tzzs',
 		/*脉率*/

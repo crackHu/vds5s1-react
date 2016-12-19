@@ -47,6 +47,7 @@ import {
 import * as PHRAction from 'phr/PHRAction'
 
 import AdvancedSearch from 'phr/components/AdvancedSearch'
+import ExportRecordModal from 'phr/components/ExportRecordModal'
 import SearchInput from 'app_base/components/SearchInput'
 
 const ButtonGroup = Button.Group;
@@ -55,6 +56,7 @@ class ArchiveList extends React.Component {
 
 	state = {
 		modalVisible: false,
+		expModalVisible: false,
 		curPage: 1,
 		curPageSize: PAGESIZE,
 		isSearch: false,
@@ -153,6 +155,7 @@ class ArchiveList extends React.Component {
 	switchModalVisible = (param) => {
 		this.setState({
 			modalVisible: param,
+			expModalVisible: param
 		});
 	}
 
@@ -349,8 +352,10 @@ class ArchiveList extends React.Component {
 		/*this.props.download({
 			filePath: 'D:\\Export\\20161212231339\\1.xls',
 		})*/
+		this.setState({
+			expModalVisible: true
+		})
 
-		alert('开发中')
 	}
 
 	openWay = (text, record) => {
@@ -494,12 +499,21 @@ class ArchiveList extends React.Component {
 		} : null;
 
 		const advancedSearch = this.state.modalVisible ? [
-			<AdvancedSearch key="advancedSearch"
+			<AdvancedSearch
+				key="advancedSearch"
 			 	modalVisible={this.state.modalVisible}
 			 	switchModalVisible={this.switchModalVisible}
 			 	sendSearchCondition={this.sendSearchCondition}
 			 	fields={this.state.fieldData}
 			 	onFieldsChange={this.onFieldsChange}
+			/>
+		] : null;
+
+		const exportRecordModal = this.state.expModalVisible ? [
+			<ExportRecordModal
+				key="exportRecordModal"
+				modalVisible={this.state.expModalVisible}
+			 	switchModalVisible={this.switchModalVisible}
 			/>
 		] : null;
 
@@ -567,8 +581,10 @@ class ArchiveList extends React.Component {
 							{' '}
 							<Badge count={0}>
 								<Button type="ghost" icon="bars" onClick={() => this.exportRecord()}>导出日志</Button>
+								{exportRecordModal}
 							</Badge>
 					    </ButtonGroup>
+					    
 					    <div style={{float: 'right', margin: "1em"}}>
 					    	请输入条件查询：
 						    <SearchInput placeholder="搜索：编号、姓名"
