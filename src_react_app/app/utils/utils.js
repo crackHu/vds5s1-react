@@ -355,7 +355,7 @@ export function getFieldsObjWithout(fields_state, arrObjFields, date_format, fla
     //2016年11月30日 添加addFlag bitch
     if (flag == 'update') {
         let addFlag
-        if (!!obj['id'] && !!obj['id']['value']) {
+        if (!!obj['id']) {
             addFlag = '0'
         } else {
             addFlag = '1'
@@ -414,7 +414,7 @@ export function getFieldsArr(fields, fields_state, date_format, flag = 'save', i
                 //2016年11月30日 添加addFlag bitch
                 if (flag == 'update' && !ignore) {
                     let addFlag
-                    if (!!obj['id'] && !!obj['id']['value']) {
+                    if (!!obj['id']) {
                         addFlag = '0'
                     } else {
                         addFlag = '1'
@@ -924,7 +924,10 @@ export function getValueArrByFieldArr(fields, stateField, date_format) {
  */
 export function getCopyValueObj(srcFieldObj, tCopyConfigObj) {
 
-    var obj = {}
+    if (!srcFieldObj)
+        throw Error(`getCopyValueObj @srcFieldObj can't be null or undefined`)
+
+    let obj = {}
     Object.keys(srcFieldObj).forEach(srcKey => {
 
         let targetCopyObjKeys = Object.keys(tCopyConfigObj)
@@ -941,4 +944,66 @@ export function getCopyValueObj(srcFieldObj, tCopyConfigObj) {
     })
     console.debug('getCopyValueObj', '=>', obj)
     return obj
+}
+
+// ------ 获取默认值对象 仅限 ADD_OBJ_ITEM ACTION 使用 ------ //
+export function getInitObj(initConfigObj) {
+
+    if (!initConfigObj)
+        throw Error(`getInitObj @initConfigObj can't be null or undefined`)
+
+    let obj = {}
+    Object.keys(initConfigObj).forEach(key => {
+        obj[key] = {}
+        obj[key]['value'] = initConfigObj[key]
+    })
+    console.debug('getInitObj', '=>', obj)
+    return obj
+}
+
+// ------ 获取多档案记录最后一条对象 ------ //
+export function getArchivesLastObj(stateFlag) {
+
+    var lastKey = '',
+        lastObj = {}
+    if (!!stateFlag) {
+        Object.keys(stateFlag).forEach(key => {
+            if (key != 'selectKey')
+                lastKey = key
+        })
+        lastObj = stateFlag[lastKey] || {}
+    }
+    console.debug('getArchivesLastObj', '=>', lastObj)
+    return lastObj
+}
+
+// ------ 获取需要copy到其他档案类型的源值对象 ------ //
+export function getCopyFieldObj(flag, copyObj, lastObj) {
+
+    let cFieldsObj = undefined
+    if (flag == 'grdaJkzk') {
+        cFieldsObj = {}
+        Object.keys(copyObj).forEach(key => {
+            let lastObj_, field = copyObj[key]
+            if (lastObj_ = lastObj[field], !!lastObj_) {
+                cFieldsObj[key] = {}
+                cFieldsObj[key][field] = lastObj_
+            }
+        })
+    }
+    console.debug('getCopyFieldObj', '=>', cFieldsObj)
+    return cFieldsObj
+}
+
+// ------ 拼装需要copy到其他档案类型的目标值对象 ------ //
+export function getCopyFieldData(flag, cFieldsObj, copyObj) {
+
+    let copyFieldData = {}
+    if (!!cFieldsObj) {
+        if (flag == 'gxyJxb' || flag == 'tnbSfjl') {
+            copyFieldData = getCopyValueObj(cFieldsObj, copyObj)
+        }
+    }
+    console.debug('getCopyFieldData', '=>', copyFieldData)
+    return copyFieldData
 }

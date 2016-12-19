@@ -48,14 +48,9 @@ class ExportRecordModal extends Component {
 		this.setState({
 			show: !this.state.show
 		});
-		setTimeout(this.props.switchModalVisible(false), 3000)
-
-	}
-
-	handleSwitchClick = () => {
-		this.setState({
-			show: !this.state.show
-		});
+		setTimeout(() => {
+			this.props.switchModalVisible(false)
+		}, 200)
 	}
 
 	render() {
@@ -70,7 +65,13 @@ class ExportRecordModal extends Component {
 		            </Button>
 		          ]}>
           			<div className="queue-demo">
-				        <QueueAnim className="demo-content">
+				        <QueueAnim
+				        	className="demo-content"
+				        	delay={10}
+				        	key="demo"
+				          	type={['right', 'left']}
+				          	ease={['easeOutQuart', 'easeInOutQuart']}
+				        >
 				          {this.state.show ? [
 				            <div className="demo-thead" key="a">
 			              		<ul>
@@ -80,19 +81,19 @@ class ExportRecordModal extends Component {
 			              		</ul>
 				            </div>,
 				            <div className="demo-tbody" key="b">
-			              		<ul>
+			              		<ul key="c">
 			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
 							  		<li>全部导出</li>
 							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
 							  		<li><a>下载</a></li>
 			              		</ul>
-			              		<ul>
+			              		<ul key="d">
 			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
 							  		<li>全部导出</li>
 							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
 							  		<li><a>下载</a></li>
 			              		</ul>
-			              		<ul>
+			              		<ul key="e">
 			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
 							  		<li>全部导出</li>
 							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>

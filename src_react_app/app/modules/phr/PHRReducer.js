@@ -42,6 +42,7 @@ import {
 import {
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
 	COPY_FIELD_DATA_CONFIG as COPYF,
+	FROM_INITIAL_VALUE_CONFIG as INIT,
 } from 'phr_conf'
 import {
 	CONFIG as LOGIN_CONFIG
@@ -59,6 +60,10 @@ import {
 	removeChildTRBySelKey,
 	getLoginUser,
 	getCopyValueObj,
+	getInitObj,
+	getArchivesLastObj,
+	getCopyFieldObj,
+	getCopyFieldData,
 } from 'utils'
 
 const today_ts = Date.now()
@@ -196,9 +201,12 @@ const phr = function(state = initialState, action) {
 	let resultCode = !!status ? status.resultCode : undefined
 	let resultMesg = !!status ? status.resultMesg : undefined
 	let stateFields = state[FIELDSN]
+	let stateFlag = stateFields[flag]
 	let selectedRowKeys = action.selectedRowKeys || undefined
 	let ids = action.ids
 	let targetKey = action.key
+	let COPYFLAG = COPYF[flag] || COPYF[key] || COPYF[targetKey]
+	let lastObj, cFieldsObj, copyFieldData
 
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -361,6 +369,15 @@ const phr = function(state = initialState, action) {
 				}
 			})
 
+			/*最后一条值对象*/
+			lastObj = getArchivesLastObj(stateFlag)
+
+			//2016年12月16日11:11:31 跨档案类型copy数据
+			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || state[COPYFN] || {}
+			copyFieldData = getCopyFieldData(targetKey, cFieldsObj, COPYFLAG)
+
+			console.log('copy', cFieldsObj, copyFieldData)
+
 			console.log(SAVE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
@@ -431,6 +448,16 @@ const phr = function(state = initialState, action) {
 				}
 			})
 
+			/*最后一条值对象*/
+			lastObj = getArchivesLastObj(stateFlag)
+
+			//2016年12月16日11:11:31 跨档案类型copy数据
+			console.log('copy 111', COPYFLAG)
+			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || state[COPYFN] || {}
+			copyFieldData = getCopyFieldData(targetKey, cFieldsObj, COPYFLAG)
+
+			console.log('copy', cFieldsObj, copyFieldData)
+
 			console.log(UPDATE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
 				updatestate: resultCode > 0,
@@ -487,7 +514,7 @@ const phr = function(state = initialState, action) {
 		case CLEAR_STORE:
 			console.log('CLEAR_STORE initialState =>', initialState)
 
-			//todo 2016年12月5日10:01:19 deep copy !!!!!!! copy initialState don't work
+			//todo 2016年12月5日10:01:19 deep copy !!!!!!! copy initialState didn't work
 			console.log('CLEAR_STORE =>', Object.assign({}, initialState, flag))
 			return Object.assign({}, {
 				[FIELDSN]: {
@@ -528,7 +555,6 @@ const phr = function(state = initialState, action) {
 
 			// ------ 子表组件状态的一些操作 ------ //
 		case ADD_ITEM:
-			var stateFlag = stateFields[flag]
 			var objSize = stateFlag.objSize.slice(0)
 			objSize.push({
 				rkey: Date.now()
@@ -583,14 +609,14 @@ const phr = function(state = initialState, action) {
 		case ADD_OBJ_ITEM:
 			const today_ts = Date.now()
 			const today_obj = moment(new Date())
-			var stateFlag = stateFields[flag]
+			var initConfigObj = INIT[flag]
 			var selectKey = today_obj
 			var selectDay = today_ts
 			var grbh = stateFields['grdaJbzl']['grbh'] || null
 			console.log(ADD_OBJ_ITEM, selectKey, selectKey.format(DATE_FORMAT_STRING), today_obj.format(DATE_FORMAT_STRING))
 
 			//2016年12月14日11:24:59 copy上一条数据
-			var lastKey = '',
+			/*var lastKey = '',
 				lastObj = {}
 			if (!!stateFlag) {
 				Object.keys(stateFlag).forEach((key, index) => {
@@ -598,11 +624,16 @@ const phr = function(state = initialState, action) {
 						lastKey = key
 				})
 				lastObj = stateFlag[lastKey] || {}
-			}
+			}*/
+			/*最后一条值对象*/
+			lastObj = getArchivesLastObj(stateFlag)
 
-			//2016年12月16日11:11:31 跨档案类型copy数据 huyg todo
-			let copyObj = COPYF[flag]
-			let cFieldsObj = null
+			//2016年12月16日11:11:31 跨档案类型copy数据
+			cFieldsObj = getCopyFieldObj(flag, COPYFLAG, lastObj) || state[COPYFN] || {}
+			copyFieldData = getCopyFieldData(flag, cFieldsObj, COPYFLAG)
+
+			/*let copyObj = COPYF[flag]
+			let cFieldsObj = state[COPYFN] || {}
 			let copyFieldData = {}
 			if (flag == 'grdaJkzk') {
 				cFieldsObj = {}
@@ -613,13 +644,14 @@ const phr = function(state = initialState, action) {
 						cFieldsObj[key][field] = lastObj_
 					}
 				})
-			} else if (flag == 'gxyJxb') {
-				copyFieldData = getCopyValueObj(state[COPYFN], copyObj)
-				console.log('copy1', state[COPYFN], obj)
-			} else if (flag == 'tnbSfjl') {
-
 			}
-			console.log('copy', cFieldsObj)
+			if (!!cFieldsObj) {
+				if (flag == 'gxyJxb' || flag == 'tnbSfjl') {
+					copyFieldData = getCopyValueObj(cFieldsObj, copyObj)
+					console.log('copy1', cFieldsObj, obj)
+				}
+			}*/
+			console.log('copy', cFieldsObj, copyFieldData)
 
 			return Object.assign({}, state, {
 				[FIELDSN]: {
@@ -627,8 +659,12 @@ const phr = function(state = initialState, action) {
 					[flag]: {
 						...stateFlag,
 						[selectDay]: {
-							...lastObj,
+							/*默认值*/
+							...getInitObj(initConfigObj),
+							/*跨档案类型copy*/
 							...copyFieldData,
+							/*copy上一条*/
+							...lastObj,
 							[action.recordKey]: {
 								value: selectKey
 							},
@@ -636,6 +672,7 @@ const phr = function(state = initialState, action) {
 								value: selectKey.clone().add(3, 'months')
 							},
 							id: null,
+							/*唯一标识用*/
 							timestamp_: today_ts,
 							grbh,
 						},

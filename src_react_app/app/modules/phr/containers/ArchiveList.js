@@ -579,7 +579,7 @@ class ArchiveList extends React.Component {
 							{' '}
 							<Button type="ghost" icon="download" onClick={() => this.exportResult()}>导出</Button>
 							{' '}
-							<Badge count={0}>
+							<Badge count={3}>
 								<Button type="ghost" icon="bars" onClick={() => this.exportRecord()}>导出日志</Button>
 								{exportRecordModal}
 							</Badge>

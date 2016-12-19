@@ -31,6 +31,7 @@ import HMedicationsTable from './Table/HMedicationsTable'
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
 	PERSONALDETAIL_FIELDS_CONFIG as FIELDS,
+	FROM_INITIAL_VALUE_CONFIG as INIT,
 } from 'phr_conf'
 import {
 	getMomentObj as moment
@@ -86,7 +87,6 @@ class HypertensionForm extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log('HypertensionForm componentWillReceiveProps', nextProps, this.props)
-			//this.genFollowUpVisit()
 	}
 
 	//BMI自动生成
