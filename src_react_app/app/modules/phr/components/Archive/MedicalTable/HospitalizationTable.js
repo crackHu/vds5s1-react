@@ -119,7 +119,9 @@ class MedicalRecordsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('rcyrq_' + index)(
+					{getFieldDecorator(`rcyrq_${index}`, {
+						trigger: 'onChange'
+					})(
 						renderContent.inoutDate(value, this.memberOptions)
 					)}
 				</FormItem>,
@@ -130,7 +132,9 @@ class MedicalRecordsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('yy_' + index)(
+					{getFieldDecorator(`yy_${index}`, {
+						trigger: 'onChange'
+					})(
 						renderContent.reason(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -141,7 +145,9 @@ class MedicalRecordsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('yljgmc_' + index)(
+					{getFieldDecorator(`yljgmc_${index}`, {
+						trigger: 'onChange'
+					})(
 						renderContent.institutionName(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -152,7 +158,9 @@ class MedicalRecordsTable extends React.Component {
 			width: '15%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('bah_' + index)(
+					{getFieldDecorator(`bah_${index}`, {
+						trigger: 'onChange'
+					})(
 						renderContent.mRecordNo(value, this.sickOptions)
 					)}
 				</FormItem>,
@@ -163,7 +171,9 @@ class MedicalRecordsTable extends React.Component {
 			width: '40%',
 			render: (value, row, index) =>
 				<FormItem>
-					{getFieldDecorator('bz_' + index)(
+					{getFieldDecorator(`bz_${index}`, {
+						trigger: 'onChange'
+					})(
 						renderContent.remark(value)
 					)}
 				</FormItem>,

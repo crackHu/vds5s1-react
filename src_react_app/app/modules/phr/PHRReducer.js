@@ -201,12 +201,12 @@ const phr = function(state = initialState, action) {
 	let resultCode = !!status ? status.resultCode : undefined
 	let resultMesg = !!status ? status.resultMesg : undefined
 	let stateFields = state[FIELDSN]
+	let stateCopyFields = state[COPYFN] || {}
 	let stateFlag = stateFields[flag]
 	let selectedRowKeys = action.selectedRowKeys || undefined
 	let ids = action.ids
 	let targetKey = action.key
-	let COPYFLAG = COPYF[flag] || COPYF[key] || COPYF[targetKey]
-	let lastObj, cFieldsObj, copyFieldData
+	let lastObj, cFieldsObj, copyFieldData, COPYFLAG
 
 	switch (action.type) {
 		case GET_ARCHIVES:
@@ -314,6 +314,16 @@ const phr = function(state = initialState, action) {
 				let lnrSfb = getArrFieldsValueObj(dout.lnrSfb, lnrSfbFields, 'lnr_sfrq', lnrSfbFields['arrFields'])
 				let lnrjl = getArrFieldsObjByObj(lnrSfb, FIELDS['lnrjl'].fields)
 
+				/*最后一条值对象*/
+				lastObj = getArchivesLastObj(grdaJkzk)
+
+				//2016年12月16日11:11:31 保存跨档案类型copy数据
+				flag = 'grdaJkzk'
+				COPYFLAG = COPYF[flag]
+				cFieldsObj = getCopyFieldObj(flag, COPYFLAG, lastObj) || stateCopyFields
+
+				console.log('copy', grdaJkzk, lastObj, cFieldsObj)
+
 				return Object.assign({}, initialState, {
 					submitloading: false,
 					updatestate: true,
@@ -336,7 +346,8 @@ const phr = function(state = initialState, action) {
 
 						lnrSfb,
 						lnrjl,
-					}
+					},
+					COPY_FIELD_DATA: cFieldsObj
 				})
 			} else {
 				return state
@@ -347,9 +358,10 @@ const phr = function(state = initialState, action) {
 			})
 		case SAVE_ARCHIVES:
 			//体检表、专档（从表）的保存
-			var targetObj = Object.assign({}, stateFields[targetKey]),
+			stateFlag = stateFields[targetKey]
+			var targetObj = Object.assign({}, stateFlag),
 				diff = 0
-			console.log(SAVE_ARCHIVES, stateFields[targetKey])
+			console.log(SAVE_ARCHIVES, stateFlag)
 			Object.keys(targetObj).map((key, index) => {
 				if (key != 'selectKey') {
 					console.log('asdfasdfasd', targetObj[key], ids[index - diff][targetKey])
@@ -372,11 +384,11 @@ const phr = function(state = initialState, action) {
 			/*最后一条值对象*/
 			lastObj = getArchivesLastObj(stateFlag)
 
-			//2016年12月16日11:11:31 跨档案类型copy数据
-			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || state[COPYFN] || {}
-			copyFieldData = getCopyFieldData(targetKey, cFieldsObj, COPYFLAG)
+			//2016年12月16日11:11:31 更新跨档案类型copy数据
+			COPYFLAG = COPYF[targetKey]
+			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || stateCopyFields
 
-			console.log('copy', cFieldsObj, copyFieldData)
+			console.log('copy', cFieldsObj)
 
 			console.log(SAVE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
@@ -385,7 +397,8 @@ const phr = function(state = initialState, action) {
 				[FIELDSN]: {
 					...stateFields,
 					[targetKey]: targetObj
-				}
+				},
+				COPY_FIELD_DATA: cFieldsObj
 			})
 		case SAVE_MASTER_ARCHIVES:
 			//基本表（主表） 的保存标示
@@ -421,9 +434,10 @@ const phr = function(state = initialState, action) {
 				mastersaved: success
 			}, obj)
 		case UPDATE_ARCHIVES:
-			var targetObj = Object.assign({}, stateFields[targetKey]),
+			stateFlag = stateFields[targetKey]
+			var targetObj = Object.assign({}, stateFlag),
 				diff = 0
-			console.log(UPDATE_ARCHIVES, stateFields[targetKey])
+			console.log(UPDATE_ARCHIVES, stateFlag)
 			Object.keys(targetObj).map((key, index) => {
 
 				let indexDel = key.indexOf('del')
@@ -451,12 +465,11 @@ const phr = function(state = initialState, action) {
 			/*最后一条值对象*/
 			lastObj = getArchivesLastObj(stateFlag)
 
-			//2016年12月16日11:11:31 跨档案类型copy数据
-			console.log('copy 111', COPYFLAG)
-			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || state[COPYFN] || {}
-			copyFieldData = getCopyFieldData(targetKey, cFieldsObj, COPYFLAG)
+			//2016年12月16日11:11:31 更新跨档案类型copy数据
+			COPYFLAG = COPYF[targetKey]
+			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || stateCopyFields
 
-			console.log('copy', cFieldsObj, copyFieldData)
+			console.log('copy', targetKey, stateFlag, lastObj, cFieldsObj, copyFieldData)
 
 			console.log(UPDATE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
@@ -465,7 +478,8 @@ const phr = function(state = initialState, action) {
 				[FIELDSN]: {
 					...stateFields,
 					[targetKey]: targetObj
-				}
+				},
+				COPY_FIELD_DATA: cFieldsObj
 			})
 		case UPDATE_MASTER_ARCHIVES:
 			return Object.assign({}, initialState, state, {
@@ -628,8 +642,9 @@ const phr = function(state = initialState, action) {
 			/*最后一条值对象*/
 			lastObj = getArchivesLastObj(stateFlag)
 
-			//2016年12月16日11:11:31 跨档案类型copy数据
-			cFieldsObj = getCopyFieldObj(flag, COPYFLAG, lastObj) || state[COPYFN] || {}
+			//2016年12月16日11:11:31 保存跨档案类型copy数据
+			COPYFLAG = COPYF[flag]
+			cFieldsObj = getCopyFieldObj(flag, COPYFLAG, lastObj) || stateCopyFields
 			copyFieldData = getCopyFieldData(flag, cFieldsObj, COPYFLAG)
 
 			/*let copyObj = COPYF[flag]
@@ -651,7 +666,7 @@ const phr = function(state = initialState, action) {
 					console.log('copy1', cFieldsObj, obj)
 				}
 			}*/
-			console.log('copy', cFieldsObj, copyFieldData)
+			console.log('copy', cFieldsObj, copyFieldData, lastObj)
 
 			return Object.assign({}, state, {
 				[FIELDSN]: {

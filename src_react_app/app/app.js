@@ -19,6 +19,7 @@ import {
 const LOGGEDIN = CONFIG.LS.LOGGEDIN
 if (eval(localStorage.getItem(LOGGEDIN))) {
 	require('./assets/scss/style.scss');
+	//import 'app_base/assets/scss/style.scss'
 }
 
 const store = configureStore();

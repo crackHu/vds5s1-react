@@ -23,6 +23,8 @@ import {
 	Tooltip
 } from 'antd'
 
+import MultiSelect from 'app_base/components/MultiSelect'
+
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
 } from 'phr_conf'
@@ -172,13 +174,17 @@ class MedicalTable1 extends React.Component {
 			        {/*<CheckboxGroup options={this.symptomsOptions}/>*/}
 			        <FormItem label="症状">
 			        	{getFieldDecorator('grda_zz')(
-		        			<Select
+							<MultiSelect
+								antd={{style: { width: 420},placeholder: "请选择",}}
+								options={this.symptomsOptions}
+							/>
+		        			/*<Select
 								tags
 							    style={{ width: 420 }}
 								placeholder="请选择"
 							  >
 							  {getSelectOptions(this.symptomsOptions)}
-							</Select>
+							</Select>*/
 			        	)}
 					</FormItem>
 				</fieldset>

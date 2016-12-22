@@ -27,6 +27,9 @@ import {
 	setCookie,
 } from 'utils'
 
+//require('../../../assets/scss/public.scss')
+import 'app_base/assets/scss/public.scss'
+
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 

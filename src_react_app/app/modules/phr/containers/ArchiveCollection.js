@@ -672,7 +672,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	/*判断是否标签档案 boolean是否返回对象*/
-	isLabelTagArc = (key, boolean = false) => {
+	isLabelTagArc = (key = this.state.activeKey, boolean = false) => {
 		const spec = this.getSpecArcTypeByKey(key, false)
 		if (boolean) {
 			return spec
@@ -739,7 +739,9 @@ class ArchiveCollection extends React.Component {
 				{operatText}
 			</Button>
 		)
-		const saveBtn = showFixSaveBtn ? null : sbComponent
+
+		const isTag = this.isLabelTagArc()
+		const saveBtn = showFixSaveBtn ? null : isTag ? null : sbComponent
 		const fixSaveBtn = (
 			<Affix offsetTop={141}>
 				<div style={{float: 'right', marginRight: 25, display: showFixSaveBtn ? 'block' : 'none'}}>

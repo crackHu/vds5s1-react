@@ -26,6 +26,7 @@ import {
 } from 'react-redux';
 import DiabetesTable from './Table/DiabetesTable'
 import DMedicationsTable from './Table/DMedicationsTable'
+import MultiSelect from 'app_base/components/MultiSelect'
 
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
@@ -210,13 +211,17 @@ class DiabetesForm extends React.Component {
 							<Row className="item_inline_spacing" style={{marginLeft: 23}}>
 								<FormItem label="症状" >
 					       			{getFieldDecorator('tnb_zz')(
-										<Select
+					       				<MultiSelect
+											antd={{style: { width: 350},placeholder: "请选择",}}
+											options={this.dsOptions}
+										/>
+										/*<Select
 											tags
 										    style={{ width: 350 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.dsOptions)}
-										</Select>
+										</Select>*/
 					       			)}
 						        </FormItem>
 							</Row>

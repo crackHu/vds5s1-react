@@ -21,6 +21,7 @@ import {
 	Tooltip
 } from 'antd'
 import HospitalizationTable from './HospitalizationTable'
+import MultiSelect from 'app_base/components/MultiSelect'
 
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
@@ -78,70 +79,94 @@ class MedicalTable4 extends React.Component {
 		       			&nbsp;&nbsp;&nbsp;&nbsp;
 		       			<FormItem label="脑血管疾病" >
 			       			{getFieldDecorator('grda_nxgjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.cbDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="未发现"
 								  >	
 								  {getSelectOptions(this.cbDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       			<FormItem label="肾脏疾病" >
 			       			{getFieldDecorator('grda_szjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.kidneyDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.kidneyDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       			<FormItem label="心脏疾病" >
 			       			{getFieldDecorator('grda_xzjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.heartDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.heartDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 				    </Row>
 		       		<Row className="item_inline_spacing">
 		       			<FormItem label="神经系统疾病" >
 			       			{getFieldDecorator('grda_sjxtjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.nvDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.nvDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       			<FormItem label="眼部疾病" >
 			       			{getFieldDecorator('grda_ybjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.eyeDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.eyeDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       			<FormItem label="血管疾病" >
 			       			{getFieldDecorator('grda_xgjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.vlDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.vlDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       		</Row>
@@ -149,13 +174,17 @@ class MedicalTable4 extends React.Component {
 		       			&nbsp;&nbsp;&nbsp;&nbsp;
 		       			<FormItem label="其他统疾病" >
 			       			{getFieldDecorator('grda_qtxtjb')(
-					        	<Select
+			       				<MultiSelect
+									antd={{style: { width: 200},placeholder: "请选择",}}
+									options={this.otherDisOptions}
+								/>
+					        	/*<Select
 					        		tags
 								    style={{ width: 200 }}
 									placeholder="请选择"
 								  >	
 								  {getSelectOptions(this.otherDisOptions)}
-								</Select>
+								</Select>*/
 			       			)}
 				        </FormItem>
 		       		</Row>

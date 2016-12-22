@@ -10,6 +10,7 @@ import {
 	MENU_CONFIG,
 	INDEPENDENCE_ROUTE_CONFIG,
 	INDEPEND_ROUTE_CONFIG,
+	STATUS_ROUTE_CONFIG,
 } from 'config'
 
 import App from './containers/App';
@@ -61,6 +62,17 @@ const onChangeHandler = (prevState, nextState, replace, callback) => {
 }
 
 const routes = (loggedIn) => {
+
+	const statusRoute = STATUS_ROUTE_CONFIG.map((item, i) => {
+		return (
+			<Route
+			 	key={Date.now()}
+			 	path={item.route}
+			 	loggedIn={loggedIn}
+			 	component={require(`${item.path}.js`).default}
+			/>
+		)
+	})
 
 	if (eval(loggedIn)) {　
 
@@ -118,6 +130,7 @@ const routes = (loggedIn) => {
 					*/}
 					{dynamicRoute}
 					{independenceRoute}
+					{statusRoute}
         			<Redirect from='*' to='/404' />
 			    </Route>
 		    </div>
@@ -125,7 +138,11 @@ const routes = (loggedIn) => {
 	} else {
 		/*未登录使用的路由组件*/
 		return (
-			<Route path="/" component={Login}/>
+			<div>
+				<Route path="/" component={Login}/>
+				{statusRoute}
+				<Redirect from='*' to='/404' />
+			</div>
 		)
 	}
 

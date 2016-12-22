@@ -35,6 +35,7 @@ import {
 } from 'phr_conf'
 
 import MedicalRecordsTable from './MedicalRecordsTable'
+import MultiSelect from 'app_base/components/MultiSelect'
 
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
@@ -429,23 +430,31 @@ class GeneralSituationForm extends React.Component {
 		/*药物过敏*/
 		const grda_gms =
 			getFieldDecorator('grda_gms')(
-				<Select tags
+				<MultiSelect
+					antd={{style: { width: 324},placeholder: "请选择",}}
+					options={this.drugAllergyOptions}
+				/>
+				/*<Select tags
 				    style={{ width: 324 }}
 					placeholder="请选择"
 				  >
 				  {this.getSelectOptions(this.drugAllergyOptions)}
-				</Select>
+				</Select>*/
 			)
 
 		/*暴露史*/
 		const grda_zyblqk =
 			getFieldDecorator('grda_zyblqk')(
-				<Select tags
+				<MultiSelect
+					antd={{style: { width: 302},placeholder: "请选择",}}
+					options={this.exposureHistoryOptions}
+				/>
+				/*<Select tags
 				    style={{ width: 302 }}
 					placeholder="请选择"
 				  >
 				  {this.getSelectOptions(this.exposureHistoryOptions)}
-				</Select>
+				</Select>*/
 			)
 
 		/*医疗费用支付方式*/
@@ -644,7 +653,7 @@ class GeneralSituationForm extends React.Component {
 		        <FormItem label="&nbsp;&nbsp;&nbsp;责任医生">
 		        	{grda_zrys}
 		        </FormItem>
-		        <FormItem label="&nbsp;&nbsp;&nbsp;签约来源">
+		        <FormItem label="签约来源" required>
 		        	{source}
 		        </FormItem>
 		        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否签约">

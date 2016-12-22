@@ -933,13 +933,25 @@ export function getCopyValueObj(srcFieldObj, tCopyConfigObj) {
         let targetCopyObjKeys = Object.keys(tCopyConfigObj)
         if (srcKey in tCopyConfigObj) {
             let srcFieldObjKeys = Object.keys(srcFieldObj[srcKey] || {})
-            if (srcFieldObjKeys.length == 0)
+            let kesLength = srcFieldObjKeys.length
+            if (kesLength == 0) {
                 throw Error(`getCopyValueObj @srcFieldObjKeys length can't be 0`)
-            let objKey = tCopyConfigObj[srcKey]
-            let srcObj = srcFieldObj[srcKey]
-            let objValue = srcObj[srcFieldObjKeys[0]]
-            delete objValue.name
-            obj[objKey] = objValue
+            } else {
+                let objKey = tCopyConfigObj[srcKey]
+                let srcObj = srcFieldObj[srcKey]
+                if (kesLength == 1) {
+                    let objValue = srcObj[srcFieldObjKeys[0]]
+                    delete objValue.name
+                    obj[objKey] = objValue
+                } else if (kesLength > 1) {
+                    srcFieldObjKeys.forEach(key => {
+                        if (key != objKey && ) {
+                            let option = srcObj[key]
+                                //todo
+                        }
+                    })
+                }
+            }
         }
     })
     console.debug('getCopyValueObj', '=>', obj)
@@ -972,7 +984,7 @@ export function getArchivesLastObj(stateFlag) {
                 lastKey = key
         })
         lastObj = stateFlag[lastKey] || {}
-    }
+    } else throw Error(`getArchivesLastObj @stateFlag can't be null or undefined`)
     console.debug('getArchivesLastObj', '=>', lastObj)
     return lastObj
 }
@@ -985,9 +997,28 @@ export function getCopyFieldObj(flag, copyObj, lastObj) {
         cFieldsObj = {}
         Object.keys(copyObj).forEach(key => {
             let lastObj_, field = copyObj[key]
-            if (lastObj_ = lastObj[field], !!lastObj_) {
-                cFieldsObj[key] = {}
-                cFieldsObj[key][field] = lastObj_
+            if (typeof field == 'string') {
+                if (lastObj_ = lastObj[field], !!lastObj_) {
+                    cFieldsObj[key] = {}
+                    cFieldsObj[key][field] = lastObj_
+                }
+            } else if (typeof field == 'object' && field.constructor == Object) {
+                let field_
+                if (field_ = field['field'], lastObj_ = lastObj[field_], !!lastObj_) {
+                    cFieldsObj[key] = {}
+                    cFieldsObj[key][field_] = lastObj_
+                    let lastObj_value
+                    if (lastObj_value = lastObj_['value'], isArray(lastObj_value)) {
+                        Object.keys(field).forEach(option => {
+                            let field_option
+                            if (field_option = field[option],
+                                option != 'field' && lastObj_value.indexOf(field_option) > -1) {
+                                cFieldsObj[key][option] = field_option
+                            }
+                        })
+
+                    }
+                }
             }
         })
     }

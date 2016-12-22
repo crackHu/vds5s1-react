@@ -27,6 +27,7 @@ import {
 } from 'react-redux';
 import HypertensionTable from './Table/HypertensionTable'
 import HMedicationsTable from './Table/HMedicationsTable'
+import MultiSelect from 'app_base/components/MultiSelect'
 
 import {
 	SPEC_ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
@@ -234,13 +235,17 @@ class HypertensionForm extends React.Component {
 							<Row className="item_inline_spacing" style={{marginLeft: 23}}>
 								<FormItem label="症状" >
 					       			{getFieldDecorator('gxy_zz')(
-										<Select
+					       				<MultiSelect
+											antd={{style: { width: 350},placeholder: "请选择",}}
+											options={this.hsOptions}
+										/>
+										/*<Select
 											tags
 										    style={{ width: 350 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.hsOptions)}
-										</Select>
+										</Select>*/
 					       			)}
 						        </FormItem>
 							</Row>

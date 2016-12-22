@@ -121,15 +121,15 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, 
 }
 
 const TIPS = {
-	saveMsg: () => msg('loading', '正在保存...', 30),
-	updateMsg: () => msg('loading', '正在更新...', 30),
-	delMsg: () => msg('loading', '正在删除...', 30),
+	saveMsg: () => msg('loading', '正在保存...', 0),
+	updateMsg: () => msg('loading', '正在更新...', 0),
+	delMsg: () => msg('loading', '正在删除...', 0),
 
-	saveLabel: () => msg('loading', '添加标签中...', 30),
-	deleteLabel: () => msg('loading', '正在移除标签...', 30),
+	saveLabel: () => msg('loading', '添加标签中...', 0),
+	deleteLabel: () => msg('loading', '正在移除标签...', 0),
 
-	import: () => msg('loading', '正在导入...', 30),
-	export: () => msg('loading', '正在导出，请稍后'),
+	import: () => msg('loading', '正在导入...', 0),
+	export: () => msg('loading', '正在导出，请稍后', 0),
 
 }
 

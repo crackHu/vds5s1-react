@@ -2507,6 +2507,8 @@ export const ARC_FORM_WIDGET_CONFIG = {
 
 		/*药物过敏*/
 		drugAllergy: [{
+			value: '无'
+		}, {
 			value: '青霉素'
 		}, {
 			value: '磺胺'
@@ -2518,6 +2520,8 @@ export const ARC_FORM_WIDGET_CONFIG = {
 
 		/*暴露史*/
 		exposureHistory: [{
+			value: '无'
+		}, {
 			key: 'poison',
 			label: 'aa',
 			value: '毒物'
@@ -2562,9 +2566,9 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			label: '无症状',
 			value: '无症状'
 		}, {
-			key: '头疼',
-			label: '头疼',
-			value: '头疼'
+			key: '头痛',
+			label: '头痛',
+			value: '头痛'
 		}, {
 			key: '头晕',
 			label: '头晕',
@@ -2805,6 +2809,10 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: '未发现',
 			label: '未发现',
 			value: '未发现'
+		}, {
+			key: '有',
+			label: '有',
+			value: '有'
 		}],
 
 		/*健康体检表 其他系统疾病*/
@@ -2812,6 +2820,10 @@ export const ARC_FORM_WIDGET_CONFIG = {
 			key: '未发现',
 			label: '未发现',
 			value: '未发现'
+		}, {
+			key: '有',
+			label: '有',
+			value: '有'
 		}],
 
 		/*健康体检表 健康评价 异常情况*/
@@ -3856,8 +3868,8 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 		grda_lrr: DEFAULT_USR,
 		grda_hklx: '户籍',
 		grda_mzmc: '汉族',
-		grda_gms: '无',
-		grda_zyblqk: '无',
+		grda_gms: ['无'],
+		grda_zyblqk: ['无'],
 		grda_dazt: '在册',
 		grda_ycbsjbmc: '无',
 		grda_cjqk: '无残疾',
@@ -3879,7 +3891,7 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 	},
 	grdaJkzk: {
 		grda_tjzrys: DEFAULT_USR,
-		grda_zz: '无症状',
+		grda_zz: ['无症状'],
 		grda_ysxg: '荤素均衡',
 		grda_xyqk: '从不吸烟',
 		grda_yjpl: '从不',
@@ -3906,27 +3918,27 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 		grda_xzsz: '无',
 		grda_zbdmbd: '触及双侧对称',
 
-		grda_nxgjb: '未发现',
-		grda_szjb: '未发现',
-		grda_xzjb: '未发现',
-		grda_sjxtjb: '未发现',
-		grda_ybjb: '未发现',
-		grda_xgjb: '未发现',
-		grda_qtxtjb: '未发现',
-		grda_qtxtjb: '未发现',
+		grda_nxgjb: ['未发现'],
+		grda_szjb: ['未发现'],
+		grda_xzjb: ['未发现'],
+		grda_sjxtjb: ['未发现'],
+		grda_ybjb: ['未发现'],
+		grda_xgjb: ['未发现'],
+		grda_qtxtjb: ['未发现'],
+		grda_qtxtjb: ['未发现'],
 
 		grda_jkpj: '体检无异常',
 	},
 	gxyJxb: {
 		gxy_sffs: '门诊',
-		gxy_zz: '无症状',
+		gxy_zz: ['无症状'],
 		gxy_shfs_rxyl: 0,
 		gxy_shfs_ryjl: 0,
 		gxy_sfys2: DEFAULT_USR,
 	},
 	tnbSfjl: {
 		tnb_sffs: '门诊',
-		tnb_zz: '无症状',
+		tnb_zz: ['无症状'],
 		tnb_shfs_rxyl: 0,
 		tnb_shfs_ryjl: 0,
 		tnb_sfys2: DEFAULT_USR
@@ -3954,7 +3966,25 @@ export const COPY_FIELD_DATA_CONFIG = {
 	name: 'COPY_FIELD_DATA',
 	grdaJkzk: {
 		/*症状*/
-		symptoms: 'grda_zz',
+		//symptoms: 'grda_zz',
+		symptoms: {
+			field: 'grda_zz',
+			none: '无症状',
+			polydipsia: '多饮',
+			urine: '多尿',
+			blurredVision: '视力模糊',
+			anaesthesia: '手脚麻木',
+			weightLoss: '体重下降',
+			dizzy: '头晕',
+			headache: '头痛',
+			nauseaVomiting: '恶心呕吐',
+			dimEyesight: '眼花',
+			tinnitus: '耳鸣',
+			dyspnea: '呼吸困难',
+			palpitation: '心悸',
+			chestDistress: '胸闷',
+			limbNumbness: '四肢发麻',
+		},
 		/*血压左侧1*/
 		bloPreLeft: 'grda_xyzc1',
 		/*血压左侧2*/
@@ -3985,7 +4015,16 @@ export const COPY_FIELD_DATA_CONFIG = {
 	},
 	gxyJxb: {
 		/*症状*/
-		symptoms: 'gxy_zz',
+		//symptoms: 'gxy_zz',
+		symptoms: {
+			field: 'gxy_zz',
+			none: '无症状',
+			polydipsia: '多饮',
+			urine: '多尿',
+			blurredVision: '视力模糊',
+			anaesthesia: '手脚麻木',
+			weightLoss: '体重快速下降',
+		},
 		/*血压*/
 		bloPreLeft: 'gxy_tz_xy1',
 		bloPreRight: 'gxy_tz_xy2',
@@ -4009,7 +4048,16 @@ export const COPY_FIELD_DATA_CONFIG = {
 	},
 	tnbSfjl: {
 		/*症状*/
-		symptoms: 'tnb_zz',
+		//symptoms: 'tnb_zz',
+		symptoms: {
+			field: 'tnb_zz',
+			dizzy_headache: '头晕头痛',
+			nauseaVomiting: '恶心呕吐',
+			dimEyesight_tinnitus: '眼花耳鸣',
+			dyspnea: '呼吸困难',
+			palpitation_chestDistress: '心悸胸闷',
+			limbNumbness: '手脚麻木',
+		},
 		/*血压*/
 		bloPreLeft: 'tnb_tz_xy1',
 		bloPreRight: 'tnb_tz_xy2',

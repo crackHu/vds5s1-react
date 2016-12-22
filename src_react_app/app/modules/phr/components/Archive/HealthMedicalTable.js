@@ -104,6 +104,7 @@ class HealthMedicalTable extends React.Component {
 	//初始化表单数据
 	initialValue = (key) => {
 		try {
+			console.log('abab', INIT[key])
 			this.props.form.setFieldsValue(INIT[key])
 		} catch (e) {
 			throw Error(`initialValue => ${e.message}`)
