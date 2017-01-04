@@ -69,6 +69,7 @@ class ArchiveList extends React.Component {
 			intervalId: undefined,
 			filePath: undefined,
 			fileName: undefined,
+			processNum: undefined,
 		}
 	}
 
@@ -85,6 +86,8 @@ class ArchiveList extends React.Component {
 		} else {
 			this.props.getArchiveList(this.state.curPage, this.state.curPageSize);
 		}
+
+		this.getExportRecord()
 	}
 
 	componentDidMount() {}
@@ -142,6 +145,16 @@ class ArchiveList extends React.Component {
 					},
 				})
 			}
+		}
+
+		//正在导出文件徽标数
+		if (phrExport) {
+			this.setState({
+				export: {
+					...this.state.export,
+					processNum: phrExport.processNum,
+				},
+			})
 		}
 	}
 
@@ -348,11 +361,15 @@ class ArchiveList extends React.Component {
 		}, () => console.log('exportResult', this.state.export))
 	}
 
-	exportRecord = (condition = '') => {
+	getExportRecord = (condition = '') => {
 		this.props.progress({
 			conditions: condition,
 			id: ''
 		})
+	}
+
+	exportRecord = (condition = '') => {
+		this.getExportRecord(condition)
 		this.setState({
 			expModalVisible: true
 		})
@@ -555,10 +572,11 @@ class ArchiveList extends React.Component {
 		};
 
 		const {
-			progressPercent
+			progressPercent,
+			processNum,
 		} = this.state.export
 
-		console.log('render progressPercent', progressPercent)
+		console.log('render progressPercent', progressPercent, this.state.export)
 		const progress = progressPercent != undefined ? (
 			<Progress
 				className='export-progress'
@@ -582,7 +600,7 @@ class ArchiveList extends React.Component {
 							{' '}
 							<Button type="ghost" icon="download" onClick={() => this.exportResult()}>导出</Button>
 							{' '}
-							<Badge count={0}>
+							<Badge count={processNum}>
 								<Button type="ghost" icon="bars" onClick={() => this.exportRecord()}>导出日志</Button>
 								{exportRecordModal}
 							</Badge>

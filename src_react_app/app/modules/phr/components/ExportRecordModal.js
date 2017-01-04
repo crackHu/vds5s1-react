@@ -68,7 +68,7 @@ class ExportRecordModal extends Component {
 			recordData
 		} = this.props
 		const {
-			record
+			allRecord
 		} = recordData
 
 		let recordDataColumn = (
@@ -84,7 +84,7 @@ class ExportRecordModal extends Component {
 			process: <Tag color="#108ee9">正在导出</Tag>,
 			error: <Tag color="#f50">导出失败</Tag>,
 		}
-		let recordDataUl = record ? record.map(item => {
+		let recordDataUl = allRecord ? allRecord.map(item => {
 
 			let status = 'initial',
 				statusVal = item.ifExport,

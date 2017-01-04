@@ -432,7 +432,8 @@ export function progress(data) {
 
 	let query = api.progress(data)
 	let dispatchObj = {
-		type: PROGRESS
+		type: PROGRESS,
+		id: data.id,
 	}
 	return dispatch => dispatchMethod('progress', query, dispatch, false, dispatchObj, null)
 }
