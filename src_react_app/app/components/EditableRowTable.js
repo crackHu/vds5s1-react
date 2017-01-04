@@ -93,21 +93,23 @@ export default class EditableRowTable extends React.Component {
                 const {
                     editable
                 } = this.state.data[index].name;
-                return (<div className="editable-row-operations">
-          {
-            editable ?
-            <span>
-              <a onClick={() => this.editDone(index, 'save')}>Save</a>
-              <Popconfirm title="Sure to cancel?" onConfirm={() => this.editDone(index, 'cancel')}>
-                <a>Cancel</a>
-              </Popconfirm>
-            </span>
-            :
-            <span>
-              <a onClick={() => this.edit(index)}>Edit</a>
-            </span>
-          }
-        </div>);
+                return (
+                    <div className="editable-row-operations">
+                      {
+                        editable ?
+                        <span>
+                          <a onClick={() => this.editDone(index, 'save')}>Save</a>
+                          <Popconfirm title="Sure to cancel?" onConfirm={() => this.editDone(index, 'cancel')}>
+                            <a>Cancel</a>
+                          </Popconfirm>
+                        </span>
+                        :
+                        <span>
+                          <a onClick={() => this.edit(index)}>Edit</a>
+                        </span>
+                      }
+                    </div>
+                );
             },
         }];
         this.state = {

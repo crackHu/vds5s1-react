@@ -52,9 +52,6 @@ export default class MultiSelect extends React.Component {
 		console.log('MultiSelect componentWillReceiveProps', nextProps)
 		if ('value' in nextProps) {
 			const value = nextProps.value;
-			this.setState({
-				value
-			});
 			this.updateState(nextProps)
 		}
 	}
@@ -64,20 +61,52 @@ export default class MultiSelect extends React.Component {
 	}
 
 	updateState = (props) => {
-		const value = props.value
-		if (!!value && value.constructor == Array && value.length == 1 && noneList.indexOf(value[0]) > -1) {
+		let value = props.value
+		let valueLength, valueFirst, valueLast
+		if (!!value && value.constructor == Array) {
+			valueLength = value.length
+			valueFirst = value[0]
+			valueLast = value.slice().pop()
+
+			//2016年12月23日11:33:46 不禁用选项
+			/*if (noneList.indexOf(valueFirst) > -1) {
+				if (valueLength == 1) {
+					this.setState({
+						disabled: {
+							noneDis: false,
+							otherDis: true,
+						}
+					})
+				} else return
+			}
 			this.setState({
-				disabled: {
-					noneDis: false,
-					otherDis: true,
-				}
-			});
+				value
+			});*/
+
+			//2016年12月23日11:33:46 智能删除
+			if (noneList.indexOf(valueLast) > -1) {
+				this.setState({
+					value: [valueLast]
+				})
+			} else {
+				let valueArr = []
+				value.forEach((optionItem, index) => {
+					if (noneList.indexOf(optionItem) == -1) {
+						valueArr.push(optionItem)
+					}
+				})
+
+				this.setState({
+					value: valueArr
+				})
+			}
 		}
 	}
 
 	handleChange = (value) => {
 
-		let noneDis, otherDis
+		//2016年12月23日11:33:46 不禁用选项
+		/*let noneDis, otherDis
 		if (value.length == 0) {
 			noneDis = false
 			otherDis = false
@@ -96,7 +125,7 @@ export default class MultiSelect extends React.Component {
 				noneDis,
 				otherDis,
 			}
-		})
+		})*/
 
 		console.log(`MultiSelect selected ${value}`, this.props)
 		typeof this.antd.onChange == 'function' ? this.antd.onChange(value) : null

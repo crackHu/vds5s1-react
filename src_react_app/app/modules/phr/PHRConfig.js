@@ -3966,8 +3966,8 @@ export const COPY_FIELD_DATA_CONFIG = {
 	name: 'COPY_FIELD_DATA',
 	grdaJkzk: {
 		/*症状*/
-		//symptoms: 'grda_zz',
-		symptoms: {
+		symptoms: 'grda_zz',
+		/*symptoms: {
 			field: 'grda_zz',
 			none: '无症状',
 			polydipsia: '多饮',
@@ -3984,7 +3984,7 @@ export const COPY_FIELD_DATA_CONFIG = {
 			palpitation: '心悸',
 			chestDistress: '胸闷',
 			limbNumbness: '四肢发麻',
-		},
+		},*/
 		/*血压左侧1*/
 		bloPreLeft: 'grda_xyzc1',
 		/*血压左侧2*/
@@ -4015,8 +4015,8 @@ export const COPY_FIELD_DATA_CONFIG = {
 	},
 	gxyJxb: {
 		/*症状*/
-		//symptoms: 'gxy_zz',
-		symptoms: {
+		symptoms: 'gxy_zz',
+		/*symptoms: {
 			field: 'gxy_zz',
 			none: '无症状',
 			polydipsia: '多饮',
@@ -4024,7 +4024,7 @@ export const COPY_FIELD_DATA_CONFIG = {
 			blurredVision: '视力模糊',
 			anaesthesia: '手脚麻木',
 			weightLoss: '体重快速下降',
-		},
+		},*/
 		/*血压*/
 		bloPreLeft: 'gxy_tz_xy1',
 		bloPreRight: 'gxy_tz_xy2',
@@ -4048,8 +4048,8 @@ export const COPY_FIELD_DATA_CONFIG = {
 	},
 	tnbSfjl: {
 		/*症状*/
-		//symptoms: 'tnb_zz',
-		symptoms: {
+		symptoms: 'tnb_zz',
+		/*symptoms: {
 			field: 'tnb_zz',
 			dizzy_headache: '头晕头痛',
 			nauseaVomiting: '恶心呕吐',
@@ -4057,7 +4057,7 @@ export const COPY_FIELD_DATA_CONFIG = {
 			dyspnea: '呼吸困难',
 			palpitation_chestDistress: '心悸胸闷',
 			limbNumbness: '手脚麻木',
-		},
+		},*/
 		/*血压*/
 		bloPreLeft: 'tnb_tz_xy1',
 		bloPreRight: 'tnb_tz_xy2',

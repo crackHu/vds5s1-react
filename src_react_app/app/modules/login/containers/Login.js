@@ -146,7 +146,7 @@ class Login extends React.Component {
 			          {...formItemLayout}
 			          label="账&nbsp;&nbsp;号"
 			        >
-			          {getFieldDecorator('usr', { initialValue: 'lweihua' })(
+			          {getFieldDecorator('usr')(
 			            <Input placeholder="请输入账号" />
 			          )}
 			        </FormItem>
@@ -155,7 +155,7 @@ class Login extends React.Component {
 		          		label="密&nbsp;&nbsp;码"
 						extra = "一周之内自动登录"
 			        >
-			          {getFieldDecorator('pwd', { initialValue: '123456' })(
+			          {getFieldDecorator('pwd')(
 			            <Input type="password" placeholder="请输入密码" />
 			          )}
 			        </FormItem>

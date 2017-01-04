@@ -944,12 +944,12 @@ export function getCopyValueObj(srcFieldObj, tCopyConfigObj) {
                     delete objValue.name
                     obj[objKey] = objValue
                 } else if (kesLength > 1) {
-                    srcFieldObjKeys.forEach(key => {
-                        if (key != objKey && ) {
-                            let option = srcObj[key]
-                                //todo
-                        }
-                    })
+                    // srcFieldObjKeys.forEach(key => {
+                    //     if (key != objKey && ) {
+                    //         let option = srcObj[key]
+                    //             //todo
+                    //     }
+                    // })
                 }
             }
         }

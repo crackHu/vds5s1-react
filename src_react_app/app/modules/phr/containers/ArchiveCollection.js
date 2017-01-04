@@ -105,7 +105,7 @@ class ArchiveCollection extends React.Component {
 
 		document.onscroll = () => {
 			let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-			let showFixSaveBtn = scrollTop != 0 ? true : false
+			let showFixSaveBtn = scrollTop >= 141 ? true : false
 			this.setState({
 				showFixSaveBtn
 			})
@@ -742,9 +742,16 @@ class ArchiveCollection extends React.Component {
 
 		const isTag = this.isLabelTagArc()
 		const saveBtn = showFixSaveBtn ? null : isTag ? null : sbComponent
+		const fixSaveBtnSty = {
+			float: 'right',
+			marginRight: 25,
+			position: 'fixed',
+			right: 25,
+			display: showFixSaveBtn ? 'block' : 'none'
+		}
 		const fixSaveBtn = (
 			<Affix offsetTop={141}>
-				<div style={{float: 'right', marginRight: 25, display: showFixSaveBtn ? 'block' : 'none'}}>
+				<div style={fixSaveBtnSty}>
     				<Badge status="processing" />
 				    {sbComponent}
 		 		</div>

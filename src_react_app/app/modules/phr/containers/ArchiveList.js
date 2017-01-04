@@ -127,10 +127,10 @@ class ArchiveList extends React.Component {
 						}, polling)
 					} else {
 						msg('success', "导出成功，正在下载……")
-						const filePath = `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.zip`
+						const fileName = `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.zip`
 						this.props.download({
 							filePath: target.url,
-						}, filePath)
+						}, fileName)
 					}
 				})
 			} else {
@@ -334,7 +334,7 @@ class ArchiveList extends React.Component {
 		const polling = this.state.export.polling
 		setTimeout(() => {
 			this.props.progress({
-				"conditions": condition,
+				conditions: condition,
 				id
 			})
 		}, polling / 2)
@@ -348,10 +348,11 @@ class ArchiveList extends React.Component {
 		}, () => console.log('exportResult', this.state.export))
 	}
 
-	exportRecord = (condition = this.state.postData) => {
-		/*this.props.download({
-			filePath: 'D:\\Export\\20161212231339\\1.xls',
-		})*/
+	exportRecord = (condition = '') => {
+		this.props.progress({
+			conditions: condition,
+			id: ''
+		})
 		this.setState({
 			expModalVisible: true
 		})
@@ -512,8 +513,10 @@ class ArchiveList extends React.Component {
 		const exportRecordModal = this.state.expModalVisible ? [
 			<ExportRecordModal
 				key="exportRecordModal"
+				recordData={this.props.phrExport}
 				modalVisible={this.state.expModalVisible}
 			 	switchModalVisible={this.switchModalVisible}
+			 	download={this.props.download}
 			/>
 		] : null;
 
@@ -579,7 +582,7 @@ class ArchiveList extends React.Component {
 							{' '}
 							<Button type="ghost" icon="download" onClick={() => this.exportResult()}>导出</Button>
 							{' '}
-							<Badge count={3}>
+							<Badge count={0}>
 								<Button type="ghost" icon="bars" onClick={() => this.exportRecord()}>导出日志</Button>
 								{exportRecordModal}
 							</Badge>
@@ -594,6 +597,7 @@ class ArchiveList extends React.Component {
 						{progress}
 						<Table
 						 	key="table"
+						 	rowKey="uid"
 						 	columns={columns}
 						 	dataSource={data}
 					 		pagination={pagination}

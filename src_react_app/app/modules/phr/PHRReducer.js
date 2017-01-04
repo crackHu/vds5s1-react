@@ -287,7 +287,7 @@ const phr = function(state = initialState, action) {
 				}
 			}
 		case QUERY_PHR:
-			if (resultCode > 0) {
+			if (resultCode >= 0) {
 				let labels = dout.labels || []
 
 				let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
@@ -354,7 +354,7 @@ const phr = function(state = initialState, action) {
 			}
 		case DELETE_PHR:
 			return Object.assign({}, initialState, state, {
-				delSuc: resultCode > 0,
+				delSuc: resultCode >= 0,
 			})
 		case SAVE_ARCHIVES:
 			//体检表、专档（从表）的保存
@@ -392,7 +392,7 @@ const phr = function(state = initialState, action) {
 
 			console.log(SAVE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
-				updatestate: resultCode > 0,
+				updatestate: resultCode >= 0,
 			}, {
 				[FIELDSN]: {
 					...stateFields,
@@ -428,7 +428,7 @@ const phr = function(state = initialState, action) {
 					}
 				}
 			}
-			var success = resultCode > 0
+			var success = resultCode >= 0
 			return Object.assign({}, initialState, state, {
 				updatestate: success,
 				mastersaved: success
@@ -473,7 +473,7 @@ const phr = function(state = initialState, action) {
 
 			console.log(UPDATE_ARCHIVES, targetKey, targetObj, ids, state)
 			return Object.assign({}, initialState, state, {
-				updatestate: resultCode > 0,
+				updatestate: resultCode >= 0,
 			}, {
 				[FIELDSN]: {
 					...stateFields,
@@ -496,7 +496,7 @@ const phr = function(state = initialState, action) {
 			})
 		case INDIVIDUAL_NUMBER:
 
-			if (resultCode > 0) {
+			if (resultCode >= 0) {
 				let grbh = {
 					grbh: {
 						value: dout.grbh

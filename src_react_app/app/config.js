@@ -81,6 +81,9 @@ export const INDEPENDENCE_ROUTE_CONFIG = [{
   route: "/phr/u/:id",
   sidebarKey: '',
   headerNavKey: 'ArchiveCollection'
+}, {
+  path: "./containers/CollectionsPage",
+  route: "/CollectionsPage",
 }, ]
 
 /************** 独立路由配置（没有IndexRoute） **************/
@@ -89,10 +92,10 @@ export const INDEPEND_ROUTE_CONFIG = [{
   route: "/phr/user/:id",
 }, {
   path: "./components/EditableCellTable",
-  route: "/table1",
+  route: "/EditableCellTable",
 }, {
   path: "./components/EditableRowTable",
-  route: "/table2",
+  route: "/EditableRowTable",
 }, ]
 
 export const STATUS_ROUTE_CONFIG = [{

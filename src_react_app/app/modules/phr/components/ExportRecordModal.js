@@ -4,7 +4,9 @@ import React, {
 } from 'react'
 import {
 	Modal,
-	Button
+	Button,
+	Tag,
+	Tooltip,
 } from 'antd'
 import QueueAnim from 'rc-queue-anim';
 
@@ -53,7 +55,80 @@ class ExportRecordModal extends Component {
 		}, 200)
 	}
 
+	download = (filePath) => {
+		const fileName = `健康档案-导出-${new Date().format('yyyyMMddhhmmssS')}.zip`
+		this.props.download({
+			filePath,
+		}, fileName)
+	}
+
 	render() {
+
+		const {
+			recordData
+		} = this.props
+		const {
+			record
+		} = recordData
+
+		let recordDataColumn = (
+			<ul>
+		  		<li>执行时间</li>
+		  		<li>内容</li>
+		  		<li>状态</li>
+		  		<li>操作</li>
+	  		</ul>
+		)
+		let tagStatus = {
+			success: <Tag color="#87d068">导出成功</Tag>,
+			process: <Tag color="#108ee9">正在导出</Tag>,
+			error: <Tag color="#f50">导出失败</Tag>,
+		}
+		let recordDataUl = record ? record.map(item => {
+
+			let status = 'initial',
+				statusVal = item.ifExport,
+				disabled = statusVal != '1'
+
+			if (!isNaN(statusVal)) {
+				switch (statusVal) {
+					case '0':
+						status = tagStatus.process
+						break
+					case '1':
+						status = tagStatus.success
+						break
+					case '2':
+						status = tagStatus.error
+						break;
+					default:
+						status = 'unknown'
+						break
+				}
+			}
+
+			return (
+				<ul key={item.id}>
+		  			<li>{item.createDate}</li>
+		  			<li>
+		  				<Tooltip title={item.descript}>
+					    	{item.descript}
+					  	</Tooltip>
+		  			</li>
+			  		<li>{status}</li>
+			  		<li>
+			  			<Button
+			  				disabled={disabled}
+			  				size="small"
+			  				type="ghost"
+			  				onClick={() => this.download(item.url)}
+			  			>
+			  				下载
+			  			</Button>
+			  		</li>
+		  		</ul>
+			)
+		}) : null
 
 		return (
 			<div>
@@ -74,32 +149,18 @@ class ExportRecordModal extends Component {
 				        >
 				          {this.state.show ? [
 				            <div className="demo-thead" key="a">
-			              		<ul>
-			                 		<li>执行时间</li>
-							  		<li>内容</li>
-							  		<li>文件名</li>
-			              		</ul>
+			              		{recordDataColumn}
 				            </div>,
 				            <div className="demo-tbody" key="b">
-			              		<ul key="c">
-			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
-							  		<li>全部导出</li>
-							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
-							  		<li><a>下载</a></li>
-			              		</ul>
-			              		<ul key="d">
-			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
-							  		<li>全部导出</li>
-							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
-							  		<li><a>下载</a></li>
-			              		</ul>
-			              		<ul key="e">
-			                 		<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
-							  		<li>全部导出</li>
-							  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
-							  		<li><a>下载</a></li>
-			              		</ul>
-			              		
+			              		{/*
+			              			<ul key={Date.now()}>
+										<li>{new Date().format('yyyy-MM-dd hh:mm:ss')}</li>
+								  		<li>全部导出</li>
+								  		<li>健康档案-导出-{new Date().format('yyyyMMddhhmmssS')}.zip</li>
+								  		<li><a>下载</a></li>
+			              			</ul>
+		              			*/}
+						  		{recordDataUl}
 				            </div>
 				          ] : null}
 				        </QueueAnim>

@@ -127,26 +127,11 @@ legend {
     display: inline-block;
     height: 100%;
 }
-.queue-demo .demo-content .demo-thead ul li:nth-child(1) {
-    width: 20%;
-    text-align: center;
-}
-.queue-demo .demo-content .demo-thead ul li:nth-child(2) {
-    width: 40%;
-    text-align: center;
-}
-.queue-demo .demo-content .demo-thead ul li:nth-child(3) {
-    width: 35%;
-    text-align: center;
-}
-.queue-demo .demo-content .demo-thead ul li:nth-child(4) {
-    width: 5%;
-    text-align: center;
-}
 .queue-demo .demo-content .demo-tbody {
     border: 1px solid #e8e8e8;
     border-radius: 0 0 6px 6px;
-    overflow: hidden;
+	max-height: 300px;
+	overflow-y: auto;
 }
 .queue-demo .demo-content .demo-tbody ul {
     height: 100%;
@@ -158,19 +143,21 @@ legend {
     border-bottom: 1px solid #e8e8e8;
     line-height: 40px;
 }
-.queue-demo .demo-content .demo-tbody ul li:nth-child(1) {
-    width: 20%;
+.queue-demo .demo-content .demo-thead ul li, .demo-tbody ul li {
     text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
-.queue-demo .demo-content .demo-tbody ul li:nth-child(2) {
-    width: 40%;
-    text-align: center;
+.queue-demo .demo-content .demo-thead ul li:nth-child(1), .demo-tbody ul li:nth-child(1) {
+    width: 15%;
 }
-.queue-demo .demo-content .demo-tbody ul li:nth-child(3) {
-    width: 35%;
-    text-align: center;
+.queue-demo .demo-content .demo-thead ul li:nth-child(2), .demo-tbody ul li:nth-child(2) {
+    width: 55%;
 }
-.queue-demo .demo-content .demo-tbody ul li:nth-child(4) {
-    width: 5%;
-    text-align: center;
+.queue-demo .demo-content .demo-thead ul li:nth-child(3), .demo-tbody ul li:nth-child(3) {
+    width: 15%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(4), .demo-tbody ul li:nth-child(4) {
+    width: 15%;
 }

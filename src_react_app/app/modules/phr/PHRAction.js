@@ -380,7 +380,7 @@ export function getIndividualNumbe(addr_arr, addr_fields) {
 }
 
 /*下载 @servlet*/
-export function download(data, filePath) {
+export function download(data, fileName) {
 	return dispatch =>
 		fetch(
 			`${api.download()}?${parseParam(data)}`
@@ -392,13 +392,14 @@ export function download(data, filePath) {
 				console.log('download blob', blob)
 				let blobSize
 				if (blob && (blobSize = blob.size, blobSize != 0)) {
-					downFile(blob, filePath);
+
+					downFile(blob, fileName);
 					dispatch({
 						type: DOWNLOAD,
 						res: blobSize
 					})
 				} else {
-					console.log('error', fetchCatchMsg, `${filePath} 文件下载异常`);
+					notify('error', fetchCatchMsg, `${data.filePath} 文件下载异常`);
 				}
 			}
 		)
