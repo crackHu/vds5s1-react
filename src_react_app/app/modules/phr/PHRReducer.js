@@ -899,6 +899,11 @@
  							}
  						}
  					})
+
+ 					if (total === 0) {
+ 						allRecord = processRecord = []
+ 						target = null
+ 					}
  				}
 
  				return {

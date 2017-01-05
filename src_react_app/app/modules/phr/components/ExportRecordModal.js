@@ -84,7 +84,7 @@ class ExportRecordModal extends Component {
 			process: <Tag color="#108ee9">正在导出</Tag>,
 			error: <Tag color="#f50">导出失败</Tag>,
 		}
-		let recordDataUl = allRecord ? allRecord.map(item => {
+		let recordDataUl = allRecord && allRecord.constructor == Array && allRecord.length > 0 ? allRecord.map(item => {
 
 			let status = 'initial',
 				statusVal = item.ifExport,
@@ -106,7 +106,6 @@ class ExportRecordModal extends Component {
 						break
 				}
 			}
-
 			return (
 				<ul key={item.id}>
 		  			<li>{item.createDate}</li>
@@ -128,7 +127,7 @@ class ExportRecordModal extends Component {
 			  		</li>
 		  		</ul>
 			)
-		}) : null
+		}) : <ul style={{textAlign: 'center'}}>暂无数据</ul>
 
 		return (
 			<div>
