@@ -2,16 +2,25 @@ import React, {
     PropTypes,
 } from "react"
 import {
-    Card,
     Table,
+    Button,
     Input,
-    Popconfirm
+    Popconfirm,
+    Select,
+    DatePicker,
+    InputNumber,
+    Cascader,
 } from 'antd';
+import {
+    getMomentObj,
+    getMomentFormat,
+} from 'utils'
 
 class EditableCell extends React.Component {
     state = {
         value: this.props.value,
         editable: this.props.editable || false,
+        type: this.props.type || 'input',
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.editable !== this.state.editable) {
@@ -38,26 +47,52 @@ class EditableCell extends React.Component {
             nextState.value !== this.state.value;
     }
     handleChange(e) {
-        const value = e.target.value;
+        const value = e.target ? e.target.value : e;
         this.setState({
             value
-        });
+        }, () => console.debug('this.state', value, this.state));
+    }
+    renderControlsByType(type, value) {
+
+        let config, options, format
+        let component
+        switch (type) {
+            case 'input':
+                component = <Input {...config} value={value} onChange={e => this.handleChange(e)} />
+                break
+            case 'inputnumber':
+                component = <InputNumber {...config} value={value} onChange={e => this.handleChange(e)} />
+                break
+            case 'select':
+                component = (
+                    <Select {...config} value={value} onChange={e => this.handleChange(e)}>
+                        {options ? getSelectOptions(options) : null}
+                    </Select>
+                )
+                break
+            case 'datepicker':
+                component = <DatePicker {...config} showTime format={format} value={getMomentObj(value)} onChange={e => this.handleChange(e)} />
+                break
+            case 'cascader':
+                component = <Cascader {...config} options={options} value={['asd','asdffff']} onChange={e => this.handleChange(e)} />
+                break
+            default:
+                component = <Input {...config} value={value} onChange={e => this.handleChange(e)} />
+                break
+        }
+        return component
     }
     render() {
         const {
             value,
-            editable
+            editable,
+            type,
         } = this.state;
         return (
             <div>
               {
                 editable ?
-                <div>
-                  <Input
-                    value={value}
-                    onChange={e => this.handleChange(e)}
-                  />
-                </div>
+                    <div>{this.renderControlsByType(type, value)}</div>
                 :
                 <div className="editable-row-text">
                   {value || ' '}
@@ -72,22 +107,27 @@ export default class EditableRowTable extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: 'name',
+            title: '测量时间',
             dataIndex: 'name',
-            width: '25%',
+            width: '20%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'name', text),
         }, {
-            title: 'age',
+            title: '收缩压(mmhg)',
             dataIndex: 'age',
             width: '15%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'age', text),
         }, {
-            title: 'address',
+            title: '舒张压(mmhg)',
             dataIndex: 'address',
-            width: '40%',
+            width: '15%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'address', text),
         }, {
-            title: 'operation',
+            title: '心率(次/分钟)',
+            dataIndex: 'address1',
+            width: '15%',
+            render: (text, record, index) => this.renderColumns(this.state.data, index, 'address1', text),
+        }, {
+            title: '操作',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 const {
@@ -98,14 +138,15 @@ export default class EditableRowTable extends React.Component {
                       {
                         editable ?
                         <span>
-                          <a onClick={() => this.editDone(index, 'save')}>Save</a>
-                          <Popconfirm title="Sure to cancel?" onConfirm={() => this.editDone(index, 'cancel')}>
-                            <a>Cancel</a>
+                          <a onClick={() => this.editDone(index, 'save')}>确认</a>
+                          <Popconfirm title="确认不做更改？" onConfirm={() => this.editDone(index, 'cancel')}>
+                            <a>取消</a>
                           </Popconfirm>
                         </span>
                         :
                         <span>
-                          <a onClick={() => this.edit(index)}>Edit</a>
+                          <a onClick={() => this.edit(index)}>编辑</a>
+                          <a onClick={() => this.delete(index)}>删除</a>
                         </span>
                       }
                     </div>
@@ -116,15 +157,24 @@ export default class EditableRowTable extends React.Component {
             data: [{
                 key: '0',
                 name: {
+                    type: 'datepicker',
                     editable: false,
-                    value: 'Edward King 0',
+                    value: '2017-01-09 14:34:31',
                 },
                 age: {
+                    type: 'select',
                     editable: false,
-                    value: '32',
+                    value: '110',
                 },
                 address: {
-                    value: 'London, Park Lane no. 0',
+                    type: 'inputnumber',
+                    editable: false,
+                    value: '120',
+                },
+                address1: {
+                    type: 'cascader',
+                    editable: false,
+                    value: '114',
                 },
             }],
         };
@@ -132,6 +182,7 @@ export default class EditableRowTable extends React.Component {
     renderColumns(data, index, key, text) {
         const {
             editable,
+            type,
             status
         } = data[index][key];
         if (typeof editable === 'undefined') {
@@ -140,6 +191,7 @@ export default class EditableRowTable extends React.Component {
         return (
             <EditableCell
               editable={editable}
+              type={type}
               value={text}
               onChange={value => this.handleChange(key, index, value)}
               status={status}
@@ -154,6 +206,39 @@ export default class EditableRowTable extends React.Component {
         this.setState({
             data
         });
+    }
+    handleAdd() {
+        const {
+            data
+        } = this.state;
+        const newData = {
+            key: '1',
+            name: {
+                type: 'datepicker',
+                editable: false,
+                value: '2017-01-09 14:34:31',
+            },
+            age: {
+                type: 'select',
+                editable: false,
+                value: '110',
+            },
+            address: {
+                type: 'inputnumber',
+                editable: false,
+                value: '120',
+            },
+            address1: {
+                type: 'cascader',
+                editable: false,
+                value: '114',
+            },
+        };
+        console.log('add', [...data, newData])
+        this.setState({
+            data: [...data, newData],
+        });
+
     }
     edit(index) {
         const {
@@ -188,6 +273,15 @@ export default class EditableRowTable extends React.Component {
             });
         });
     }
+    delete(index) {
+        const {
+            data
+        } = this.state;
+
+        this.setState({
+            data
+        });
+    }
     render() {
         const {
             data
@@ -201,9 +295,10 @@ export default class EditableRowTable extends React.Component {
         });
         const columns = this.columns;
         return (
-            <Card>
+            <div>
+                <Button className="editable-add-btn" icon="plus" type="primary" onClick={() => this.handleAdd()}>新 增</Button>
                 <Table bordered dataSource={dataSource} columns={columns} />
-            </Card>
+            </div>
         );
     }
 }

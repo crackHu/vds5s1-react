@@ -7,7 +7,7 @@ import {
 	Input,
 } from 'antd'
 
-import EditableCellTable from 'app_base/components/EditableCellTable'
+import EditableRowTable from 'app_base/components/EditableRowTable'
 
 const FormItem = Form.Item;
 
@@ -28,7 +28,7 @@ class ResidentbpfbForm extends React.Component {
 		} = this.props.form
 
 		return (
-			<EditableCellTable />
+			<EditableRowTable />
 		)
 	}
 }
