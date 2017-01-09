@@ -96,8 +96,8 @@ export default class EditableCellTable extends React.Component {
                 return (
                     this.state.dataSource.length > 1 ?
                     (
-                        <Popconfirm title="Sure to delete?" onConfirm={this.onDelete(index)}>
-                          <a href="#">Delete</a>
+                        <Popconfirm title="确认删除？" onConfirm={this.onDelete(index)}>
+                          <a href="#">删 除</a>
                         </Popconfirm>
                     ) : null
                 );
@@ -159,10 +159,10 @@ export default class EditableCellTable extends React.Component {
         } = this.state;
         const columns = this.columns;
         return (
-            <Card>
-                <Button className="editable-add-btn" type="ghost" onClick={this.handleAdd}>Add</Button>
+            <div>
+                <Button className="editable-add-btn" icon="plus" type="primary" onClick={this.handleAdd}>新 增</Button>
                 <Table bordered dataSource={dataSource} columns={columns} />
-            </Card>
+            </div>
         );
     }
 }

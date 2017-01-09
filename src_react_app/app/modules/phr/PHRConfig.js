@@ -63,6 +63,13 @@ export const ARC_TYPE_CONFIG = {
 		recordKey: 'gxyjl',
 		disabled: false,
 	}, {
+		name: "居民血压反馈",
+		content: 'SpecialArchive/ResidentbpfbForm',
+		key: "Residentbpfb",
+		containKey: 'Residentbpfb',
+		recordKey: 'Residentbpfb',
+		disabled: false,
+	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
 		key: "Diabetes",
