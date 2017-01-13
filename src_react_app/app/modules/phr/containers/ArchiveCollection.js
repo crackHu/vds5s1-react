@@ -13,6 +13,7 @@ import {
 	Affix,
 	Badge,
 	Alert,
+	Spin,
 	Icon
 } from 'antd';
 import Tags from 'app_base/components/Tags'
@@ -72,7 +73,8 @@ class ArchiveCollection extends React.Component {
 		submitloading: false,
 		title: undefined,
 		operatText: undefined,
-		showFixSaveBtn: false
+		showFixSaveBtn: false,
+		showResidentbpfb: false
 	}
 
 	componentWillMount = () => {
@@ -120,11 +122,14 @@ class ArchiveCollection extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		console.log("ArchiveCollection.componentWillReceiveProps", nextProps.phr, this.props.phr)
-		this.setState({
-			submitloading: nextProps.phr.submitloading
-		})
+
 		const fields = nextProps.phr[FIELDSN]
-		const labels = nextProps.phr[FIELDSN].labels || []
+		const resident = fields.resident || false
+		this.setState({
+			submitloading: nextProps.phr.submitloading,
+			showResidentbpfb: resident
+		})
+		const labels = fields.labels || []
 		const usersArc = this.state.arcType.slice(0)
 
 		//定死this.state.arcType数组长度为2才更新，可完善
@@ -515,7 +520,7 @@ class ArchiveCollection extends React.Component {
 		/*})*/
 
 		let grbhObj = this.getArchiveGrbh()
-		if (!!grbhObj && !!grbhObj.value && !!this.props.phr.mastersaved) {
+		if (!!grbhObj && !!grbhObj.value && !!this.props.phr.mastersaved && targetKey !== 'Residentbpfb') {
 
 			let grbh = grbhObj.value
 			let isTag = this.isLabelTagArc(targetKey)
@@ -741,7 +746,8 @@ class ArchiveCollection extends React.Component {
 		)
 
 		const isTag = this.isLabelTagArc()
-		const saveBtn = showFixSaveBtn ? null : isTag ? null : sbComponent
+		const hideSBCondition = isTag || this.state.activeKey === 'Residentbpfb'
+		const saveBtn = showFixSaveBtn ? null : hideSBCondition ? null : sbComponent
 		const fixSaveBtnSty = {
 			float: 'right',
 			marginRight: 25,
@@ -749,7 +755,7 @@ class ArchiveCollection extends React.Component {
 			right: 25,
 			display: showFixSaveBtn ? 'block' : 'none'
 		}
-		const fixSaveBtn = (
+		const fixSaveBtn = hideSBCondition ? null : (
 			<Affix offsetTop={141}>
 				<div style={fixSaveBtnSty}>
     				<Badge status="processing" />
@@ -766,16 +772,21 @@ class ArchiveCollection extends React.Component {
 							let link = (<a onClick = {() =>this.addSpecArcTab(arc.key)} >
 											{arc.name}
 										</a>)
+
 							return (
-								    <Menu.Item key={index} disabled={arc.disabled}>
-							    		<a onClick = {() =>this.addSpecArcTab(arc.key)} >
-									    	{!!arc.labelTag ? 
+								arc.key !== 'Residentbpfb' || this.state.showResidentbpfb || __DEBUG__ ?
+							    <Menu.Item key={index} disabled={arc.disabled}>
+						    		<a onClick = {() =>this.addSpecArcTab(arc.key)}>
+								    	{	
+								    		!!arc.labelTag ?
 									    		<span>
 													{arc.name} <Badge status="success" />
 										  		</span>
-									    	: arc.name}
-										</a>
-								    </Menu.Item>
+									    	: arc.name
+								    	}
+									</a>
+							    </Menu.Item>
+							    : null
 							)
 						}
 					})
@@ -783,10 +794,9 @@ class ArchiveCollection extends React.Component {
 		  	</Menu>
 		);
 
-		/*trigger={['click']}*/
 		const moreSpecArcDd = (
 			<div>
-				<Dropdown overlay={moreSpecArc}>
+				<Dropdown overlay={moreSpecArc} trigger={['click']}>
 				    <a className="ant-dropdown-link">
 				      添加专档 <Icon type="down" />
 				    </a>
@@ -879,24 +889,26 @@ class ArchiveCollection extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
-				{fixSaveBtn}
-				<div className='module' key="tabs">
-					{shortcut_tips()}
-					<Card title={title} extra={moreSpecArcDd}>
-						<Tabs
-							animated={TAB_ANIMATED}
-							hideAdd
-							onChange={this.changeTab}
-							activeKey={this.state.activeKey}
-							type="editable-card"
-							onEdit={this.onTabEdit}
-							defaultActiveKey="1"
-							tabBarExtraContent={saveBtn}
-						>
-							{tabpane}
-						</Tabs>
-					</Card>
-				</div>
+				<Spin spinning={false}>
+					{fixSaveBtn}
+					<div className='module' key="tabs">
+						{shortcut_tips()}
+						<Card title={title} extra={moreSpecArcDd}>
+							<Tabs
+								animated={TAB_ANIMATED}
+								hideAdd
+								onChange={this.changeTab}
+								activeKey={this.state.activeKey}
+								type="editable-card"
+								onEdit={this.onTabEdit}
+								defaultActiveKey="1"
+								tabBarExtraContent={saveBtn}
+							>
+								{tabpane}
+							</Tabs>
+						</Card>
+					</div>
+				</Spin>
 			</QueueAnim>
 		)
 	}

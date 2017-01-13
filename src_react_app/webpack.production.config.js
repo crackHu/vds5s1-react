@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
@@ -13,8 +14,8 @@ const PROJECT_NAME = 'medicPHR'
 const config = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		[`${PROJECT_NAME}`]: path.resolve(APP_PATH, 'app.js'),
-		common: [
+		app: path.resolve(APP_PATH, 'app.js'),
+		vendor: [
 			'react',
 			'react-dom',
 			'react-redux',
@@ -30,9 +31,9 @@ const config = {
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: 'assets/[name].bundle.js',
+		filename: 'assets/[name].[chunkhash:8].js',
 		publicPath: `/${PROJECT_NAME}/app/`,
-		chunkFilename: '[name].[chunkhash:5].chunk.js',
+		chunkFilename: '[name].[chunkhash:8].chunk.js',
 	},
 	module: {
 		loaders: [{
@@ -53,24 +54,29 @@ const config = {
 			loader: 'url?limit=10000&name=assets/img/[name].[ext]'
 		}, {
 			test: /\.svg$/,
-			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[ext]'
+			loader: 'url?limit=65000&mimetype=image/svg+xml&name=assets/fonts/[name].[hash:8].[ext]'
 		}, {
 			test: /\.woff$/,
-			loader: 'url?limit=65000&mimetype=application/font-woff&name=assets/fonts/[name].[ext]'
+			loader: 'url?limit=65000&mimetype=application/font-woff&name=assets/fonts/[name].[hash:8].[ext]'
 		}, {
 			test: /\.woff2$/,
-			loader: 'url?limit=65000&mimetype=application/font-woff2&name=assets/fonts/[name].[ext]'
+			loader: 'url?limit=65000&mimetype=application/font-woff2&name=assets/fonts/[name].[hash:8].[ext]'
 		}, {
 			test: /\.[ot]tf$/,
-			loader: 'url?limit=65000&mimetype=application/octet-stream&name=assets/fonts/[name].[ext]'
+			loader: 'url?limit=65000&mimetype=application/octet-stream&name=assets/fonts/[name].[hash:8].[ext]'
 		}, {
 			test: /\.eot$/,
-			loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=assets/fonts/[name].[ext]'
+			loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=assets/fonts/[name].[hash:8].[ext]'
 		}, ]
 	},
 	postcss: [
 		autoprefixer({
-			browsers: ['last 3 versions', '> 1%']
+			browsers: [
+				'>1%',
+				'last 4 versions',
+				'Firefox ESR',
+				'not ie < 9', // React doesn't support IE8 anyway
+			]
 		})
 	],
 	resolve: {
@@ -102,7 +108,10 @@ const config = {
 		extensions: ['', '.js', '.jsx']
 	},
 	plugins: [
+		new webpack.optimize.OccurenceOrderPlugin(),
+		new webpack.optimize.DedupePlugin(),
 		new webpack.optimize.UglifyJsPlugin({
+			comments: false,
 			minimize: true,
 			compress: {
 				warnings: false,
@@ -111,22 +120,37 @@ const config = {
 			}
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
-			name: 'common',
-			chunks: [`${PROJECT_NAME}`],
-			filename: 'assets/[name].js',
-			minChunks: Infinity
+			names: ['vendor'],
+			filename: 'assets/[name].[chunkhash:8].js',
 		}),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('production')
 		}),
-		new ExtractTextPlugin("assets/[name].style.css"),
+		new ExtractTextPlugin("assets/[name].[contenthash:8].css", {
+			allChunks: true
+		}),
+		new ManifestPlugin({
+			fileName: 'asset-manifest.json'
+		}),
 		new HtmlwebpackPlugin({
 			favicon: './app/assets/img/favicon.ico',
 			title: '健康档案系统',
 			template: './app/templates/index.html',
 			hash: 'true',
 			filename: 'index.html',
-			inject: 'body'
+			inject: 'body',
+			minify: {
+				removeComments: true,
+				collapseWhitespace: true,
+				removeRedundantAttributes: true,
+				useShortDoctype: true,
+				removeEmptyAttributes: true,
+				removeStyleLinkTypeAttributes: true,
+				keepClosingSlash: true,
+				minifyJS: true,
+				minifyCSS: true,
+				minifyURLs: true
+			}
 		})
 	]
 };

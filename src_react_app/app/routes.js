@@ -22,6 +22,12 @@ import ArchiveList from './modules/phr/containers/ArchiveCollection';
 import Statistics from './modules/stat/containers/Statistics';
 */
 
+if (typeof require.ensure !== 'function') {
+	require.ensure = function(dependencies, callback) {
+		callback(require)
+	}
+}
+
 const onEnterHandler = (nextState, replace, callback) => {
 	//获取传输过来的数据
 	/*if (query.qsparam) {
@@ -80,11 +86,19 @@ const routes = (loggedIn) => {
 
 			let itemSubs = item.sub.map((itemSub, indexSub) => {
 
-				let component = require(`${itemSub.path}.js`).default
+				let path = itemSub.path
+					// let component = require(`${path}.js`).default
+				const getComponent = (location, cb) => {
+					console.debug('dynamicRoute path', path)
+					console.debug('getComponent', location, itemSub)
+					return require.ensure([], require => {
+						cb(null, require(`${path}.js`).default)
+					})
+				}
 				return (
 					<Route
 						path={itemSub.route}
-						component={component}
+						getComponent={getComponent}
 						headerNavKey={item.key}
 						sidebarKey={itemSub.key}
 						onEnter={onEnterHandler}

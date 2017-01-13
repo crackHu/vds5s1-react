@@ -3,10 +3,14 @@ import React, {
 	PropTypes
 } from 'react'
 import {
+	connect
+} from 'react-redux';
+import {
 	Form,
 	Input,
 } from 'antd'
 
+import * as PHRAction from 'phr/PHRAction'
 import EditableRowTable from 'app_base/components/EditableRowTable'
 
 const FormItem = Form.Item;
@@ -16,29 +20,99 @@ class ResidentbpfbForm extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			masterid: this.props.phr['masterid'],
+			tableDataSource: [],
+			tableTotal: 0
+		}
+
+		/*分页*/
+		this.tablePagination = true
+		this.tableDefalutPageSize = 10
+		this.tableDefalutPageNo = 1
+
+		this.tableFunction = ['SELECT']
+		this.tableColumns = [{
+			title: '测量时间',
+			dataIndex: 'xy_sfrq2',
+			width: '20%',
+		}, {
+			title: '收缩压(mmhg)',
+			dataIndex: 'xy_tz_xy2',
+			width: '15%',
+		}, {
+			title: '舒张压(mmhg)',
+			dataIndex: 'xy_tz_xy1',
+			width: '15%',
+		}, {
+			title: '心率(次/分钟)',
+			dataIndex: 'xy_tz_xl',
+			width: '15%',
+		}, ]
+
 	}
 
-	componentWillMount = () => {}
+	componentWillMount = () => {
+		this.getDataSource()
+	}
 
 	componentDidMount = () => {}
 
-	render() {
+	componentWillReceiveProps = (nextProps) => {
+		let residentbpfb = nextProps.phr['residentbpfb']
 		const {
-			getFieldDecorator
-		} = this.props.form
+			resident,
+			total
+		} = residentbpfb
+		console.log('asdfaccc before', this.state)
+		if (resident && resident.constructor === Array && resident.length !== 0) {
+			this.setState({
+				tableDataSource: resident,
+				tableTotal: total
+			}, () => console.log('asdfaccc after', this.state))
+		}
+	}
+
+	/*分页 获取数据源*/
+	getDataSource = (pageSize, pageNo, id = this.state.masterid) => {
+		this.props.getResidentbpfbList(pageSize, pageNo, id)
+	}
+
+	render() {
 
 		return (
-			<EditableRowTable />
+			<EditableRowTable
+				pagination={this.tablePagination}
+				defalutPageSize={this.tableDefalutPageSize}
+				defalutPageNo={this.tableDefalutPageNo}
+				total={this.state.tableTotal}
+				getDataSource={this.getDataSource}
+
+				function={this.tableFunction}
+				columns={this.tableColumns}
+				dataSource={this.state.tableDataSource}
+			/>
 		)
 	}
 }
 
-function onFieldsChange(props, fields) {
-	console.log("ResidentbpfbForm onFieldsChange")
+function mapStateToProps(state) {
+	console.log('ResidentbpfbForm mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
 }
 
-function mapPropsToFields(props) {
-	console.log("ResidentbpfbForm mapPropsToFields")
+ResidentbpfbForm.propTypes = {
+	phr: PropTypes.object.isRequired,
+	getResidentbpfbList: PropTypes.func.isRequired,
 }
 
-export default Form.create()(ResidentbpfbForm)
+ResidentbpfbForm.contextTypes = {
+	router: React.PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, {
+	...PHRAction
+})(ResidentbpfbForm)

@@ -11,13 +11,13 @@ const PROJECT_NAME = 'medicPHR'
 
 const config = {
 	entry: {
-		[`${PROJECT_NAME}`]: path.resolve(APP_PATH, 'app.js')
+		app: path.resolve(APP_PATH, 'app.js')
 	},
 	output: {
 		path: BUILD_PATH,
-		filename: '[name].bundle.js',
+		filename: '[name].js',
 		publicPath: '/',
-		chunkFilename: '[name].[chunkhash:5].chunk.js',
+		chunkFilename: '[name].chunk.js',
 	},
 	devtool: 'cheap-module-eval-source-map',
 	devServer: {
@@ -69,7 +69,12 @@ const config = {
 	},
 	postcss: [
 		autoprefixer({
-			browsers: ['last 3 versions', '> 1%']
+			browsers: [
+				'>1%',
+				'last 4 versions',
+				'Firefox ESR',
+				'not ie < 9', // React doesn't support IE8 anyway
+			]
 		})
 	],
 	resolve: {
@@ -101,9 +106,9 @@ const config = {
 		extensions: ['', '.js', '.jsx']
 	},
 	plugins: [
-		new webpack.optimize.UglifyJsPlugin({
-			minimize: true
-		}),
+		new webpack.optimize.OccurenceOrderPlugin(),
+		new webpack.optimize.DedupePlugin(),
+		new webpack.NoErrorsPlugin(),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 			BROWSER: JSON.stringify(true)

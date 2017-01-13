@@ -289,3 +289,15 @@ export function API_queryForUpdate(page, rows) {
 
 	return getReqUrl + JSON.stringify(query)
 }
+
+/*居民血压反馈*/
+export function getResidentbpfbList(pageSize, pageNo, id) {
+
+	let postQuery = new PostQuery({
+		id,
+		page: pageNo,
+		rows: pageSize
+	}, 'searchResident', 'boPersonDoc')
+
+	return postQuery.serialize('searchResident');
+}

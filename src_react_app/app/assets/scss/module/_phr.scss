@@ -149,15 +149,66 @@ legend {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-.queue-demo .demo-content .demo-thead ul li:nth-child(1), .demo-tbody ul li:nth-child(1) {
+/* .queue-demo .demo-content .demo-thead ul li:nth-child(1), .demo-tbody ul li:nth-child(1) {
     width: 15%;
 }
 .queue-demo .demo-content .demo-thead ul li:nth-child(2), .demo-tbody ul li:nth-child(2) {
-    width: 55%;
+    width: 50%;
 }
 .queue-demo .demo-content .demo-thead ul li:nth-child(3), .demo-tbody ul li:nth-child(3) {
     width: 15%;
 }
 .queue-demo .demo-content .demo-thead ul li:nth-child(4), .demo-tbody ul li:nth-child(4) {
+    width: 5%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(5), .demo-tbody ul li:nth-child(5) {
     width: 15%;
+} */
+
+$li1 : 15%;
+$li2 : 45%;
+$li3 : 15%;
+$li4 : 10%;
+$li5 : 15%;
+.queue-demo {
+	.demo-content {
+		.demo-thead {
+			ul {
+				li:nth-child(1) {
+				    width: $li1;
+				}
+				li:nth-child(2) {
+				    width: $li2;
+				}
+				li:nth-child(3) {
+				    width: $li3;
+				}
+				li:nth-child(4) {
+				    width: $li4;
+				}
+				li:nth-child(5) {
+				    width: $li5;
+				}
+			}
+		}
+		.demo-tbody {
+			ul {
+				li:nth-child(1) {
+				    width: $li1;
+				}
+				li:nth-child(2) {
+				    width: $li2;
+				}
+				li:nth-child(3) {
+				    width: $li3;
+				}
+				li:nth-child(4) {
+				    width: $li4;
+				}
+				li:nth-child(5) {
+				    width: $li5;
+				}
+			}
+		}
+	}
 }

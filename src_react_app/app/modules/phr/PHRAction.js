@@ -37,6 +37,7 @@ import {
 	EXPORT_PHR,
 	PROGRESS,
 	DOWNLOAD,
+	RESIDENTBPFB,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -438,6 +439,15 @@ export function progress(data) {
 	return dispatch => dispatchMethod('progress', query, dispatch, false, dispatchObj, null)
 }
 
+/*居民血压反馈*/
+export function getResidentbpfbList(pageSize = 10, pageNo = 1, id) {
+
+	let query = api.getResidentbpfbList(pageSize, pageNo, id)
+	let dispatchObj = {
+		type: RESIDENTBPFB,
+	}
+	return dispatch => dispatchMethod('getResidentbpfbList', query, dispatch, false, dispatchObj, null)
+}
 
 /*改变新增/编辑状态*/
 export function changeState() {

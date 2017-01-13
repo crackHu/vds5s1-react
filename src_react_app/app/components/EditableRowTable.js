@@ -71,7 +71,7 @@ class EditableCell extends React.Component {
                 )
                 break
             case 'datepicker':
-                component = <DatePicker {...config} showTime format={format} value={getMomentObj(value)} onChange={e => this.handleChange(e)} />
+                component = <DatePicker {...config} format={format} value={getMomentObj(value)} onChange={e => this.handleChange(e)} />
                 break
             case 'cascader':
                 component = <Cascader {...config} options={options} value={['asd','asdffff']} onChange={e => this.handleChange(e)} />
@@ -106,79 +106,101 @@ class EditableCell extends React.Component {
 export default class EditableRowTable extends React.Component {
     constructor(props) {
         super(props);
-        this.columns = [{
-            title: '测量时间',
-            dataIndex: 'name',
-            width: '20%',
-            render: (text, record, index) => this.renderColumns(this.state.data, index, 'name', text),
-        }, {
-            title: '收缩压(mmhg)',
-            dataIndex: 'age',
-            width: '15%',
-            render: (text, record, index) => this.renderColumns(this.state.data, index, 'age', text),
-        }, {
-            title: '舒张压(mmhg)',
-            dataIndex: 'address',
-            width: '15%',
-            render: (text, record, index) => this.renderColumns(this.state.data, index, 'address', text),
-        }, {
-            title: '心率(次/分钟)',
-            dataIndex: 'address1',
-            width: '15%',
-            render: (text, record, index) => this.renderColumns(this.state.data, index, 'address1', text),
-        }, {
-            title: '操作',
-            dataIndex: 'operation',
-            render: (text, record, index) => {
-                const {
-                    editable
-                } = this.state.data[index].name;
-                return (
-                    <div className="editable-row-operations">
-                      {
-                        editable ?
-                        <span>
-                          <a onClick={() => this.editDone(index, 'save')}>确认</a>
-                          <Popconfirm title="确认不做更改？" onConfirm={() => this.editDone(index, 'cancel')}>
-                            <a>取消</a>
-                          </Popconfirm>
-                        </span>
-                        :
-                        <span>
-                          <a onClick={() => this.edit(index)}>编辑</a>
-                          <a onClick={() => this.delete(index)}>删除</a>
-                        </span>
-                      }
-                    </div>
-                );
-            },
-        }];
+
+        this.FUNC = this.props.function
+        this.HAS_FUNC_CREATE = this.FUNC.indexOf('CREATE') > -1
+        this.HAS_FUNC_DELETE = this.FUNC.indexOf('DELETE') > -1
+        this.HAS_FUNC_UPDATE = this.FUNC.indexOf('UPDATE') > -1
+        this.HAS_FUNC_SELECT = this.FUNC.indexOf('SELECT') > -1
+
         this.state = {
-            data: [{
-                key: '0',
-                name: {
-                    type: 'datepicker',
-                    editable: false,
-                    value: '2017-01-09 14:34:31',
-                },
-                age: {
-                    type: 'select',
-                    editable: false,
-                    value: '110',
-                },
-                address: {
-                    type: 'inputnumber',
-                    editable: false,
-                    value: '120',
-                },
-                address1: {
-                    type: 'cascader',
-                    editable: false,
-                    value: '114',
-                },
-            }],
+            data: [],
+            pageSize: this.props.defalutPageSize,
+            current: this.props.defalutPageNo,
+            total: 0,
         };
+        this.columns = this.props.columns.slice();
+        this.columns.map(column => {
+            column['render'] = (text, record, index) => this.renderColumns(this.state.data, index, column['dataIndex'], text)
+        })
+        if (this.HAS_FUNC_UPDATE || this.HAS_FUNC_DELETE) {
+            this.columns.push({
+                title: '操作',
+                dataIndex: 'operation',
+                render: (text, record, index) => {
+                    const {
+                        editable
+                    } = this.state.data[index].name;
+                    return (
+                        <div className="editable-row-operations">
+                          {
+                            editable && this.HAS_FUNC_UPDATE ?
+                            <span>
+                              <a onClick={() => this.editDone(index, 'save')}>确认</a>
+                              <Popconfirm title="确认不做更改？" onConfirm={() => this.editDone(index, 'cancel')}>
+                                <a>取消</a>
+                              </Popconfirm>
+                            </span>
+                            :
+                            <span>
+                              {this.HAS_FUNC_UPDATE ? <a onClick={() => this.edit(index)}>编辑</a> : null}
+                              {this.HAS_FUNC_DELETE ? <a onClick={() => this.delete(index)}>删除</a> : null}
+                            </span>
+                          }
+                        </div>
+                    );
+                },
+            })
+        }
     }
+
+    componentWillReceiveProps = (nextProps) => {
+
+        /*[{
+            key: '0',
+            xy_sfrq2: {
+                type: 'datepicker',
+                editable: false,
+                value: '2017-01-09 14:34:31',
+            },
+            xy_tz_xy2: {
+                type: 'inputnumber',
+                editable: false,
+                value: '110',
+            },
+            xy_tz_xy1: {
+                type: 'inputnumber',
+                editable: false,
+                value: '120',
+            },
+            xy_tz_xl: {
+                type: 'inputnumber',
+                editable: false,
+                value: '114',
+            },
+        }]*/
+        const {
+            dataSource,
+            total
+        } = nextProps
+        let data = dataSource.map((data, index) => {
+            let obj = {}
+            Object.keys(data).map(key => {
+                obj[key] = {}
+                obj[key]['value'] = data[key]
+            })
+            return {
+                key: index,
+                ...obj
+            }
+        })
+        this.setState({
+            data,
+            total
+        })
+        console.log('asdfaccc11', dataSource, total, this.state.data, this.state.total)
+    }
+
     renderColumns(data, index, key, text) {
         const {
             editable,
@@ -211,26 +233,27 @@ export default class EditableRowTable extends React.Component {
         const {
             data
         } = this.state;
+        const key = data[data.length - 1]['key']
         const newData = {
-            key: '1',
+            key: key + 1,
             name: {
                 type: 'datepicker',
-                editable: false,
+                editable: true,
                 value: '2017-01-09 14:34:31',
             },
             age: {
                 type: 'select',
-                editable: false,
+                editable: true,
                 value: '110',
             },
             address: {
                 type: 'inputnumber',
-                editable: false,
+                editable: true,
                 value: '120',
             },
             address1: {
                 type: 'cascader',
-                editable: false,
+                editable: true,
                 value: '114',
             },
         };
@@ -284,21 +307,77 @@ export default class EditableRowTable extends React.Component {
     }
     render() {
         const {
-            data
+            data,
+            current,
+            pageSize,
+            total,
         } = this.state;
-        const dataSource = data.map((item) => {
+        const {
+            pagination,
+        } = this.props
+
+        const dataSource = this.HAS_FUNC_SELECT ? data.map((item) => {
             const obj = {};
             Object.keys(item).forEach((key) => {
                 obj[key] = key === 'key' ? item[key] : item[key].value;
             });
             return obj;
-        });
+        }) : null
         const columns = this.columns;
+        const pagination_ = pagination ? {
+            current,
+            pageSize,
+            total,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            onShowSizeChange: (current, pageSize) => {
+                this.setState({
+                    current,
+                    pageSize
+                }, () => {
+                    this.props.getDataSource(pageSize, current)
+                })
+                console.log('Current: ', current, '; PageSize: ', pageSize);
+            },
+            onChange: (current) => {
+                console.log('onChange', this.state)
+                this.setState({
+                    current,
+                }, () => {
+                    this.props.getDataSource(pageSize, current)
+                    console.log('Current: ', current, this.state);
+                })
+            },
+            showTotal: (total, range) => `共 ${total} 条 （${range[0]}-${range[1]}）`
+        } : false
+
         return (
             <div>
-                <Button className="editable-add-btn" icon="plus" type="primary" onClick={() => this.handleAdd()}>新 增</Button>
-                <Table bordered dataSource={dataSource} columns={columns} />
+                {
+                    this.HAS_FUNC_CREATE ?
+                    <Button className="editable-add-btn" icon="plus" type="primary" onClick={() => this.handleAdd()}>新 增</Button>
+                    : null
+                }
+                <Table
+                    bordered
+                    dataSource={dataSource}
+                    columns={columns}
+                    pagination={pagination_}
+                />
             </div>
         );
     }
+}
+
+EditableRowTable.propTypes = {
+    /*分页*/
+    pagination: PropTypes.bool,
+    defalutPageSize: PropTypes.number,
+    defalutPageNo: PropTypes.number,
+    total: PropTypes.number,
+    getDataSource: PropTypes.func,
+    /*CREATE, DELETE, UPDATE, SELECT, QUERY*/
+    function: PropTypes.array.isRequired,
+    columns: PropTypes.array.isRequired,
+    dataSource: PropTypes.array.isRequired,
 }

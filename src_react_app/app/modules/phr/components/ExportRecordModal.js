@@ -76,6 +76,7 @@ class ExportRecordModal extends Component {
 		  		<li>执行时间</li>
 		  		<li>内容</li>
 		  		<li>状态</li>
+		  		<li>进度</li>
 		  		<li>操作</li>
 	  		</ul>
 		)
@@ -115,6 +116,7 @@ class ExportRecordModal extends Component {
 					  	</Tooltip>
 		  			</li>
 			  		<li>{status}</li>
+			  		<li>{item.bar}%</li>
 			  		<li>
 			  			<Button
 			  				disabled={disabled}
@@ -131,7 +133,7 @@ class ExportRecordModal extends Component {
 
 		return (
 			<div>
-				<Modal title="导出日志" width={760} visible={this.props.modalVisible} maskClosable={true}
+				<Modal title="导出日志" width={880} visible={this.props.modalVisible} maskClosable={true}
 			      onCancel={this.handleCancel} onOk={this.handleOk}
 			      footer={[
 		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>

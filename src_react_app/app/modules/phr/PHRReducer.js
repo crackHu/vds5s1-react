@@ -34,6 +34,7 @@
  	IMPORT_PHR,
  	EXPORT_PHR,
  	PROGRESS,
+ 	RESIDENTBPFB,
  } from 'ActionTypes';
 
  import {
@@ -289,6 +290,7 @@
  		case QUERY_PHR:
  			if (resultCode >= 0) {
  				let labels = dout.labels || []
+ 				let resident = dout.resident || false
 
  				let grdaJbzl = getFieldsValueObj(dout.grdaJbzl, FIELDS['grdaJbzl'])
  				let grdaJws = getFieldsValueArrObj(dout.grdaJws, FIELDS['grdaJws'])
@@ -328,8 +330,10 @@
  					submitloading: false,
  					updatestate: true,
  					mastersaved: true,
+ 					masterid: grdaJbzl.id.value,
  					[FIELDSN]: {
  						labels,
+ 						resident,
 
  						grdaJbzl,
  						grdaJws,
@@ -847,6 +851,10 @@
  		case EXPORT_PHR:
  			console.log('reducer', EXPORT_PHR)
  			return state
+ 		case RESIDENTBPFB:
+ 			return Object.assign({}, state, {
+ 				residentbpfb: dout
+ 			})
  		default:
  			return state
  	}
@@ -877,7 +885,6 @@
 
  				if (!!record && record.constructor == Array) {
  					total = record.length
-
  					record.map(item => {
  						//process
  						if (item.ifExport === '0') {
@@ -885,7 +892,8 @@
  						}
  						if (id === '') {
  							allRecord = record
- 							target = {}
+ 							target = null
+ 							processRecord = []
  						} else {
  							if (id === item['id']) {
  								target = item
@@ -899,7 +907,6 @@
  							}
  						}
  					})
-
  					if (total === 0) {
  						allRecord = processRecord = []
  						target = null

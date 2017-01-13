@@ -64,7 +64,7 @@ class ArchiveList extends React.Component {
 		fieldData: undefined,
 		export: {
 			id: undefined,
-			progressPercent: undefined,
+			progressPercent: -1,
 			polling: 3000,
 			intervalId: undefined,
 			filePath: undefined,
@@ -110,18 +110,17 @@ class ArchiveList extends React.Component {
 			progressPercent
 		} = this.state.export
 
-		if (progressPercent != undefined && !!phrExport && !!id) {
+		if (progressPercent != -1 && !!phrExport && !!id) {
 			if (!!target) {
 				const percent = target.bar || '0'
 				progressPercent = parseFloat(percent)
 				this.setState({
 					export: {
 						...this.state.export,
-						progressPercent: progressPercent == 100 ? undefined : progressPercent,
+						progressPercent: progressPercent === 100 ? -1 : progressPercent
 					},
 				}, () => {
-					console.log('hahahahah', this.state.export, target)
-					if (progressPercent != 100) {
+					if (progressPercent != -1 && progressPercent < 100) {
 						setTimeout(() => {
 							this.props.progress({
 								"conditions": this.state.postData,
@@ -134,14 +133,32 @@ class ArchiveList extends React.Component {
 						this.props.download({
 							filePath: target.url,
 						}, fileName)
+
+						//2017年1月12日11:11:34 上面设置state progressPercent回调函数不生效需要重新设置
+						this.setState({
+							export: {
+								...this.state.export,
+								progressPercent: 99.99,
+							},
+						}, () => {
+							setTimeout(() => {
+								this.setState({
+									export: {
+										...this.state.export,
+										progressPercent: -1,
+									},
+								})
+							}, 500)
+						})
+
+
 					}
 				})
 			} else {
-				notify('error', '错误', `导出文件异常`);
 				this.setState({
 					export: {
 						...this.state.export,
-						progressPercent: undefined,
+						progressPercent: -1,
 					},
 				})
 			}
@@ -577,7 +594,7 @@ class ArchiveList extends React.Component {
 		} = this.state.export
 
 		console.log('render progressPercent', progressPercent, this.state.export)
-		const progress = progressPercent != undefined ? (
+		const progress = progressPercent != -1 ? (
 			<Progress
 				className='export-progress'
 		 		percent={progressPercent}
