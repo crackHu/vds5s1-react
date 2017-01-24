@@ -22,12 +22,11 @@ const config = {
 			'react-router',
 			'redux',
 			'redux-thunk',
-			'babel-polyfill',
 			'isomorphic-fetch',
-			'echarts',
-			'antd',
-			'moment'
-		]
+			'moment',
+			'rc-queue-anim'
+		],
+		// polyfill: ['babel-polyfill'],
 	},
 	output: {
 		path: BUILD_PATH,
@@ -81,6 +80,11 @@ const config = {
 	],
 	resolve: {
 		alias: {
+			echarts$: "echarts/src/echarts.js",
+			echarts: "echarts/src",
+			zrender$: "zrender/src/zrender.js",
+			zrender: "zrender/src",
+
 			'react': path.resolve(NODE_MODULES, 'react'),
 			'config': path.resolve(APP_PATH, 'config'),
 			'utils': path.resolve(APP_PATH, 'utils/utils'),
@@ -110,6 +114,7 @@ const config = {
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.DedupePlugin(),
+		// new webpack.NoErrorsPlugin(),
 		new webpack.optimize.UglifyJsPlugin({
 			comments: false,
 			minimize: true,
@@ -121,6 +126,7 @@ const config = {
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			names: ['vendor'],
+			minChunks: Infinity,
 			filename: 'assets/[name].[chunkhash:8].js',
 		}),
 		new webpack.DefinePlugin({
@@ -136,7 +142,6 @@ const config = {
 			favicon: './app/assets/img/favicon.ico',
 			title: '健康档案系统',
 			template: './app/templates/index.html',
-			hash: 'true',
 			filename: 'index.html',
 			inject: 'body',
 			minify: {

@@ -79,6 +79,11 @@ const config = {
 	],
 	resolve: {
 		alias: {
+			echarts$: "echarts/src/echarts.js",
+			echarts: "echarts/src",
+			zrender$: "zrender/src/zrender.js",
+			zrender: "zrender/src",
+
 			'react': path.resolve(NODE_MODULES, 'react'),
 			'config': path.resolve(APP_PATH, 'config'),
 			'utils': path.resolve(APP_PATH, 'utils/utils'),
@@ -108,7 +113,6 @@ const config = {
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.DedupePlugin(),
-		new webpack.NoErrorsPlugin(),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 			BROWSER: JSON.stringify(true)
@@ -117,7 +121,6 @@ const config = {
 			favicon: './app/assets/img/favicon.ico',
 			title: '健康档案系统',
 			template: './app/templates/index.html',
-			hash: 'true',
 			filename: 'index.html',
 			inject: 'body'
 		})

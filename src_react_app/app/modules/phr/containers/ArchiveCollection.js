@@ -74,7 +74,8 @@ class ArchiveCollection extends React.Component {
 		title: undefined,
 		operatText: undefined,
 		showFixSaveBtn: false,
-		showResidentbpfb: false
+		showResidentbpfb: false,
+		spinning: false,
 	}
 
 	componentWillMount = () => {
@@ -84,7 +85,10 @@ class ArchiveCollection extends React.Component {
 			id
 		} = this.props.params
 		if (!!id) {
-			this.props.queryPHR(id)
+			this.setState({
+				spinning: true
+			}, () => this.props.queryPHR(id))
+
 		} else {
 			this.props.clearStore({
 				updatestate: false
@@ -699,6 +703,9 @@ class ArchiveCollection extends React.Component {
 				preText = '添加'
 				prevText = '标签'
 			}
+			this.setState({
+				spinning: false
+			})
 		} else {
 			title = `新建档案`
 			preText = '保存'
@@ -711,7 +718,7 @@ class ArchiveCollection extends React.Component {
 
 		this.setState({
 			title,
-			operatText
+			operatText,
 		})
 	}
 
@@ -732,7 +739,8 @@ class ArchiveCollection extends React.Component {
 		const {
 			title,
 			operatText,
-			showFixSaveBtn
+			showFixSaveBtn,
+			spinning
 		} = this.state
 
 		const sbComponent = (
@@ -889,7 +897,7 @@ class ArchiveCollection extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
-				<Spin spinning={false}>
+				<Spin spinning={spinning}>
 					{fixSaveBtn}
 					<div className='module' key="tabs">
 						{shortcut_tips()}

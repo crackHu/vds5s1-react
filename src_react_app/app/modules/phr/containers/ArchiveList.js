@@ -1,6 +1,7 @@
 import React, {
 	PropTypes,
 } from 'react';
+import ReactDOM from 'react-dom';
 import {
 	connect
 } from 'react-redux';
@@ -605,6 +606,7 @@ class ArchiveList extends React.Component {
 
 		return (
 			<QueueAnim delay={10}>
+							
 				<div className='module' key="buttonGroup">
 					<Card title="档案列表">
 						<ButtonGroup className='ad-search-bar'>
@@ -614,6 +616,22 @@ class ArchiveList extends React.Component {
 					      	<Upload {...uploadProps}>
 					      		<Button type="ghost" icon="upload">导入</Button>
 							</Upload>
+							{/*<form encType="multipart/form-data" action={`${upload()}?userId=${getLoginUser().uid}`} method="post" ref='customAttributes'>
+								<input name='haha' type='file' />
+							</form>
+							<a onClick={() => {
+									let form = ReactDOM.findDOMNode(this.refs.customAttributes)
+									let file = form.haha.files[0]
+									console.log(form, form.haha.files[0])
+									var oMyForm = new FormData();
+									oMyForm.append("userfile", file);
+									var oReq = new XMLHttpRequest();
+									oReq.open("POST", `${upload()}?test=test`);
+									oReq.send(oMyForm);
+
+									//form.submit()
+								}
+							}>上传</a>*/}
 							{' '}
 							<Button type="ghost" icon="download" onClick={() => this.exportResult()}>导出</Button>
 							{' '}

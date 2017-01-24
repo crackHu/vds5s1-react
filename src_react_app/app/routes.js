@@ -90,11 +90,11 @@ const routes = (loggedIn) => {
 					// let component = require(`${path}.js`).default
 				const getComponent = (location, cb) => {
 					console.debug('dynamicRoute path', path)
-					console.debug('getComponent', location, itemSub)
 					return require.ensure([], require => {
 						cb(null, require(`${path}.js`).default)
 					})
 				}
+				console.debug('getComponent', itemSub.key)
 				return (
 					<Route
 						path={itemSub.route}
@@ -142,7 +142,7 @@ const routes = (loggedIn) => {
 					    <Route path="ArchiveList" component={ArchiveList} sidebarKey="ArchiveList" headerNavKey="ArchiveList"/>
 						<Route path="Statistics" component={Statistics} sidebarKey="Statistics" headerNavKey="Statistics"/>
 					*/}
-					{dynamicRoute}
+					{dynamicRoute} 
 					{independenceRoute}
 					{statusRoute}
         			<Redirect from='*' to='/404' />

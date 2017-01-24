@@ -20,7 +20,6 @@ import {
 	Card,
 	Tooltip
 } from 'antd';
-import moment from 'moment'
 
 import {
 	DATE_FORMAT_STRING
@@ -269,7 +268,7 @@ class GeneralSituationForm extends React.Component {
 		/*出生日期*/
 		const grda_csrq =
 			getFieldDecorator('grda_csrq', {})(
-				<DatePicker required
+				<DatePicker
 		          format={DATE_FORMAT_STRING}
 		          style={{ width: 120 }}
 		          disabledDate={(current) => {return current && current.valueOf() > Date.now()}}

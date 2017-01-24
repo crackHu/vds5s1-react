@@ -16,16 +16,23 @@ import {
 import {
   pieOptions
 } from '../echartData/chartOptions'
-import echarts from 'echarts/lib/echarts'
+// import echarts from 'echarts/lib/echarts'
+const echarts = require("echarts");
 
 // 引入柱状图
-require('echarts/lib/chart/line')
-require('echarts/lib/chart/pie')
-  // 引入提示框和标题组件
-require('echarts/lib/component/tooltip')
-require('echarts/lib/component/title')
-require('echarts/lib/component/legend')
-require('echarts/lib/component/toolbox')
+// require('echarts/lib/chart/line')
+// require('echarts/lib/chart/pie')
+require('echarts/chart/line');
+require('echarts/chart/pie');
+// 引入提示框和标题组件
+// require('echarts/lib/component/tooltip')
+// require('echarts/lib/component/title')
+// require('echarts/lib/component/legend')
+// require('echarts/lib/component/toolbox')
+require('echarts/component/tooltip');
+require('echarts/component/title');
+require('echarts/component/legend');
+require('echarts/component/toolbox');
 
 class Statistics extends React.Component {
 

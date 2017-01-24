@@ -27,9 +27,6 @@ import UserProfile from './UserProfile'
 import {
 	CONFIG
 } from 'login_conf'
-import moment from 'moment-timezone/moment-timezone';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 
 const USR = CONFIG.LS.USR
 const UID = CONFIG.LS.UID
