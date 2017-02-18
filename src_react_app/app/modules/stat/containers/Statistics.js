@@ -47,7 +47,7 @@ class Statistics extends React.Component {
   }
 
   componentDidMount() {
-
+    NProgress.done();
   }
 
   componentDidUpdate(prevProps, prevState) {

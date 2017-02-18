@@ -21,6 +21,7 @@ if (eval(localStorage.getItem(LOGGEDIN))) {
 	require('./assets/scss/style.scss');
 	//import 'app_base/assets/scss/style.scss'
 }
+require('nprogress/nprogress.css')
 
 const store = configureStore();
 const appHistory = process.env.NODE_ENV === 'production' ? useRouterHistory(createHashHistory)({

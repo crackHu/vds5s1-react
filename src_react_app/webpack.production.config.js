@@ -132,6 +132,9 @@ const config = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('production')
 		}),
+		new webpack.ProvidePlugin({
+			NProgress: 'nprogress'
+		}),
 		new ExtractTextPlugin("assets/[name].[contenthash:8].css", {
 			allChunks: true
 		}),

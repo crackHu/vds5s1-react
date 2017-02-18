@@ -16,6 +16,7 @@ import {
 import App from './containers/App';
 import Home from './containers/Home';
 import Login from './modules/login/containers/Login';
+
 /*
 import ArchiveCollection from './modules/phr/containers/ArchiveCollection';
 import ArchiveList from './modules/phr/containers/ArchiveCollection';
@@ -43,6 +44,7 @@ const onEnterHandler = (nextState, replace, callback) => {
 	  replace('/error')
 	  callback()
 	}*/
+	NProgress.start()
 	callback()
 }
 

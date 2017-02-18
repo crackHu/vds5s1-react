@@ -115,7 +115,9 @@ const config = {
 		new webpack.optimize.DedupePlugin(),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('development'),
-			BROWSER: JSON.stringify(true)
+		}),
+		new webpack.ProvidePlugin({
+			NProgress: 'nprogress'
 		}),
 		new HtmlwebpackPlugin({
 			favicon: './app/assets/img/favicon.ico',

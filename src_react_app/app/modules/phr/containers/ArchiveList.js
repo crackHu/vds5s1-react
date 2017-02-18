@@ -91,7 +91,9 @@ class ArchiveList extends React.Component {
 		this.getExportRecord()
 	}
 
-	componentDidMount() {}
+	componentDidMount = () => {
+		NProgress.done();
+	}
 
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log("ArchiveList.componentDidUpdate", prevProps, prevState)

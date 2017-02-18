@@ -107,6 +107,7 @@ class ArchiveCollection extends React.Component {
 	}
 
 	componentDidMount = () => {
+		NProgress.done();
 		console.log('ArchiveCollection.state', this.state, this.props)
 
 		document.onscroll = () => {
