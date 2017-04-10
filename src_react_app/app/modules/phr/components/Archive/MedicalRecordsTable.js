@@ -158,7 +158,7 @@ class MedicalRecordsTable extends React.Component {
 					return <span>{value}</span>
 				} else {
 					return (
-						<Select style={{width: '250px'}}>
+						<Select style={{width: '250px'}} combobox>
 							{option}
 						</Select>
 					)

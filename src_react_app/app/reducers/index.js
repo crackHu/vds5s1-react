@@ -12,6 +12,7 @@ import {
 import {
 	stat,
 } from 'stat/STATReducer'
+import mass from 'app_base/modules/mass'
 
 const rootReducer = combineReducers({
 
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
 	phr,
 	phrExport,
 
-	stat
+	stat,
+	mass
 });
 
 export default rootReducer;

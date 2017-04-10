@@ -86,7 +86,7 @@ class HypertensionTable extends React.Component {
 			this.props.addItem(RECORD_TAB)
 			this.props.addObjItem(ARC_TAB, RECORD_KEY, NEXT_VIS_KEY)
 			if (objSize == 0) {
-				//this.initialValue(ARC_TAB)
+				// this.initialValue(ARC_TAB)
 			}
 		}
 		this.setState({
@@ -96,11 +96,8 @@ class HypertensionTable extends React.Component {
 
 	//初始化表单数据
 	initialValue = (key) => {
-		const {
-			setFieldsValue,
-		} = this.props.form
 		try {
-			setFieldsValue(INIT[key])
+			this.props.form.setFieldsValue(INIT[key])
 		} catch (e) {
 			throw Error(`initialValue => ${e.message}`)
 		}

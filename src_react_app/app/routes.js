@@ -30,47 +30,15 @@ if (typeof require.ensure !== 'function') {
 }
 
 const onEnterHandler = (nextState, replace, callback) => {
-	//获取传输过来的数据
-	/*if (query.qsparam) {
-	  serverAuth(query.qsparam)
-	  .then(
-	    () => next(),//成功,通过next()成功跳转
-	    () => {
-	      replace('/error')//重定向
-	      callback()
-	    }
-	  )
-	} else {
-	  replace('/error')
-	  callback()
-	}*/
 	NProgress.start()
 	callback()
 }
 
 const onChangeHandler = (prevState, nextState, replace, callback) => {
-
-	/*let prevPathname = prevState.location.pathname
-	let nextPathname = nextState.location.pathname
-	let now = Date.now()
-	console.log('onChangeHandler', prevState, nextState, prevPathname, nextPathname)
-	let phr_refresh = localStorage.getItem('phr_refresh')
-	console.log('aaaaaaaaaaaa', now, phr_refresh, now - parseInt(phr_refresh || 0))
-	if ((!phr_refresh || now - parseInt(phr_refresh) > 1000) && !!prevState.params.id && prevPathname.indexOf(nextPathname) > -1) {
-		localStorage.setItem('phr_refresh', now)
-		replace({
-			pathname: '/phr',
-			state: {
-				nextPathname: nextState.location.pathname
-			}
-		})
-		console.log('ssssssssssssssssssssssssssss', now, phr_refresh, now - parseInt(phr_refresh))
-	}*/
 	callback()
 }
 
 const routes = (loggedIn) => {
-
 	const statusRoute = STATUS_ROUTE_CONFIG.map((item, i) => {
 		return (
 			<Route
@@ -118,6 +86,7 @@ const routes = (loggedIn) => {
 				 	component={require(`${item.path}.js`).default}
 				 	sidebarKey={item.sidebarKey}
 				 	headerNavKey={item.headerNavKey}
+				 	onEnter={onEnterHandler}
 				/>
 			)
 		})

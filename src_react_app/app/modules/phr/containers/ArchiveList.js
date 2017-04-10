@@ -31,7 +31,6 @@ import QueueAnim from 'rc-queue-anim';
 import {
 	msg,
 	notify,
-	setCookie,
 	getUrlVal,
 	getLoginUser,
 	randomUUID,

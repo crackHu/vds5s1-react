@@ -16,7 +16,7 @@ export function getAgePercent() {
 
   return dispatch =>
     fetch(
-      API_getAgePercent()
+      API_getAgePercent(), { credentials: 'include' }
     ).then(
       response => response.json()
     ).then(
@@ -36,7 +36,7 @@ export function getJqjds() {
 
   return dispatch =>
     fetch(
-      API_getJqjds()
+      API_getJqjds(), { credentials: 'include' }
     ).then(
       response => response.json()
     ).then(
@@ -56,7 +56,7 @@ export function queryForAdd(page, size) {
 
   return dispatch =>
     fetch(
-      API_queryForAdd(page, size)
+      API_queryForAdd(page, size), { credentials: 'include' }
     ).then(
       response => response.json()
     ).then(
@@ -77,7 +77,7 @@ export function queryForUpdate(page, size) {
 
   return dispatch =>
     fetch(
-      API_queryForUpdate(page, size)
+      API_queryForUpdate(page, size), { credentials: 'include' }
     ).then(
       response => response.json()
     ).then(

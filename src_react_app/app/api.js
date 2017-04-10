@@ -301,3 +301,13 @@ export function getResidentbpfbList(pageSize, pageNo, id) {
 
 	return postQuery.serialize('searchResident');
 }
+
+export function getAreaConfig(pageSize, pageNo, id) {
+
+	let postQuery = new PostQuery({
+		province: "广东省",
+		level: "02",
+	}, 'confirmAdress', 'boPersonDoc')
+
+	return postQuery.serialize('getAreaConfig');
+}

@@ -128,7 +128,9 @@ class AgedForm extends React.Component {
 	calScore = (value, scoKey) => {
 		try {
 			const {
+				setFields,
 				setFieldsValue,
+				getFieldValue,
 				getFieldsValue,
 			} = this.props.form
 			const scores = getFieldsValue(['lnr_jcpf', 'lnr_sxpf', 'lnr_cypf', 'lnr_rcpf', 'lnr_hdpf'])
@@ -140,8 +142,13 @@ class AgedForm extends React.Component {
 					lnr_zpf += parseInt(scores[item] || 0)
 				}
 			}
-			setFieldsValue({
-				lnr_zpf
+			// setFieldsValue({
+			// 	lnr_zpf
+			// })
+			setFields({
+				lnr_zpf: {
+					value: lnr_zpf
+				}
 			})
 		} catch (e) {
 			throw Error(`calScore => ${e.message}`)

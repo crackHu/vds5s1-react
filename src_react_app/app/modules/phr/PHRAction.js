@@ -38,6 +38,7 @@ import {
 	PROGRESS,
 	DOWNLOAD,
 	RESIDENTBPFB,
+	AREA_CONFIG,
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -58,8 +59,6 @@ const fetchInit = {
 	method: 'POST',
 	/*cookie*/
 	credentials: 'include',
-	/*跨域*/
-	mode: "no-cors",
 	headers: {
 		'Accept': 'application/json, text/plain, */*',
 		'Content-Type': 'x-www-form-urlencoded; charset=UTF-8',
@@ -377,7 +376,7 @@ export function getIndividualNumbe(addr_arr, addr_fields) {
 	let dispatchObj = {
 		type: INDIVIDUAL_NUMBER
 	}
-	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, true, dispatchObj, null)
+	return dispatch => dispatchMethod('getIndividualNumbe', query, dispatch, false, dispatchObj, null)
 }
 
 /*下载 @servlet*/
@@ -437,6 +436,14 @@ export function progress(data) {
 		id: data.id,
 	}
 	return dispatch => dispatchMethod('progress', query, dispatch, false, dispatchObj, null)
+}
+
+export function getAreaConfig() {
+	let query = api.getAreaConfig()
+	let dispatchObj = {
+		type: AREA_CONFIG,
+	}
+	return dispatch => dispatchMethod('getAreaConfig', query, dispatch, false, dispatchObj, null)
 }
 
 /*居民血压反馈*/

@@ -80,7 +80,7 @@ class ArchiveCollection extends React.Component {
 
 	componentWillMount = () => {
 		console.log('ArchiveCollection.componentWillMount', this.props.params, this.props.query, this.props)
-
+		// this.props.getAreaConfig()
 		let {
 			id
 		} = this.props.params
@@ -161,6 +161,8 @@ class ArchiveCollection extends React.Component {
 		}
 
 		this.updateUStateText(nextProps.phr.updatestate, this.state.activeKey)
+		// huyg
+		// this.generateGrbh(nextProps)
 	}
 
 	componentWillUpdate = (nextProps, nextState) => {
@@ -178,6 +180,15 @@ class ArchiveCollection extends React.Component {
 
 		/*离开这个页面时 修改主表保存状态*/
 		this.props.changeMasterSaved(false)
+	}
+
+	generateGrbh = (nextProps) => {
+		const grbh = this.getArchiveGrbh()
+		if (!nextProps.updatestate && !grbh) {
+			this.getIndividualNumbe()
+			console.debug('generateGrbh', grbh, this.props.updatestate, nextProps.updatestate, grbh)
+			console.log(nextProps)
+		}
 	}
 
 	/*save archiv*/
@@ -426,21 +437,31 @@ class ArchiveCollection extends React.Component {
 
 	getIndividualNumbe = (addressArr, addrOther, flag) => {
 
-		let addrArr = addressArr.slice(0)
-		addrArr.push(addrOther)
+		let addrArr = []
+		if (addressArr) {
+			addrArr = addressArr.slice(0)
+			let idx = addrArr.indexOf("登峰街")
+			if (idx > -1) {
+				if (!addrArr[idx + 2]) {
+					addrArr.splice(idx + 2, 1, null)
+				}
+			}
+			addrArr.push(addrOther)
+			let addressFields = FIELDS.grdaJbzl.addressFields
+			let xzz_fields = addressFields.grda_xzz.slice(0)
+			let hkdz_fields = addressFields.grda_hkdz.slice(0)
 
-		let addressFields = FIELDS.grdaJbzl.addressFields
-		let xzz_fields = addressFields.grda_xzz.slice(0)
-		let hkdz_fields = addressFields.grda_hkdz.slice(0)
-
-		if (flag == 'hkdz') {
-			hkdz_fields.push('grda_hkdz_qt')
-			this.props.getIndividualNumbe(addrArr, hkdz_fields)
-		} else if (flag == 'xzz') {
-			xzz_fields.push('grda_xzz_qt')
-			this.props.getIndividualNumbe(addrArr, xzz_fields)
+			if (flag == 'hkdz') {
+				hkdz_fields.push('grda_hkdz_qt')
+				this.props.getIndividualNumbe(addrArr, hkdz_fields)
+			} else if (flag == 'xzz') {
+				xzz_fields.push('grda_xzz_qt')
+				this.props.getIndividualNumbe(addrArr, xzz_fields)
+			} else {
+				notify('warn', '警告', '您输入的现住址或户籍地址格式错误');
+			}
 		} else {
-			notify('warn', '警告', '您输入的现住址或户籍地址格式错误');
+			this.props.getIndividualNumbe()
 		}
 		console.log('getIndividualNumbe', addressArr, addrOther, flag)
 	}
@@ -924,6 +945,8 @@ class ArchiveCollection extends React.Component {
 }
 
 ArchiveCollection.propTypes = {
+	getAreaConfig: PropTypes.func.isRequired,
+
 	savePersonalDetail: PropTypes.func.isRequired,
 	updatePersonalDetail: PropTypes.func.isRequired,
 

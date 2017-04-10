@@ -20,6 +20,7 @@ import {
 	Card,
 	Tooltip
 } from 'antd';
+import moment from 'moment'
 
 import {
 	DATE_FORMAT_STRING
@@ -57,7 +58,7 @@ class GeneralSituationForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			age: '未知'
+			age: '未知',
 		}
 
 		this.cascadeOptions = WIDGET_CONFIG.cascadeOptions
@@ -99,10 +100,10 @@ class GeneralSituationForm extends React.Component {
 		/*签约来源*/
 		this.signSourceOptions = this.selectOption.signSource;
 
-		this.xzz = 'undefined'
-		this.xzz_qt = 'undefined'
-		this.hkdz = 'undefined'
-		this.hkdz_qt = 'undefined'
+		this.xzz = undefined
+		this.xzz_qt = undefined
+		this.hkdz = undefined
+		this.hkdz_qt = undefined
 	}
 
 	getSelectOptions = (data) => {
@@ -121,8 +122,16 @@ class GeneralSituationForm extends React.Component {
 	}
 
 	componentWillReceiveProps = (nextProps) => {
-		console.log('GeneralSituationForm.componentWillReceiveProps', nextProps)
+		console.log('GeneralSituationForm.componentWillReceiveProps', nextProps, this.props)
+		this.getCurrentAddress(this.props, nextProps)
 		this.generateAge()
+		this.generateBirthdate()
+		this.handleJobChange()
+		// huyg
+		// this.generateGrbh(nextProps)
+		if (!nextProps.updatestate && this.props.updatestate) {
+			this.initialValue(ARC_TAB, nextProps.updatestate)
+		}
 	}
 
 	componentWillUpdate = (nextProps, nextState) => {
@@ -131,6 +140,24 @@ class GeneralSituationForm extends React.Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		console.log("GeneralSituationForm.componentDidUpdate", this.props, prevProps, prevState)
+	}
+
+	// 2017年4月7日14:58:01 进入页面先生成个人编号
+	generateGrbh = (nextProps) => {
+		const grbh = nextProps.form.getFieldValue('grbh')
+		if (!nextProps.updatestate && !grbh) {
+			this.props.getCurrentAddress()
+			console.debug('generateGrbh', grbh, this.props.updatestate, nextProps.updatestate, grbh)
+			// console.log("test", grbh, grbh_, grbh == grbh_)
+		}
+	}
+
+	// 常住类型为“流动”需要生成个人编号
+	onHklxChange = (value) => {
+		const grbh = this.props.form.getFieldValue('grbh')
+		if (!grbh && value && value === '流动') {
+			this.props.getCurrentAddress()
+		}
 	}
 
 	//生成年龄
@@ -149,12 +176,52 @@ class GeneralSituationForm extends React.Component {
 		}
 	}
 
+	// 生成出生日期
+	generateBirthdate = () => {
+		const { setFieldsValue, getFieldValue } = this.props.form
+		const grda_sfzhm = getFieldValue('grda_sfzhm')
+		console.log('身份证号', grda_sfzhm)
+		if (grda_sfzhm) {
+			let birthdayno,birthdaytemp
+			if(grda_sfzhm.length==18){
+		        birthdayno=grda_sfzhm.substring(6,14)
+		        console.log('身份证号1', birthdayno)
+		    }else if(grda_sfzhm.length==15){
+		        birthdaytemp=grda_sfzhm.substring(6,12)
+		        birthdayno="19"+birthdaytemp
+		        console.log('身份证号2', birthdayno)
+		    }
+
+			try {
+				const grda_csrq = getFieldValue('grda_csrq').format('YYYY-MM-DD')
+				const csrq = grda_csrq.split('-').join('')
+				if (birthdayno && csrq != birthdayno) {
+					const year = birthdayno.substr(0, 4)
+					const month = birthdayno.substr(4, 2) - 1
+					const day = birthdayno.substr(6, 2)
+		        	const target = moment(new Date(year,month,day), DATE_FORMAT_STRING)
+		        	console.log('身份证 test', yezar, month, day,target.year(), target.month(), target.date())
+		        	if (year == target.year() && month === target.month() && day == target.date()) {
+	  					setFieldsValue({
+							grda_csrq: target
+						})
+		        	}
+			  
+			    }
+			} catch(e) {}
+		}
+	}
+
 	//初始化表单数据
-	initialValue = (key) => {
-		try {
-			this.props.form.setFieldsValue(INIT[key])
-		} catch (e) {
-			throw Error(`initialValue => ${e.message}`)
+	initialValue = (key, updatestate) => {
+		console.log('initialValue', !location.search, updatestate)
+		if (!location.search || updatestate === false) {
+			console.log('//初始化表单数据')
+			try {
+				this.props.form.setFieldsValue(INIT[key])
+			} catch (e) {
+				throw Error(`initialValue => ${e.message}`)
+			}
 		}
 	}
 
@@ -163,8 +230,27 @@ class GeneralSituationForm extends React.Component {
 		console.log('收到表单值：', this.props.form.getFieldsValue());
 	}
 
+	getCurrentAddress = (props, nextProps) => {
+		const xzz = ['grda_xzz', 'grda_xzz_qt']
+		const hkdz = ['grda_hkdz', 'grda_hkdz_qt']
+
+		const getFieldsValue = props.form.getFieldsValue
+		const getFieldsValue_next = nextProps.form.getFieldsValue
+
+
+		console.log('getCurrentAddress1', props, getFieldsValue(xzz))
+		console.log('getCurrentAddress2', nextProps, getFieldsValue_next(xzz))
+	}
+
 	/*现住址或户籍地址事件 用于获取个人编号 bug todo*/
 	onAddrOtherBlur = (flag = 'hkdz') => {
+		if (this.props.updatestate) return
+		const {
+			getFieldValue,
+			setFieldsValue
+		} = this.props.form
+		// if (getFieldValue('grbh')) return
+
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
@@ -172,13 +258,14 @@ class GeneralSituationForm extends React.Component {
 			let grda_hkdz = fields.grda_hkdz
 			let grda_hkdz_qt = fields.grda_hkdz_qt
 
-			let hkdzValue, hkdzQtValue, xzzValue, xzzQtValue
+			let hkdzValue, hkdzQtValue = getFieldValue('grda_hkdz_qt'), xzzValue, xzzQtValue
 
 			if (!!grda_hkdz && !!grda_hkdz_qt) {
 				hkdzValue = grda_hkdz.value
 				hkdzQtValue = grda_hkdz_qt.value
-				console.log('qqq1', hkdzValue, hkdzQtValue, this.hkdz_qt)
+				console.log('qqq1', hkdzValue, hkdzQtValue, this.hkdz_qt, getFieldValue('grda_hkdz_qt'))
 				if (hkdzQtValue != this.hkdz_qt) {
+					console.log('qqq3', this.hkdz_qt, hkdzQtValue)
 					this.props.getCurrentAddress(hkdzValue, hkdzQtValue, flag)
 					this.hkdz = hkdzValue
 					this.hkdz_qt = hkdzQtValue
@@ -194,12 +281,9 @@ class GeneralSituationForm extends React.Component {
 				}
 			}
 
+
 			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
-			const {
-				getFieldValue,
-				setFieldsValue
-			} = this.props.form
-			if (flag == 'xzz') {
+			if (!hkdzQtValue && flag == 'xzz') {
 				setFieldsValue({
 					grda_hkdz_qt: xzzQtValue || ''
 				})
@@ -209,6 +293,13 @@ class GeneralSituationForm extends React.Component {
 
 	onAddrChange = (value, flag = 'hkdz') => {
 		console.log('qqq3', value, flag)
+		if (this.props.updatestate) return
+		const {
+			getFieldValue,
+			setFieldsValue
+		} = this.props.form
+		// if (getFieldValue('grbh')) return
+
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
 			let grda_xzz = fields.grda_xzz
@@ -235,12 +326,7 @@ class GeneralSituationForm extends React.Component {
 			}
 
 			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
-			const {
-				getFieldsValue,
-				setFieldsValue
-			} = this.props.form
-
-			if (flag == 'xzz') {
+			if (!getFieldValue('grda_hkdz') && flag == 'xzz') {
 				if (!!value && value.constructor == Array && value.length > 0) {
 					setFieldsValue({
 						grda_hkdz: ['广东省'].concat(value)
@@ -248,6 +334,18 @@ class GeneralSituationForm extends React.Component {
 				}
 			}
 		}
+	}
+
+	handleJobChange = () => {
+		const { getFieldValue, setFieldsValue } = this.props.form
+		const grda_zygzmc = getFieldValue('grda_zygzmc')
+		this.professionOptions.map((option, index) => {
+			if (grda_zygzmc == index + 1) {
+				setFieldsValue({
+					grda_zygzmc: option.value
+				})
+			}
+		})
 	}
 
 	render() {
@@ -310,7 +408,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_xzz_qt =
 			getFieldDecorator('grda_xzz_qt')(
 				<Input
-				 placeholder="路（街）"
+				 placeholder=""
 				 style={{ width: 150 }}
 				 onBlur={() => this.onAddrOtherBlur('xzz')}
 				/>
@@ -319,7 +417,11 @@ class GeneralSituationForm extends React.Component {
 		/*常住类型*/
 		const grda_hklx =
 			getFieldDecorator('grda_hklx')(
-				<Select combobox style={{ width: 148 }}>
+				<Select
+				 // combobox
+				 style={{ width: 148 }}
+				 onChange={this.onHklxChange}
+				>
 			       	{this.getSelectOptions(this.perTypeOptions)}
 		      	</Select>
 			)
@@ -340,7 +442,7 @@ class GeneralSituationForm extends React.Component {
 		const grda_hkdz_qt =
 			getFieldDecorator('grda_hkdz_qt')(
 				<Input
-				 placeholder="路（街）"
+				 placeholder=""
 				 style={{ width: 150 }}
 				 onBlur={() => this.onAddrOtherBlur('hkdz')}
 				/>
@@ -402,11 +504,20 @@ class GeneralSituationForm extends React.Component {
 			  	</Select>
 			)
 
+		const jobOptions = this.professionOptions.map((option, index) => {
+       		return {
+       			value: `${index + 1}. ${option.value}`
+       		}
+       	})
+
 		/*职业*/
 		const grda_zygzmc =
 			getFieldDecorator('grda_zygzmc')(
-				<Select combobox style={{ width: 304 }}>
-			       {this.getSelectOptions(this.professionOptions)}
+				<Select
+				 combobox
+				 style={{ width: 304 }}
+				>
+			       {this.getSelectOptions(jobOptions)}
 			  	</Select>
 			)
 
@@ -541,7 +652,7 @@ class GeneralSituationForm extends React.Component {
 		        <br />
 		        <br />
 		    	{/*现住址*/}
-		        <FormItem label="现&nbsp;&nbsp;住&nbsp;&nbsp;址" required>
+		        <FormItem label="现&nbsp;&nbsp;住&nbsp;&nbsp;址" >
 		        	{grda_xzz}
 		        </FormItem>
 		        <FormItem>
@@ -554,7 +665,7 @@ class GeneralSituationForm extends React.Component {
 		        <br />
 
 		        {/*户籍地址*/}
-		        <FormItem label="户籍地址" required>
+		        <FormItem label="户籍地址" >
 		        	{grda_hkdz}
 		        </FormItem>
 		        <FormItem>
@@ -655,7 +766,7 @@ class GeneralSituationForm extends React.Component {
 		        <FormItem label="签约来源" required>
 		        	{source}
 		        </FormItem>
-		        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否签约">
+		        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否签约" required>
 		        	{isSign}
 		        </FormItem>
 		        <br />

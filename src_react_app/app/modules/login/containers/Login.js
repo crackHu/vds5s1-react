@@ -15,8 +15,7 @@ import {
 	Row,
 	Col
 } from 'antd';
-
-import Immutable from 'immutable';
+import cookie from 'react-cookie'
 import * as LoginAction from '../LoginAction'
 import {
 	CONFIG
@@ -24,7 +23,6 @@ import {
 import {
 	msg,
 	notify,
-	setCookie,
 } from 'utils'
 
 require('app_base/assets/scss/public.scss')
@@ -79,7 +77,9 @@ class Login extends React.Component {
 				if (resultCode == 0) {
 					localStorage.setItem(LOGGEDIN, 1)
 					localStorage.setItem(UID, dout.uid ? dout.uid : '')
-					setCookie('uid', dout.uid ? dout.uid : '')
+					const expires = new Date()
+					expires.setDate(expires.getDate() + 7)
+					cookie.save('uid', dout.uid ? dout.uid : '', { path: '/', expires})
 					localStorage.setItem(LOGINTIME, JSON.stringify(Date.now()))
 					delete dout.uid
 					localStorage.setItem(USR, JSON.stringify(dout))

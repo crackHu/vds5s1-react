@@ -35,6 +35,7 @@
  	EXPORT_PHR,
  	PROGRESS,
  	RESIDENTBPFB,
+ 	AREA_CONFIG,
  } from 'ActionTypes';
 
  import {
@@ -671,7 +672,18 @@
  				}
  			}*/
  			console.log('copy', cFieldsObj, copyFieldData, lastObj)
-
+ 			if (flag === 'grdaJkzk') {
+ 				let last_grda_tjrq = lastObj['grda_tjrq']
+ 				if (last_grda_tjrq) {
+ 					selectKey = last_grda_tjrq.value.clone().add(1, 'years')
+ 				}
+ 			}
+ 			if (flag === 'lnrSfb') {
+ 				let last_lnr_sfrq = lastObj['lnr_sfrq']
+ 				if (last_lnr_sfrq) {
+ 					selectKey = last_lnr_sfrq.value.clone().add(1, 'years')
+ 				}
+ 			}
  			return Object.assign({}, state, {
  				[FIELDSN]: {
  					...stateFields,
@@ -688,7 +700,13 @@
  								value: selectKey
  							},
  							[action.nextVisKey]: {
- 								value: selectKey.clone().add(3, 'months')
+ 								value: (() => {
+ 									if (flag === 'lnrSfb') {
+ 										return selectKey.clone().add(12, 'months')
+ 									} else {
+ 										return selectKey.clone().add(3, 'months')
+ 									}
+ 								})()
  							},
  							id: null,
  							/*唯一标识用*/
@@ -928,7 +946,27 @@
 
  }
 
+ const phrConfig = function(state = {}, action) {
+
+ 	console.debug('phrConfig state =>', state, ' action =>', action)
+
+ 	let actData = action.data || {}
+ 	let dout = actData.dout || {}
+ 	let status = actData.status || {}
+ 	let resultCode = status.resultCode
+ 	let resultMsg = status.resultMsg
+
+ 	switch (action.type) {
+
+ 		case AREA_CONFIG:
+ 			return state
+ 		default:
+ 			return state
+ 	}
+ }
+
  module.exports = {
  	phr,
  	phrExport,
+ 	phrConfig,
  }

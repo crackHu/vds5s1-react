@@ -72,7 +72,29 @@ export const MENU_CONFIG = {
       name: "建档明细",
       iconType: "book"
     }]
-  }]
+  },]
+}
+
+if (localStorage.hospital === 'dfj') {
+  MENU_CONFIG.menuItem.push( {
+    key: "Mass",
+    path: "/mass",
+    name: "消息发送",
+    iconType: "message",
+    sub: [{
+      key: "Masss",
+      path: "./modules/mass/containers/Masss",
+      route: "/masss",
+      name: "居民列表",
+      iconType: "message"
+    }, {
+      key: "Situation",
+      path: "./modules/mass/containers/Situation",
+      route: "/masss/situations",
+      name: "发送情况",
+      iconType: "message"
+    }, ]
+  })
 }
 
 /************** 独立路由配置 **************/
@@ -84,6 +106,9 @@ export const INDEPENDENCE_ROUTE_CONFIG = [{
 }, {
   path: "./containers/CollectionsPage",
   route: "/CollectionsPage",
+}, {
+  path: "./modules/mass/containers/SituationDetail",
+  route: "/masss/situation/:id",
 }, ]
 
 /************** 独立路由配置（没有IndexRoute） **************/

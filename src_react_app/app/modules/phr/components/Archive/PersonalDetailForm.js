@@ -36,6 +36,7 @@ class PersonalDetailForm extends React.Component {
 	}
 
 	getCurrentAddress = (addressArr, addrOther, flag) => {
+		console.log('addressArr', addressArr)
 		this.props.getIndividualNumbe(addressArr, addrOther, flag)
 	}
 

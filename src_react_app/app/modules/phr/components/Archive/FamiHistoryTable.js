@@ -6,6 +6,9 @@ import {
 	Link
 } from 'react-router';
 import {
+	connect
+} from 'react-redux';
+import {
 	Form,
 	Input,
 	Table,
@@ -18,6 +21,8 @@ import {
 	Button,
 	Tooltip
 } from 'antd'
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 import QueueAnim from 'rc-queue-anim';
 import moment from 'moment'
 
@@ -38,6 +43,8 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const ButtonGroup = Button.Group;
 const ARC_TAB = 'grdaJzs'
+const FIELDSN = FIELDS_CONFIG.name
+const GRDAJZS = 'grdaJzs'
 
 /*const data = [];
 for (let i = 0; i < 1; i++) {
@@ -74,7 +81,7 @@ class FamiHistoryTable extends React.Component {
 	}
 
 	componentWillMount = () => {
-		console.log('FamiHistoryTable.componentWillMount')
+		console.log('FamiHistoryTable.componentWillMount', this.props)
 	}
 
 	componentDidMount = () => {
@@ -90,10 +97,12 @@ class FamiHistoryTable extends React.Component {
 
 	//初始化表单数据
 	initialValue = (key) => {
-		try {
-			this.props.form.setFieldsValue(INIT[key])
-		} catch (e) {
-			throw Error(`initialValue => ${e.message}`)
+		if (!this.props.updatestate) {
+			try {
+				this.props.form.setFieldsValue(INIT[key])
+			} catch (e) {
+				throw Error(`initialValue => ${e.message}`)
+			}
 		}
 	}
 
@@ -117,31 +126,32 @@ class FamiHistoryTable extends React.Component {
 		});
 	}
 
-	deleteConfirm = () => {
-		const {
-			selectedRowKeys,
-			data
-		} = this.state
-		const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
-		this.setState({
-			data: data_,
-			selectedRowKeys: []
-		}, () => msg("success", "已删除", 1))
+	deleteConfirm = (selectedRowKeys) => {
+		this.props.removeItem(selectedRowKeys, GRDAJZS)
+		// const {
+		// 	selectedRowKeys,
+		// 	data
+		// } = this.state
+		// const data_ = data.filter(item => selectedRowKeys.indexOf(item.key) < 0)
+		// this.setState({
+		// 	data: data_,
+		// 	selectedRowKeys: []
+		// }, () => msg("success", "已删除", 1))
 	}
 
 	deleteCancel = () => {}
 
 	addRow = (e) => {
+		this.props.addItem(GRDAJZS)
+		// let ndata = {}
+		// ndata.key = Date.now()
 
-		let ndata = {}
-		ndata.key = Date.now()
+		// let data = Object.assign([], this.state.data)
+		// data.push(ndata)
 
-		let data = Object.assign([], this.state.data)
-		data.push(ndata)
-
-		this.setState({
-			data
-		}, () => msg("success", "已添加", 1))
+		// this.setState({
+		// 	data
+		// }, () => msg("success", "已添加", 1))
 	}
 
 	render() {
@@ -150,7 +160,9 @@ class FamiHistoryTable extends React.Component {
 			getFieldDecorator
 		} = this.props.form
 		const {
-			selectedRowKeys,
+			grdaJzs
+		} = this.props.phr[FIELDSN]
+		const {
 			editSwitch,
 			data
 		} = this.state
@@ -230,9 +242,11 @@ class FamiHistoryTable extends React.Component {
 		}];
 
 		// rowSelection objects indicates the need for row selection
+		const selectedRowKeys = !!grdaJzs ? grdaJzs.selectedRowKeys || [] : []
 		const rowSelection = {
 			selectedRowKeys,
-			onChange: this.onSelectChange,
+			// onChange: this.onSelectChange,
+			onChange: (selectedRowKeys, selectedRows) => this.props.onSelectChange(selectedRowKeys, selectedRows, GRDAJZS)
 		};
 		const selectedLength = selectedRowKeys.length;
 		const hasSelected = selectedLength > 0;
@@ -252,7 +266,7 @@ class FamiHistoryTable extends React.Component {
 
 				<Popconfirm
 				 title={`确定要删除所选${selectedLength}条家族史吗？`}
-				 onConfirm={this.deleteConfirm}
+				 onConfirm={() => this.deleteConfirm(selectedRowKeys)}
 				 onCancel={this.deleteCancel}
 				>
 					<Button
@@ -277,7 +291,7 @@ class FamiHistoryTable extends React.Component {
 			<Table
 				key="table"
 				columns={columns}
-				dataSource={data} 
+				dataSource={grdaJzs.objSize} 
 				rowSelection={rowSelection}
 				size="middle"
    				title={title}
@@ -304,7 +318,26 @@ function mapPropsToFields(props) {
 	return props.fields || {}
 }
 
-export default Form.create({
+FamiHistoryTable.propTypes = {
+	addItem: PropTypes.func.isRequired,
+	removeItem: PropTypes.func.isRequired,
+	onSelectChange: PropTypes.func.isRequired,
+	phr: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('FamiHistoryTable mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+FamiHistoryTable = Form.create({
 	onFieldsChange,
 	mapPropsToFields
+})(FamiHistoryTable)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
 })(FamiHistoryTable)

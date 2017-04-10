@@ -18,7 +18,9 @@ import {
 	Table,
 	Icon,
 	Card,
-	Tooltip
+	Tooltip,
+	Modal,
+	InputNumber,
 } from 'antd'
 
 import {
@@ -31,6 +33,8 @@ const ButtonGroup = Button.Group;
 const CheckboxGroup = Checkbox.Group;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const confirm = Modal.confirm;
+
 let uuid = 0;
 
 const getSelectOptions = (data) => {
@@ -51,7 +55,8 @@ class MedicalTable6 extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			exception: false
+			exception: false,
+			modalVisible: true
 		}
 
 		this.checkboxGroupOptions = WIDGET_CONFIG.checkboxGroupOptions
@@ -77,6 +82,7 @@ class MedicalTable6 extends React.Component {
 	componentWillReceiveProps = (nextProps) => {
 		console.log('MedicalTable6.componentWillReceiveProps', nextProps)
 		this.updateState(nextProps)
+		this.handleHazardsSelect(nextProps)
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -148,6 +154,27 @@ class MedicalTable6 extends React.Component {
 			form.setFieldsValue({
 				keys: keys.filter(key => key !== k),
 			});
+		}
+	}
+
+	// 危险因素控制 减体重
+	handleHazardsSelect = (props) => {
+		const { setFieldsValue, getFieldValue } = this.props.form
+		const grda_whyskz = getFieldValue('grda_whyskz')
+	 	const weightIndex = grda_whyskz.indexOf('减体重')
+		if (weightIndex > -1) {
+			let weight = 0
+			confirm({
+			    title: '请输入目标体重(kg)：',
+			    content: (<InputNumber min={1} step={1} style={{width: 250}} onChange={(value) => {weight = value}} />),
+			    onOk() {
+			      grda_whyskz.splice(weightIndex, 1, `${grda_whyskz[weightIndex]} 目标：${weight}kg`)
+			      setFieldsValue({ grda_whyskz })
+			    },
+			    onCancel() {
+			      console.log('Cancel');
+			    },
+		  	});
 		}
 	}
 

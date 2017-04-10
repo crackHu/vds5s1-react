@@ -92,7 +92,7 @@ class AgedTable extends React.Component {
 			this.props.addItem(RECORD_TAB)
 			this.props.addObjItem(ARC_TAB, RECORD_KEY, NEXT_VIS_KEY)
 			if (objSize == 0) {
-				//this.initialValue(ARC_TAB)
+				// this.initialValue(ARC_TAB)
 			}
 		}
 		this.setState({
@@ -167,7 +167,7 @@ class AgedTable extends React.Component {
 
 		const jlRecord = this.getJlTabRecord(ARC_TAB)
 		const empty = emptyObject(jlRecord)
-
+		
 		const lnr_sfrq = !empty ? jlRecord.lnr_sfrq || [] : []
 		const lnr_jc = !empty ? jlRecord.lnr_jc || [] : []
 		const lnr_jcpf = !empty ? jlRecord.lnr_jcpf || [] : []

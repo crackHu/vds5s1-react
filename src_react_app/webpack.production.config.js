@@ -149,7 +149,7 @@ const config = {
 			inject: 'body',
 			minify: {
 				removeComments: true,
-				collapseWhitespace: true,
+				// collapseWhitespace: true,
 				removeRedundantAttributes: true,
 				useShortDoctype: true,
 				removeEmptyAttributes: true,
