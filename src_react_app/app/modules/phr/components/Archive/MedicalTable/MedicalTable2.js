@@ -209,7 +209,7 @@ class MedicalTable2 extends React.Component {
 						<legend style={{width: '70px'}}>查体</legend>
 
 			       		<Row className="item_inline_spacing">
-							<FormItem label="眼底" required>
+							<FormItem label="眼底" >
 			        			{getFieldDecorator('grda_yd')(
 						        	<Select
 					        			combobox
@@ -413,7 +413,7 @@ class MedicalTable2 extends React.Component {
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
-							<FormItem label="肛门指诊" required>
+							<FormItem label="肛门指诊" >
 			        			{getFieldDecorator('grda_gmzz')(
 						        	<Select
 					        			combobox
@@ -424,7 +424,7 @@ class MedicalTable2 extends React.Component {
 									</Select>
 			        			)}
 					        </FormItem>
-							<FormItem label="乳腺" required>
+							<FormItem label="乳腺" >
 			        			{getFieldDecorator('grda_rx')(
 						        	<Select
 						        		tags
@@ -438,7 +438,7 @@ class MedicalTable2 extends React.Component {
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
-							<FormItem label="妇科" required/>
+							<FormItem label="妇科" />
 							<FormItem label="外阴" >
 			        			{getFieldDecorator('grda_fk_wy')(
 						        	<Select
@@ -497,7 +497,7 @@ class MedicalTable2 extends React.Component {
 					    </Row>
 
 			       		<Row className="item_inline_spacing">
-							<FormItem label="其他" required />
+							<FormItem label="其他"  />
 							<br />
 		        			{getFieldDecorator('grda_ct_qt')(
 								<Input type="textarea" style={{ width: 1170 }} rows={4} />

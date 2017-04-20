@@ -321,7 +321,7 @@ class MedicalTable1 extends React.Component {
 			        </Row>
 
 			        <Row className="item_inline_spacing">
-				        <FormItem label="老年人健康状态自我评估" required>
+				        <FormItem label="老年人健康状态自我评估" >
 				        	{getFieldDecorator('grda_lrjkzt')(
 								<Select
 					        		combobox
@@ -333,7 +333,7 @@ class MedicalTable1 extends React.Component {
 				        	)}
 				        </FormItem>
 				        &nbsp;&nbsp;&nbsp;
-				        <FormItem label="老年人生活自理能力自我评估" required>
+				        <FormItem label="老年人生活自理能力自我评估" >
 				        	{getFieldDecorator('grda_lrshzlnl')(
 								<Select
 					        		combobox
@@ -347,7 +347,7 @@ class MedicalTable1 extends React.Component {
 			        </Row>
 
 			        <Row className="item_inline_spacing">
-				        <FormItem label="老年人认识能力" required>
+				        <FormItem label="老年人认识能力" >
 				        	{getFieldDecorator('grda_lrrzgn')(
 								<Select
 					        		combobox
@@ -363,7 +363,7 @@ class MedicalTable1 extends React.Component {
 								<InputNumber step={0.1} style={{ width: 60 }}/>
 				        	)}
 				        </FormItem>
-				        <FormItem label="老年人情感状态" required>
+				        <FormItem label="老年人情感状态" >
 				        	{getFieldDecorator('grda_lrqgzt')(
 								<Select
 					        		combobox

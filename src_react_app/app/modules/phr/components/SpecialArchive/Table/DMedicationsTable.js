@@ -56,7 +56,7 @@ class DMedicationsTable extends React.Component {
 
 		/*每日次数*/
 		this.dailyNumOptions = getSelectOptions(WIDGET_CONFIG.selectOption.dailyNum);
-		/*每次数量*/
+		/*每次数量 update 每次剂量*/
 		this.eTimeNumOptions = getSelectOptions(WIDGET_CONFIG.selectOption.eTimeNum);
 	}
 
@@ -133,7 +133,7 @@ class DMedicationsTable extends React.Component {
 					)}
 				</FormItem>,
 		}, {
-			title: '每次数量',
+			title: '每次剂量',
 			dataIndex: 'eTimeNum',
 			key: 'eTimeNum',
 			width: '30%',

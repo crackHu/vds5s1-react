@@ -78,7 +78,7 @@ export const MENU_CONFIG = {
 if (localStorage.hospital === 'dfj') {
   MENU_CONFIG.menuItem.push( {
     key: "Mass",
-    path: "/mass",
+    path: "/masss",
     name: "消息发送",
     iconType: "message",
     sub: [{

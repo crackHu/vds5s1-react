@@ -2491,48 +2491,48 @@ export const ARC_FORM_WIDGET_CONFIG = {
 						value: '登峰街',
 						label: '登峰街',
 						children: [{
-							value: '宝汉',
-							label: '宝汉',
+							value: '横枝岗',
+							label: '横枝岗',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '恒福',
 							label: '恒福',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '横枝岗',
-							label: '横枝岗',
+							value: '淘金北',
+							label: '淘金北',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '黄田',
 							label: '黄田',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '清水塘',
-							label: '清水塘',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '狮带岗',
-							label: '狮带岗',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '淘金北',
-							label: '淘金北',
+							value: '下塘',
+							label: '下塘',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '童心',
 							label: '童心',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '西坑',
-							label: '西坑',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '下塘',
-							label: '下塘',
+							value: '狮带岗',
+							label: '狮带岗',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '云泉',
 							label: '云泉',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '清水塘',
+							label: '清水塘',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '西坑',
+							label: '西坑',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '宝汉',
+							label: '宝汉',
 							// children: [{value: '', label: ''}],
 						}],
 					}],
@@ -2553,48 +2553,48 @@ export const ARC_FORM_WIDGET_CONFIG = {
 						value: '登峰街',
 						label: '登峰街',
 						children: [{
-							value: '宝汉',
-							label: '宝汉',
+							value: '横枝岗',
+							label: '横枝岗',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '恒福',
 							label: '恒福',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '横枝岗',
-							label: '横枝岗',
+							value: '淘金北',
+							label: '淘金北',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '黄田',
 							label: '黄田',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '清水塘',
-							label: '清水塘',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '狮带岗',
-							label: '狮带岗',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '淘金北',
-							label: '淘金北',
+							value: '下塘',
+							label: '下塘',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '童心',
 							label: '童心',
 							// children: [{value: '', label: ''}],
 						}, {
-							value: '西坑',
-							label: '西坑',
-							// children: [{value: '', label: ''}],
-						}, {
-							value: '下塘',
-							label: '下塘',
+							value: '狮带岗',
+							label: '狮带岗',
 							// children: [{value: '', label: ''}],
 						}, {
 							value: '云泉',
 							label: '云泉',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '清水塘',
+							label: '清水塘',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '西坑',
+							label: '西坑',
+							// children: [{value: '', label: ''}],
+						}, {
+							value: '宝汉',
+							label: '宝汉',
 							// children: [{value: '', label: ''}],
 						}],
 					}],
@@ -3488,36 +3488,39 @@ export const AS_FORM_WIDGET_CONFIG = {
 					}]
 				case 'dfj': 
 					return [{
-						key: "shuqian",
-						value: "宝汉",
+						key: "donghuashichang",
+						value: "横枝岗",
 					}, {
 						key: "qiming",
 						value: "恒福",
 					}, {
-						key: "donghuashichang",
-						value: "横枝岗",
+						key: "dongchuan",
+						value: "淘金北",
 					}, {
 						key: "xinnan",
 						value: "黄田",
 					}, {
-						key: "caiyuandong",
-						value: "清水塘",
-					}, {
-						key: "changgengmen",
-						value: "狮带岗",
-					}, {
-						key: "dongchuan",
-						value: "淘金北",
+						key: "xiatang",
+						value: "下塘",
 					}, {
 						key: "dongyuan",
 						value: "童心",
 					}, {
-						key: "qinglongli",
-						value: "西坑",
+						key: "changgengmen",
+						value: "狮带岗",
 					}, {
 						key: "donghuaxixinjie",
 						value: "云泉",
-					}]
+					}, {
+						key: "caiyuandong",
+						value: "清水塘",
+					}, {
+						key: "qinglongli",
+						value: "西坑",
+					}, {
+						key: "shuqian",
+						value: "宝汉",
+					}, ]
 				default:
  					return []
 			}

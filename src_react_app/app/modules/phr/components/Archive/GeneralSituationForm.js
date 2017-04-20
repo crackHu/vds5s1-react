@@ -244,6 +244,7 @@ class GeneralSituationForm extends React.Component {
 
 	/*现住址或户籍地址事件 用于获取个人编号 bug todo*/
 	onAddrOtherBlur = (flag = 'hkdz') => {
+		return
 		if (this.props.updatestate) return
 		const {
 			getFieldValue,
@@ -260,7 +261,39 @@ class GeneralSituationForm extends React.Component {
 
 			let hkdzValue, hkdzQtValue = getFieldValue('grda_hkdz_qt'), xzzValue, xzzQtValue
 
-			if (!!grda_hkdz && !!grda_hkdz_qt) {
+			// if (!!grda_hkdz && !!grda_hkdz_qt) {
+			// 	hkdzValue = grda_hkdz.value
+			// 	hkdzQtValue = grda_hkdz_qt.value
+			// 	console.log('qqq1', hkdzValue, hkdzQtValue, this.hkdz_qt, getFieldValue('grda_hkdz_qt'))
+			// 	if (hkdzQtValue != this.hkdz_qt) {
+			// 		console.log('qqq3', this.hkdz_qt, hkdzQtValue)
+			// 		this.props.getCurrentAddress(hkdzValue, hkdzQtValue, flag)
+			// 		this.hkdz = hkdzValue
+			// 		this.hkdz_qt = hkdzQtValue
+			// 	}
+			// } else if (!!grda_xzz && !!grda_xzz_qt) {
+			// 	xzzValue = grda_xzz.value
+			// 	xzzQtValue = grda_xzz_qt.value
+			// 	console.log('qqq2', xzzValue, xzzQtValue, this.xzz_qt)
+			// 	if (xzzQtValue != this.xzz_qt) {
+			// 		this.props.getCurrentAddress(xzzValue, xzzQtValue, flag)
+			// 		this.xzz = xzzValue
+			// 		this.xzz_qt = xzzQtValue
+			// 	}
+			// }
+
+			// update huyg 2017年4月17日09:55:03 登峰街按照现住址为准
+
+			if (!!grda_xzz && !!grda_xzz_qt) {
+				xzzValue = grda_xzz.value
+				xzzQtValue = grda_xzz_qt.value
+				console.log('qqq2', xzzValue, xzzQtValue, this.xzz_qt)
+				if (xzzQtValue != this.xzz_qt) {
+					this.props.getCurrentAddress(xzzValue, xzzQtValue, flag)
+					this.xzz = xzzValue
+					this.xzz_qt = xzzQtValue
+				}
+			} else if (!!grda_hkdz && !!grda_hkdz_qt) {
 				hkdzValue = grda_hkdz.value
 				hkdzQtValue = grda_hkdz_qt.value
 				console.log('qqq1', hkdzValue, hkdzQtValue, this.hkdz_qt, getFieldValue('grda_hkdz_qt'))
@@ -270,17 +303,7 @@ class GeneralSituationForm extends React.Component {
 					this.hkdz = hkdzValue
 					this.hkdz_qt = hkdzQtValue
 				}
-			} else if (!!grda_xzz && !!grda_xzz_qt) {
-				xzzValue = grda_xzz.value
-				xzzQtValue = grda_xzz_qt.value
-				console.log('qqq2', xzzValue, xzzQtValue, this.xzz_qt)
-				if (xzzQtValue != this.xzz_qt) {
-					this.props.getCurrentAddress(xzzValue, xzzQtValue, flag)
-					this.xzz = xzzValue
-					this.xzz_qt = xzzQtValue
-				}
 			}
-
 
 			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成
 			if (!hkdzQtValue && flag == 'xzz') {
@@ -302,12 +325,38 @@ class GeneralSituationForm extends React.Component {
 
 		let fields = this.props.grdaJbzlFields
 		if (!!fields) {
-			let grda_xzz = fields.grda_xzz
-			let grda_xzz_qt = fields.grda_xzz_qt
-			let grda_hkdz = fields.grda_hkdz
-			let grda_hkdz_qt = fields.grda_hkdz_qt
+			let grda_xzz = fields.grda_xzz || {}
+			let grda_xzz_qt = fields.grda_xzz_qt || {}
+			let grda_hkdz = fields.grda_hkdz || {}
+			let grda_hkdz_qt = fields.grda_hkdz_qt || {}
 
-			if (flag == 'hkdz' && !!grda_hkdz_qt) {
+			// if (flag == 'hkdz' && !!grda_hkdz_qt) {
+			// 	//if (!grda_xzz && !grda_xzz_qt) {
+			// 	let hkdzQtValue = grda_hkdz_qt.value
+			// 	if (value + '' != this.hkdz + '') {
+			// 		this.props.getCurrentAddress(value, hkdzQtValue, flag)
+			// 		this.hkdz = value
+			// 		this.hkdz_qt = hkdzQtValue
+			// 	}
+			// 	//}
+			// } else if (flag == 'xzz' && !!grda_xzz_qt && !grda_hkdz && !grda_hkdz_qt) {
+			// 	let xzzQtValue = grda_xzz_qt.value
+			// 	if (value + '' != this.xzz + '') {
+			// 		this.props.getCurrentAddress(value, xzzQtValue, flag)
+			// 		this.xzz = value
+			// 		this.xzz_qt = xzzQtValue
+			// 	}
+			// }
+
+			// update huyg 2017年4月17日09:55:03 登峰街按照现住址为准
+			if (flag == 'xzz' /*&& !!grda_xzz_qt && !grda_hkdz && !grda_hkdz_qt*/) {
+				let xzzQtValue = grda_xzz_qt.value
+				if (value + '' != this.xzz + '') {
+					this.props.getCurrentAddress(value, xzzQtValue, flag)
+					this.xzz = value
+					this.xzz_qt = xzzQtValue
+				}
+			} else if (flag == 'hkdz' /*&& !!grda_hkdz_qt*/ && !grda_xzz /*&& !grda_xzz_qt*/) {
 				//if (!grda_xzz && !grda_xzz_qt) {
 				let hkdzQtValue = grda_hkdz_qt.value
 				if (value + '' != this.hkdz + '') {
@@ -316,13 +365,6 @@ class GeneralSituationForm extends React.Component {
 					this.hkdz_qt = hkdzQtValue
 				}
 				//}
-			} else if (flag == 'xzz' && !!grda_xzz_qt && !grda_hkdz && !grda_hkdz_qt) {
-				let xzzQtValue = grda_xzz_qt.value
-				if (value + '' != this.xzz + '') {
-					this.props.getCurrentAddress(value, xzzQtValue, flag)
-					this.xzz = value
-					this.xzz_qt = xzzQtValue
-				}
 			}
 
 			//2016年12月8日17:17:43 现住址、户籍地址相互自动生成

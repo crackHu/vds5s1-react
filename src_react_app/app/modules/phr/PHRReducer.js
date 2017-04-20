@@ -100,6 +100,9 @@
  			grda_lrr: {
  				value: username
  			},
+ 			grda_zrys: {
+ 				value: username
+ 			},
  			grda_hklx: {
  				value: '户籍'
  			},
@@ -473,7 +476,6 @@
  			//2016年12月16日11:11:31 更新跨档案类型copy数据
  			COPYFLAG = COPYF[targetKey]
  			cFieldsObj = getCopyFieldObj(targetKey, COPYFLAG, lastObj) || stateCopyFields
-
  			console.log('copy', targetKey, stateFlag, lastObj, cFieldsObj, copyFieldData)
 
  			console.log(UPDATE_ARCHIVES, targetKey, targetObj, ids, state)
@@ -646,6 +648,9 @@
  			}*/
  			/*最后一条值对象*/
  			lastObj = getArchivesLastObj(stateFlag)
+ 			// update by 2017年4月14日18:01:09 去掉序号（xh）参数 （不用改了）
+ 			// console.log('cxvera', lastObj)
+ 			// delete lastObj['xh']
 
  			//2016年12月16日11:11:31 保存跨档案类型copy数据
  			COPYFLAG = COPYF[flag]

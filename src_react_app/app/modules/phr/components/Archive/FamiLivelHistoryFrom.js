@@ -160,7 +160,7 @@ class FamiLivelHistoryFrom extends React.Component {
 
 		        <div className="form_inline_spacing">
 		        	<FormItem
-			         label="生活环境" required/>
+			         label="生活环境" />
 					<FormItem
 			         label="厨房排风设施">
 			           {grda_cfpfss}
