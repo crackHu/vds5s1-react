@@ -3,6 +3,9 @@ import React, {
 	PropTypes
 } from 'react'
 import {
+	connect
+} from 'react-redux';
+import {
 	Form,
 	Input,
 	Button,
@@ -20,6 +23,8 @@ import {
 	Card,
 	Tooltip
 } from 'antd';
+import * as AppActions from 'AppActions'
+import * as PHRAction from 'phr/PHRAction'
 import moment from 'moment'
 
 import {
@@ -117,7 +122,7 @@ class GeneralSituationForm extends React.Component {
 	}
 
 	componentDidMount = () => {
-		console.log('GeneralSituationForm componentDidMount')
+		console.log('GeneralSituationForm componentDidMount', this.props)
 		this.initialValue(ARC_TAB)
 	}
 
@@ -390,6 +395,17 @@ class GeneralSituationForm extends React.Component {
 		})
 	}
 
+	checkIDCard = (e) => {
+		const { getFieldValue } = this.props.form
+		const grbh = getFieldValue('grbh')
+		const value = e.target.value
+		if (value) {
+			this.props.checkIDCard(grbh, value, (value, idx) => {
+				return <div key={idx}><span>{value}</span><br /></div>
+			})
+		}
+	}
+
 	render() {
 		const {
 			getFieldDecorator
@@ -418,7 +434,7 @@ class GeneralSituationForm extends React.Component {
 		/*身份证号码*/
 		const grda_sfzhm =
 			getFieldDecorator('grda_sfzhm')(
-				<Input style={{ width: 140 }}/>
+				<Input style={{ width: 140 }} onBlur={this.checkIDCard}/>
 			)
 
 		/*民族名称*/
@@ -841,7 +857,20 @@ GeneralSituationForm.propTypes = {
 	getCurrentAddress: PropTypes.func.isRequired,
 }
 
-export default Form.create({
+function mapStateToProps(state) {
+	console.log('GeneralSituationForm mapStateToProps:', state)
+	return {
+		phr: state.phr,
+	}
+}
+
+GeneralSituationForm = Form.create({
 	onFieldsChange,
 	mapPropsToFields
 })(GeneralSituationForm)
+
+export default connect(mapStateToProps, {
+	...AppActions,
+	...PHRAction
+})(GeneralSituationForm)
+

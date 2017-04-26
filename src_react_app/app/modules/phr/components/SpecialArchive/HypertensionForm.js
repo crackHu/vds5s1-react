@@ -230,9 +230,6 @@ class HypertensionForm extends React.Component {
 										</Select>
 					       			)}
 						        </FormItem>
-							</Row>
-
-							<Row className="item_inline_spacing" style={{marginLeft: 23}}>
 								<FormItem label="症状" >
 					       			{getFieldDecorator('gxy_zz')(
 					       				<MultiSelect
@@ -275,7 +272,7 @@ class HypertensionForm extends React.Component {
 					       			{getFieldDecorator('gxy_tz_sg')(
 							        	<InputNumber
 							        		step={0.1}
-							        		style={{width: 60}}
+							        		style={{width: 90}}
 							        		onChange={(value) => this.changeBMIValue(value, 'gxy_tz_sg')}
 							        	/>
 					       			)}
@@ -284,24 +281,41 @@ class HypertensionForm extends React.Component {
 					       			{getFieldDecorator('gxy_tz_tz')(
 							        	<InputNumber
 								        	step={0.1}
-								        	style={{width: 60}}
+								        	style={{width: 90}}
 								        	onChange={(value) => this.changeBMIValue(value, 'gxy_tz_tz')}
 							        	/>
 					       			)}
 						        </FormItem>
+						        <FormItem label="目标体重(kg)">
+					       			{getFieldDecorator('gxy_mb_tz')(
+							        	<InputNumber
+								        	step={0.1}
+								        	style={{width: 90}}
+								        	onChange={(value) => this.changeBMIValue(value, 'gxy_tz_tz')}
+							        	/>
+					       			)}
+						        </FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
 						        <FormItem label="体质指数(Kg/m²)">
 					       			{getFieldDecorator('gxy_tz_tzzs')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 90}}/>
+					       			)}
+						        </FormItem>
+						        <FormItem label="目标体质指数(Kg/m²)">
+					       			{getFieldDecorator('gxy_mb_tzzs')(
+						        		<InputNumber step={0.1} style={{width: 90}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="心率(次/分钟)">
 					       			{getFieldDecorator('gxy_tz_xl')(
-										<InputNumber step={1} style={{width: 60}}/>
+										<InputNumber step={1} style={{width: 90}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="其他">
 					       			{getFieldDecorator('gxy_tz_qt')(
-										<Input style={{width: 190}}/>
+										<Input style={{width: 120}}/>
 					       			)}
 						        </FormItem>
 							</Row>
@@ -310,21 +324,44 @@ class HypertensionForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('gxy_shfs_rxyl')(
-							        	<InputNumber step={1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 70}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="目标日吸烟量(支)">
+					       			{getFieldDecorator('gxy_mb_rxyl')(
+							        	<InputNumber step={1} style={{width: 70}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('gxy_shfs_ryjl')(
-							        	<InputNumber step={1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 70}}/>
 					       			)}
 								</FormItem>
+								<FormItem label="目标日饮酒量(两)">
+					       			{getFieldDecorator('gxy_mb_ryjl')(
+							        	<InputNumber step={1} style={{width: 70}}/>
+					       			)}
+								</FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
 								<FormItem label="运动">
 					       			{getFieldDecorator('gxy_shfs_mzydcs')(
-							        	<InputNumber step={1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 80}}/>
 					       			)}
 						        	<span className="disline middle">{'次/周'}&nbsp;</span>
 					       			{getFieldDecorator('gxy_shfs_mcydsj')(
-							        	<InputNumber step={1} style={{width: 60}}/>
+							        	<InputNumber step={1} style={{width: 80}}/>
+					       			)}
+						        	<span className="disline middle">{'次/分钟'}</span>
+								</FormItem>
+								<FormItem label="目标运动">
+					       			{getFieldDecorator('gxy_mb_mzydcs')(
+							        	<InputNumber step={1} style={{width: 80}}/>
+					       			)}
+						        	<span className="disline middle">{'次/周'}&nbsp;</span>
+					       			{getFieldDecorator('gxy_mb_mcydsj')(
+							        	<InputNumber step={1} style={{width: 80}}/>
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>
@@ -338,10 +375,23 @@ class HypertensionForm extends React.Component {
 										</Select>
 					       			)}
 								</FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
+								<FormItem label="目标摄盐程度(咸淡)">
+					       			{getFieldDecorator('gxy_mb_syqk')(
+							        	<Select
+										    style={{ width: 120 }}
+											placeholder="请选择"
+										  >	
+										  {getSelectOptions(this.isOptions)}
+										</Select>
+					       			)}
+								</FormItem>
 								<FormItem label="心理调整">
 					       			{getFieldDecorator('gxy_shfs_xltz')(
 							        	<Select
-										    style={{ width: 80 }}
+										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.psyAdjustOptions)}
@@ -351,7 +401,7 @@ class HypertensionForm extends React.Component {
 								<FormItem label="遵医行为">
 					       			{getFieldDecorator('gxy_shfs_zyxw')(
 							        	<Select
-										    style={{ width: 80 }}
+										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.bemOptions)}

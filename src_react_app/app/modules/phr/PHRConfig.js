@@ -3756,8 +3756,6 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'isSign',
 
 			/*家族史选项卡*/
-			/*残疾情况*/
-			'grda_cjqk',
 			/*遗传病史*/
 			'grda_ycbsjbmc',
 			/*残疾情况*/
@@ -4080,11 +4078,14 @@ export const FROM_INITIAL_VALUE_CONFIG = {
 		grda_dazt: '在册',
 		grda_ycbsjbmc: '无',
 		grda_cjqk: '无',
-		grda_cfpfss: '抽油烟',
-		grda_rllx: '液化气',
-		grda_ys: '自来水',
-		grda_cs: '卫生厕所',
-		grda_csl: '无',
+
+		// 生活环境 update 2017年4月25日15:12:58 不要默认值
+		// grda_cfpfss: '抽油烟',
+		// grda_rllx: '液化气',
+		// grda_ys: '自来水',
+		// grda_cs: '卫生厕所',
+		// grda_csl: '无',
+
 	},
 	grdaJzs: {
 		cylb_0: '父亲',

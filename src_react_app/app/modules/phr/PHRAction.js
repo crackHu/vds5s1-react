@@ -39,6 +39,7 @@ import {
 	DOWNLOAD,
 	RESIDENTBPFB,
 	AREA_CONFIG,
+	CHECK_IDCARD_RET
 } from 'ActionTypes'
 import fetch from 'isomorphic-fetch'
 import * as api from 'api'
@@ -80,7 +81,7 @@ const fetchInit = {
  *
  * @return {function} redux action dispatch function
  */
-const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, func) => {
+const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, func, successCallback) => {
 
 	fetchInit.body = encodeURI(query)
 		//fetchInit.body = query
@@ -105,6 +106,8 @@ const dispatchMethod = (methodName, query, dispatch, isSuccessMsg, dispatchObj, 
 				if (isSuccessMsg) {
 					msg('success', resMsg)
 				}
+				/*custom function execute*/
+				typeof successCallback == 'function' ? successCallback(data.dout) : null
 			}
 			dispatch(Object.assign(dispatchObj, {
 				data
@@ -584,4 +587,28 @@ export function delRecordStore(containKey, recordKey) {
 		containKey,
 		recordKey
 	}
+}
+
+export function checkIDCard(grbh, IDCode, build) {
+
+	let query = api.checkIDCard(IDCode)
+	let dispatchObj = {
+		type: CHECK_IDCARD_RET,
+	}
+	const successCallback = (ret) => {
+		if (ret.repeatFlag && ret.repeatFlag == '0') {
+			const { data } = ret
+			const msg = '系统存在身份证相同的档案'
+			let desc = data.map((info, idx) => {
+				if (info.grbh != grbh) {
+					return build(`${idx+1}. ${info.name}(${info.grbh})`, idx)
+				}
+			})
+			desc = desc.filter(value => !!value)
+			if (desc.length > 0) {
+				notify('warning', msg, desc, 10)
+			}
+		}
+	}
+	return dispatch => dispatchMethod('checkIDCard', query, dispatch, false, dispatchObj, null, successCallback)
 }

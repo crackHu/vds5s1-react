@@ -60,7 +60,7 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
-    "antd": "^2.9.1",
+    "antd": "^2.9.3",
     "echarts": "^3.2.3",
     "history": "^2.1.2",
     "immutable": "^3.8.1",

@@ -1,2 +1,2 @@
-npm install && npm run dev
+npm install && npm install && npm run dev
 PAUSE

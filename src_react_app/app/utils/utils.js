@@ -218,7 +218,7 @@ import {
     Modal
 } from 'antd'
 
-//http://ant.design/components/message/
+// https://ant.design/components/notification-cn/
 export function notify(type, msg, desc, duration = 4.5) {
     notification[type]({
         message: msg,
@@ -227,7 +227,7 @@ export function notify(type, msg, desc, duration = 4.5) {
     });
 }
 
-//http://ant.design/components/message/
+// http://ant.design/components/message/
 export function notifyClsBtn(type, msg, desc, duration, btn, close) {
     notification[type]({
         message: msg,

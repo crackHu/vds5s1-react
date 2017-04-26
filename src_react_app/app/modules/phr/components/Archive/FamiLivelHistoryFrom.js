@@ -21,6 +21,7 @@ import {
 	Tooltip
 } from 'antd'
 import FamiHistoryTable from './FamiHistoryTable'
+import MultiSelect from 'app_base/components/MultiSelect'
 
 import {
 	ARC_FORM_WIDGET_CONFIG as WIDGET_CONFIG,
@@ -56,7 +57,7 @@ class FamiLivelHistoryFrom extends React.Component {
 
 	getSelectOptions = (data) => {
 		return data.map((item, i) => {
-			return <Option key={item.value}>{item.value}</Option>
+			return <Option key={i}>{item.value}</Option>
 		})
 	}
 
@@ -89,11 +90,10 @@ class FamiLivelHistoryFrom extends React.Component {
 		/*残疾情况*/
 		const grda_cjqk =
 			getFieldDecorator('grda_cjqk')(
-				<Select
-				 multiple
-				 style={{ width: 438 }}>
-			       {this.getSelectOptions(this.disabilityOptions)}
-			  	</Select>
+				<MultiSelect
+					antd={{style: { width: 438},placeholder: "请选择",}}
+					options={this.disabilityOptions}
+				/>
 			)
 
 		/*厨房排风设施*/

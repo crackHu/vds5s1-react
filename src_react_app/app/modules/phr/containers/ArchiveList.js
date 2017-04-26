@@ -198,11 +198,20 @@ class ArchiveList extends React.Component {
 			suoshuStr = ''
 		Reflect.ownKeys(param).map((key, i) => {
 			if (param[key]) {
-				if (key == 'grda_csrq' || key == 'grda_jdrq' || key == 'grda_lrrq') {
+				if (key == 'grda_csrq' || key == 'grda_jdrq' || key == 'grda_lrrq' || key == 'mcsfrq') {
 					if (param[key].length > 0) {
 						const startDate = JSON.stringify(param[key][0]).split('T')[0]
 						const endDate = JSON.stringify(param[key][1]).split('T')[0]
-						postDataStr += " j." + key + " between '" + startDate.substring(1, startDate.length) + "' and '" + endDate.substring(1, endDate.length) + "' and "
+						
+						// 末次随访时间
+						if (key == 'mcsfrq') {
+							const mcsfrq = "DATE(GREATEST(IFNULL(gxysfb.gxy_sfrq2,''''),IFNULL(tnbsfb.tnb_sfrq2,''''),IFNULL(lnrsfb.lnr_sfrq,'''')))"
+							postDataStr += mcsfrq + " between '" + startDate.substring(1, startDate.length) + "' and '" + endDate.substring(1, endDate.length) + "' and "
+
+						} else {
+							
+							postDataStr += " j." + key + " between '" + startDate.substring(1, startDate.length) + "' and '" + endDate.substring(1, endDate.length) + "' and "
+						}
 					}
 				} else if (key == 'grda_xb') {
 					postDataStr += " j." + key + " like '%" + WIDGET_CONFIG.selectOption.sex[parseInt(param[key])].value + "%' and "
@@ -443,7 +452,7 @@ class ArchiveList extends React.Component {
 			  	</Dropdown>
 				//render: (text, record) => <a onClick={() => this.routerPush(`/phr/u/${record.id}`)}>{text}</a>,
 				//render: (text, recode) => <a href={`/phr/user/${record.id}`} title="查看/编辑 " target="_blank">{text}</a>,
-		}, {
+		}, {	
 			title: '姓名',
 			dataIndex: 'grda_xm',
 			key: 'grda_xm',
@@ -485,6 +494,12 @@ class ArchiveList extends React.Component {
 			title: '家庭电话',
 			dataIndex: 'grda_jtdh',
 			key: 'grda_jtdh',
+		}, {
+			title: '末次随访时间',
+			dataIndex: 'mcsfrq',
+			key: 'mcsfrq',
+			fixed: 'right',
+			width: 90,
 		}, {
 			title: '操作',
 			key: 'operation',

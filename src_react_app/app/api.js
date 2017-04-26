@@ -311,3 +311,12 @@ export function getAreaConfig(pageSize, pageNo, id) {
 
 	return postQuery.serialize('getAreaConfig');
 }
+
+export function checkIDCard(IDCode) {
+
+	let postQuery = new PostQuery({
+		IDCode
+	}, 'checkIDcardRepetition', 'boPersonDoc')
+
+	return postQuery.serialize('checkIDCard');
+}

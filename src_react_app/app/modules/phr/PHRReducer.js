@@ -122,23 +122,24 @@
  				value: '无'
  			},
  			grda_cjqk: {
- 				value: '无残疾'
- 			},
- 			grda_cfpfss: {
- 				value: '抽油烟'
- 			},
- 			grda_rllx: {
- 				value: '液化气'
- 			},
- 			grda_ys: {
- 				value: '自来水'
- 			},
- 			grda_cs: {
- 				value: '卫生厕所'
- 			},
- 			grda_csl: {
  				value: '无'
  			},
+ 			// 生活环境 update 2017年4月25日15:12:58 不要默认值
+ 			// grda_cfpfss: {
+ 			// 	value: '抽油烟'
+ 			// },
+ 			// grda_rllx: {
+ 			// 	value: '液化气'
+ 			// },
+ 			// grda_ys: {
+ 			// 	value: '自来水'
+ 			// },
+ 			// grda_cs: {
+ 			// 	value: '卫生厕所'
+ 			// },
+ 			// grda_csl: {
+ 			// 	value: '无'
+ 			// },
  		},
  		grdaJws: {
  			selectedRowKeys: [],

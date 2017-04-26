@@ -206,9 +206,6 @@ class DiabetesForm extends React.Component {
 										</Select>
 					       			)}
 						        </FormItem>
-							</Row>
-
-							<Row className="item_inline_spacing" style={{marginLeft: 23}}>
 								<FormItem label="症状" >
 					       			{getFieldDecorator('tnb_zz')(
 					       				<MultiSelect
@@ -247,7 +244,7 @@ class DiabetesForm extends React.Component {
 					       			{getFieldDecorator('tnb_tz_sg')(
 							        	<InputNumber
 							        	 step={0.1}
-							        	 style={{width: 60}}
+							        	 style={{width: 90}}
 					        		 	 onChange={(value) => this.changeBMIValue(value, 'tnb_tz_sg')}
 							        	/>
 					       			)}
@@ -256,14 +253,29 @@ class DiabetesForm extends React.Component {
 					       			{getFieldDecorator('tnb_tz_tz')(
 						        		<InputNumber
 						        		 step={0.1}
-						        		 style={{width: 60}}
+						        		 style={{width: 90}}
 					        		 	 onChange={(value) => this.changeBMIValue(value, 'tnb_tz_tz')}
 						        		/>
 					       			)}
 						        </FormItem>
+						        <FormItem label="目标体重(kg)">
+					       			{getFieldDecorator('tnb_mb_tz')(
+							        	<InputNumber
+							        	 step={0.1}
+							        	 style={{width: 90}}
+							        	/>
+					       			)}
+						        </FormItem>
+							</Row>
+							<Row className="item_inline_spacing">
 						        <FormItem label="体质指数(Kg/m²)">
 					       			{getFieldDecorator('tnb_tz_tzzs')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 90}}/>
+					       			)}
+						        </FormItem>
+						        <FormItem label="目标体质指数(Kg/m²)">
+					       			{getFieldDecorator('tnb_mb_tzzs')(
+						        		<InputNumber step={0.1} style={{width: 90}}/>
 					       			)}
 						        </FormItem>
 						        <FormItem label="足背动脉搏动">
@@ -278,7 +290,7 @@ class DiabetesForm extends React.Component {
 						        </FormItem>
 						        <FormItem label="其他">
 					       			{getFieldDecorator('tnb_tz_qt')(
-										<Input style={{width: 105}}/>
+										<Input style={{width: 110}}/>
 					       			)}
 						        </FormItem>
 							</Row>
@@ -287,14 +299,27 @@ class DiabetesForm extends React.Component {
 								<FormItem label="生活指导方式" />
 								<FormItem label="日吸烟量(支)">
 					       			{getFieldDecorator('tnb_shfs_rxyl')(
-						        		<InputNumber step={1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 70}}/>
+					       			)}
+								</FormItem>
+								<FormItem label="目标日吸烟量(支)">
+					       			{getFieldDecorator('tnb_mb_rxyl')(
+						        		<InputNumber step={1} style={{width: 70}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="日饮酒量(两)">
 					       			{getFieldDecorator('tnb_shfs_ryjl')(
-						        		<InputNumber step={1} style={{width: 60}}/>
+						        		<InputNumber step={1} style={{width: 70}}/>
 					       			)}
 								</FormItem>
+								<FormItem label="目标日饮酒量(两)">
+					       			{getFieldDecorator('tnb_mb_ryjl')(
+						        		<InputNumber step={1} style={{width: 70}}/>
+					       			)}
+								</FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
 								<FormItem label="运动">
 					       			{getFieldDecorator('tnb_shfs_mzydcs')(
 						        		<InputNumber step={1} style={{width: 60}}/>
@@ -305,15 +330,33 @@ class DiabetesForm extends React.Component {
 					       			)}
 						        	<span className="disline middle">{'次/分钟'}</span>
 								</FormItem>
+								<FormItem label="目标运动">
+					       			{getFieldDecorator('tnb_mb_mzydcs')(
+						        		<InputNumber step={1} style={{width: 60}}/>
+					       			)}
+						        	<span className="disline middle">{'次/周'}&nbsp;</span>
+					       			{getFieldDecorator('tnb_mb_mcydsj')(
+						        		<InputNumber step={1} style={{width: 60}}/>
+					       			)}
+						        	<span className="disline middle">{'次/分钟'}</span>
+								</FormItem>
 								<FormItem label="主食(克/天)">
 					       			{getFieldDecorator('tnb_shfs_zs')(
 						        		<InputNumber step={1} style={{width: 60}}/>
 					       			)}
 								</FormItem>
+								<FormItem label="目标主食(克/天)">
+					       			{getFieldDecorator('tnb_mb_zs')(
+						        		<InputNumber step={1} style={{width: 60}}/>
+					       			)}
+								</FormItem>
+							</Row>
+
+							<Row className="item_inline_spacing">
 								<FormItem label="心理调整">
 					       			{getFieldDecorator('tnb_shfs_xltz')(
 							        	<Select
-										    style={{ width: 80 }}
+										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.psyAdjustOptions)}
@@ -323,26 +366,26 @@ class DiabetesForm extends React.Component {
 								<FormItem label="遵医行为">
 					       			{getFieldDecorator('tnb_shfs_zyxw')(
 							        	<Select
-										    style={{ width: 80 }}
+										    style={{ width: 120 }}
 											placeholder="请选择"
 										  >	
 										  {getSelectOptions(this.bemOptions)}
 										</Select>
 					       			)}
 								</FormItem>
-							</Row>
-
-							<Row className="item_inline_spacing">
 								<FormItem label="辅助检查" />
 								<FormItem label="空腹血糖值(mmol/L)">
 					       			{getFieldDecorator('tnb_jzjc_kfxtz')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 120}}/>
 					       			)}
 								</FormItem>
-								<FormItem label="其他检查" required/>
+							</Row>
+
+							<Row className="item_inline_spacing">
+								<FormItem label="其他检查" />
 								<FormItem label="糖化血红蛋白(%)">
 					       			{getFieldDecorator('tnb_jzjc_thxhdb')(
-						        		<InputNumber step={0.1} style={{width: 60}}/>
+						        		<InputNumber step={0.1} style={{width: 120}}/>
 					       			)}
 								</FormItem>
 								<FormItem label="检查日期" >

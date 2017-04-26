@@ -113,13 +113,21 @@ class AdvancedSearch extends Component {
 				sm: 21
 			},
 		};
+		const formDatePeriodLongLayout = {
+			labelCol: {
+				sm: 4
+			},
+			wrapperCol: {
+				sm: 20
+			},
+		};
 		const {
 			getFieldDecorator
 		} = this.props.form
 
 		return (
 			<div>
-				<Modal title="档案查询" width={760} visible={this.props.modalVisible} maskClosable={false}
+				<Modal title="档案查询" width={900} visible={this.props.modalVisible} maskClosable={false}
 			      onCancel={this.handleCancel} onOk={this.handleOk} confirmLoading={this.state.modalLoading}
 			      footer={[
 		            <Button key="back" type="ghost" size="large" icon="rollback" onClick={this.handleCancel}>
@@ -329,6 +337,19 @@ class AdvancedSearch extends Component {
 								)}
 						        </FormItem>
 							</Col>
+				        </Row>
+				        <Row>
+				        	<Col sm={16}>
+				        		<FormItem label="末次随访时间" 
+				        		  {...formDatePeriodLongLayout}
+						        >
+						        {getFieldDecorator('mcsfrq')(
+								    <RangePicker
+								     format="YYYY-MM-DD"
+								     onChange={this.onChange} />
+							     )}
+						        </FormItem>
+				        	</Col>
 				        </Row>
 					</Form>
 		        </Modal>
