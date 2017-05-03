@@ -36,7 +36,7 @@ import {
 } from 'phr_conf'
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option, OptGroup } = Select;
 const ButtonGroup = Button.Group;
 
 const getSelectOptions = (data) => {
@@ -93,7 +93,29 @@ class MainMedicationsTable extends React.Component {
 		const renderContent = {
 			drugName(value, option) {
 				return (
-					<Input style={{width: '10vw'}}/>
+					// <Input style={{width: '10vw'}}/>
+					<Select
+						combobox
+					    defaultValue="lucy"
+					    style={{ width: 200 }}
+				  	>
+					    <OptGroup label="降压药">
+					      <Option value="苯磺酸氨氯地平片">苯磺酸氨氯地平片</Option>
+					      <Option value="厄贝沙坦胶囊">厄贝沙坦胶囊</Option>
+					      <Option value="酒石酸美托洛尔片">酒石酸美托洛尔片</Option>
+					      <Option value="硝苯地平控释片">硝苯地平控释片</Option>
+					      <Option value="缬沙坦胶囊">缬沙坦胶囊</Option>
+					      <Option value="氯沙坦钾片">氯沙坦钾片</Option>
+					    </OptGroup>
+					    <OptGroup label="降糖药">
+					      <Option value="二甲双胍片">二甲双胍片</Option>
+					      <Option value="阿卡波糖">阿卡波糖</Option>
+					      <Option value="格列齐特缓稀片">格列齐特缓稀片</Option>
+					      <Option value="瑞格列奈片">瑞格列奈片</Option>
+					      <Option value="格列美脲片">格列美脲片</Option>
+					      <Option value="消渴丸">消渴丸</Option>
+					    </OptGroup>
+				  	</Select>
 				)
 			},
 			usage(value, option) {

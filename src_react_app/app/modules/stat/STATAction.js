@@ -9,14 +9,15 @@ import {
   API_getAgePercent,
   API_getJqjds,
   API_queryForAdd,
-  API_queryForUpdate
+  API_queryForUpdate,
+  postReqUrl
 } from 'api'
 
 export function getAgePercent() {
 
   return dispatch =>
     fetch(
-      API_getAgePercent(), { credentials: 'include' }
+      postReqUrl, { credentials: 'include', method: 'POST', body: API_getAgePercent() }
     ).then(
       response => response.json()
     ).then(
@@ -36,7 +37,7 @@ export function getJqjds() {
 
   return dispatch =>
     fetch(
-      API_getJqjds(), { credentials: 'include' }
+      postReqUrl, { credentials: 'include', method: 'POST', body: API_getJqjds() }
     ).then(
       response => response.json()
     ).then(
@@ -56,7 +57,7 @@ export function queryForAdd(page, size) {
 
   return dispatch =>
     fetch(
-      API_queryForAdd(page, size), { credentials: 'include' }
+      postReqUrl, { credentials: 'include', method: 'POST', body: API_queryForAdd(page, size) }
     ).then(
       response => response.json()
     ).then(
@@ -77,7 +78,7 @@ export function queryForUpdate(page, size) {
 
   return dispatch =>
     fetch(
-      API_queryForUpdate(page, size), { credentials: 'include' }
+      postReqUrl, { credentials: 'include', method: 'POST', body: API_queryForUpdate(page, size) }
     ).then(
       response => response.json()
     ).then(

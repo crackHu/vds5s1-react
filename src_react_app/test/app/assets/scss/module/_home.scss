@@ -1,0 +1,87 @@
+.top{
+    @extend .flex;
+    @include v-layout(center);
+    background-color: $color-white;
+    box-shadow: 1px 2px 3px rgba(11,3,6,.1);
+}
+
+// ------ user-profile ------
+
+.top .user-profile{
+    margin-right: 30px;
+}
+
+.top .user-profile.fluid{
+    margin-right: 15px;
+}
+
+.top .user-profile .avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: 2px solid hsla(198,91%,83%,.8);
+    background: #fff;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.top .user-profile .text{
+    padding-left: 8px;
+    max-width: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.top .user-profile .x-icon{
+    font-size: 10px;
+    -webkit-text-stroke-width: 1px;
+}
+
+.container{
+    min-width: $min-width-container;
+    min-height: 100vh;
+    background-color: $color-background;
+    position: relative;
+    @extend .flex;
+    @include direction-layout(column);
+}
+
+.content{
+    @extend .flex;
+    overflow: hidden;
+    /* IE 不兼容 */
+    flex: 1;
+}
+
+.content .left{
+    background-color: $color-base;
+    width: 224px;
+    overflow: hidden;
+}
+
+.content .left.fluid{
+    width: 190px;
+}
+
+.content .main{
+    @include flex-layout(1);
+    margin-top: 10px;
+    overflow: hidden;
+    margin: 10px 30px 0;
+}
+
+.content .main.fluid{
+    margin: 10px 15px 0;
+}
+
+.foot {
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+}

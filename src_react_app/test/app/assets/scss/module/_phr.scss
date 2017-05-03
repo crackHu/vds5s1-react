@@ -1,0 +1,214 @@
+.dashed_border {
+	border-radius: 0;
+    border-bottom: 1px dashed #e9e9e9;
+}
+.dashed_border.form {
+	padding-bottom: 15px
+}
+.dashed_border.form.inside {
+	margin-bottom: 15px
+}
+
+.wrapper_border {
+	border: 1px solid #d9d9d9;
+    padding: 5px 6px 9px;
+    margin-left: -8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.form_inline_spacing {
+	margin: 16px auto;
+}
+
+.item_inline_spacing {
+	margin: 5px auto;
+}
+
+fieldset {
+	width: 100%;
+	padding: 10px 10px 20px 10px;
+	margin: 10px 0px;
+	border: 1px dashed #e9e9e9;	
+}
+
+legend {
+	color: #666;
+	font-weight: 700;
+	border: 0px;
+	margin-bottom: 0px;
+}
+
+.disline {
+	display: inline-block;
+}
+
+.disline.middle {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.marginlr8 {
+	margin: 0 8px;
+}
+
+.inputSpanGroup {
+	display: inline-flex;
+    vertical-align: middle;
+    line-height: 3;
+}
+
+.record {
+	cursor: pointer;
+}
+
+.selected {
+	background: #E7F4FD;
+}
+
+//血压值
+.bp-yellow {
+    background-color: #FAC450;
+}
+.bp-purple {
+    background-color: #582DAA;
+}
+.bp-red {
+    background-color: #E01515;
+}
+
+//高级搜索工具条
+.ad-search-bar {
+	margin: 1em auto
+}
+.ad-search-bar > span {
+	display: inline-flex
+}
+.ad-search-bar .ant-badge {
+	vertical-align: top;
+}
+.ad-search-bar .ant-badge-count {
+	position: relative;
+}
+
+//导出进度条
+.export-progress .ant-progress-outer {
+    width: 100%;
+}
+.export-progress .ant-progress-text {
+	width: 120px;	
+}
+
+//导出日志
+.queue-demo {
+    width: 95%;
+    margin: auto;
+    position: relative;
+}
+.buttons {
+    text-align: center;
+    margin: 0 auto;
+}
+.queue-demo .demo-content {
+    margin-top: 10px;
+}
+.queue-demo .demo-content .demo-thead {
+    height: 40px;
+    line-height: 40px;
+    background: #364768;
+    color: #eef7fe;
+    border-radius: 6px 6px 0 0;
+}
+.queue-demo .demo-content .demo-thead ul {
+    height: 100%;
+    position: relative;
+}
+.queue-demo .demo-content .demo-thead ul li {
+    display: inline-block;
+    height: 100%;
+}
+.queue-demo .demo-content .demo-tbody {
+    border: 1px solid #e8e8e8;
+    border-radius: 0 0 6px 6px;
+	max-height: 300px;
+	overflow-y: auto;
+}
+.queue-demo .demo-content .demo-tbody ul {
+    height: 100%;
+    position: relative;
+}
+.queue-demo .demo-content .demo-tbody ul li {
+    display: inline-block;
+    height: 40px;
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 40px;
+}
+.queue-demo .demo-content .demo-thead ul li, .demo-tbody ul li {
+    text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+/* .queue-demo .demo-content .demo-thead ul li:nth-child(1), .demo-tbody ul li:nth-child(1) {
+    width: 15%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(2), .demo-tbody ul li:nth-child(2) {
+    width: 50%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(3), .demo-tbody ul li:nth-child(3) {
+    width: 15%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(4), .demo-tbody ul li:nth-child(4) {
+    width: 5%;
+}
+.queue-demo .demo-content .demo-thead ul li:nth-child(5), .demo-tbody ul li:nth-child(5) {
+    width: 15%;
+} */
+
+$li1 : 15%;
+$li2 : 45%;
+$li3 : 15%;
+$li4 : 10%;
+$li5 : 15%;
+.queue-demo {
+	.demo-content {
+		.demo-thead {
+			ul {
+				li:nth-child(1) {
+				    width: $li1;
+				}
+				li:nth-child(2) {
+				    width: $li2;
+				}
+				li:nth-child(3) {
+				    width: $li3;
+				}
+				li:nth-child(4) {
+				    width: $li4;
+				}
+				li:nth-child(5) {
+				    width: $li5;
+				}
+			}
+		}
+		.demo-tbody {
+			ul {
+				li:nth-child(1) {
+				    width: $li1;
+				}
+				li:nth-child(2) {
+				    width: $li2;
+				}
+				li:nth-child(3) {
+				    width: $li3;
+				}
+				li:nth-child(4) {
+				    width: $li4;
+				}
+				li:nth-child(5) {
+				    width: $li5;
+				}
+			}
+		}
+	}
+}

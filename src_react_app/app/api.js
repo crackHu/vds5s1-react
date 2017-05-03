@@ -242,52 +242,68 @@ export function progress(data) {
 
 /*获取档案年龄百分比*/
 export function API_getAgePercent() {
-	const query = {
-		din: {},
-		fid: 'agePercent',
-		pid: 'boHomePage'
-	}
+	// const query = {
+	// 	din: {},
+	// 	fid: 'agePercent',
+	// 	pid: 'boHomePage'
+	// }
 
-	return getReqUrl + JSON.stringify(query)
+	// return getReqUrl + JSON.stringify(query)
+
+	let postQuery = new PostQuery({}, 'agePercent', 'boHomePage')
+
+	return postQuery.serialize('API_getAgePercent');
 }
 
 /*近期建档*/
 export function API_getJqjds() {
-	const query = {
-		din: {},
-		fid: 'jqjds',
-		pid: 'boHomePage'
-	}
+	// const query = {
+	// 	din: {},
+	// 	fid: 'jqjds',
+	// 	pid: 'boHomePage'
+	// }
 
-	return getReqUrl + JSON.stringify(query)
+	// return getReqUrl + JSON.stringify(query)
+
+	let postQuery = new PostQuery({}, 'jqjds', 'boHomePage')
+
+	return postQuery.serialize('API_getJqjds');
 }
 
 /*首页最近一周新增*/
 export function API_queryForAdd(page, rows) {
-	const query = {
-		din: {
-			page,
-			rows
-		},
-		fid: 'queryForAdd',
-		pid: 'boHomePage'
-	}
+	// const query = {
+	// 	din: {
+	// 		page,
+	// 		rows
+	// 	},
+	// 	fid: 'queryForAdd',
+	// 	pid: 'boHomePage'
+	// }
 
-	return getReqUrl + JSON.stringify(query)
+	// return getReqUrl + JSON.stringify(query)
+
+	let postQuery = new PostQuery({ page, rows }, 'queryForAdd', 'boHomePage')
+
+	return postQuery.serialize('API_queryForAdd');
 }
 
 /*首页最近一周修改*/
 export function API_queryForUpdate(page, rows) {
-	const query = {
-		din: {
-			page,
-			rows
-		},
-		fid: 'queryForUpdate',
-		pid: 'boHomePage'
-	}
+	// const query = {
+	// 	din: {
+	// 		page,
+	// 		rows
+	// 	},
+	// 	fid: 'queryForUpdate',
+	// 	pid: 'boHomePage'
+	// }
 
-	return getReqUrl + JSON.stringify(query)
+	// return getReqUrl + JSON.stringify(query)
+
+	let postQuery = new PostQuery({ page, rows }, 'queryForUpdate', 'boHomePage')
+
+	return postQuery.serialize('API_queryForUpdate');
 }
 
 /*居民血压反馈*/

@@ -38,6 +38,14 @@ class HealthMedicalForm extends React.Component {
 
 	componentDidMount = () => {}
 
+	componentDidUpdate = () => {
+		
+	}
+
+	componentWillReceiveProps = () => {
+		console.log('asdfasdfav3rgt')
+	}
+
 	render() {
 		const {
 			onFieldsChange,

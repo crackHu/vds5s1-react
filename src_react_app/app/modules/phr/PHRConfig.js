@@ -69,6 +69,7 @@ export const ARC_TYPE_CONFIG = {
 		containKey: 'Residentbpfb',
 		recordKey: 'Residentbpfb',
 		disabled: false,
+		showInList: false,
 	}, {
 		name: "糖尿病专档",
 		content: 'SpecialArchive/DiabetesForm',
@@ -83,7 +84,14 @@ export const ARC_TYPE_CONFIG = {
 		containKey: 'lnrSfb',
 		recordKey: 'lnrjl',
 		disabled: false,
-	}, {
+	}, /*{
+		name: "档案利用率",
+		content: 'SpecialArchive/UseRatio',
+		key: "UseRatio",
+		containKey: 'UseRatio',
+		recordKey: 'UseRatio',
+		disabled: false,
+	}, */{
 		name: "肿瘤病",
 		content: 'SpecialArchive/OncosisForm',
 		key: "Oncosis",
@@ -3586,6 +3594,7 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 			'grda_csrq',
 			'grda_jdrq',
 			'grda_lrrq',
+			'grda_qysj',
 		],
 		addressFields: {
 			grda_xzz: [
@@ -3750,8 +3759,13 @@ export const PERSONALDETAIL_FIELDS_CONFIG = {
 
 			/*责任医生*/
 			'grda_zrys',
+			/*签约医生*/
+			'grda_qyys',
+			/*签约时间*/
+			'grda_qysj',
 			/*签约来源*/
 			'source',
+
 			/*是否签约*/
 			'isSign',
 

@@ -39,11 +39,11 @@ class ResidentbpfbForm extends React.Component {
 			width: '20%',
 		}, {
 			title: '收缩压(mmhg)',
-			dataIndex: 'xy_tz_xy2',
+			dataIndex: 'xy_tz_xy1',
 			width: '15%',
 		}, {
 			title: '舒张压(mmhg)',
-			dataIndex: 'xy_tz_xy1',
+			dataIndex: 'xy_tz_xy2',
 			width: '15%',
 		}, {
 			title: '心率(次/分钟)',
@@ -82,17 +82,19 @@ class ResidentbpfbForm extends React.Component {
 	render() {
 
 		return (
-			<EditableRowTable
-				pagination={this.tablePagination}
-				defalutPageSize={this.tableDefalutPageSize}
-				defalutPageNo={this.tableDefalutPageNo}
-				total={this.state.tableTotal}
-				getDataSource={this.getDataSource}
+			<div>
+				<EditableRowTable
+					pagination={this.tablePagination}
+					defalutPageSize={this.tableDefalutPageSize}
+					defalutPageNo={this.tableDefalutPageNo}
+					total={this.state.tableTotal}
+					getDataSource={this.getDataSource}
 
-				function={this.tableFunction}
-				columns={this.tableColumns}
-				dataSource={this.state.tableDataSource}
-			/>
+					function={this.tableFunction}
+					columns={this.tableColumns}
+					dataSource={this.state.tableDataSource}
+				/>
+			</div>
 		)
 	}
 }

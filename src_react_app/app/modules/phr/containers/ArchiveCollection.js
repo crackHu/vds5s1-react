@@ -155,6 +155,10 @@ class ArchiveCollection extends React.Component {
 					usersArc.push(tagArc)
 				}
 			})
+			// 2017年5月2日13:39:39 添加 居民血压反馈
+			if (resident) {
+				usersArc.push(this.getSpecArcTypeByCKey("Residentbpfb"))
+			}
 			this.setState({
 				arcType: usersArc
 			})
@@ -804,7 +808,8 @@ class ArchiveCollection extends React.Component {
 										</a>)
 
 							return (
-								arc.key !== 'Residentbpfb' || this.state.showResidentbpfb || __DEBUG__ ?
+								// arc.key !== 'Residentbpfb' || this.state.showResidentbpfb || __DEBUG__ ?
+								arc.showInList !== false || this.state.showResidentbpfb || __DEBUG__ ?
 							    <Menu.Item key={index} disabled={arc.disabled}>
 						    		<a onClick = {() =>this.addSpecArcTab(arc.key)}>
 								    	{	

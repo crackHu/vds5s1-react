@@ -161,20 +161,22 @@ class MedicalTable6 extends React.Component {
 	handleHazardsSelect = (props) => {
 		const { setFieldsValue, getFieldValue } = this.props.form
 		const grda_whyskz = getFieldValue('grda_whyskz')
-	 	const weightIndex = grda_whyskz.indexOf('减体重')
-		if (weightIndex > -1) {
-			let weight = 0
-			confirm({
-			    title: '请输入目标体重(kg)：',
-			    content: (<InputNumber min={1} step={1} style={{width: 250}} onChange={(value) => {weight = value}} />),
-			    onOk() {
-			      grda_whyskz.splice(weightIndex, 1, `${grda_whyskz[weightIndex]} 目标：${weight}kg`)
-			      setFieldsValue({ grda_whyskz })
-			    },
-			    onCancel() {
-			      console.log('Cancel');
-			    },
-		  	});
+		if (grda_whyskz) {
+			const weightIndex = grda_whyskz.indexOf('减体重')
+			if (weightIndex > -1) {
+				let weight = 0
+				confirm({
+				    title: '请输入目标体重(kg)：',
+				    content: (<InputNumber min={1} step={1} style={{width: 250}} onChange={(value) => {weight = value}} />),
+				    onOk() {
+				      grda_whyskz.splice(weightIndex, 1, `${grda_whyskz[weightIndex]} 目标：${weight}kg`)
+				      setFieldsValue({ grda_whyskz })
+				    },
+				    onCancel() {
+				      console.log('Cancel');
+				    },
+			  	});
+		  	}
 		}
 	}
 

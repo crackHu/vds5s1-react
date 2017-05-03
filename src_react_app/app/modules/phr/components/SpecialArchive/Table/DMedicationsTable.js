@@ -87,7 +87,19 @@ class DMedicationsTable extends React.Component {
 		const renderContent = {
 			drugName(value, option) {
 				return (
-					<Input style={{width: '20vw'}}/>
+					// <Input style={{width: '20vw'}}/>
+					<Select
+						combobox
+					    defaultValue="lucy"
+					    style={{ width: 200 }}
+				  	>
+				      <Option value="二甲双胍片">二甲双胍片</Option>
+				      <Option value="阿卡波糖">阿卡波糖</Option>
+				      <Option value="格列齐特缓稀片">格列齐特缓稀片</Option>
+				      <Option value="瑞格列奈片">瑞格列奈片</Option>
+				      <Option value="格列美脲片">格列美脲片</Option>
+				      <Option value="消渴丸">消渴丸</Option>
+				  	</Select>
 				)
 			},
 			dailyNum(value, option) {

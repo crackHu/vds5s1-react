@@ -1,0 +1,30 @@
+.survey{
+    @extend .flex;
+    @include wrap-layout(wrap);
+}
+
+.survey .ant-card{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.survey .ant-card-head{
+    border-left: 2px solid $primary-color;
+}
+
+.survey .ant-card-head-title{
+    font-size: 16px;
+}
+
+.home-list{
+	flex-wrap: nowrap
+}
+
+.home-list > .ant-card-body{
+    padding: 0px;
+    background: #ebecf1;
+}
+
+.home-list .ant-card{
+    margin-right: 0px;
+}

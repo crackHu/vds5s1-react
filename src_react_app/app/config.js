@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export const CONFIG = {
   baseUrl: baseUrl,
-  projectName: "medicPHR1",
+  projectName: "medicPHR",
   projectPath: projectPath,
   host: 'http://dev.basoft.cn:10001/',
   needDevTool: true,

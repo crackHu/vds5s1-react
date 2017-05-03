@@ -86,17 +86,17 @@ class MedicalTable3 extends React.Component {
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
-					        <FormItem label="血红蛋白(10^12/L)">
+					        <FormItem label="血红蛋白(g/L)">
 					        	{getFieldDecorator('grda_xcg_xhdb')(
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
-					        <FormItem label="白细胞(10^12/L)">
+					        <FormItem label="白细胞(10^9/L)">
 					        	{getFieldDecorator('grda_xcg_bxb')(
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}
 					        </FormItem>
-					        <FormItem label="血小板(10^12/L)">
+					        <FormItem label="血小板(10^9/L)">
 					        	{getFieldDecorator('grda_xcg_xxb')(
 					        		<InputNumber step={0.1} style={{width: 60}}/>
 					        	)}

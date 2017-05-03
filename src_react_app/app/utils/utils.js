@@ -1040,3 +1040,25 @@ export function getCopyFieldData(flag, cFieldsObj, copyObj) {
     console.debug('getCopyFieldData', '=>', copyFieldData)
     return copyFieldData
 }
+
+export function changeFontHex(hex = localStorage.fontHex || '#222222') {
+    localStorage.fontHex = hex
+    // Array.prototype.forEach.call(document.querySelectorAll('.ant-form-item-label label'), function(node) {
+    //     node.style.color = hex
+    // });
+    // Array.prototype.forEach.call(document.querySelectorAll('.ant-form-item-control-wrapper'), function(node) {
+    //     node.style.color = hex
+    // });
+    addNewStyle(`.ant-form-item-label label, .ant-form-item-control-wrapper{color: ${hex} !important;}`)
+}
+
+function addNewStyle(newStyle) {
+    var styleElement = document.getElementById('styles_js');
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.type = 'text/css';
+        styleElement.id = 'styles_js';
+        document.getElementsByTagName('html')[0].appendChild(styleElement);
+    }
+    styleElement.appendChild(document.createTextNode(newStyle));
+}

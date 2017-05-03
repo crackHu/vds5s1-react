@@ -9,10 +9,12 @@ import {
 	Popover,
 	Alert
 } from 'antd';
+import { CirclePicker } from 'react-color';
 
 import {
 	regards,
-	getDate
+	getDate,
+	changeFontHex
 } from 'utils'
 import {
 	CONFIG
@@ -75,12 +77,17 @@ export default class UserProfile extends React.Component {
 		const content = () => {
 			return (
 				<div>
-	          		<p style={{textAlign: 'center'}}>部&nbsp;&nbsp;门：{deptName}</p>
-	          		<p style={{textAlign: 'center'}}>角&nbsp;&nbsp;色：{roleName}</p>
-	          		<div style={{height: '.5em'}} />
-					<p style={{ textAlign: "right" }}>
-						<a onClick={this.Logout}>退出系统</a>
-					</p>
+					<div>
+		          		<p style={{textAlign: 'center'}}>部&nbsp;&nbsp;门：{deptName}</p>
+		          		<p style={{textAlign: 'center'}}>角&nbsp;&nbsp;色：{roleName}</p>
+						<p style={{ textAlign: "right", margin: '.5em 0' }}>
+							<a onClick={this.Logout}>退出系统</a>
+						</p>
+						
+					</div>
+					<div style={{ display: 'flex' }}>
+						{ colorPicker }
+					</div>
 				</div>
 			)
 		}
@@ -89,7 +96,7 @@ export default class UserProfile extends React.Component {
 		/*https://zos.alipayobjects.com/rmsportal/iXsgowFDTJtGpZM.png*/
 
 		/*
-			    	title={title()}
+			title={title()}
 			<span>{regard}</span>
 				{' '}
 				<Dropdown
@@ -106,26 +113,37 @@ export default class UserProfile extends React.Component {
 				    </a>
 				</Dropdown>*/
 
+		const colorPicker = <CirclePicker
+								color={localStorage.fontHex}
+								colors={['#222222', '#533eb4', '#007b43', '#c17500', '#00707f', '#b93600']}
+								onChange={({ hex }) => changeFontHex(hex)}
+							/>
+
 		return (
 			<div>
-				<span>{regard}</span>
-				{' '}
-				<Popover
-					placement="bottom"
-			    	content={content()}
-			    	overlayStyle={{width: '200px'}}
-			    	trigger={['click']}>
-					<a href="#">
-				      	<span
-				       	 className="avatar"
-				       	 style={{backgroundImage: avatarUrl}} />
-			          	<span className="text">
-			          		{userName}
-			          	</span>
-			          	{' '}
-			          	<Icon type="down" className="x-icon"/>
-				    </a>
-				</Popover>
+				<div style={{float: 'left', marginTop: '.3em', marginLeft: '.3em', marginRight: '1em'}}>
+					{/* colorPicker */}
+				</div>
+				<div style={{float: 'right'}}>
+					<span>{regard}</span>
+					{' '}
+					<Popover
+						placement="bottom"
+				    	content={content()}
+				    	overlayStyle={{width: '200px'}}
+				    	trigger={['click']}>
+						<a href="#">
+					      	<span
+					       	 className="avatar"
+					       	 style={{backgroundImage: avatarUrl}} />
+				          	<span className="text">
+				          		{userName}
+				          	</span>
+				          	{' '}
+				          	<Icon type="down" className="x-icon"/>
+					    </a>
+					</Popover>
+				</div>
 			</div>
 		)
 	}

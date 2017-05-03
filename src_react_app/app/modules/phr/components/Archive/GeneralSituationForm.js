@@ -674,6 +674,22 @@ class GeneralSituationForm extends React.Component {
 				<Input style={{ width: 120 }}/>
 			)
 
+		/*签约医生*/
+		const grda_qyys =
+			getFieldDecorator('grda_qyys')(
+				<Input style={{ width: 120 }}/>
+			)
+
+		/*签约时间*/
+		const grda_qysj =
+			getFieldDecorator('grda_qysj')(
+				<DatePicker
+		           	format={DATE_FORMAT_STRING}
+		           	style={{ width: 113 }}
+		           	disabledDate={(current) => {return current && current.valueOf() > Date.now()}}
+	          	/>
+			)
+
 		/*签约来源*/
 		const source =
 			getFieldDecorator('source')(
@@ -821,10 +837,18 @@ class GeneralSituationForm extends React.Component {
 		        <FormItem label="&nbsp;&nbsp;&nbsp;责任医生">
 		        	{grda_zrys}
 		        </FormItem>
-		        <FormItem label="签约来源" required>
+		        <FormItem label="&nbsp;&nbsp;&nbsp;签约医生">
+		        	{grda_qyys}
+		        </FormItem>
+		        <FormItem label="签约时间">
+		        	{grda_qysj}
+		        </FormItem>
+		        <FormItem label="&nbsp;&nbsp;签约来源" required>
 		        	{source}
 		        </FormItem>
-		        <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否签约" required>
+		        <br />
+		        <br />
+		        <FormItem label="是否签约" required>
 		        	{isSign}
 		        </FormItem>
 		        <br />

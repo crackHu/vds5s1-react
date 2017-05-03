@@ -23,10 +23,12 @@ import {
 import HeaderNav from './layouts/HeaderNav'
 import Sidebar from './layouts/Sidebar'
 import UserProfile from './UserProfile'
-
 import {
 	CONFIG
 } from 'login_conf'
+import {
+	changeFontHex
+} from 'utils'
 
 const USR = CONFIG.LS.USR
 const UID = CONFIG.LS.UID
@@ -54,6 +56,8 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		console.log("App.componentDidMount")
+
+		changeFontHex()
 	}
 
 	componentWillUpdate() {

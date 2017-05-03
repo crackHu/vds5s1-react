@@ -98,7 +98,8 @@ class HypertensionForm extends React.Component {
 			setFieldsValue
 		} = this.props.form
 
-		const bmi = 'gxy_tz_tzzs'
+		const mbBmi = key.indexOf('mb') > -1
+		const bmi = mbBmi ? 'gxy_mb_tzzs' : 'gxy_tz_tzzs'
 		const index = key.indexOf('sg')
 		const underline = key.lastIndexOf('_')
 		const prefix = key.substring(0, underline + 1)
@@ -112,6 +113,11 @@ class HypertensionForm extends React.Component {
 			height = prefix.concat('sg')
 			hValue = getFieldValue(height)
 			wValue = value
+
+			if (mbBmi) {
+				height = 'gxy_tz_sg'
+				hValue = getFieldValue(height)
+			}
 		}
 
 		//体质指数（BMI）= 体重（kg）÷ 身高²（m）
@@ -291,7 +297,7 @@ class HypertensionForm extends React.Component {
 							        	<InputNumber
 								        	step={0.1}
 								        	style={{width: 90}}
-								        	onChange={(value) => this.changeBMIValue(value, 'gxy_tz_tz')}
+								        	onChange={(value) => this.changeBMIValue(value, 'gxy_mb_tz')}
 							        	/>
 					       			)}
 						        </FormItem>
